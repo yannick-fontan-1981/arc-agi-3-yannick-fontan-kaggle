@@ -1,0 +1,1070 @@
+# Neutral tracked facts are interpreted only through a declared DRM policy.
+MODULE arc3.interpret_controlled_transition
+
+WORKFLOW interpret_controlled_transition(
+    before_scene: VisualSceneDescription,
+    after_scene: VisualSceneDescription,
+    before_tracking: TemporalTrackingResult,
+    after_tracking: TemporalTrackingResult,
+    registered_scene_translation: Any?,
+    candidate_ref: Ref,
+    action_ref: Ref,
+    transition_ref: Ref,
+    context_epoch: Integer,
+    available_directional_action_refs: List<Ref>,
+    interface_action_translation_deltas: List<Any>,
+    known_actuator_entity_refs: List<Ref>,
+    canonical_known_actuator_term_facts: List<Any>?,
+    canonical_reversible_control_claim_facts: List<Any>,
+    canonical_provisional_control_term_facts: List<Any>,
+    canonical_action_translation_claim_facts: List<Any>,
+    canonical_periodic_transition_claim_facts: List<Any>,
+    declared_cellular_mover_pattern_refs: List<Ref>,
+    pre_action_input_aligned_entity_bboxes: List<Any>,
+    post_action_input_aligned_entity_bboxes: List<Any>,
+    input_aligned_episode_start_bbox: Any?,
+    prior_context_effect_carried_reflection_axis_observed: Boolean,
+    ordered_point_trajectory: Any,
+    coupling_measurement_requested: Boolean?,
+    coupling_operator_scope_ref: Ref?,
+    coupling_operator_action_data: Any?,
+    coupling_source_palette_value: Integer?,
+    external_transport_geometry: Any?,
+    external_transport_prior_records: List<Any>?,
+    external_transport_scope_ref: Ref?
+) -> Assessment
+    STATE
+        external_transport_measurements: ExternalTransportObservations
+        external_transport_projected: DeclaredAlternativeFacts
+        external_transport_assessment: Assessment
+        external_transport_meaning_applicable: Boolean
+        external_transport_meaning: DeclaredMeaningInstantiation
+        external_transport_derived: Any
+        external_transport_prepared: Any
+        external_transport_before_revision: Integer
+        external_transport_revision: Any
+        current_relational_lattice_rows: List<Any>
+        analysis: ControlledTransitionAnalysis
+        extent_command_rows: List<Any>
+        extent_command_projected: DeclaredAlternativeFacts
+        extent_command_assessment: Assessment
+        extent_command_applicable: Boolean
+        extent_command_meaning: DeclaredMeaningInstantiation
+        extent_command_derived: Any
+        extent_command_prepared: Any
+        extent_command_before_revision: Integer
+        extent_command_revision: Any
+        axis_transport_observations: List<Any>
+        axis_transport_measured: Any
+        axis_transport_projected: DeclaredAlternativeFacts
+        axis_transport_applicable: Boolean
+        axis_transport_assessment: Assessment
+        axis_transport_meaning: DeclaredMeaningInstantiation
+        axis_transport_derived: Any
+        axis_transport_prepared: Any
+        axis_transport_before_revision: Integer
+        axis_transport_revision: Any
+        carried_reference_measured: Any
+        carried_reference_projected: DeclaredAlternativeFacts
+        carried_reference_applicable: Boolean
+        carried_reference_assessment: Assessment
+        carried_reference_meaning: DeclaredMeaningInstantiation
+        carried_reference_derived: Any
+        carried_reference_prepared: Any
+        carried_reference_before_revision: Integer
+        carried_reference_revision: Any
+        cursor_group_projected: DeclaredAlternativeFacts
+        cursor_group_assessment: Assessment
+        cursor_group_meaning: DeclaredMeaningInstantiation
+        cursor_group_derived: Any
+        cursor_group_prepared: PreparedMeaningUpdates
+        cursor_group_before_revision: Integer
+        cursor_group_revision: Any
+        pose_role_refresh: Any
+        pose_refresh_before_revision: Integer
+        coupling_previous_rows: List<Any>
+        coupling_observed_return_rows: List<Any>
+        coupling_measured: List<Any>
+        coupling_chunks: Any
+        coupling_batch: Any
+        coupling_projected: DeclaredAlternativeFacts?
+        coupling_assessment: Assessment?
+        coupling_meaning: DeclaredMeaningInstantiation?
+        coupling_derived: Any?
+        coupling_prepared: PreparedMeaningUpdates?
+        coupling_before_revision: Integer
+        coupling_revision: Any?
+        render_previous_rows: List<Any>
+        render_measured: List<Any>
+        render_projected: DeclaredAlternativeFacts?
+        render_assessment: Assessment?
+        render_meaning: DeclaredMeaningInstantiation?
+        render_derived: Any?
+        render_prepared: PreparedMeaningUpdates?
+        render_before_revision: Integer
+        render_revision: Any?
+        projected: DeclaredAlternativeFacts
+        interpretation: Assessment?
+        generic_cursor_projected: DeclaredAlternativeFacts?
+        generic_cursor_interpretation: Assessment?
+        generic_cursor_meaning: DeclaredMeaningInstantiation?
+        generic_cursor_derived: Any?
+        generic_cursor_prepared: PreparedMeaningUpdates?
+        generic_cursor_before_revision: Integer?
+        generic_cursor_revision: Any?
+        memory_capture: Any?
+        memory_projected: DeclaredAlternativeFacts?
+        memory_assessment: Assessment?
+        memory_meaning: DeclaredMeaningInstantiation?
+        memory_derived: Any?
+        memory_prepared: PreparedMeaningUpdates?
+        memory_before_revision: Integer?
+        memory_revision: Any?
+        cursor_projected: DeclaredAlternativeFacts?
+        cursor_interpretation: Assessment?
+        cursor_meaning: DeclaredMeaningInstantiation?
+        cursor_derived: Any?
+        cursor_prepared: PreparedMeaningUpdates?
+        cursor_before_revision: Integer?
+        cursor_revision: Any?
+        orientation_body_refs: List<Ref>
+        orientation_part_refs: List<Ref>
+        orientation_analysis: AttachedRotationAnalysis?
+        orientation_projected: DeclaredAlternativeFacts?
+        orientation_interpretation: Assessment?
+        orientation_meaning: DeclaredMeaningInstantiation?
+        orientation_derived: Any?
+        orientation_prepared: PreparedMeaningUpdates?
+        orientation_before_revision: Integer?
+        orientation_revision: Any?
+    STEP measure_scoped_change
+        CALL control.current_term_attribute_rows(
+            filter_attribute="projection_contract",
+            filter_value="yf_arc3_v5.relational_elimination_binding.v1",
+            additional_filter_attribute="current_frame_ref",
+            additional_filter_value=before_tracking.frame_ref,
+            returned_attributes=["current_frame_ref", "current_lattice_geometry"],
+            max_items=3
+        ) -> current_relational_lattice_rows
+        CALL capability.controlled_transition_analysis(
+            before_scene=before_scene,
+            after_scene=after_scene,
+            before_tracking=before_tracking,
+            after_tracking=after_tracking,
+            candidate_ref=candidate_ref,
+            action_ref=action_ref,
+            transition_ref=transition_ref,
+            context_epoch=context_epoch,
+            available_directional_action_refs=available_directional_action_refs,
+            interface_action_translation_deltas=interface_action_translation_deltas,
+            input_aligned_group_connectivity=8,
+            input_aligned_group_without_global_enclosure=true,
+            known_actuator_entity_refs=known_actuator_entity_refs,
+            canonical_known_actuator_term_facts=canonical_known_actuator_term_facts,
+            canonical_reversible_control_claim_facts=canonical_reversible_control_claim_facts,
+            canonical_provisional_control_term_facts=canonical_provisional_control_term_facts,
+            canonical_action_translation_claim_facts=canonical_action_translation_claim_facts,
+            canonical_periodic_transition_claim_facts=canonical_periodic_transition_claim_facts,
+            canonical_relational_lattice_term_facts=current_relational_lattice_rows,
+            declared_cellular_mover_pattern_refs=declared_cellular_mover_pattern_refs,
+            pre_action_input_aligned_entity_bboxes=pre_action_input_aligned_entity_bboxes,
+            post_action_input_aligned_entity_bboxes=post_action_input_aligned_entity_bboxes,
+            input_aligned_episode_start_bbox=input_aligned_episode_start_bbox,
+            prior_context_effect_carried_reflection_axis_observed=prior_context_effect_carried_reflection_axis_observed,
+            ordered_point_trajectory=ordered_point_trajectory
+        ) -> analysis
+        NEXT measure_external_transport_observation
+    STEP measure_external_transport_observation
+        CALL capability.external_transport_observation(
+            before_tracking=before_tracking, after_tracking=after_tracking,
+            geometry=external_transport_geometry,
+            known_actuator_entity_refs=known_actuator_entity_refs,
+            pre_action_input_aligned_entity_bboxes=pre_action_input_aligned_entity_bboxes,
+            post_action_input_aligned_entity_bboxes=post_action_input_aligned_entity_bboxes,
+            prior_records=external_transport_prior_records,
+            transition_ref=transition_ref, action_ref=action_ref,
+            evidence_scope_ref=external_transport_scope_ref
+        ) -> external_transport_measurements
+        LET external_transport_rows: List<Any> = external_transport_measurements.rows
+        FOR EACH external_transport_row IN external_transport_rows
+            CALL control.project_declared_alternatives(
+                selection_policy_ref="policy.interpret_external_cargo_transport",
+                alternative_refs=[], descriptive_facts=external_transport_row
+            ) -> external_transport_projected
+            SELECT external_transport_assessment
+                FOR "goal.interpret_observed_external_transport_contribution"
+                FROM external_transport_projected.alternative_refs
+                UNDER policy.interpret_external_cargo_transport
+                REQUIRE ["requirement.action_conditioned_transition_is_observed"]
+                PRESERVE external_transport_projected.alternative_refs
+                FACTS external_transport_projected.alternative_facts
+            CALL control.declared_meaning_is_applicable(
+                selection_policy_ref="policy.interpret_external_cargo_transport",
+                selected_ref=external_transport_assessment.alternatives.selected,
+                alternative_facts=external_transport_projected.alternative_facts,
+                evidence_refs=[transition_ref]
+            ) -> external_transport_meaning_applicable
+            IF external_transport_meaning_applicable
+                CALL control.instantiate_declared_meaning(
+                    selection_policy_ref="policy.interpret_external_cargo_transport",
+                    selected_ref=external_transport_assessment.alternatives.selected,
+                    alternative_facts=external_transport_projected.alternative_facts,
+                    evidence_refs=[transition_ref]
+                ) -> external_transport_meaning
+                DERIVE external_transport_derived
+                    FROM external_transport_meaning.evidence_refs
+                    USING rule.observed_external_transport
+                    CONTEXT external_transport_meaning
+                CALL control.prepare_optional_meaning_updates(
+                    terms=external_transport_meaning.terms,
+                    claims=external_transport_derived.claims
+                ) -> external_transport_prepared
+                IF external_transport_prepared.has_updates
+                    CALL control.current_state_revision() -> external_transport_before_revision
+                    TRANSACTION conserve_external_transport_observation
+                        UPDATE external_transport_revision
+                            TARGET external_transport_prepared.update_items
+                            FROM external_transport_meaning.evidence_refs
+                            USING policy.targeted_claim_revision
+                            BEFORE external_transport_before_revision
+                            INVALIDATE []
+                            RECALCULATE []
+                            PRESERVE external_transport_meaning.evidence_refs
+        NEXT measure_remembered_support_render
+    STEP measure_remembered_support_render
+        CALL control.current_context_term_attribute_rows(
+            filter_attribute="projection_contract",
+            filter_value="yf_arc3_v5.observed_transformation_coupling.v1",
+            returned_attributes=["mapping_token", "entity_refs", "action_ref", "context_epoch", "observed_transformations"],
+            present_tracking=before_tracking,
+            group_by_attribute="entity_refs", max_groups=64,
+            include_term_ref=true, max_items=64, action_ref=action_ref, context_epoch=context_epoch
+        ) -> render_previous_rows
+        CALL control.measure_remembered_coupling_render(
+            registered_scene_translation=registered_scene_translation, after_frame_ref=after_tracking.frame_ref,
+            previous_rows=render_previous_rows, previous_rows_grouped=true,
+            before_scene=before_scene, before_tracking=before_tracking,
+            after_scene=after_scene, transition_ref=transition_ref,
+            maximum_translation_steps=64, maximum_translation_support_pixels=8192, maximum_scene_layers=8
+        ) -> render_measured
+        NEXT record_remembered_support_render
+    STEP record_remembered_support_render
+        FOR EACH render_row IN render_measured
+            IF render_row.translation_render_available
+                IF render_row.predicted_render_representation_equal
+                    REQUIRE render_row.predicted_render_representation_equal
+                ELSE
+                    CALL control.project_declared_alternatives(
+                        selection_policy_ref="policy.record_counterfactual_translation_render",
+                        alternative_refs=[], descriptive_facts=render_row
+                    ) -> render_projected
+                    SELECT render_assessment
+                        FOR "goal.account_render_against_remembered_support"
+                        FROM render_projected.alternative_refs
+                        UNDER policy.record_counterfactual_translation_render
+                        REQUIRE ["requirement.remembered_support_render_measurement_is_bounded"]
+                        PRESERVE render_projected.alternative_refs
+                        FACTS render_projected.alternative_facts
+                    CALL control.instantiate_declared_meaning(
+                        selection_policy_ref="policy.record_counterfactual_translation_render",
+                        selected_ref=render_assessment.alternatives.selected,
+                        alternative_facts=render_projected.alternative_facts,
+                        evidence_refs=analysis.evidence_refs
+                    ) -> render_meaning
+                    DERIVE render_derived
+                        FROM render_meaning.evidence_refs
+                        USING rule.counterfactual_translation_render_accounting
+                        CONTEXT render_meaning
+                    CALL control.prepare_revisable_meaning_updates(terms=render_meaning.terms, claims=render_derived.claims) -> render_prepared
+                    CALL control.current_state_revision() -> render_before_revision
+                    TRANSACTION remember_counterfactual_support_render
+                        UPDATE render_revision
+                            TARGET render_prepared.update_items
+                            FROM render_meaning.evidence_refs
+                            USING policy.targeted_claim_revision
+                            BEFORE render_before_revision
+                            INVALIDATE []
+                            RECALCULATE []
+                            PRESERVE analysis.evidence_refs
+        NEXT route_transformation_coupling_measurement
+    STEP route_transformation_coupling_measurement
+        # TODO(on-demand coupling): DRM/SRC must supply a bounded request with
+        # the relevant bearers, context and falsifier. No request means no scan.
+        MATCH coupling_measurement_requested
+            true -> NEXT remember_observed_extent_commands
+            false -> NEXT project_transition_meaning
+            null -> NEXT project_transition_meaning
+    STEP remember_observed_extent_commands
+        CALL control.measure_observed_extent_commands(
+            analysis=analysis, before_tracking=before_tracking, after_tracking=after_tracking,
+            operator_scope_ref=coupling_operator_scope_ref, operator_action_data=coupling_operator_action_data,
+            source_palette_value=coupling_source_palette_value, action_ref=action_ref, context_epoch=context_epoch
+        ) -> extent_command_rows
+        FOR EACH extent_command_row IN extent_command_rows
+            CALL control.project_declared_alternatives(
+                selection_policy_ref="policy.remember_observed_scoped_extent_command",
+                alternative_refs=[], descriptive_facts=extent_command_row
+            ) -> extent_command_projected
+            CALL control.declared_selection_has_eligible_alternative(
+                selection_policy_ref="policy.remember_observed_scoped_extent_command",
+                goal_ref="goal.remember_observed_axis_parameter_command",
+                alternative_refs=extent_command_projected.alternative_refs,
+                alternative_facts=extent_command_projected.alternative_facts
+            ) -> extent_command_applicable
+            IF extent_command_applicable
+                SELECT extent_command_assessment
+                    FOR "goal.remember_observed_axis_parameter_command"
+                    FROM extent_command_projected.alternative_refs
+                    UNDER policy.remember_observed_scoped_extent_command
+                    REQUIRE ["requirement.action_conditioned_transition_is_observed"]
+                    PRESERVE extent_command_projected.alternative_refs
+                    FACTS extent_command_projected.alternative_facts
+                CALL control.instantiate_declared_meaning(
+                    selection_policy_ref="policy.remember_observed_scoped_extent_command",
+                    selected_ref=extent_command_assessment.alternatives.selected,
+                    alternative_facts=extent_command_projected.alternative_facts,
+                    evidence_refs=[transition_ref]
+                ) -> extent_command_meaning
+                DERIVE extent_command_derived
+                    FROM extent_command_meaning.evidence_refs
+                    USING rule.observed_scoped_extent_command
+                    CONTEXT extent_command_meaning
+                CALL control.prepare_optional_meaning_updates(
+                    terms=extent_command_meaning.terms, claims=extent_command_derived.claims
+                ) -> extent_command_prepared
+                IF extent_command_prepared.has_updates
+                    CALL control.current_state_revision() -> extent_command_before_revision
+                    TRANSACTION remember_scoped_axis_parameter_observation
+                        UPDATE extent_command_revision
+                            TARGET extent_command_prepared.update_items
+                            FROM extent_command_meaning.evidence_refs
+                            USING policy.targeted_claim_revision
+                            BEFORE extent_command_before_revision
+                            INVALIDATE []
+                            RECALCULATE []
+                            PRESERVE extent_command_meaning.evidence_refs
+        NEXT remember_observed_axis_transport
+    STEP remember_observed_axis_transport
+        CALL control.current_context_term_attribute_rows(
+            filter_attribute="projection_contract", filter_value="yf_arc3_v5.observed_extent_command.v1",
+            returned_attributes=["extent_entity_ref", "co_translated_entity_refs", "stationary_entity_refs", "context_epoch"],
+            include_term_ref=true, max_items=64, action_ref=null, context_epoch=context_epoch
+        ) -> axis_transport_observations
+        CALL control.measure_observed_axis_transport(
+            observations=axis_transport_observations, tracking=after_tracking, context_epoch=context_epoch
+        ) -> axis_transport_measured
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_observed_axis_transport_graph",
+            alternative_refs=[], descriptive_facts=axis_transport_measured
+        ) -> axis_transport_projected
+        CALL control.declared_selection_has_eligible_alternative(
+            selection_policy_ref="policy.remember_observed_axis_transport_graph",
+            goal_ref="goal.remember_observed_directed_axis_transport",
+            alternative_refs=axis_transport_projected.alternative_refs,
+            alternative_facts=axis_transport_projected.alternative_facts
+        ) -> axis_transport_applicable
+        IF axis_transport_applicable
+            SELECT axis_transport_assessment
+                FOR "goal.remember_observed_directed_axis_transport"
+                FROM axis_transport_projected.alternative_refs
+                UNDER policy.remember_observed_axis_transport_graph
+                REQUIRE ["requirement.reverse_intervention_preservation_is_distinct_from_common_motion"]
+                PRESERVE axis_transport_projected.alternative_refs
+                FACTS axis_transport_projected.alternative_facts
+            CALL control.instantiate_declared_meaning(
+                selection_policy_ref="policy.remember_observed_axis_transport_graph",
+                selected_ref=axis_transport_assessment.alternatives.selected,
+                alternative_facts=axis_transport_projected.alternative_facts,
+                evidence_refs=axis_transport_measured.source_term_refs
+            ) -> axis_transport_meaning
+            DERIVE axis_transport_derived
+                FROM axis_transport_meaning.evidence_refs
+                USING rule.observed_axis_transport_graph
+                CONTEXT axis_transport_meaning
+            CALL control.prepare_optional_revisable_meaning_updates(
+                terms=axis_transport_meaning.terms, claims=axis_transport_derived.claims
+            ) -> axis_transport_prepared
+            IF axis_transport_prepared.has_updates
+                CALL control.current_state_revision() -> axis_transport_before_revision
+                TRANSACTION remember_revisable_axis_transport_graph
+                    UPDATE axis_transport_revision
+                        TARGET axis_transport_prepared.update_items
+                        FROM axis_transport_meaning.evidence_refs
+                        USING policy.targeted_claim_revision
+                        BEFORE axis_transport_before_revision
+                        INVALIDATE []
+                        RECALCULATE []
+                        PRESERVE axis_transport_meaning.evidence_refs
+        NEXT remember_carried_reference_center_goal
+    STEP remember_carried_reference_center_goal
+        CALL control.measure_carried_reference_center(
+            observations=axis_transport_observations, tracking=after_tracking, context_epoch=context_epoch
+        ) -> carried_reference_measured
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.suppose_carried_reference_center_goal",
+            alternative_refs=[], descriptive_facts=carried_reference_measured
+        ) -> carried_reference_projected
+        CALL control.declared_selection_has_eligible_alternative(
+            selection_policy_ref="policy.suppose_carried_reference_center_goal",
+            goal_ref="goal.suppose_carried_reference_center",
+            alternative_refs=carried_reference_projected.alternative_refs,
+            alternative_facts=carried_reference_projected.alternative_facts
+        ) -> carried_reference_applicable
+        IF carried_reference_applicable
+            SELECT carried_reference_assessment
+                FOR "goal.suppose_carried_reference_center"
+                FROM carried_reference_projected.alternative_refs
+                UNDER policy.suppose_carried_reference_center_goal
+                REQUIRE ["requirement.reference_and_carried_shape_are_distinguished_by_observed_motion"]
+                PRESERVE carried_reference_projected.alternative_refs
+                FACTS carried_reference_projected.alternative_facts
+            CALL control.instantiate_declared_meaning(
+                selection_policy_ref="policy.suppose_carried_reference_center_goal",
+                selected_ref=carried_reference_assessment.alternatives.selected,
+                alternative_facts=carried_reference_projected.alternative_facts,
+                evidence_refs=carried_reference_measured.source_term_refs
+            ) -> carried_reference_meaning
+            DERIVE carried_reference_derived
+                FROM carried_reference_meaning.evidence_refs
+                USING rule.carried_reference_center_goal
+                CONTEXT carried_reference_meaning
+            CALL control.prepare_optional_revisable_meaning_updates(
+                terms=carried_reference_meaning.terms, claims=carried_reference_derived.claims
+            ) -> carried_reference_prepared
+            IF carried_reference_prepared.has_updates
+                CALL control.current_state_revision() -> carried_reference_before_revision
+                TRANSACTION remember_carried_reference_goal
+                    UPDATE carried_reference_revision
+                        TARGET carried_reference_prepared.update_items
+                        FROM carried_reference_meaning.evidence_refs
+                        USING policy.targeted_claim_revision
+                        BEFORE carried_reference_before_revision
+                        INVALIDATE []
+                        RECALCULATE []
+                        PRESERVE carried_reference_meaning.evidence_refs
+        NEXT measure_transformation_coupling_recurrence
+    STEP measure_transformation_coupling_recurrence
+        CALL control.current_context_term_attribute_rows(
+            filter_attribute="projection_contract",
+            filter_value="yf_arc3_v5.observed_transformation_coupling.v1",
+            returned_attributes=["pair_token", "mapping_token", "entity_refs", "action_ref", "context_epoch", "sample_transition_refs", "observed_transformations", "contrary_transition_refs"],
+            optional_returned_attributes=["basis_transition_ref", "basis_before_support_digests", "basis_after_support_digests", "basis_before_focus_signatures", "basis_after_focus_signatures", "entity_member_refs", "entity_collective_observations", "operator_scope_ref"],
+            present_entity_rows=analysis.descriptive_facts.transformation_entity_rows,
+            present_entity_members_attribute="entity_member_refs",
+            group_by_attribute="entity_refs", max_groups=64,
+            max_items=64, action_ref=null, context_epoch=context_epoch
+        ) -> coupling_previous_rows
+        CALL control.current_context_term_attribute_rows(
+            filter_attribute="projection_contract",
+            filter_value="yf_arc3_v5.observed_selected_pair_translation_return.v1",
+            claim_projection_policy_ref="policy.record_current_coupling_test_context",
+            returned_attributes=["entity_refs", "action_ref", "context_epoch", "before_focus_signatures", "after_focus_signatures"],
+            present_entity_rows=analysis.descriptive_facts.transformation_entity_rows,
+            present_entity_members_attribute="entity_member_refs",
+            include_term_ref=true, max_items=64, action_ref=null, context_epoch=context_epoch
+        ) -> coupling_observed_return_rows
+        CALL control.measure_transformation_pair_recurrence(
+            comparison_policy_ref="policy.project_collective_comparison_units",
+            registered_scene_translation=registered_scene_translation,
+            descriptive_facts=analysis.descriptive_facts,
+            previous_rows_grouped=true,
+            previous_rows=coupling_previous_rows, observed_return_rows=coupling_observed_return_rows,
+            action_ref=action_ref, transition_ref=transition_ref, context_epoch=context_epoch,
+            operator_scope_ref=coupling_operator_scope_ref,
+            max_pairs=64, before_scene=before_scene, after_scene=after_scene, before_tracking=before_tracking, after_tracking=after_tracking,
+            marker_policy_ref="policy.memorial_current_selection", maximum_focus_rows=64,
+            shared_pattern_policy_ref="policy.classify_observed_coupling_confidence",
+            evidence_refs=analysis.evidence_refs,
+            maximum_translation_steps=64, maximum_translation_support_pixels=8192
+        ) -> coupling_measured
+        NEXT initialize_observed_coupling_batch
+    STEP initialize_observed_coupling_batch
+        CALL control.link_disjoint_update_batch(previous=null, items=[], evidence=[]) -> coupling_chunks
+        NEXT record_observed_transformation_couplings
+    STEP record_observed_transformation_couplings
+        FOR EACH coupling_row IN coupling_measured
+            CALL control.project_declared_alternatives(
+                selection_policy_ref="policy.classify_observed_coupling_confidence",
+                alternative_refs=[], descriptive_facts=coupling_row
+            ) -> coupling_projected
+            SELECT coupling_assessment
+                FOR "goal.remember_action_conditioned_transformation_couplings"
+                FROM coupling_projected.alternative_refs
+                UNDER policy.classify_observed_coupling_confidence
+                REQUIRE ["requirement.temporal_identity_is_available"]
+                PRESERVE coupling_projected.alternative_refs
+                FACTS coupling_projected.alternative_facts
+            CALL control.instantiate_declared_meaning(
+                selection_policy_ref="policy.classify_observed_coupling_confidence",
+                selected_ref=coupling_assessment.alternatives.selected,
+                alternative_facts=coupling_projected.alternative_facts,
+                evidence_refs=analysis.evidence_refs
+            ) -> coupling_meaning
+            DERIVE coupling_derived
+                FROM coupling_meaning.evidence_refs
+                USING rule.observed_transformation_coupling_supposition
+                CONTEXT coupling_meaning
+            CALL control.prepare_revisable_meaning_updates(terms=coupling_meaning.terms, claims=coupling_derived.claims) -> coupling_prepared
+            CALL control.link_disjoint_update_batch(previous=coupling_chunks,
+                items=coupling_prepared.update_items, evidence=coupling_meaning.evidence_refs) -> coupling_chunks
+        CALL control.flatten_disjoint_update_batch(chunks=coupling_chunks, maximum_items=8192) -> coupling_batch
+        CALL control.link_disjoint_update_batch(previous=null, items=[], evidence=[]) -> coupling_chunks
+        MATCH coupling_batch.has_updates
+            true -> NEXT commit_observed_couplings
+            false -> NEXT project_transition_meaning
+    STEP commit_observed_couplings
+        CALL control.current_state_revision() -> coupling_before_revision
+        TRANSACTION remember_observed_transformation_couplings
+            UPDATE coupling_revision
+                TARGET coupling_batch.update_items
+                FROM coupling_batch.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE coupling_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT project_transition_meaning
+    STEP project_transition_meaning
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            alternative_refs=[],
+            descriptive_facts=analysis.descriptive_facts
+        ) -> projected
+        SELECT interpretation
+            FOR "goal.interpret_action_conditioned_component_transition"
+            FROM projected.alternative_refs
+            UNDER policy.declared_controlled_transition_meaning
+            REQUIRE ["requirement.temporal_identity_is_available"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        NEXT record_adjacent_command_cursor_groups
+    STEP record_adjacent_command_cursor_groups
+        LET adjacent_group_rows: List<Any> = analysis.descriptive_facts.input_aligned_adjacent_translation_groups
+        FOR EACH group_row IN adjacent_group_rows
+            CALL control.project_declared_alternatives(
+                selection_policy_ref="policy.record_adjacent_command_cursor_group", alternative_refs=[], descriptive_facts=group_row
+            ) -> cursor_group_projected
+            SELECT cursor_group_assessment
+                FOR "goal.attribute_adjacent_command_cursor_group"
+                FROM cursor_group_projected.alternative_refs
+                UNDER policy.record_adjacent_command_cursor_group
+                REQUIRE ["requirement.temporal_identity_is_available"]
+                PRESERVE cursor_group_projected.alternative_refs
+                FACTS cursor_group_projected.alternative_facts
+            CALL control.instantiate_declared_meaning(
+                selection_policy_ref="policy.record_adjacent_command_cursor_group",
+                selected_ref=cursor_group_assessment.alternatives.selected,
+                alternative_facts=cursor_group_projected.alternative_facts, evidence_refs=analysis.evidence_refs
+            ) -> cursor_group_meaning
+            DERIVE cursor_group_derived
+                FROM cursor_group_meaning.evidence_refs
+                USING rule.adjacent_command_cursor_group
+                CONTEXT cursor_group_meaning
+            CALL control.prepare_revisable_meaning_updates(
+                terms=cursor_group_meaning.terms, claims=cursor_group_derived.claims
+            ) -> cursor_group_prepared
+            CALL control.current_state_revision() -> cursor_group_before_revision
+            TRANSACTION remember_adjacent_command_cursor_group
+                UPDATE cursor_group_revision
+                    TARGET cursor_group_prepared.update_items
+                    FROM cursor_group_meaning.evidence_refs
+                    USING policy.targeted_claim_revision
+                    BEFORE cursor_group_before_revision
+                    INVALIDATE []
+                    RECALCULATE []
+                    PRESERVE analysis.evidence_refs
+            CALL control.measure_declared_role_appearance(
+                tracking=after_tracking, before_tracking=before_tracking,
+                canonical_term_candidates=cursor_group_meaning.terms, canonical_claim_candidates=cursor_group_derived.claims,
+                transition_ref=transition_ref, learning_policy_ref="policy.capture_adjacent_command_cursor_appearance",
+                key_policy_ref="policy.perceptual_memory_key_contract", measurement_basis_ref="measurement.pixel_support", cell_quantum=null, max_items=64
+            ) -> memory_capture
+            IF memory_capture.has_learning_rows
+                CALL control.project_declared_alternatives(
+                    selection_policy_ref="policy.record_captured_canonical_role_appearances", alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+                ) -> memory_projected
+                SELECT memory_assessment
+                    FOR "goal.remember_causally_learned_role_appearance"
+                    FROM memory_projected.alternative_refs
+                    UNDER policy.record_captured_canonical_role_appearances
+                    REQUIRE ["requirement.memory_learning_is_causal"]
+                    PRESERVE memory_projected.alternative_refs
+                    FACTS memory_projected.alternative_facts
+                CALL control.instantiate_declared_meaning(
+                    selection_policy_ref="policy.record_captured_canonical_role_appearances", selected_ref=memory_assessment.alternatives.selected,
+                    alternative_facts=memory_projected.alternative_facts, evidence_refs=memory_capture.evidence_refs
+                ) -> memory_meaning
+                REQUIRE memory_meaning.template_iteration_complete
+                DERIVE memory_derived
+                    FROM memory_meaning.evidence_refs
+                    USING rule.captured_canonical_role_appearances
+                    CONTEXT memory_meaning
+                CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+                CALL control.current_state_revision() -> memory_before_revision
+                TRANSACTION remember_complete_adjacent_cursor_appearance
+                    UPDATE memory_revision
+                        TARGET memory_prepared.update_items
+                        FROM memory_meaning.evidence_refs
+                        USING policy.targeted_claim_revision
+                        BEFORE memory_before_revision
+                        INVALIDATE []
+                        RECALCULATE []
+                        PRESERVE memory_capture.evidence_refs
+        NEXT record_directional_pose_cursor_groups
+    STEP record_directional_pose_cursor_groups
+        LET pose_group_rows: List<Any> = analysis.descriptive_facts.stationary_exact_rotation_groups
+        FOR EACH group_row IN pose_group_rows
+            IF group_row.action_is_directional
+                CALL control.project_declared_alternatives(
+                    selection_policy_ref="policy.record_directional_pose_cursor_group", alternative_refs=[], descriptive_facts=group_row
+                ) -> cursor_group_projected
+                SELECT cursor_group_assessment
+                    FOR "goal.attribute_directional_pose_cursor_group"
+                    FROM cursor_group_projected.alternative_refs
+                    UNDER policy.record_directional_pose_cursor_group
+                    REQUIRE ["requirement.temporal_identity_is_available"]
+                    PRESERVE cursor_group_projected.alternative_refs
+                    FACTS cursor_group_projected.alternative_facts
+                CALL control.instantiate_declared_meaning(
+                    selection_policy_ref="policy.record_directional_pose_cursor_group",
+                    selected_ref=cursor_group_assessment.alternatives.selected,
+                    alternative_facts=cursor_group_projected.alternative_facts, evidence_refs=analysis.evidence_refs
+                ) -> cursor_group_meaning
+                DERIVE cursor_group_derived
+                    FROM cursor_group_meaning.evidence_refs
+                    USING rule.directional_pose_cursor_group
+                    CONTEXT cursor_group_meaning
+                CALL control.prepare_revisable_meaning_updates(
+                    terms=cursor_group_meaning.terms, claims=cursor_group_derived.claims
+                ) -> cursor_group_prepared
+                CALL control.current_state_revision() -> cursor_group_before_revision
+                TRANSACTION remember_directional_pose_cursor_group
+                    UPDATE cursor_group_revision
+                        TARGET cursor_group_prepared.update_items
+                        FROM cursor_group_meaning.evidence_refs
+                        USING policy.targeted_claim_revision
+                        BEFORE cursor_group_before_revision
+                        INVALIDATE []
+                        RECALCULATE []
+                        PRESERVE analysis.evidence_refs
+                CALL control.measure_declared_role_appearance(
+                    tracking=after_tracking, before_tracking=before_tracking,
+                    canonical_term_candidates=cursor_group_meaning.terms, canonical_claim_candidates=cursor_group_derived.claims,
+                    transition_ref=transition_ref, learning_policy_ref="policy.capture_directional_pose_cursor_appearance",
+                    key_policy_ref="policy.perceptual_memory_key_contract", measurement_basis_ref="measurement.pixel_support", cell_quantum=null, max_items=64
+                ) -> memory_capture
+                IF memory_capture.has_learning_rows
+                    CALL control.project_declared_alternatives(
+                        selection_policy_ref="policy.record_captured_canonical_role_appearances", alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+                    ) -> memory_projected
+                    SELECT memory_assessment
+                        FOR "goal.remember_causally_learned_role_appearance"
+                        FROM memory_projected.alternative_refs
+                        UNDER policy.record_captured_canonical_role_appearances
+                        REQUIRE ["requirement.memory_learning_is_causal"]
+                        PRESERVE memory_projected.alternative_refs
+                        FACTS memory_projected.alternative_facts
+                    CALL control.instantiate_declared_meaning(
+                        selection_policy_ref="policy.record_captured_canonical_role_appearances", selected_ref=memory_assessment.alternatives.selected,
+                        alternative_facts=memory_projected.alternative_facts, evidence_refs=memory_capture.evidence_refs
+                    ) -> memory_meaning
+                    REQUIRE memory_meaning.template_iteration_complete
+                    DERIVE memory_derived
+                        FROM memory_meaning.evidence_refs
+                        USING rule.captured_canonical_role_appearances
+                        CONTEXT memory_meaning
+                    CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+                    CALL control.current_state_revision() -> memory_before_revision
+                    TRANSACTION remember_complete_pose_cursor_appearance
+                        UPDATE memory_revision
+                            TARGET memory_prepared.update_items
+                            FROM memory_meaning.evidence_refs
+                            USING policy.targeted_claim_revision
+                            BEFORE memory_before_revision
+                            INVALIDATE []
+                            RECALCULATE []
+                            PRESERVE memory_capture.evidence_refs
+                    CALL control.current_state_revision() -> pose_refresh_before_revision
+                    CALL workflow.refresh_tracked_roles(
+                        tracking=after_tracking, scene=after_scene, current_support_requests=null,
+                        before_revision=pose_refresh_before_revision
+                    ) -> pose_role_refresh
+        NEXT project_unique_input_aligned_cursor_role
+    STEP project_unique_input_aligned_cursor_role
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_unique_input_aligned_cursor",
+            alternative_refs=[],
+            descriptive_facts=analysis.descriptive_facts
+        ) -> generic_cursor_projected
+        SELECT generic_cursor_interpretation
+            FOR "goal.attribute_unique_input_aligned_cursor_before_remaining_directional_calibration"
+            FROM generic_cursor_projected.alternative_refs
+            UNDER policy.declared_unique_input_aligned_cursor
+            REQUIRE ["requirement.temporal_identity_is_available"]
+            PRESERVE generic_cursor_projected.alternative_refs
+            FACTS generic_cursor_projected.alternative_facts
+        MATCH generic_cursor_interpretation.alternatives.selected
+            "cursor.input_aligned_unique.unique" -> NEXT commit_unique_input_aligned_cursor_supposition
+            "cursor.input_aligned_unique.ambiguous" -> NEXT project_independent_cursor_role
+            "cursor.input_aligned_unique.absent" -> NEXT project_independent_cursor_role
+    STEP commit_unique_input_aligned_cursor_supposition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_unique_input_aligned_cursor",
+            selected_ref=generic_cursor_interpretation.alternatives.selected,
+            alternative_facts=generic_cursor_projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> generic_cursor_meaning
+        DERIVE generic_cursor_derived
+            FROM generic_cursor_meaning.evidence_refs
+            USING rule.unique_input_aligned_cursor_supposition
+            CONTEXT generic_cursor_meaning
+        CALL control.prepare_meaning_updates(
+            terms=generic_cursor_meaning.terms,
+            claims=generic_cursor_derived.claims
+        ) -> generic_cursor_prepared
+        CALL control.current_state_revision() -> generic_cursor_before_revision
+        TRANSACTION commit_unique_input_aligned_cursor_supposition
+            UPDATE generic_cursor_revision
+                TARGET generic_cursor_prepared.update_items
+                FROM generic_cursor_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE generic_cursor_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT capture_committed_cursor_appearance
+    STEP capture_committed_cursor_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            before_tracking=before_tracking,
+            canonical_term_candidates=generic_cursor_meaning.terms,
+            canonical_claim_candidates=generic_cursor_derived.claims,
+            transition_ref=transition_ref,
+            learning_policy_ref="policy.capture_canonical_cursor_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_cursor_appearance
+            false -> NEXT capture_committed_cursor_anchor_appearance
+    STEP record_committed_cursor_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[],
+            descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=memory_meaning.terms,
+            claims=memory_derived.claims
+        ) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_committed_cursor_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        MATCH generic_cursor_interpretation.alternatives.selected
+            "cursor.input_aligned_unique.unique" -> NEXT capture_committed_cursor_anchor_appearance
+            "cursor.input_aligned_unique.ambiguous" -> NEXT measure_attached_orientation
+            "cursor.input_aligned_unique.absent" -> NEXT measure_attached_orientation
+    # Retain the causal anchor too: decoration may express a current mode,
+    # not the identity of the role bearer. Identical signatures deduplicate.
+    STEP capture_committed_cursor_anchor_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=generic_cursor_meaning.terms,
+            canonical_claim_candidates=generic_cursor_derived.claims,
+            transition_ref=transition_ref,
+            learning_policy_ref="policy.capture_canonical_cursor_anchor_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_cursor_anchor_appearance
+            false -> NEXT measure_attached_orientation
+    STEP record_committed_cursor_anchor_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[],
+            descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=memory_meaning.terms,
+            claims=memory_derived.claims
+        ) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_committed_cursor_anchor_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT measure_attached_orientation
+    STEP project_independent_cursor_role
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_input_aligned_hollow_cursor",
+            alternative_refs=[],
+            descriptive_facts=analysis.descriptive_facts
+        ) -> cursor_projected
+        SELECT cursor_interpretation
+            FOR "goal.attribute_input_aligned_hollow_cursor_independently"
+            FROM cursor_projected.alternative_refs
+            UNDER policy.declared_input_aligned_hollow_cursor
+            REQUIRE ["requirement.temporal_identity_is_available"]
+            PRESERVE cursor_projected.alternative_refs
+            FACTS cursor_projected.alternative_facts
+        MATCH cursor_interpretation.alternatives.selected
+            "cursor.input_aligned_hollow.unique" -> NEXT commit_independent_cursor_supposition
+            "cursor.input_aligned_hollow.ambiguous" -> NEXT measure_attached_orientation
+            "cursor.input_aligned_hollow.absent" -> NEXT measure_attached_orientation
+    STEP commit_independent_cursor_supposition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_input_aligned_hollow_cursor",
+            selected_ref=cursor_interpretation.alternatives.selected,
+            alternative_facts=cursor_projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> cursor_meaning
+        DERIVE cursor_derived
+            FROM cursor_meaning.evidence_refs
+            USING rule.input_aligned_hollow_cursor_supposition
+            CONTEXT cursor_meaning
+        CALL control.prepare_meaning_updates(
+            terms=cursor_meaning.terms,
+            claims=cursor_derived.claims
+        ) -> cursor_prepared
+        CALL control.current_state_revision() -> cursor_before_revision
+        TRANSACTION commit_cursor_supposition
+            UPDATE cursor_revision
+                TARGET cursor_prepared.update_items
+                FROM cursor_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE cursor_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT capture_committed_hollow_cursor_appearance
+    STEP capture_committed_hollow_cursor_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=cursor_meaning.terms,
+            canonical_claim_candidates=cursor_derived.claims,
+            transition_ref=transition_ref,
+            learning_policy_ref="policy.capture_canonical_hollow_cursor_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_cursor_appearance
+            false -> NEXT measure_attached_orientation
+    STEP measure_attached_orientation
+        CALL control.current_term_attribute_values(
+            filter_attribute="role",
+            filter_value="cursor_supposition",
+            exclude_attribute="requires_enclosing_anchor", exclude_value=false,
+            returned_attribute="entity_ref",
+            max_items=64
+        ) -> orientation_body_refs
+        CALL control.current_term_attribute_values(
+            filter_attribute="role",
+            filter_value="orientable_cursor",
+            returned_attribute="current_part_entity_ref",
+            max_items=64
+        ) -> orientation_part_refs
+        CALL capability.attached_rotation_analysis(
+            previous=before_tracking,
+            current=after_tracking,
+            body_entity_refs=orientation_body_refs,
+            part_entity_refs=orientation_part_refs,
+            max_part_pairs=64,
+            max_structure_pixels=256
+        ) -> orientation_analysis
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.observed_attached_cursor_rotation",
+            alternative_refs=[],
+            descriptive_facts=orientation_analysis.descriptive_facts
+        ) -> orientation_projected
+        SELECT orientation_interpretation
+            FOR "goal.interpret_observed_cursor_orientation"
+            FROM orientation_projected.alternative_refs
+            UNDER policy.observed_attached_cursor_rotation
+            REQUIRE ["requirement.temporal_identity_is_available"]
+            PRESERVE orientation_projected.alternative_refs
+            FACTS orientation_projected.alternative_facts
+        MATCH orientation_interpretation.alternatives.selected
+            "rotation.observed_unique" -> NEXT commit_attached_orientation
+            "rotation.unresolved" -> STOP interpretation
+    STEP commit_attached_orientation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.observed_attached_cursor_rotation",
+            selected_ref=orientation_interpretation.alternatives.selected,
+            alternative_facts=orientation_projected.alternative_facts,
+            evidence_refs=orientation_analysis.evidence_refs
+        ) -> orientation_meaning
+        DERIVE orientation_derived
+            FROM orientation_meaning.evidence_refs
+            USING rule.observed_attached_cursor_rotation
+            CONTEXT orientation_meaning
+        CALL control.prepare_meaning_updates(
+            terms=orientation_meaning.terms,
+            claims=orientation_derived.claims
+        ) -> orientation_prepared
+        CALL control.current_state_revision() -> orientation_before_revision
+        TRANSACTION commit_attached_orientation
+            UPDATE orientation_revision
+                TARGET orientation_prepared.update_items
+                FROM orientation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE orientation_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+
+# Explicit query entry: preparing a possible experiment is not unconditional
+# assimilation work. The requesting branch supplies exact current review refs.
+WORKFLOW prepare_requested_coupling_tests(
+    requested_coupling_review_refs: List<Ref>,
+    after_scene: VisualSceneDescription,
+    after_tracking: TemporalTrackingResult,
+    context_epoch: Integer,
+    evidence_refs: List<Ref>
+) -> Any
+    STATE
+        current_review_pairs: List<Any>
+        current_review_rows: List<Any>
+        current_return_rows: List<Any>
+        current_context_rows: List<Any>
+        current_context_projected: DeclaredAlternativeFacts?
+        current_context_assessment: Assessment?
+        current_context_meaning: DeclaredMeaningInstantiation?
+        current_context_derived: Any?
+        current_context_prepared: PreparedMeaningUpdates?
+        current_context_before_revision: Integer
+        current_context_revision: Any?
+        current_context_chunks: Any
+        current_context_batch: Any
+    STEP initialize_current_coupling_batch
+        CALL control.link_disjoint_update_batch(previous=null, items=[], evidence=[]) -> current_context_chunks
+        NEXT inspect_current_coupling_test_prerequisites
+    STEP inspect_current_coupling_test_prerequisites
+        CALL control.current_context_term_attribute_rows(
+            filter_attribute="projection_contract", filter_value="yf_arc3_v5.transformation_coupling_context_review.v1",
+            additional_filter_attribute="status", additional_filter_value="open",
+            only_term_refs=requested_coupling_review_refs,
+            returned_attributes=["entity_refs"], distinct_rows=true,
+            present_entity_members_attribute="entity_member_refs",
+            present_tracking=after_tracking, max_items=64, action_ref=null, context_epoch=context_epoch
+        ) -> current_review_pairs
+        FOR EACH current_pair IN current_review_pairs
+            CALL control.current_context_term_attribute_rows(
+                filter_attribute="projection_contract", filter_value="yf_arc3_v5.transformation_coupling_context_review.v1",
+                additional_filter_attribute="status", additional_filter_value="open", exact_attribute_filters=current_pair,
+                only_term_refs=requested_coupling_review_refs,
+                returned_attributes=["mapping_token", "entity_refs", "action_ref", "context_epoch", "expected_transformations", "status"],
+                optional_returned_attributes=["current_before_focus_signatures", "entity_member_refs"],
+                present_entity_members_attribute="entity_member_refs",
+                present_tracking=after_tracking, include_term_ref=true, max_items=64, action_ref=null, context_epoch=context_epoch
+            ) -> current_review_rows
+            CALL control.current_context_term_attribute_rows(
+                filter_attribute="projection_contract", filter_value="yf_arc3_v5.observed_selected_pair_translation_return.v1",
+                exact_attribute_filters=current_pair, claim_projection_policy_ref="policy.record_current_coupling_test_context",
+                returned_attributes=["entity_refs", "action_ref", "context_epoch", "before_focus_signatures", "after_focus_signatures"],
+                present_entity_members_attribute="entity_member_refs",
+                present_tracking=after_tracking, include_term_ref=true, max_items=64, action_ref=null, context_epoch=context_epoch
+            ) -> current_return_rows
+            CALL control.measure_current_coupling_context(
+                review_rows=current_review_rows, return_rows=current_return_rows, scene=after_scene, tracking=after_tracking,
+                context_epoch=context_epoch, marker_policy_ref="policy.memorial_current_selection", maximum_focus_rows=64,
+                maximum_steps=64, maximum_support_pixels=8192
+            ) -> current_context_rows
+            FOR EACH current_row IN current_context_rows
+                CALL control.project_declared_alternatives(
+                    selection_policy_ref="policy.record_current_coupling_test_context", alternative_refs=[], descriptive_facts=current_row
+                ) -> current_context_projected
+                SELECT current_context_assessment
+                    FOR "goal.prepare_current_questioned_coupling_test"
+                    FROM current_context_projected.alternative_refs
+                    UNDER policy.record_current_coupling_test_context
+                    REQUIRE ["requirement.preserve_original_mapping_and_current_context"]
+                    PRESERVE current_context_projected.alternative_refs
+                    FACTS current_context_projected.alternative_facts
+                CALL control.instantiate_declared_meaning(
+                    selection_policy_ref="policy.record_current_coupling_test_context",
+                    selected_ref=current_context_assessment.alternatives.selected,
+                    alternative_facts=current_context_projected.alternative_facts, evidence_refs=evidence_refs
+                ) -> current_context_meaning
+                DERIVE current_context_derived
+                    FROM current_context_meaning.evidence_refs
+                    USING rule.current_coupling_test_context
+                    CONTEXT current_context_meaning
+                CALL control.prepare_revisable_meaning_updates(
+                    terms=current_context_meaning.terms, claims=current_context_derived.claims
+                ) -> current_context_prepared
+                CALL control.link_disjoint_update_batch(previous=current_context_chunks,
+                    items=current_context_prepared.update_items, evidence=current_context_meaning.evidence_refs) -> current_context_chunks
+        CALL control.flatten_disjoint_update_batch(chunks=current_context_chunks, maximum_items=8192) -> current_context_batch
+        CALL control.link_disjoint_update_batch(previous=null, items=[], evidence=[]) -> current_context_chunks
+        MATCH current_context_batch.has_updates
+            true -> NEXT commit_current_coupling_test_prerequisites
+            false -> STOP current_context_batch
+    STEP commit_current_coupling_test_prerequisites
+        CALL control.current_state_revision() -> current_context_before_revision
+        TRANSACTION remember_current_coupling_test_prerequisites
+            UPDATE current_context_revision
+                TARGET current_context_batch.update_items
+                FROM current_context_batch.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE current_context_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE evidence_refs
+        STOP current_context_batch

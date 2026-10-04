@@ -1,0 +1,30 @@
+# Guard an intermediate CONTINUE without rebuilding perception or meaning.
+MODULE arc3.verify_intermediate_continue
+
+WORKFLOW verify_intermediate_continue(
+    before: FrameGrid,
+    after: FrameGrid,
+    ignored_regions: List<Any>,
+    action_ref: Ref,
+    periodic_cycle_workflow_facts: List<Any>
+) -> Assessment
+    STATE
+        measurements: IntermediateSceneChangeMeasurements?
+        verification: Assessment?
+    STEP measure_exact_delta
+        CALL capability.intermediate_scene_change_measurement(
+            before=before,
+            after=after,
+            ignored_regions=ignored_regions,
+            permitted_regions=[],
+            action_ref=action_ref,
+            periodic_cycle_workflow_facts=periodic_cycle_workflow_facts
+        ) -> measurements
+        SELECT verification
+            FOR "goal.verify_intermediate_continue_without_full_perception"
+            FROM measurements.alternative_refs
+            UNDER policy.declared_intermediate_continue_verification
+            REQUIRE ["requirement.committed_continue_step_returned_frame"]
+            PRESERVE measurements.alternative_refs
+            FACTS measurements.alternative_facts
+        STOP verification

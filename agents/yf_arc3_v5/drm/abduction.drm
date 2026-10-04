@@ -1,0 +1,253 @@
+{
+  "module_id": "abduction",
+  "declarations": [
+    {
+      "id": "principle.abduction_filters_explanations_against_effects_and_evidence",
+      "kind": "principle",
+      "premises": [
+        "an_open_objective_or_observed_effect_requires_an_explanation",
+        "a_bounded_set_of_explicit_explanations_is_available"
+      ],
+      "applicability": ["causal_mechanism_construction_or_revision"],
+      "invariants": [
+        "each_explanation_declares_covered_obligations_dependencies_and_falsifiers",
+        "an_observed_contradiction_eliminates_only_the_incompatible_explanation",
+        "an_instance_answer_or_oracle_dependency makes_an_explanation_inadmissible",
+        "dominance_is_symbolic_set_inclusion_not_a_blended_score",
+        "all_undominated_explanations_remain_explicit_when_more_than_one_survives"
+      ],
+      "falsifiers": [
+        "the_explanation_set_or_obligation_set_exceeds_its_declared_bound",
+        "candidate_meaning_was_originated_by_mechanical_code"
+      ],
+      "reason_refs": [
+        "reason.abduction_seeks_the_smallest_non_contradicted_explanation_of_required_effects"
+      ]
+    },
+    {
+      "id": "principle.equivalent_abductive_explanations_use_a_reported_arbitrary_tie_break",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.abduction_filters_explanations_against_effects_and_evidence"
+      ],
+      "premises": ["two_or_more_undominated_explanations_survive"],
+      "applicability": ["abductive_version_space_is_ambiguous"],
+      "invariants": [
+        "the_canonical_structural_reference_provides_a_reproducible_arbitrary_order",
+        "the_report_states_that_no_explanatory_criterion_separated_the_tied_survivors",
+        "non_selected_tied_explanations_remain_recorded_as_equally_viable",
+        "later_discriminating_evidence_may_revise_the_arbitrary_commitment"
+      ],
+      "falsifiers": ["the_tie_break_is_reported_as_evidential_support"],
+      "reason_refs": ["reason.arbitrary_tie_break_enables_progress_without_fabricating_explanatory_preference"]
+    },
+    {
+      "id": "principle.intersecting_support_controls_are_grouped_only_by_observed_effect",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.abduction_filters_explanations_against_effects_and_evidence"
+      ],
+      "premises": [
+        "repeated_control_morphologies_are_adjacent_to_intersecting_closed_supports",
+        "one_or_more_action_conditioned_signed_support_offsets_are_available"
+      ],
+      "applicability": ["abductive_intersecting_support_control_construction"],
+      "invariants": [
+        "morphology_alone_never_establishes_effect_equivalence",
+        "effect_equivalence_requires_the_same_support_and_signed_slot_offset",
+        "a_homologous_unobserved_control_remains_a_revisable_supposition",
+        "only_one_representative_of_an_observed_equivalence_class_is_retained",
+        "an_arbitrary_representative_is_reported_as_non_probative"
+      ],
+      "falsifiers": [
+        "a_supposed_homologue_moves_another_support_or_uses_another_signed_offset"
+      ],
+      "reason_refs": [
+        "reason.control_equivalence_is_established_by_support_effect_not_visual_repetition"
+      ]
+    },
+    {
+      "id": "principle.intersecting_support_alignment_preserves_satisfied_markers",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.abduction_filters_explanations_against_effects_and_evidence"
+      ],
+      "premises": [
+        "multiple_marker_alignments_share_intersecting_closed_supports",
+        "bounded_signed_support_operators_are_observed_or_explicitly_supposed"
+      ],
+      "applicability": ["bounded_intersecting_support_route_construction"],
+      "invariants": [
+        "already_satisfied_markers_are_preserved_when_a_complete_preserving_route_exists",
+        "at_most_three_shortest_complete_route_witnesses_are_retained",
+        "each_released_primitive_is_reconciled_before_the_next_route_projection",
+        "an_unobserved_operator_can_release_only_a_discriminating_first_primitive",
+        "official_progress_remains_the_terminal_completion_evidence"
+      ],
+      "falsifiers": [
+        "an_observed_signed_offset_differs_from_the_route_projection",
+        "a_preserved_marker_becomes_unsatisfied",
+        "no_resource_feasible_complete_route_remains"
+      ],
+      "reason_refs": [
+        "reason.shortest_intersecting_support_route_advances_open_markers_without_reopening_satisfied_ones"
+      ]
+    },
+    {
+      "id": "principle.cursor_contact_can_transfer_focus_without_translation",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.abduction_filters_explanations_against_effects_and_evidence"
+      ],
+      "premises": [
+        "a_directional_attempt_contacts_another_cursor",
+        "neither_cursor_translates",
+        "the_contacted_cursor_becomes_the_unique_selected_cursor"
+      ],
+      "applicability": ["isolated_multi_cursor_focus_transfer"],
+      "invariants": [
+        "focus_transfer_is_inferred_only_after_the_contact_effect_is_observed",
+        "each_transfer_is_reconciled_before_the_next_directional_attempt",
+        "a_terminal_blocking_cursor_is_moved_only_to_restore_an_observed_path",
+        "activation_is_released_only_after_the_path_clearance_transition"
+      ],
+      "falsifiers": [
+        "both_cursors_translate_on_contact",
+        "the_contacted_cursor_does_not_become_selected",
+        "the_terminal_cursor_move_does_not_restore_the_blocked_path"
+      ],
+      "reason_refs": [
+        "reason.focus_transfer_reaches_the_cursor_blocking_the_observed_path"
+      ]
+    },
+    {
+      "id": "rule.abductive_version_space_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "epistemic",
+      "premises": [
+        "isolated_reasoning_scope_ref",
+        "measurement_context_ref",
+        "version_space_status",
+        "admissible_explanation_refs",
+        "undominated_explanation_refs"
+      ],
+      "applicability": ["abductive_version_space_interpretation_selected"],
+      "invariants": [
+        "rejected_explanations_keep_exact_reasons",
+        "ambiguous_survivors_are_preserved",
+        "commitment_is_revisable"
+      ],
+      "falsifiers": ["later_evidence_contradicts_the_committed_explanation"],
+      "term_templates": [
+        {
+          "id_pattern": "abduction.assessment.{measurement_context_ref}",
+          "kind": "schema",
+          "label": "bounded abductive explanation assessment",
+          "required_fields": ["measurement_context_ref", "version_space_status"],
+          "attribute_bindings": {
+            "context_ref": "measurement_context_ref",
+            "status": "version_space_status",
+            "admissible_explanation_refs": "admissible_explanation_refs",
+            "undominated_explanation_refs": "undominated_explanation_refs",
+            "rejection_reason_refs": "rejection_reason_refs",
+            "surviving_discriminating_test_refs": "surviving_discriminating_test_refs"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.abduction.assessment.{measurement_context_ref}",
+          "predicate": "records_bounded_abductive_version_space",
+          "family": "epistemic",
+          "argument_patterns": ["abduction.assessment.{measurement_context_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["measurement_context_ref", "version_space_status"],
+          "attribute_bindings": {
+            "status": "version_space_status",
+            "undominated_explanation_refs": "undominated_explanation_refs"
+          },
+          "static_attributes": {
+            "selection_authority": "drm",
+            "falsifier": "later_evidence_contradicts_the_committed_explanation"
+          }
+        }
+      ],
+      "reason_refs": ["reason.abductive_status_is_declared_from_exact_filtering_and_symbolic_dominance"]
+    },
+    {
+      "id": "policy.declared_abductive_version_space_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_abductive_version_space_measurements"],
+      "applicability": ["abductive_version_space_measurement_available"],
+      "invariants": [
+        "empty_space_opens_an_ontology_gap",
+        "ambiguity_preserves_all_undominated_explanations_and_reports_the_arbitrary_tie_break",
+        "unique_survival_permits_only_revisable_commitment"
+      ],
+      "falsifiers": ["measurement_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "abduction.empty",
+        "abduction.ambiguous",
+        "abduction.unique"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.abduction.empty",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "abduction.empty"}],
+          "static_facts": {"abductive_disposition": "open_scoped_ontology_gap"}
+        },
+        {
+          "id": "projection.abduction.ambiguous",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "abduction.ambiguous"}],
+          "static_facts": {
+            "abductive_disposition": "commit_canonical_tie_member_revisably",
+            "report_arbitrary_tie_break": true
+          }
+        },
+        {
+          "id": "projection.abduction.unique",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "abduction.unique"}],
+          "static_facts": {"abductive_disposition": "commit_unique_explanation_revisably"}
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.abduction.empty",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "abduction.empty"},
+            {"field": "version_space_status", "operator": "equals", "expected": "empty"}
+          ],
+          "reason_ref": "reason.no_admissible_explanation_requires_a_named_gap"
+        },
+        {
+          "id": "tier.abduction.ambiguous",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "abduction.ambiguous"},
+            {"field": "version_space_status", "operator": "equals", "expected": "ambiguous"}
+          ],
+          "reason_ref": "reason.multiple_undominated_explanations_use_a_reported_arbitrary_tie_break"
+        },
+        {
+          "id": "tier.abduction.unique",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "abduction.unique"},
+            {"field": "version_space_status", "operator": "equals", "expected": "unique"}
+          ],
+          "reason_ref": "reason.one_undominated_explanation_supports_revisable_commitment"
+        }
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.abductive_version_space_meaning"},
+      "reason_refs": ["reason.abductive_disposition_is_declared_not_mechanically_selected"]
+    }
+  ]
+}

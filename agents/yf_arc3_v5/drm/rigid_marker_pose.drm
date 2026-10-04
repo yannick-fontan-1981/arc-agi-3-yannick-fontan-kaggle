@@ -1,0 +1,768 @@
+{
+  "module_id": "rigid_marker_pose",
+  "declarations": [
+    {
+      "id": "policy.measure_rigid_marker_pose",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "rigid_marker_pose.measure"
+      ],
+      "reason_refs": [
+        "reason.exact_visible_mask_translation_supports_every_compatible_marker"
+      ],
+      "configuration": {
+        "measurement_contract": {
+          "maximum_pixels": 4096,
+          "indicator_role_ref": "role.alignment_mover",
+          "ring_widths": [
+            3,
+            5,
+            7
+          ],
+          "maximum_groups": 8,
+          "minimum_markers": 2,
+          "maximum_markers": 16,
+          "minimum_support_pixels": 3,
+          "maximum_support_pixels": 256,
+          "maximum_poses_per_group": 16,
+          "minimum_internal_neighbours": 3,
+          "maximum_midpoint_twice_offset": 1,
+          "neighbour_offsets": [
+            [
+              -1,
+              -1
+            ],
+            [
+              -1,
+              0
+            ],
+            [
+              -1,
+              1
+            ],
+            [
+              0,
+              -1
+            ],
+            [
+              0,
+              1
+            ],
+            [
+              1,
+              -1
+            ],
+            [
+              1,
+              0
+            ],
+            [
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      "selection_eligibility_conditions": [
+        {
+          "field": "rigid_marker_pose_enumeration_complete",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "invariants": [
+        "visible_support_is_a_lower_bound_not_a_complete_hidden_body",
+        "all_marker_centres_must_be_supported_by_the_same_translation",
+        "no_pose_is_chosen_when_enumeration_exceeds_declared_bounds",
+        "values_propose_partitions_not_control_identity"
+      ]
+    },
+    {
+      "id": "policy.declared_rigid_marker_cover",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "fact_projections": [
+        {
+          "id": "projection.rigid_marker_cover.default",
+          "static_facts": {
+            "rigid_marker_action_eligible": false
+          }
+        },
+        {
+          "id": "projection.rigid_marker_cover.translate",
+          "all_conditions": [
+            {"field": "rigid_marker_pose_enumeration_complete", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_all_groups_admitted", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_group_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_control_binding_count", "operator": "equals", "expected": 1},
+            {"field": "rigid_marker_bound_source_claim_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_bound_pose_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_visible_target_contradiction_count", "operator": "equals", "expected": 0},
+            {"field": "rigid_marker_template_contradiction_count", "operator": "equals", "expected": 0},
+            {
+              "field": "rigid_marker_pose_enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "rigid_marker_pose_all_groups_admitted",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "rigid_marker_visible_target_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_template_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_control_binding_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "rigid_marker_bound_pose_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_bound_source_claim_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_bound_minimum_distance",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_candidate_has_measured_delta",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "rigid_marker_candidate_minimum_distance_delta",
+              "operator": "equals",
+              "expected": -1
+            }
+          ],
+          "static_facts": {
+            "rigid_marker_action_eligible": true,
+            "rigid_marker_geometry_commit_required": true,
+            "dynamic_goal_activation_applicable": true,
+            "dynamic_goal_binding_satisfied": true,
+            "candidate_local_goal_context_required": false,
+            "candidate_local_goal_context_declared": false,
+            "selection_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "release_selection_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "active_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "active_terminal_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "release_active_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "release_terminal_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "subgoal_ref": "subgoal.rigid_marker.cover_current_constellation",
+            "release_subgoal_ref": "subgoal.rigid_marker.cover_current_constellation",
+            "hot_workflow_ref": "workflow.hot.revalidated_reflection_target_coverage",
+            "hot_workflow_activity_ref": "activity.simulate_and_place_one_open_direct_body",
+            "remaining_action_bound": 1,
+            "expected_effect_class": "effectful_novel",
+            "release_expected_effect_class": "effectful_novel",
+            "discriminating_experiment_ref": "experiment.revalidate_rigid_mask_or_control_transfer",
+            "release_discriminating_experiment_ref": "experiment.revalidate_rigid_mask_or_control_transfer",
+            "expected_configuration_or_goal_delta_ref": "expectation.rigid_mask_residual_or_selected_body_changes",
+            "release_expected_configuration_or_goal_delta_ref": "expectation.rigid_mask_residual_or_selected_body_changes",
+            "falsifier_refs": [
+              "falsifier.rigid_mask_or_quantum_changes",
+              "falsifier.fixed_marker_moves",
+              "falsifier.control_binding_not_unique"
+            ],
+            "release_falsifier_refs": [
+              "falsifier.rigid_mask_or_quantum_changes",
+              "falsifier.fixed_marker_moves",
+              "falsifier.control_binding_not_unique"
+            ],
+            "static_knowledge_graph_ref": "knowledge.graph.generic",
+            "guiding_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "activation_reason_refs": [
+              "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+            ],
+            "terminal_goal_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks"
+            ],
+            "instrumental_subgoal_refs": [
+              "subgoal.rigid_marker.cover_current_constellation"
+            ],
+            "instrumental_parent_goal_refs": [
+              [
+                "subgoal.rigid_marker.cover_current_constellation",
+                "goal.cover_marker_constellations_with_rigid_masks"
+              ]
+            ],
+            "goal_falsifier_refs": [
+              [
+                "goal.cover_marker_constellations_with_rigid_masks",
+                "falsifier.fixed_marker_moves"
+              ],
+              [
+                "subgoal.rigid_marker.cover_current_constellation",
+                "falsifier.rigid_mask_or_quantum_changes"
+              ]
+            ],
+            "goal_dependency_chain_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks",
+              "subgoal.rigid_marker.cover_current_constellation"
+            ],
+            "release_goal_dependency_chain_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks",
+              "subgoal.rigid_marker.cover_current_constellation"
+            ],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "active_priority_source_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "whole_witness_is_not_execution_authorization": true,
+            "reconciliation_checkpoint_ref": "checkpoint.recompute_rigid_mask_cover_after_each_primitive"
+          },
+          "templated_facts": {
+            "activation_ref": "rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}",
+            "scene_support_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "canonical_premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "release_premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "goal_graph_edge_refs": [
+              "claim.dynamic_goal_frontier_activation.rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}"
+            ],
+            "release_goal_graph_edge_refs": [
+              "claim.dynamic_goal_frontier_activation.rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}"
+            ]
+          }
+        },
+        {
+          "id": "projection.rigid_marker_cover.transfer",
+          "all_conditions": [
+            {"field": "rigid_marker_pose_enumeration_complete", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_all_groups_admitted", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_group_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_control_binding_count", "operator": "equals", "expected": 1},
+            {"field": "rigid_marker_bound_source_claim_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_bound_pose_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_visible_target_contradiction_count", "operator": "equals", "expected": 0},
+            {"field": "rigid_marker_template_contradiction_count", "operator": "equals", "expected": 0},
+            {
+              "field": "rigid_marker_pose_enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "rigid_marker_pose_all_groups_admitted",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "rigid_marker_visible_target_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_template_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_control_binding_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "rigid_marker_bound_pose_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_bound_source_claim_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_bound_minimum_distance",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "rigid_marker_other_nonzero_distance_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "candidate_is_reconciled_control_transfer",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "rigid_marker_action_eligible": true,
+            "rigid_marker_geometry_commit_required": true,
+            "dynamic_goal_activation_applicable": true,
+            "dynamic_goal_binding_satisfied": true,
+            "candidate_local_goal_context_required": false,
+            "candidate_local_goal_context_declared": false,
+            "selection_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "release_selection_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "active_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "active_terminal_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "release_active_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "release_terminal_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "subgoal_ref": "subgoal.rigid_marker.select_open_contribution",
+            "release_subgoal_ref": "subgoal.rigid_marker.select_open_contribution",
+            "hot_workflow_ref": "workflow.hot.revalidated_reflection_target_coverage",
+            "hot_workflow_activity_ref": "activity.transfer_focus_to_next_open_axis_or_body",
+            "remaining_action_bound": 1,
+            "expected_effect_class": "effectful_novel",
+            "release_expected_effect_class": "effectful_novel",
+            "discriminating_experiment_ref": "experiment.revalidate_rigid_mask_or_control_transfer",
+            "release_discriminating_experiment_ref": "experiment.revalidate_rigid_mask_or_control_transfer",
+            "expected_configuration_or_goal_delta_ref": "expectation.rigid_mask_residual_or_selected_body_changes",
+            "release_expected_configuration_or_goal_delta_ref": "expectation.rigid_mask_residual_or_selected_body_changes",
+            "falsifier_refs": [
+              "falsifier.rigid_mask_or_quantum_changes",
+              "falsifier.fixed_marker_moves",
+              "falsifier.control_binding_not_unique"
+            ],
+            "release_falsifier_refs": [
+              "falsifier.rigid_mask_or_quantum_changes",
+              "falsifier.fixed_marker_moves",
+              "falsifier.control_binding_not_unique"
+            ],
+            "static_knowledge_graph_ref": "knowledge.graph.generic",
+            "guiding_principle_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual",
+            "activation_reason_refs": [
+              "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+            ],
+            "terminal_goal_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks"
+            ],
+            "instrumental_subgoal_refs": [
+              "subgoal.rigid_marker.select_open_contribution"
+            ],
+            "instrumental_parent_goal_refs": [
+              [
+                "subgoal.rigid_marker.select_open_contribution",
+                "goal.cover_marker_constellations_with_rigid_masks"
+              ]
+            ],
+            "goal_falsifier_refs": [
+              [
+                "goal.cover_marker_constellations_with_rigid_masks",
+                "falsifier.fixed_marker_moves"
+              ],
+              [
+                "subgoal.rigid_marker.select_open_contribution",
+                "falsifier.rigid_mask_or_quantum_changes"
+              ]
+            ],
+            "goal_dependency_chain_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks",
+              "subgoal.rigid_marker.select_open_contribution"
+            ],
+            "release_goal_dependency_chain_refs": [
+              "goal.cover_marker_constellations_with_rigid_masks",
+              "subgoal.rigid_marker.select_open_contribution"
+            ],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "active_priority_source_goal_ref": "goal.cover_marker_constellations_with_rigid_masks",
+            "whole_witness_is_not_execution_authorization": true,
+            "reconciliation_checkpoint_ref": "checkpoint.recompute_rigid_mask_cover_after_each_primitive"
+          },
+          "templated_facts": {
+            "activation_ref": "rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}",
+            "scene_support_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "canonical_premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "release_premise_claim_refs": [
+              "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+              "claim.rigid_marker.indicator.{rigid_marker_frame_ref}"
+            ],
+            "goal_graph_edge_refs": [
+              "claim.dynamic_goal_frontier_activation.rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}"
+            ],
+            "release_goal_graph_edge_refs": [
+              "claim.dynamic_goal_frontier_activation.rigid_marker_cover.{rigid_marker_frame_ref}.{candidate_ref}"
+            ]
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "rigid_marker_action_eligible",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.rigid_mask_current_contribution",
+          "all_conditions": [
+            {
+              "field": "rigid_marker_action_eligible",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "candidate_ref",
+          "preferred_order": "minimize"
+        }
+      ],
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "reason_refs": [
+        "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+      ],
+      "invariants": [
+        "one_primitive_then_remeasure",
+        "completed_contributions_remain_fixed",
+        "partial_visible_support_does_not_certify_hidden_geometry",
+        "no_oracle_route_or_palette_roles"
+      ]
+    },
+    {
+      "id": "rule.scoped_rigid_marker_geometry",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "complete_bounded_measurements_and_unique_recalled_causal_glyph"
+      ],
+      "reason_refs": [
+        "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "rigid_marker.target.{rigid_marker_epoch}.{partition_value}",
+          "kind": "schema",
+          "label": "scoped observed rigid marker target",
+          "required_fields": [
+            "rigid_marker_epoch",
+            "partition_value",
+            "marker_centres",
+            "marker_ring_rows"
+          ],
+          "static_attributes": {
+            "canonical_fact_projection_enabled": false,
+            "memory_scope": "current_level",
+            "unobserved_support_is_not_certified": true
+          },
+          "attribute_bindings": {
+            "rigid_marker_target_epoch": "rigid_marker_epoch",
+            "partition_value": "partition_value",
+            "marker_centres": "marker_centres",
+            "marker_ring_rows": "marker_ring_rows",
+            "source_observed_frame_ref": "rigid_marker_frame_ref"
+          },
+          "iteration": {
+            "source_field": "rigid_marker_pose_rows",
+            "max_items": 8,
+            "item_bindings": {
+              "partition_value": "partition_value",
+              "marker_centres": "marker_centres",
+              "marker_ring_rows": "marker_ring_rows"
+            }
+          }
+        },
+        {
+          "id_pattern": "rigid_marker.body.{rigid_marker_epoch}.{partition_value}",
+          "kind": "schema",
+          "label": "scoped observed rigid marker body",
+          "required_fields": [
+            "rigid_marker_epoch",
+            "partition_value",
+            "relative_support_pixels",
+            "indicator_position"
+          ],
+          "static_attributes": {
+            "canonical_fact_projection_enabled": false,
+            "memory_scope": "current_level",
+            "unobserved_support_is_not_certified": true
+          },
+          "attribute_bindings": {
+            "rigid_marker_body_epoch": "rigid_marker_epoch",
+            "partition_value": "partition_value",
+            "relative_support_pixels": "relative_support_pixels",
+            "indicator_position": "indicator_position",
+            "source_observed_frame_ref": "rigid_marker_frame_ref"
+          },
+          "iteration": {
+            "source_field": "rigid_marker_bound_body_rows",
+            "max_items": 8,
+            "item_bindings": {
+              "partition_value": "partition_value",
+              "relative_support_pixels": "relative_support_pixels",
+              "indicator_position": "indicator_position"
+            }
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.rigid_marker.geometry.{rigid_marker_frame_ref}",
+          "predicate": "current_quantized_rigid_mask_correspondences_measured",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{rigid_marker_frame_ref}"
+          ],
+          "required_fields": [
+            "rigid_marker_frame_ref"
+          ],
+          "static_attributes": {
+            "authorizes_action": false,
+            "scope": "current_observation",
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "observation_ref": "rigid_marker_frame_ref",
+            "pose_rows": "rigid_marker_pose_rows"
+          }
+        },
+        {
+          "id_pattern": "claim.rigid_marker.indicator.{rigid_marker_frame_ref}",
+          "predicate": "retained_causal_glyph_rebound_to_unique_current_rigid_mask",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{rigid_marker_frame_ref}"
+          ],
+          "required_fields": [
+            "rigid_marker_frame_ref"
+          ],
+          "static_attributes": {
+            "authorizes_action": false,
+            "scope": "current_observation",
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "observation_ref": "rigid_marker_frame_ref",
+            "association_refs": "rigid_marker_bound_association_refs",
+            "source_claim_refs": "rigid_marker_bound_source_claim_refs"
+          }
+        }
+      ],
+      "invariants": [
+        "same_level_geometry_only",
+        "no_hidden_support_completion"
+      ],
+      "falsifiers": [
+        "new_markers_or_shape_contradict_retained_geometry"
+      ]
+    },
+    {
+      "id": "policy.remember_scoped_rigid_marker_geometry",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "rigid_marker_geometry.present"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "rigid_marker_pose_enumeration_complete", "operator": "equals", "expected": true},
+        {"field": "rigid_marker_pose_all_groups_admitted", "operator": "equals", "expected": true},
+        {"field": "rigid_marker_pose_group_count", "operator": "greater_than", "expected": 0},
+        {"field": "rigid_marker_control_binding_count", "operator": "equals", "expected": 1},
+        {"field": "rigid_marker_bound_source_claim_count", "operator": "greater_than", "expected": 0},
+        {"field": "rigid_marker_bound_pose_count", "operator": "greater_than", "expected": 0},
+        {"field": "rigid_marker_visible_target_contradiction_count", "operator": "equals", "expected": 0},
+        {"field": "rigid_marker_template_contradiction_count", "operator": "equals", "expected": 0},
+        {
+          "field": "rigid_marker_pose_enumeration_complete",
+          "operator": "equals",
+          "expected": true
+        },
+        {
+          "field": "rigid_marker_pose_all_groups_admitted",
+          "operator": "equals",
+          "expected": true
+        },
+        {
+          "field": "rigid_marker_visible_target_contradiction_count",
+          "operator": "equals",
+          "expected": 0
+        },
+        {
+          "field": "rigid_marker_template_contradiction_count",
+          "operator": "equals",
+          "expected": 0
+        },
+        {
+          "field": "rigid_marker_control_binding_count",
+          "operator": "equals",
+          "expected": 1
+        },
+        {
+          "field": "rigid_marker_bound_pose_count",
+          "operator": "greater_than",
+          "expected": 0
+        },
+        {
+          "field": "rigid_marker_bound_source_claim_count",
+          "operator": "greater_than",
+          "expected": 0
+        },
+        {
+          "field": "rigid_marker_geometry_commit_required",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "rigid_marker_geometry.present": "rule.scoped_rigid_marker_geometry",
+        "*": "rule.scoped_rigid_marker_geometry"
+      },
+      "reason_refs": [
+        "reason.exact_rigid_mask_cover_dependency_reduces_quantized_residual"
+      ]
+    },
+    {
+      "id": "policy.classify_rigid_marker_scope",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "rigid_marker_scope.present",
+        "rigid_marker_scope.absent"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.rigid_scope.default_present",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "rigid_marker_scope.present"
+            }
+          ],
+          "static_facts": {
+            "rigid_scope_eligible": false
+          }
+        },
+        {
+          "id": "projection.rigid_scope.default_absent",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "rigid_marker_scope.absent"
+            }
+          ],
+          "static_facts": {
+            "rigid_scope_eligible": true
+          }
+        },
+        {
+          "id": "projection.rigid_scope.admit",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "rigid_marker_scope.present"
+            },
+            {"field": "rigid_marker_pose_enumeration_complete", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_all_groups_admitted", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_group_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_control_binding_count", "operator": "equals", "expected": 1},
+            {"field": "rigid_marker_bound_source_claim_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_bound_pose_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_visible_target_contradiction_count", "operator": "equals", "expected": 0},
+            {"field": "rigid_marker_template_contradiction_count", "operator": "equals", "expected": 0}
+          ],
+          "static_facts": {
+            "rigid_scope_eligible": true
+          }
+        },
+        {
+          "id": "projection.rigid_scope.exclude_absent",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "rigid_marker_scope.absent"
+            },
+            {"field": "rigid_marker_pose_enumeration_complete", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_all_groups_admitted", "operator": "equals", "expected": true},
+            {"field": "rigid_marker_pose_group_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_control_binding_count", "operator": "equals", "expected": 1},
+            {"field": "rigid_marker_bound_source_claim_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_bound_pose_count", "operator": "greater_than", "expected": 0},
+            {"field": "rigid_marker_visible_target_contradiction_count", "operator": "equals", "expected": 0},
+            {"field": "rigid_marker_template_contradiction_count", "operator": "equals", "expected": 0}
+          ],
+          "static_facts": {
+            "rigid_scope_eligible": false
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "rigid_scope_eligible",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "reason_refs": [
+        "reason.exact_visible_mask_translation_supports_every_compatible_marker"
+      ]
+    }
+  ]
+}

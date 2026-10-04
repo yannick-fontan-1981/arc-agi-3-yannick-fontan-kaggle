@@ -1,0 +1,919 @@
+{
+  "module_id": "oriented_transport",
+  "declarations": [
+    {
+      "id": "principle.stationary_input_can_advance_observed_external_delivery",
+      "kind": "principle",
+      "family_ref": "family.interaction_route",
+      "abstraction_level": "causal_variant",
+      "premises": ["all_remaining_manual_tasks_are_currently_reserved_by_observed_external_transport", "this_available_input_moved_the_external_pair_while_the_known_controlled_entities_stayed_fixed", "the_same_free_facing_input_is_currently_blocked_by_an_observed_member_without_attachment"],
+      "applicability": ["one_step_experiment_advancing_an_open_delegated_delivery"],
+      "invariants": ["one_primitive_then_full_reconciliation", "the_delegated_goal_remains_open_until_actual_delivery", "no_reset_or_attach_is_substituted_for_the_observed_clock", "no_future_autonomous_route_or_settling_delay_is_assumed"],
+      "falsifiers": ["external_transport_does_not_advance", "controlled_pose_or_coupling_changes", "the_evidence_or_reservation_is_stale", "an_unreserved_delivery_is_still_open"],
+      "reason_refs": ["reason.global_delivery_can_progress_without_player_translation"]
+    },
+    {
+      "id": "policy.interpret_external_cargo_transport",
+      "selection_tie_breakers": [
+        {
+          "field": "pair_motion_count",
+          "preferred_order": "minimize"
+        }
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "external_transport.retracted",
+        "external_transport.deposit",
+        "external_transport.candidate",
+        "external_transport.unresolved"
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.external_transport.retracted",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.retracted"
+            },
+            {
+              "field": "prior_deposit_observed",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "cargo_missing_or_outside",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.delivery_contradiction_reopens_the_goal"
+        },
+        {
+          "id": "tier.external_transport.deposit",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.deposit"
+            },
+            {
+              "field": "pair_identity_exact",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "pair_motion_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "cargo_inside_capacity",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "any_conditions": [
+            {
+              "field": "carrier_departed_cargo_stationary",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "prior_deposit_observed",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.cotransport_then_departure_preserves_an_observed_delivery"
+        },
+        {
+          "id": "tier.external_transport.candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.candidate"
+            },
+            {
+              "field": "pair_identity_exact",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "pair_motion_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.exact_pair_motion_supports_transport_but_not_helpfulness"
+        },
+        {
+          "id": "tier.external_transport.unresolved",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.unresolved"
+            }
+          ],
+          "reason_ref": "reason.proximity_or_ambiguous_identity_is_not_transport"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "external_transport.candidate": "rule.observed_external_transport",
+        "external_transport.deposit": "rule.observed_external_transport",
+        "external_transport.retracted": "rule.observed_external_transport",
+        "external_transport.unresolved": "rule.observed_external_transport"
+      },
+      "invariants": [
+        "roles_require_observed_transport_and_deposit_not_palette",
+        "delegated_goals_remain_open_until_delivery_evidence",
+        "a_current_delivery_can_be_retracted_without_erasing_valid_motion_evidence",
+        "current_repeated_cotransport_reserves_its_cargo_provisionally_until_separation_or_stale_observation"
+      ],
+      "falsifiers": [
+        "cargo_leaves_capacity_or_identity_is_lost"
+      ],
+      "reason_refs": [
+        "reason.cotransport_then_departure_preserves_an_observed_delivery"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.external_transport.reservation_default",
+          "static_facts": {
+            "external_cargo_reservation_value": false,
+            "external_stationary_clock_supported": false
+          },
+          "templated_facts": {
+            "source_reservation_claim_ref": "claim.external-transport.motion.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+            "source_stationary_clock_claim_ref": "claim.external-transport.stationary-clock.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}"
+          }
+        },
+        {
+          "id": "projection.external_transport.candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.candidate"
+            }
+          ],
+          "static_facts": {
+            "external_transport_deposit_value": false,
+            "external_transport_role_value": "external_transport_supposition"
+          }
+        },
+        {
+          "id": "projection.external_transport.deposit",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.deposit"
+            }
+          ],
+          "static_facts": {
+            "external_transport_deposit_value": true,
+            "external_transport_role_value": "observed_transport_contributor"
+          }
+        },
+        {
+          "id": "projection.external_transport.retracted",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.retracted"
+            }
+          ],
+          "static_facts": {
+            "external_transport_deposit_value": false,
+            "external_transport_role_value": "external_transport_supposition"
+          }
+        },
+        {
+          "id": "projection.external_transport.reserve_repeated_current_pair",
+          "all_conditions": [
+            {
+              "field": "pair_identity_exact",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "pair_current_motion_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "pair_adjacent_now",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "alternative_ref",
+              "operator": "not_equals",
+              "expected": "external_transport.retracted"
+            }
+          ],
+          "static_facts": {
+            "external_cargo_reservation_value": true
+          }
+        },
+        {
+          "id": "projection.external_transport.stationary_input_advanced_current_pair",
+          "all_conditions": [
+            {"field": "external_cargo_reservation_value", "operator": "equals", "expected": true},
+            {"field": "pair_cotranslated", "operator": "equals", "expected": true},
+            {"field": "controlled_entities_stationary", "operator": "equals", "expected": true},
+            {"field": "action_ref", "operator": "is_present"}
+          ],
+          "static_facts": {"external_stationary_clock_supported": true}
+        },
+        {
+          "id": "projection.external_transport.input_aligned_stationary_input_advanced_current_pair",
+          "all_conditions": [
+            {"field": "external_cargo_reservation_value", "operator": "equals", "expected": true},
+            {"field": "pair_cotranslated", "operator": "equals", "expected": true},
+            {"field": "input_aligned_boxes_stationary", "operator": "equals", "expected": true},
+            {"field": "action_ref", "operator": "is_present"}
+          ],
+          "static_facts": {"external_stationary_clock_supported": true}
+        },
+        {
+          "id": "projection.external_transport.declared_oriented_body_stationary_advanced_current_pair",
+          "all_conditions": [
+            {"field": "external_cargo_reservation_value", "operator": "equals", "expected": true},
+            {"field": "pair_cotranslated", "operator": "equals", "expected": true},
+            {"field": "declared_oriented_body_stationary", "operator": "equals", "expected": true},
+            {"field": "action_ref", "operator": "is_present"}
+          ],
+          "static_facts": {"external_stationary_clock_supported": true}
+        }
+      ]
+    },
+    {
+      "id": "rule.observed_external_transport",
+      "reason_refs": [
+        "reason.cotransport_and_separation_are_observed_not_assumed"
+      ],
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": [
+        "source_selected_exact_pair_observation"
+      ],
+      "invariants": [
+        "a_contribution_is_not_a_complete_autonomous_policy_or_a_guaranteed_assignment"
+      ],
+      "falsifiers": [
+        "pair_identity_or_current_delivery_evidence_is_contradicted"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "measurement.external-transport.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "kind": "value",
+          "label": "observed external cargo transport",
+          "required_fields": [
+            "carrier_entity_ref",
+            "cargo_entity_ref",
+            "evidence_scope_ref",
+            "pair_motion_count",
+            "cargo_inside_capacity",
+            "transition_ref",
+            "external_transport_deposit_value",
+            "external_transport_role_value"
+          ],
+          "static_attributes": {
+            "measurement_kind": "external_cargo_transport"
+          },
+          "attribute_bindings": {
+            "carrier_entity_ref": "carrier_entity_ref",
+            "cargo_entity_ref": "cargo_entity_ref",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "pair_motion_count": "pair_motion_count",
+            "pair_current_motion_count": "pair_current_motion_count",
+            "cargo_inside_capacity": "cargo_inside_capacity",
+            "transition_ref": "transition_ref",
+            "deposit_observed": "external_transport_deposit_value",
+            "role": "external_transport_role_value",
+            "cargo_reservation_current": "external_cargo_reservation_value",
+            "cargo_core_bbox": "cargo_core_bbox",
+            "observation_frame_ref": "observation_frame_ref",
+            "source_reservation_claim_ref": "source_reservation_claim_ref",
+            "external_stationary_clock_supported": "external_stationary_clock_supported",
+            "stationary_clock_action_ref": "action_ref",
+            "source_stationary_clock_claim_ref": "source_stationary_clock_claim_ref"
+          },
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "not_equals",
+              "expected": "external_transport.unresolved"
+            }
+          ]
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.external-transport.stationary-clock.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "predicate": "stationary_control_input_advanced_external_cargo",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": ["{carrier_entity_ref}", "{cargo_entity_ref}", "{action_ref}"],
+          "required_fields": ["carrier_entity_ref", "cargo_entity_ref", "action_ref", "transition_ref"],
+          "attribute_bindings": {
+            "action_ref": "action_ref", "observation_frame_ref": "observation_frame_ref",
+            "transition_ref": "transition_ref", "evidence_scope_ref": "evidence_scope_ref"
+          },
+          "all_conditions": [
+            {"field": "external_stationary_clock_supported", "operator": "equals", "expected": true}
+          ]
+        },
+        {
+          "id_pattern": "claim.external-transport.candidate.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "predicate": "external_carrier_cotransports_cargo",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{carrier_entity_ref}",
+            "{cargo_entity_ref}"
+          ],
+          "required_fields": [
+            "carrier_entity_ref",
+            "cargo_entity_ref",
+            "transition_ref"
+          ],
+          "attribute_bindings": {
+            "transition_ref": "transition_ref",
+            "evidence_scope_ref": "evidence_scope_ref"
+          },
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.candidate"
+            }
+          ]
+        },
+        {
+          "id_pattern": "claim.external-transport.deposit.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "predicate": "external_carrier_has_observed_delivery",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{carrier_entity_ref}",
+            "{cargo_entity_ref}"
+          ],
+          "required_fields": [
+            "carrier_entity_ref",
+            "cargo_entity_ref",
+            "transition_ref"
+          ],
+          "attribute_bindings": {
+            "transition_ref": "transition_ref",
+            "evidence_scope_ref": "evidence_scope_ref"
+          },
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.deposit"
+            }
+          ]
+        },
+        {
+          "id_pattern": "claim.external-transport.retracted.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "predicate": "external_delivery_is_no_longer_current",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{carrier_entity_ref}",
+            "{cargo_entity_ref}"
+          ],
+          "required_fields": [
+            "carrier_entity_ref",
+            "cargo_entity_ref",
+            "transition_ref"
+          ],
+          "attribute_bindings": {
+            "transition_ref": "transition_ref",
+            "evidence_scope_ref": "evidence_scope_ref"
+          },
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "external_transport.retracted"
+            }
+          ]
+        },
+        {
+          "id_pattern": "claim.external-transport.motion.{evidence_scope_ref}.{carrier_entity_ref}.{cargo_entity_ref}",
+          "predicate": "observed_external_rigid_pair_motion",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{carrier_entity_ref}",
+            "{cargo_entity_ref}"
+          ],
+          "required_fields": [
+            "carrier_entity_ref",
+            "cargo_entity_ref",
+            "evidence_scope_ref",
+            "transition_ref"
+          ],
+          "attribute_bindings": {
+            "pair_motion_count": "pair_motion_count",
+            "reservation_current": "external_cargo_reservation_value",
+            "observation_frame_ref": "observation_frame_ref",
+            "cargo_core_bbox": "cargo_core_bbox",
+            "transition_ref": "transition_ref"
+          },
+          "all_conditions": [
+            {
+              "field": "pair_motion_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "principle.current_external_coupling_reserves_its_cargo",
+      "kind": "principle",
+      "reason_refs": [
+        "reason.manual_residual_delivery_preserves_observed_external_transport"
+      ],
+      "premises": [
+        "repeated_exact_cotranslation",
+        "current_adjacent_pair_observed_on_the_bound_frame",
+        "source_reservation_is_current"
+      ],
+      "invariants": [
+        "reserved_cargo_remains_a_blocking_object_and_an_open_global_delivery_goal",
+        "manual_target_domain_excludes_only_the_current_source_reserved_cargo",
+        "a_departure_or_stale_frame_releases_the_provisional_reservation",
+        "no_future_autonomous_choice_is_assumed"
+      ],
+      "falsifiers": [
+        "the_pair_separates_or_its_identity_is_ambiguous",
+        "the_bound_frame_or_level_changes_without_reconciliation"
+      ]
+    },
+    {
+      "id":"policy.conserve_measured_oriented_capacity_extent",
+      "kind":"selection_policy","evaluation":"declared_lexicographic_order",
+      "supported_operators":["SELECT"],
+      "input_contract":"yf_arc3_v5.authority_input.selection.v1",
+      "output_contract":"yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs":["capacity_extent.record","capacity_extent.reuse","capacity_extent.unresolved"],
+      "selection_tiers":[
+        {"id":"tier.capacity_extent.record","all_conditions":[
+          {"field":"alternative_ref","operator":"equals","expected":"capacity_extent.record"},
+          {"field":"oriented_square_transport_measurement_present","operator":"equals","expected":true},
+          {"field":"oriented_square_transport_capacity_count_at_least_member_count","operator":"equals","expected":true},
+          {"field":"oriented_square_transport_capacity_bbox_matches_prior","operator":"equals","expected":false}
+        ],"reason_ref":"reason.selected_capacity_supposition_preserves_its_observed_extent"},
+        {"id":"tier.capacity_extent.reuse","all_conditions":[
+          {"field":"alternative_ref","operator":"equals","expected":"capacity_extent.reuse"},
+          {"field":"oriented_square_transport_measurement_present","operator":"equals","expected":true},
+          {"field":"oriented_square_transport_capacity_bbox_matches_prior","operator":"equals","expected":true}
+        ],"reason_ref":"reason.same_extent_is_already_in_canonical_level_memory"},
+        {"id":"tier.capacity_extent.unresolved","all_conditions":[
+          {"field":"alternative_ref","operator":"equals","expected":"capacity_extent.unresolved"}
+        ],"reason_ref":"reason.missing_current_geometry_does_not_invent_a_capacity_extent"}
+      ],
+      "selection_tie_breakers":[{"field":"oriented_square_transport_description_count","preferred_order":"minimize"}],
+      "meaning_template_ref_by_alternative":{"capacity_extent.record":"rule.observed_oriented_capacity_extent"},
+      "invariants":["SRC_requests_this_memory_only_for_its_selected_capacity_packing_context",
+                    "memory_preserves_a_pixel_extent_not_hidden_cell_types_or_an_executable_route",
+                    "every_reuse_requires_current_mechanical_support_and_quantum_validation",
+                    "compatible_occlusion_does_not_erase_the_last_observed_extent"],
+      "falsifiers":["current_support_or_quantum_contradicts_the_extent",
+                    "the_current_level_differs_from_the_recorded_level"],
+      "reason_refs":["reason.selected_capacity_supposition_preserves_its_observed_extent"]
+    },
+    {
+      "id":"rule.observed_oriented_capacity_extent",
+      "kind":"rule","evaluation":"project_requested_conclusions",
+      "supported_operators":["DERIVE"],
+      "input_contract":"yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract":"yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family":"dynamic",
+      "premises":["SRC_selected_the_capacity_packing_context",
+                  "one_current_supported_rectangle_fits_the_measured_member_population"],
+      "invariants":["pixel_extent_is_historical_measured_evidence_not_a_current_unconditional_role",
+                    "recovery_and_occlusion_keep_geometry_separate_from_scene_local_entity_handles"],
+      "falsifiers":["current_measurement_contradicts_the_retained_rectangle"],
+      "term_templates":[{
+        "id_pattern":"measurement.capacity-extent.level.{observed_level_index}",
+        "kind":"value","label":"source-recorded capacity pixel extent",
+        "required_fields":["observed_level_index","oriented_square_transport_capacity_bbox"],
+        "static_attributes":{"measurement_kind":"oriented_capacity_extent","epistemic_status":"observed"},
+        "attribute_bindings":{"observed_level_index":"observed_level_index",
+                              "capacity_bbox":"oriented_square_transport_capacity_bbox",
+                              "quantum":"oriented_square_transport_quantum",
+                              "actor_body_value":"oriented_square_transport_actor_body_value",
+                              "member_core_value":"oriented_square_transport_member_core_value",
+                              "member_core_height":"oriented_square_transport_member_core_height",
+                              "member_core_width":"oriented_square_transport_member_core_width"}
+      }],
+      "claim_templates":[{
+        "id_pattern":"claim.capacity-extent.level.{observed_level_index}",
+        "predicate":"observed_capacity_pixel_extent","family":"dynamic",
+        "argument_patterns":["measurement.capacity-extent.level.{observed_level_index}"],
+        "epistemic_status":"supported",
+        "required_fields":["observed_level_index","oriented_square_transport_capacity_bbox"],
+        "attribute_bindings":{"observed_level_index":"observed_level_index",
+                              "capacity_bbox":"oriented_square_transport_capacity_bbox"}
+      }],
+      "reason_refs":["reason.selected_capacity_supposition_preserves_its_observed_extent"]
+    },
+    {
+      "id": "principle.single_carrier_cost_requires_empty_return_conservation",
+      "kind": "principle",
+      "premises": [
+        "one_controlled_carrier_is_the_only_supplier_of_all_remaining_cargo_motion_in_the_evaluated_model",
+        "each_loaded_segment_preserves_one_cardinal_cell_offset_and_moves_only_one_member",
+        "each_required_member_is_released_in_a_distinct_capacity_cell",
+        "one_directional_primitive_moves_at_most_one_cell"
+      ],
+      "applicability": ["single_carrier_counterfactual_cost_measurement"],
+      "invariants": [
+        "complete_cost_includes_approach_orientation_pickup_carry_release_and_empty_travel",
+        "sum_of_carrier_displacements_loaded_with_remaining_members_equals_their_cargo_displacements_even_with_staging",
+        "all_other_carrier_translations_supply_the_difference_to_its_final_pose_including_repositioning_already_placed_members",
+        "relaxed_translation_lower_bound_is_not_a_complete_executable_plan",
+        "a_lower_bound_above_every_compatible_remaining_budget_excludes_only_the_evaluated_model",
+        "one_long_route_or_an_exhausted_search_does_not_prove_infeasibility",
+        "helpful_autonomous_transport_is_grounded_in_observed_deliveries_not_appearance",
+        "resource_calibration_and_cooperative_assignment_require_their_own_evidence"
+      ],
+      "falsifiers": [
+        "the_evaluated_model_allows_multi_member_or_nonlocal_transport",
+        "a_loaded_segment_changes_the_relative_offset",
+        "the_displayed_pixel_unit_was_mistaken_for_an_action_unit"
+      ],
+      "reason_refs": ["reason.single_carrier_workload_must_fit_the_calibrated_budget"]
+    },
+    {
+      "id": "policy.observed_attached_cursor_rotation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["rotation.observed_unique", "rotation.unresolved"],
+      "fact_projections": [
+        {
+          "id": "projection.rotation.observed_unique",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "rotation.observed_unique"},
+            {"field": "body_reference_count", "operator": "equals", "expected": 1},
+            {"field": "rotation_enumeration_complete", "operator": "equals", "expected": true},
+            {"field": "structural_correspondence_count", "operator": "equals", "expected": 1},
+            {"field": "attached_reorientation_unique", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {"orientation_interpretation_ready": true},
+          "bound_facts": {"canonical_cursor_entity_ref": "body_entity_ref"}
+        }
+      ],
+      "selection_tiers": [
+        {"id": "tier.rotation.observed_unique", "all_conditions": [{"field": "orientation_interpretation_ready", "operator": "equals", "expected": true}], "reason_ref": "reason.exact_observed_rotation_has_one_current_cursor_correspondence"},
+        {"id": "tier.rotation.unresolved", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "rotation.unresolved"}], "reason_ref": "reason.missing_or_ambiguous_rotation_does_not_establish_orientation"}
+      ],
+      "meaning_template_ref_by_alternative": {"rotation.observed_unique": "rule.observed_attached_cursor_rotation"},
+      "selection_tie_breakers": [{"field": "structural_correspondence_count", "preferred_order": "minimize"}],
+      "reason_refs": ["reason.exact_observed_rotation_has_one_current_cursor_correspondence", "reason.missing_or_ambiguous_rotation_does_not_establish_orientation"]
+    },
+    {
+      "id": "principle.attached_rotation_preserves_cursor_body_identity",
+      "kind": "principle",
+      "premises": [
+        "the_body_already_has_a_revisable_cursor_role",
+        "one_action_conditioned_transition_preserves_exact_body_identity",
+        "one_attached_part_has_a_unique_rigid_rotation_or_changed_body_side_with_preserved_silhouette",
+        "the_current_structural_correspondence_is_unique"
+      ],
+      "applicability": ["observed_cursor_structure_rotation"],
+      "invariants": [
+        "orientation_and_position_are_reconciled_separately",
+        "retain_exact_body_mask_and_attached_part_offsets_in_doubled_coordinates",
+        "a_static_asymmetric_marker_is_not_observed_rotation",
+        "changed_attachment_side_does_not_imply_rigid_pixel_rotation",
+        "store_exact_offsets_and_normals_even_when_the_pixel_phase_is_not_rigid",
+        "palette_values_never_assign_cursor_or_marker_roles",
+        "one_observed_rotation_does_not_establish_a_universal_action_to_facing_map",
+        "preserve_competing_decompositions_until_correspondence_is_unique"
+      ],
+      "falsifiers": [
+        "body_lineage_is_stale_or_ambiguous",
+        "the_attached_part_changes_appearance_or_detaches",
+        "the_exact_rotation_correspondence_is_contradicted"
+      ],
+      "reason_refs": ["reason.observed_attached_rotation_preserves_cursor_identity_and_separates_pose"]
+    },
+    {
+      "id": "rule.observed_attached_cursor_rotation",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["principle.attached_rotation_preserves_cursor_body_identity", "canonical_cursor_entity_ref", "unique_exact_action_conditioned_attached_rotation"],
+      "applicability": ["observed_cursor_structure_rotation"],
+      "invariants": ["orientation_and_position_are_reconciled_separately", "body_identity_is_not_replaced_by_marker_pose"],
+      "falsifiers": ["the_exact_rotation_correspondence_is_contradicted"],
+      "term_templates": [
+        {
+          "id_pattern": "supposition.orientable_cursor.{body_entity_ref}",
+          "kind": "schema",
+          "label": "revisable orientable cursor with measured body and attached part",
+          "required_fields": ["measurement_ref", "body_entity_ref", "canonical_cursor_entity_ref", "action_ref", "previous_frame_ref", "current_frame_ref", "body_relative_pixels", "previous_part_offsets_twice", "current_part_offsets_twice", "orientation_quarter_turns_clockwise", "rigid_rotation_match", "body_delta_row", "body_delta_col"],
+          "all_conditions": [
+            {"field": "attached_reorientation_unique", "operator": "equals", "expected": true},
+            {"field": "structural_correspondence_count", "operator": "equals", "expected": 1},
+            {"field": "body_entity_ref", "operator": "equals_reference_field", "reference_field": "canonical_cursor_entity_ref"},
+            {"field": "orientation_quarter_turns_clockwise", "operator": "between_inclusive", "lower": 1, "upper": 3}
+          ],
+          "static_attributes": {"role": "orientable_cursor", "commitment": "revisable", "position_and_orientation_are_independent": true, "action_to_facing_map_is_not_established": true, "preserves_competing_decompositions": true},
+          "attribute_bindings": {"body_entity_ref": "body_entity_ref", "measurement_ref": "measurement_ref", "action_ref": "action_ref", "previous_frame_ref": "previous_frame_ref", "current_frame_ref": "current_frame_ref", "body_relative_pixels": "body_relative_pixels", "body_value": "body_value", "part_value": "part_value", "previous_part_component_ref": "previous_part_component_ref", "current_part_component_ref": "current_part_component_ref", "previous_part_entity_ref": "previous_part_entity_ref", "current_part_entity_ref": "current_part_entity_ref", "previous_part_offsets_twice": "previous_part_offsets_twice", "current_part_offsets_twice": "current_part_offsets_twice", "quarter_turns_clockwise": "quarter_turns_clockwise", "orientation_quarter_turns_clockwise": "orientation_quarter_turns_clockwise", "rigid_rotation_match": "rigid_rotation_match", "previous_side_normal": "previous_side_normal", "current_side_normal": "current_side_normal", "part_relative_pixels": "part_relative_pixels", "current_part_relative_pixels": "current_part_relative_pixels", "delta_row": "body_delta_row", "delta_col": "body_delta_col"}
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.orientable_cursor_structure.{measurement_ref}",
+          "predicate": "supports_orientable_cursor_structure",
+          "family": "structural",
+          "argument_patterns": ["{body_entity_ref}", "supposition.orientable_cursor.{body_entity_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["measurement_ref", "body_entity_ref"],
+          "required_term_patterns": ["supposition.orientable_cursor.{body_entity_ref}"],
+          "static_attributes": {"commitment": "revisable", "falsifier": "the_exact_rotation_correspondence_is_contradicted"},
+          "attribute_bindings": {"action_ref": "action_ref", "current_frame_ref": "current_frame_ref", "quarter_turns_clockwise": "quarter_turns_clockwise", "orientation_quarter_turns_clockwise": "orientation_quarter_turns_clockwise", "rigid_rotation_match": "rigid_rotation_match"}
+        }
+      ],
+      "reason_refs": ["reason.observed_attached_rotation_preserves_cursor_identity_and_separates_pose"]
+    },
+    {
+      "id": "principle.count_capacity_homology_opens_revisable_packing",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.capacity_assignment_generalizes_transport_packing"
+      ],
+      "cardinality_parameters": [
+        "cardinality.one_to_one",
+        "cardinality.capacity_constrained"
+      ],
+      "relation_parameters": [
+        "relation.transport.occupancy",
+        "relation.transport.delivery"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_repeated_square_family_has_measured_cardinality_n",
+        "one_non_boundary_full_rectangle_has_at_least_n_square_quanta",
+        "the_rectangle_and_family_share_one_exact_quantum"
+      ],
+      "applicability": ["revisable_distinct_capacity_occupancy_supposition"],
+      "invariants": [
+        "morphology_opens_a_supposition_not_a_palette_role",
+        "every_member_and_capacity_cell_remains_distinct",
+        "production_receives_no_oracle_coordinates"
+      ],
+      "falsifiers": [
+        "the_measured_capacity_count_is_less_than_the_member_count",
+        "the_rectangle_is_not_stable_or_not_full",
+        "official_completion_does_not_depend_on_capacity_occupancy"
+      ],
+      "reason_refs": ["reason.repeated_count_fits_rectangular_capacity_open_distinct_occupancy"]
+    },
+    {
+      "id": "principle.oriented_front_relation_precedes_nondirectional_toggle",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.oriented_transport_declares_orientation_front_support_and_attachment",
+        "principle.transport_operator_role_and_goal_remain_distinct"
+      ],
+      "relation_parameters": [
+        "relation.transport.front",
+        "relation.transport.orientation_delta"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_asymmetric_square_carrier_has_a_measured_face",
+        "one_repeated_member_is_exactly_one_quantum_on_that_face",
+        "one_nondirectional_action_remains_unresolved"
+      ],
+      "applicability": ["front_relation_discrimination"],
+      "invariants": [
+        "undirected_proximity_is_insufficient",
+        "the_front_relation_is_revisable_until_action_conditioned",
+        "one_action_is_released_then_reconciled"
+      ],
+      "falsifiers": [
+        "the_same_action_has_no_relation_change_at_front",
+        "a_nonfront_member_changes_instead",
+        "the measured face does not predict readiness"
+      ],
+      "reason_refs": ["reason.measured_face_and_front_adjacency_open_relation_toggle_test"]
+    },
+    {
+      "id": "principle.blocked_orientation_can_advance_front_relation",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.oriented_transport_declares_orientation_front_support_and_attachment"
+      ],
+      "relation_parameters": [
+        "relation.transport.orientation_delta",
+        "relation.transport.front",
+        "relation.transport.support"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "the_carrier_is_at_a_support_cell",
+        "the_requested_destination_is_occupied_by_the_addressed_member",
+        "free_mode_orientation_follows_the_requested_direction"
+      ],
+      "applicability": ["support_pose_orientation_completion"],
+      "invariants": [
+        "zero_translation_does_not_imply_zero_control_progress",
+        "orientation_and_position_are_reconciled_separately"
+      ],
+      "falsifiers": [
+        "facing_does_not_change",
+        "front_readiness_does_not_open",
+        "the member translates without a committed relation"
+      ],
+      "reason_refs": ["reason.blocked_direction_establishes_required_front_orientation"]
+    },
+    {
+      "id": "principle.no_motion_relation_delta_is_causal_evidence",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.oriented_transport_declares_orientation_front_support_and_attachment"
+      ],
+      "relation_parameters": [
+        "relation.transport.attachment_delta",
+        "relation.transport.attachment"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_nondirectional_action_changes_the_face_member_visual_connection",
+        "actor_and_member_positions_are_unchanged"
+      ],
+      "applicability": ["persistent_relation_supposition"],
+      "invariants": [
+        "the_relation_change_is_not_collapsed_into_no_effect",
+        "attachment_and_detachment_remain_alternatives_until_motion_or_reversal"
+      ],
+      "falsifiers": [
+        "the visual connection is transient animation only",
+        "a later directional action does not preserve the relation",
+        "the inverse nondirectional action does not remove it"
+      ],
+      "reason_refs": ["reason.stationary_visual_connection_change_opens_persistent_relation"]
+    },
+    {
+      "id": "principle.same_delta_pair_supports_rigid_relation_transport",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.transport_is_parameterized_by_exact_delta_relation",
+        "principle.transport_falsifiers_cover_rigidity_support_collision_and_front_availability"
+      ],
+      "relation_parameters": [
+        "relation.transport.co_translation",
+        "relation.transport.rigid_motion",
+        "relation.transport.attachment"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "the carrier_and_front_member_translate_under_one_directional_action",
+        "their_observed_nonzero_deltas_are_equal",
+        "their relative offset is unchanged"
+      ],
+      "applicability": ["bounded_joint_transport"],
+      "invariants": [
+        "push_pull_and_strafe_are_geometric_delta_classes",
+        "both destinations_are_checked_jointly",
+        "one_primitive_is_released_then_both_bodies_and_offset_are_reconciled"
+      ],
+      "falsifiers": [
+        "only_one_body_moves",
+        "the_deltas_differ",
+        "the_relative_offset_changes",
+        "joint_collision_prediction_fails"
+      ],
+      "reason_refs": ["reason.equal_delta_and_invariant_offset_license_joint_transport"]
+    },
+    {
+      "id": "principle.support_pose_precedes_relation_transport",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.oriented_transport_declares_orientation_front_support_and_attachment",
+        "principle.route_witnesses_are_globally_bounded_by_declared_order"
+      ],
+      "relation_parameters": [
+        "relation.transport.support",
+        "relation.transport.orientation_delta",
+        "relation.transport.attachment",
+        "relation.transport.delivery"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_open_member_capacity_correspondence_is_current",
+        "one_bounded_support_route_and_one_joint_route_are mechanically witnessed"
+      ],
+      "applicability": ["oriented_transport_route"],
+      "invariants": [
+        "reach_support_then_orient_then_toggle_then_transport_then_toggle",
+        "placed_members_remain_collision_obstacles",
+        "only_the_first_shortest_witness_per_declared_order_survives",
+        "at_most_three_global_route_witnesses_exist"
+      ],
+      "falsifiers": [
+        "the_support_cell_is_unreachable",
+        "the_joint_route_is_invalid",
+        "a_reconciled_placement_is_disturbed"
+      ],
+      "reason_refs": ["reason.support_pose_is_an_instrumental_precondition_of_joint_transport"]
+    },
+    {
+      "id": "principle.release_required_distinct_capacity_occupancy",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.capacity_assignment_generalizes_transport_packing",
+        "principle.oriented_transport_declares_orientation_front_support_and_attachment"
+      ],
+      "relation_parameters": [
+        "relation.transport.occupancy",
+        "relation.transport.attachment",
+        "relation.transport.delivery"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_connected_member_occupies_one_capacity_cell",
+        "the_nondirectional_relation_action_is_reversible"
+      ],
+      "applicability": ["delivery_reconciliation"],
+      "invariants": [
+        "spatial_occupancy_and_relation_state_are_separate",
+        "a_detached_occupied_member_becomes_a_preserved_obstacle",
+        "automatic_completion_is_observed_before_another_action"
+      ],
+      "falsifiers": [
+        "occupancy_counts_while_the_relation_remains_connected",
+        "relation_removal_moves_the_member",
+        "full_detached_occupancy_does_not_advance_the_level"
+      ],
+      "reason_refs": ["reason.capacity_occupancy_is_complete_only_after_relation_removal"]
+    },
+    {
+      "id": "principle.first_shortest_oriented_transport_witness_precedes_unrelated_exploration",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.route_witnesses_are_globally_bounded_by_declared_order",
+        "principle.resource_cost_is_recomputed_after_every_reconciled_transition"
+      ],
+      "action_family_parameters": [
+        "action_family.composite_route"
+      ],
+      "resource_parameters": [
+        "resource.cost"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_capacity_bounded_transport_supposition_is_active",
+        "one_bounded_mechanical_witness_is_current",
+        "the_next_primitive_has_an_explicit_falsifier"
+      ],
+      "applicability": ["interaction_candidate_selection"],
+      "invariants": [
+        "primitive_action_count_is_an_explicit_resource_cost",
+        "one_witness_payload_is_executable",
+        "every_primitive_reconciles_before_the_witness_is_recomputed",
+        "uncommitted_equal_delta_transport_is_only_a_discriminating_counterfactual"
+      ],
+      "falsifiers": [
+        "the_next_observed_state_differs_from_the_witness",
+        "the_route_bound_is_reached",
+        "the_cardinality_correspondence_is_retracted"
+      ],
+      "reason_refs": ["reason.complete_bounded_oriented_transport_witness_has_explicit_resource_dominance"]
+    }
+  ]
+}

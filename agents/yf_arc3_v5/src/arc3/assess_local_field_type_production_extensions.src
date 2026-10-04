@@ -1,0 +1,91 @@
+# DRM licenses each provisional local-field extension before Python measures it.
+MODULE arc3.assess_local_field_type_production_extensions
+
+WORKFLOW assess_local_field_type_production_extensions(
+    descriptive_facts: Any,
+    selective_domain_request: LocalFieldSelectiveDomainInput,
+    autonomous_successor_request: LocalFieldAutonomousSuccessorInput,
+    acceptance_window_request: LocalFieldAcceptanceWindowInput,
+    transaction_request: LocalFieldTransactionInput
+) -> Any
+    STATE
+        domain_projected: DeclaredAlternativeFacts
+        domain_selected: Assessment
+        domain_result: LocalFieldSelectiveDomainMeasurements?
+        autonomous_projected: DeclaredAlternativeFacts
+        autonomous_selected: Assessment
+        autonomous_result: LocalFieldAutonomousSuccessorMeasurements?
+        acceptance_projected: DeclaredAlternativeFacts
+        acceptance_selected: Assessment
+        acceptance_result: LocalFieldAcceptanceWindowMeasurements?
+        transaction_projected: DeclaredAlternativeFacts
+        transaction_selected: Assessment
+        transaction_result: LocalFieldTransactionMeasurements?
+    STEP select_selective_domains
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_local_field_selective_domains",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> domain_projected
+        SELECT domain_selected
+            FOR "goal.measure_declared_local_field_selective_domains"
+            FROM domain_projected.alternative_refs
+            UNDER policy.declared_local_field_selective_domains
+            REQUIRE ["requirement.required_excluded_bodies_and_finite_candidates_are_supplied"]
+            PRESERVE domain_projected.alternative_refs
+            FACTS domain_projected.alternative_facts
+        NEXT measure_selective_domains
+    STEP measure_selective_domains
+        CALL capability.local_field_selective_domain_measurement(request=selective_domain_request) -> domain_result
+        NEXT select_autonomous_successor
+    STEP select_autonomous_successor
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_local_field_autonomous_successor",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> autonomous_projected
+        SELECT autonomous_selected
+            FOR "goal.measure_declared_local_field_autonomous_successor"
+            FROM autonomous_projected.alternative_refs
+            UNDER policy.declared_local_field_autonomous_successor
+            REQUIRE ["requirement.supported_clock_named_event_and_complete_schedules_are_supplied"]
+            PRESERVE autonomous_projected.alternative_refs
+            FACTS autonomous_projected.alternative_facts
+        NEXT measure_autonomous_successor
+    STEP measure_autonomous_successor
+        CALL capability.local_field_autonomous_successor_measurement(request=autonomous_successor_request) -> autonomous_result
+        NEXT select_acceptance_windows
+    STEP select_acceptance_windows
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_local_field_acceptance_windows",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> acceptance_projected
+        SELECT acceptance_selected
+            FOR "goal.measure_declared_local_field_acceptance_windows"
+            FROM acceptance_projected.alternative_refs
+            UNDER policy.declared_local_field_acceptance_windows
+            REQUIRE ["requirement.required_predicates_samples_and_acceptance_model_are_supplied"]
+            PRESERVE acceptance_projected.alternative_refs
+            FACTS acceptance_projected.alternative_facts
+        NEXT measure_acceptance_windows
+    STEP measure_acceptance_windows
+        CALL capability.local_field_acceptance_window_measurement(request=acceptance_window_request) -> acceptance_result
+        NEXT select_transaction
+    STEP select_transaction
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_local_field_transaction",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> transaction_projected
+        SELECT transaction_selected
+            FOR "goal.measure_declared_local_field_transaction"
+            FROM transaction_projected.alternative_refs
+            UNDER policy.declared_local_field_transaction
+            REQUIRE ["requirement.before_transient_after_contacts_timing_and_resources_are_supplied"]
+            PRESERVE transaction_projected.alternative_refs
+            FACTS transaction_projected.alternative_facts
+        NEXT measure_transaction
+    STEP measure_transaction
+        CALL capability.local_field_transaction_measurement(request=transaction_request) -> transaction_result
+        STOP transaction_result

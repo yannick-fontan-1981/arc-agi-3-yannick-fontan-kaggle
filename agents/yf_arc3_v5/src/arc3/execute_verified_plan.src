@@ -1,0 +1,53 @@
+# Verification is a source-visible prerequisite of release and action.
+MODULE arc3.execute_verified_plan
+
+WORKFLOW execute_verified_plan
+    INPUT
+        expected_plan_refs: List<Ref>
+        verified_plan_refs: List<Ref>
+        viability: ViabilityAssessment
+        intent: ActionIntent
+        context: WorldContext
+    OUTPUT
+        result: ObservationResult
+    STATE
+        verification: Assessment?
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+    STEP verify
+        COMPARE verification
+            LEFT expected_plan_refs
+            RIGHT verified_plan_refs
+            USING criterion.transition_expectation_exact
+        MATCH verification.comparison
+            match -> NEXT execute
+            mismatch -> BLOCK blocked
+            undetermined -> DEFER unresolved
+    STEP execute
+        CALL control.validate_action_grounding(
+            intent=intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=intent,
+            viability=viability,
+            wisdom=wisdom,
+            context=context
+        ) -> release
+        ACT action_event
+            FROM intent
+            CONTEXT context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT expected_plan_refs
+        AWAIT FRAME AS after_frame
+        NEXT observe_result
+    STEP observe_result
+        OBSERVE result
+            FROM after_frame
+            USING acquisition.frame
+        STOP result

@@ -1,0 +1,117 @@
+{
+  "module_id": "announced_motion",
+  "declarations": [
+    {
+      "id": "principle.announced_motion_is_contextual_and_revisable",
+      "kind": "principle",
+      "premises": ["entity_destination_correspondence_observed"],
+      "applicability": ["current_or_reestablished_equivalent_action_conditioned_entity_destination_correspondence"],
+      "invariants": ["announcements_are_not_fixed_palette_roles", "unknown_destinations_remain_unknown", "one_step_announcements_do_not_define_future_personality", "source_interprets_measurements"],
+      "falsifiers": ["observed_endpoint_differs_from_announced_endpoint"],
+      "reason_refs": ["reason.announcements_require_action_conditioned_reconciliation"]
+    },
+    {
+      "id": "principle.blocked_announced_destination_cancels_current_step",
+      "kind": "principle",
+      "premises": ["announced_motion_correspondence_supported", "blocked_destination_stay_observed"],
+      "applicability": ["current_supported_announced_motion_with_observed_nontraversable_nonoverflyable_nonpushable_origin_or_destination_obstruction_effect"],
+      "invariants": ["cancellation_is_contextual_not_universal", "no_same_step_detour_under_supported_cancellation", "body_cell_obstruction_also_requires_evidence", "contradiction_revises_only_falsified_links"],
+      "falsifiers": ["blocked_entity_moves_to_another_destination"],
+      "reason_refs": ["reason.observed_obstruction_cancels_without_immediate_reroute"]
+    },
+    {
+      "id": "principle.prevent_hostile_contact_before_objective_progress",
+      "kind": "principle",
+      "premises": ["hostile_relation_has_observed_adverse_contact_effect"],
+      "applicability": [
+        "contact_effect_causes_loss_of_a_declared_special_resource",
+        "contact_effect_cost_strictly_exceeds_learned_current_context_normal_movement_cost",
+        "contact_effect_triggers_reset",
+        "contact_effect_causes_lock_requiring_reset"
+      ],
+      "invariants": ["hostility_is_a_relation_not_a_palette", "obstruction_does_not_alone_prove_hostility", "protected_entity_is_preserved", "unknown_safety_is_not_safe", "candidate_progress_cannot_override_proven_contact"],
+      "falsifiers": ["contact_effect_is_falsified_in_the_current_context"],
+      "reason_refs": ["reason.preservation_precedes_progress"]
+    },
+    {
+      "id": "policy.declared_observed_fatal_replay_safety",
+      "kind": "selection_policy",
+      "static_knowledge_node_kind": "priority",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["principle.prevent_hostile_contact_before_objective_progress", "observed_official_failure_in_same_physical_scene"],
+      "applicability": ["action_release_after_observed_fatal_contact"],
+      "invariants": ["an_exact_observed_fatal_action_is_not_repeated", "unmatched_actions_remain_eligible_for_other_checks"],
+      "falsifiers": ["scene_or_action_differs_from_fatal_witness", "contact_hazard_claim_is_falsified"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["safety.reject_observed_fatal_replay", "safety.no_observed_fatal_replay"],
+      "fact_projections": [
+        {"id": "projection.safety.reject_observed_fatal_replay", "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "safety.reject_observed_fatal_replay"},
+          {"field": "observed_fatal_replay_present", "operator": "equals", "expected": true}
+        ], "static_facts": {"applicable": true}},
+        {"id": "projection.safety.no_observed_fatal_replay", "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "safety.no_observed_fatal_replay"},
+          {"field": "observed_fatal_replay_present", "operator": "equals", "expected": false}
+        ], "static_facts": {"applicable": true}}
+      ],
+      "reason_refs": ["reason.preservation_precedes_progress"],
+      "configuration": {"maximum_outgoing_branches": 2}
+    },
+    {
+      "id": "policy.declared_announced_step_safety",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["announced.not_applicable", "announced.contact", "announced.clear", "announced.unresolved"],
+      "premises": ["principle.announced_motion_is_contextual_and_revisable", "principle.blocked_announced_destination_cancels_current_step", "principle.prevent_hostile_contact_before_objective_progress"],
+      "applicability": ["declared_announced_motion_safety_selection_with_current_or_absent_contact_constraint"],
+      "falsifiers": [
+        "clear_selected_without_current_or_reestablished_equivalent_complete_supported_endpoint_or_cancellation_model",
+        "contact_selected_without_observed_special_resource_loss_excess_movement_cost_reset_or_reset_required_lock",
+        "blocked_obstruction_selected_without_nontraversable_nonoverflyable_nonpushable_evidence",
+        "cancelled_step_invents_same_step_detour_or_suppresses_independent_route_replanning",
+        "unresolved_announced_candidate_blocks_independent_reasoning"
+      ],
+      "invariants": [
+        "no_declared_contact_constraint_does_not_block_action_release",
+        "current_contact_or_supported_predicted_contact_blocks_only_the_current_action_candidate",
+        "unknown_stale_incomplete_or_falsified_motion_evidence_defers_action",
+        "equivalent_current_context_may_rederive_the_same_prediction_but_stale_prediction_is_never_reused",
+        "obstruction_blocks_only_after_nontraversable_nonoverflyable_nonpushable_effect_evidence",
+        "supported_obstruction_cancellation_does_not_invent_same_step_detour",
+        "supported_current_step_cancellation_preserves_open_location_objective_for_separate_route_replanning",
+        "separate_reroute_requires_supported_open_passage_and_a_new_bounded_plan",
+        "danger_requires_special_resource_loss_excess_over_learned_normal_movement_cost_reset_or_reset_required_lock",
+        "obstruction_or_appearance_alone_does_not_establish_hostility",
+        "unaffected_goals_strategies_and_experiments_remain_eligible",
+        "selection_uses_declared_alternatives_only"
+      ],
+      "fact_projections": [
+        {"id":"projection.announced.same_revision", "all_conditions":[{"field":"observation_revision","operator":"is_present"},{"field":"prediction_revision","operator":"equals_reference_field","reference_field":"observation_revision"},{"field":"prediction_frame_ref","operator":"equals_reference_field","reference_field":"current_frame_ref"}], "static_facts":{"same_revision":true}},
+        {"id":"projection.announced.supported", "all_conditions":[{"field":"announced_match_count","operator":"greater_than","expected":0},{"field":"announced_divergence_count","operator":"equals","expected":0},{"field":"missing_destination_count","operator":"equals","expected":0},{"field":"uncovered_pair_count","operator":"equals","expected":0},{"field":"same_revision","operator":"equals","expected":true}], "static_facts":{"announcement_supported":true}},
+        {"id":"projection.announced.no_obstruction", "all_conditions":[{"field":"announcement_supported","operator":"equals","expected":true},{"field":"obstructed_body_count","operator":"equals","expected":0}], "bound_facts":{"coincidence_count":"announced_coincidence_count"}, "static_facts":{"endpoint_model_supported":true}},
+        {"id":"projection.announced.no_origin_obstruction", "all_conditions":[{"field":"origin_obstruction_count","operator":"equals","expected":0}], "static_facts":{"origin_effect_supported":true}},
+        {"id":"projection.announced.origin_effect", "all_conditions":[{"field":"origin_stay_count","operator":"greater_than","expected":0},{"field":"origin_reroute_count","operator":"equals","expected":0}], "static_facts":{"origin_effect_supported":true}},
+        {"id":"projection.announced.no_destination_obstruction", "all_conditions":[{"field":"destination_obstruction_count","operator":"equals","expected":0}], "static_facts":{"destination_effect_supported":true}},
+        {"id":"projection.announced.destination_effect", "all_conditions":[{"field":"blocked_stay_count","operator":"greater_than","expected":0},{"field":"blocked_reroute_count","operator":"equals","expected":0}], "static_facts":{"destination_effect_supported":true}},
+        {"id":"projection.announced.cancelled", "all_conditions":[{"field":"announcement_supported","operator":"equals","expected":true},{"field":"origin_effect_supported","operator":"equals","expected":true},{"field":"destination_effect_supported","operator":"equals","expected":true}], "bound_facts":{"coincidence_count":"cancelled_coincidence_count"}, "static_facts":{"endpoint_model_supported":true}}
+      ],
+      "selection_tiers": [
+        {"id":"tier.announced.absent", "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"announced.not_applicable"},{"field":"pair_count","operator":"equals","expected":0}], "reason_ref":"reason.no_declared_contact_constraint"},
+        {"id":"tier.announced.current_contact", "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"announced.contact"},{"field":"current_coincidence_count","operator":"greater_than","expected":0}], "reason_ref":"reason.current_contact_violates_preservation"},
+        {"id":"tier.announced.predicted_contact", "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"announced.contact"},{"field":"endpoint_model_supported","operator":"equals","expected":true},{"field":"coincidence_count","operator":"greater_than","expected":0}], "reason_ref":"reason.next_contact_violates_preservation"},
+        {"id":"tier.announced.clear", "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"announced.clear"},{"field":"endpoint_model_supported","operator":"equals","expected":true},{"field":"coincidence_count","operator":"equals","expected":0},{"field":"current_coincidence_count","operator":"equals","expected":0}], "reason_ref":"reason.reconciled_next_endpoints_preserve_declared_pairs"},
+        {"id":"tier.announced.unresolved", "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"announced.unresolved"}], "reason_ref":"reason.missing_or_falsified_motion_evidence_defers_action"}
+      ],
+      "selection_tie_breakers": [{"field":"alternative_ref", "preferred_order":"minimize"}],
+      "reason_refs": ["reason.hostile_contact_safety_is_selected_by_drm"]
+    }
+  ]
+}

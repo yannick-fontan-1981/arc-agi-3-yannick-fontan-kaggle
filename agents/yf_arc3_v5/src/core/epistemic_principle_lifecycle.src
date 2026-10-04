@@ -1,0 +1,31 @@
+# Common epistemic lifecycle: grounded instance first, reviewable generalization second.
+MODULE core.epistemic_principle_lifecycle
+
+WORKFLOW epistemic_principle_lifecycle(
+    premise_refs: List<Ref>,
+    lifecycle_scope: Map<Ref,Any>,
+    proposal_seeds: List<Any>,
+    basis_refs: List<Ref>,
+    alternative_refs: List<Ref>,
+    missing_evidence: List<Ref>,
+    falsifier_refs: List<Ref>
+) -> Any
+    STATE
+        applied_principle: Any
+        general_principle_proposal: Any
+    STEP construct_situation_grounded_principle
+        CALL workflow.construct_applied_principle(
+            premise_refs=premise_refs,
+            derivation_spec=lifecycle_scope
+        ) -> applied_principle
+        NEXT propose_reviewable_generalization
+    STEP propose_reviewable_generalization
+        CALL workflow.instantiate_general_principle(
+            proposal_seeds=proposal_seeds,
+            basis_refs=basis_refs,
+            proposal_scope=lifecycle_scope,
+            alternative_refs=alternative_refs,
+            missing_evidence=missing_evidence,
+            falsifier_refs=falsifier_refs
+        ) -> general_principle_proposal
+        STOP general_principle_proposal

@@ -1,0 +1,2134 @@
+{
+  "module_id": "morphology",
+  "declarations": [
+    {
+      "id": "family.morphology.attention_and_probe",
+      "kind": "schema",
+      "premises": ["index_principles_that_open_revise_or_parameterize_observation_led_attention_and_discriminating_probes"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_selects_probe_or_role_without_individual_principle_evidence"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.coverage_and_depth"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_attention_and_probe_family_is_classification_only"]
+    },
+    {
+      "id": "family.morphology.coverage_and_depth",
+      "kind": "schema",
+      "premises": ["index_principles_that_bound_systematic_meaning_coverage_and_revisable_solution_depth"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_merges_coverage_depth_or_completion"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.epistemic_lifecycle"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_coverage_and_depth_family_is_classification_only"]
+    },
+    {
+      "id": "family.morphology.epistemic_lifecycle",
+      "kind": "schema",
+      "premises": ["index_principles_that_open_preserve_revise_or_falsify_morphology_based_meaning_alternatives"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_confirms_meaning_or_drops_unfalsified_alternative"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.graph_topology_and_routes"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_epistemic_lifecycle_family_is_classification_only"]
+    },
+    {
+      "id": "family.morphology.graph_topology_and_routes",
+      "kind": "schema",
+      "premises": ["index_principles_that_constrain_graph_topology_interfaces_shared_nodes_and_route_obligations"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_assigns_role_goal_priority_or_route_from_topology_alone"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.relational_identity_and_coordinates"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_graph_topology_and_routes_family_is_classification_only"]
+    },
+    {
+      "id": "family.morphology.relational_identity_and_coordinates",
+      "kind": "schema",
+      "premises": ["index_principles_that_preserve_identity_correspondence_reference_frames_and_side_local_coordinates"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_asserts_identity_alignment_orientation_or_reference_frame"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.surface_boundary_partition"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_relational_identity_and_coordinates_family_is_classification_only"]
+    },
+    {
+      "id": "family.morphology.surface_boundary_partition",
+      "kind": "schema",
+      "premises": ["index_principles_that_measure_or_interpret_surfaces_boundaries_partitions_and_parallel_regions"],
+      "applicability": ["morphology_principle_indexing_audit_factoring_or_focused_test_selection"],
+      "invariants": ["family_membership_is_classification_only", "member_identity_result_meaning_applicability_and_falsifiers_remain_individual", "family_membership_is_not_required_for_individual_principle_use"],
+      "falsifiers": ["family_label_assigns_surface_separator_or_partition_role"],
+      "positive_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_committed_proposal_rebuilds_exactly"],
+      "negative_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_families_have_utility_but_no_cognitive_authority"],
+      "mutation_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_rejects_duplicate_membership_without_touching_production"],
+      "identity_transfer_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_preserves_every_individual_result_and_meaning"],
+      "composition_family_refs": ["family.morphology.attention_and_probe"],
+      "composition_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "inter_level_test_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "activation_evidence_refs": ["tests/unit/yf_arc3_v5/test_r_mo_07_morphology_taxonomy_integration_proposal.py::test_r_mo_07_each_family_is_only_a_responsibility_label"],
+      "reason_refs": ["reason.morphology_surface_boundary_partition_family_is_classification_only"]
+    },
+    {
+      "id": "schema.morphological_observation",
+      "kind": "schema",
+      "premises": ["component_identity", "exact_geometry"],
+      "applicability": ["visual_structure_is_available"],
+      "invariants": ["measurement_is_not_meaning", "palette_value_is_not_role"],
+      "falsifiers": ["component_lineage_or_geometry_is_missing"],
+      "reason_refs": ["reason.morphology_is_a_descriptive_authority"]
+    },
+    {
+      "id": "schema.morphological_aspect",
+      "kind": "schema",
+      "premises": ["one_exact_structural_dimension"],
+      "applicability": ["morphological_comparison"],
+      "invariants": ["aspects_remain_independently_revisable"],
+      "falsifiers": ["aspect_is_inferred_only_from_semantic_role"],
+      "reason_refs": ["reason.extent_topology_repetition_containment_boundary_symmetry_and_correspondence_are_explicit_aspects"]
+    },
+    {
+      "id": "schema.semantic_supposition",
+      "kind": "schema",
+      "premises": ["one_or_more_morphological_observations"],
+      "applicability": ["meaning_is_not_yet_causally_established"],
+      "invariants": ["supposition_is_not_knowledge", "alternatives_remain_explicit", "causal_observation_may_revise_the_supposition"],
+      "falsifiers": ["supposition_is_reported_as_established_without_transition_evidence"],
+      "reason_refs": ["reason.morphology_supports_supposition_without_semantic_identity"]
+    },
+    {
+      "id": "schema.morphological_supposition_set",
+      "kind": "schema",
+      "premises": ["observation_signature", "alternative_meaning_refs"],
+      "applicability": ["one_morphology_supports_several_meanings"],
+      "invariants": ["alternatives_share_one_observation_without_becoming_identical", "each_link_has_its_own_status_and_falsifier", "no_selected_role_is_stored_in_measurement_output"],
+      "falsifiers": ["alternative_set_loses_its_observation_lineage"],
+      "reason_refs": ["reason.morphology_opens_a_revisable_meaning_frontier"]
+    },
+    {
+      "id": "principle.measured_morphological_aspect_opens_revisable_semantic_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.epistemic_lifecycle",
+      "abstraction_level": "parameterized_core",
+      "premises": [
+        "one_or_more_exact_morphological_aspects_are_measured",
+        "one_or_more_typed_role_alternatives_are_declared"
+      ],
+      "applicability": [
+        "morphology_may_focus_initial_interpretation_or_discriminating_experiment_selection"
+      ],
+      "invariants": [
+        "morphological_measurement_opens_only_a_revisable_semantic_supposition",
+        "measurement_supposition_and_causal_confirmation_remain_separate",
+        "action_conditioned_effect_is_required_for_causal_role_confirmation",
+        "same_morphology_can_support_different_functions",
+        "same_function_can_have_different_morphologies"
+      ],
+      "falsifiers": [
+        "the_named_aspect_is_not_measured",
+        "a_role_is_reported_as_established_from_morphology_alone"
+      ],
+      "general_principle_refs": [
+        "principle.grounded_epistemic_lifecycle"
+      ],
+      "typed_role_parameters": [
+        "role.surface",
+        "role.separator",
+        "role.interface",
+        "role.support",
+        "role.repetition_carrier",
+        "role.center"
+      ],
+      "aspect_parameters": [
+        "aspect.extent",
+        "aspect.boundary",
+        "aspect.compactness",
+        "aspect.isotropy",
+        "aspect.internal_structure",
+        "aspect.repetition",
+        "aspect.containment",
+        "aspect.centrality"
+      ],
+      "known_counterexamples": [
+        "counterexample.same_compact_isotropic_morphology_can_be_button_target_actor_or_marker",
+        "counterexample.same_interface_function_can_use_distinct_shape_color_texture_or_extent"
+      ],
+      "reason_refs": [
+        "reason.measured_morphology_opens_typed_revisable_meaning_without_assigning_function"
+      ]
+    },
+    {
+      "id": "principle.attention_cue_opens_revisable_interaction_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.attention_and_probe",
+      "abstraction_level": "parameterized_core",
+      "premises": [
+        "one_declared_attention_aspect_is_measured",
+        "an_information_seeking_action_family_is_available"
+      ],
+      "applicability": [
+        "initial_or_reopened_interaction_experiment_selection"
+      ],
+      "invariants": [
+        "an_attention_cue_orders_a_probe_without_assigning_a_final_role",
+        "multiple_compatible_attention_cues_remain_live_until_scoped_contradiction",
+        "the_released_probe_is_reconciled_before_any_causal_confirmation"
+      ],
+      "falsifiers": [
+        "the_cue_is_not_present_in_the_measured_aspects",
+        "the_probe_is_a_contextual_no_op_or_contradicts_the_supposition"
+      ],
+      "general_principle_refs": [
+        "principle.measured_morphological_aspect_opens_revisable_semantic_supposition"
+      ],
+      "typed_role_parameters": [
+        "role.interaction_candidate",
+        "role.attention_focus",
+        "role.control_supposition",
+        "role.target_supposition",
+        "role.marker_supposition",
+        "role.symbol_supposition"
+      ],
+      "aspect_parameters": [
+        "aspect.white_fill_or_contour",
+        "aspect.vivid_or_high_saturation_color",
+        "aspect.strong_local_contrast",
+        "aspect.culturally_familiar_control_morphology",
+        "aspect.distinctive_visual_aspect"
+      ],
+      "known_counterexamples": [
+        "counterexample.same_attention_morphology_can_invite_selection_or_mark_a_target",
+        "counterexample.same_control_function_can_be_white_vivid_textured_or_motion_cued"
+      ],
+      "reason_refs": [
+        "reason.attention_focus_is_a_revisable_probe_supposition_until_action_conditioned_validation"
+      ]
+    },
+    {
+      "id": "principle.distinctive_visual_aspect_is_parameterized_fallback",
+      "kind": "principle",
+      "family_ref": "family.morphology.attention_and_probe",
+      "abstraction_level": "causal_variant",
+      "premises": [
+        "cultural_attention_cues_are_absent_ambiguous_multiple_sterile_or_effect_incompatible",
+        "one_or_more_exact_visual_exception_aspects_are_measured"
+      ],
+      "applicability": [
+        "a_bounded_information_seeking_probe_is_still_required"
+      ],
+      "invariants": [
+        "white_and_vivid_cultural_attention_cues_remain_prior_when_applicable",
+        "distinctiveness_is_parameterized_by_named_aspects_not_an_opaque_salience_score",
+        "concurrent_distinctive_aspects_remain_separately_inspectable",
+        "fallback_priority_never_establishes_semantic_role"
+      ],
+      "falsifiers": [
+        "no_named_distinctive_aspect_is_measured",
+        "a_still_applicable_cultural_attention_cue_is_bypassed",
+        "the_fallback_probe_is_a_contextual_no_op"
+      ],
+      "general_principle_refs": [
+        "principle.attention_cue_opens_revisable_interaction_supposition"
+      ],
+      "aspect_parameters": [
+        "aspect.rare_aspect",
+        "aspect.local_contrast",
+        "aspect.luminance_extremum",
+        "aspect.saturation_extremum",
+        "aspect.topology_or_texture_exception",
+        "aspect.symmetry_exception",
+        "aspect.relation_exception"
+      ],
+      "known_counterexamples": [
+        "counterexample.rare_shape_can_be_decoration_or_control",
+        "counterexample.control_can_be_morphologically_common_but_causally_effectful"
+      ],
+      "reason_refs": [
+        "reason.named_visual_exception_aspects_open_a_bounded_fallback_without_replacing_cultural_priors"
+      ]
+    },
+    {
+      "id": "principle.revisable_binary_circuit_control_precedes_terminal_or_source_probe",
+      "kind": "principle",
+      "family_ref": "family.morphology.attention_and_probe",
+      "abstraction_level": "causal_variant",
+      "premises": [
+        "a_repeated_compact_vivid_pattern_is_locally_embedded_in_a_larger_multivalue_structure",
+        "the_pattern_interrupts_or_touches_multiple_locally_distinct_values",
+        "point_actions_are_available_and_no_action_conditioned_meaning_exists_yet"
+      ],
+      "applicability": [
+        "initial_or_reopened_interaction_meaning_supposition"
+      ],
+      "invariants": [
+        "the_vivid_pattern_opens_only_a_revisable_binary_passage_control_supposition",
+        "palette_value_never_assigns_blocked_or_passing_state_before_action_conditioned_evidence",
+        "a_noninteractive_network_endpoint_remains_a_terminal_fill_objective_supposition_until_effect_and_completion_evidence"
+      ],
+      "falsifiers": [
+        "the_pattern_has_no_local_state_or_connectivity_effect",
+        "the_observed_state_color_has_the_opposite_passability_effect"
+      ],
+      "general_principle_refs": [
+        "principle.attention_cue_opens_revisable_interaction_supposition",
+        "principle.action_conditioned_morphology_revision"
+      ],
+      "reason_refs": [
+        "reason.repeated_compact_inline_state_pattern_opens_revisable_binary_control_meaning"
+      ]
+    },
+    {
+      "id": "principle.action_conditioned_morphology_revision",
+      "kind": "principle",
+      "family_ref": "family.morphology.epistemic_lifecycle",
+      "abstraction_level": "causal_variant",
+      "premises": ["morphological_supposition_set", "causally_associated_transition"],
+      "applicability": ["one_component_was_tested_in_the_current_context"],
+      "invariants": ["observed_causality_may_support_one_link", "contradiction_removes_only_the_falsified_link", "unrelated_suppositions_are_preserved"],
+      "falsifiers": ["transition_has_no_action_or_component_lineage"],
+      "general_principle_refs": [
+        "principle.action_conditioned_observation_updates_revisable_transition_knowledge"
+      ],
+      "reason_refs": ["reason.causality_revises_morphological_meaning_without_erasing_the_frontier"]
+    },
+    {
+      "id": "principle.no_effect_preserves_unresolved_meaning",
+      "kind": "principle",
+      "family_ref": "family.morphology.epistemic_lifecycle",
+      "abstraction_level": "causal_variant",
+      "premises": ["component_tested", "no_meaningful_scene_change_in_current_context"],
+      "applicability": ["exploration_agenda_revision"],
+      "invariants": ["component_meaning_remains_unresolved", "same_context_retest_is_deferred", "future_context_can_reopen_the_test"],
+      "falsifiers": ["later_action_conditioned_change_is_observed"],
+      "general_principle_refs": [
+        "principle.action_conditioned_observation_updates_revisable_transition_knowledge"
+      ],
+      "reason_refs": ["reason.no_effect_is_contextual_negative_evidence_not_role_erasure"]
+    },
+    {
+      "id": "principle.observed_causality_dominates_morphological_similarity",
+      "kind": "principle",
+      "family_ref": "family.morphology.epistemic_lifecycle",
+      "abstraction_level": "causal_variant",
+      "premises": ["one_direct_transition_witness", "one_or_more_visual_suppositions"],
+      "applicability": ["role_or_mechanism_commitment"],
+      "invariants": ["causal_role_is_supported_without_universalization", "visual_alternatives_remain_available_outside_the_witnessed_scope"],
+      "falsifiers": ["causal_lineage_is_contradicted"],
+      "general_principle_refs": [
+        "principle.action_conditioned_morphology_revision"
+      ],
+      "reason_refs": ["reason.transition_evidence_outranks_form_only"]
+    },
+    {
+      "id": "principle.frequent_extent_supports_surface_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.surface_boundary_partition",
+      "abstraction_level": "causal_variant",
+      "premises": ["one_value_has_dominant_pixel_extent"],
+      "applicability": ["initial_scene_structure"],
+      "invariants": ["background_wall_and_material_remain_competing_suppositions"],
+      "falsifiers": ["action_conditioned_evidence_establishes_an_incompatible_role"],
+      "general_principle_refs": [
+        "principle.measured_morphological_aspect_opens_revisable_semantic_supposition"
+      ],
+      "typed_role_parameters": ["role.surface"],
+      "aspect_parameters": ["aspect.extent"],
+      "reason_refs": ["reason.frequency_suggests_surface_without_fixing_its_role"]
+    },
+    {
+      "id": "principle.extended_boundary_supports_separator_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.surface_boundary_partition",
+      "abstraction_level": "causal_variant",
+      "premises": ["one_component_has_high_aspect_extent_or_collinear_boundary_extent"],
+      "applicability": ["scene_partition_is_possible"],
+      "invariants": ["separator_role_remains_unresolved_before_transition_evidence"],
+      "falsifiers": ["observed_motion_crosses_it_without_relation"],
+      "general_principle_refs": [
+        "principle.measured_morphological_aspect_opens_revisable_semantic_supposition"
+      ],
+      "typed_role_parameters": ["role.separator"],
+      "aspect_parameters": ["aspect.boundary", "aspect.extent"],
+      "reason_refs": ["reason.extended_morphology_suggests_partition"]
+    },
+    {
+      "id": "principle.compact_isotropy_supports_interaction_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.attention_and_probe",
+      "abstraction_level": "causal_variant",
+      "premises": ["compact_extent", "equal_orthogonal_extents", "rare_pattern"],
+      "applicability": ["a_measured_reachable_candidate_has_compact_rare_isotropic_morphology_and_no_established_role"],
+      "invariants": ["button_target_actor_and_marker_remain_alternatives"],
+      "falsifiers": ["controlled_probe_has_no_effect_in_the_current_context"],
+      "general_principle_refs": [
+        "principle.attention_cue_opens_revisable_interaction_supposition"
+      ],
+      "aspect_parameters": [
+        "aspect.compactness",
+        "aspect.isotropy",
+        "aspect.rare_aspect"
+      ],
+      "reason_refs": ["reason.compact_isotropic_morphology_is_information_rich"]
+    },
+    {
+      "id": "principle.compact_complexity_supports_interaction_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.attention_and_probe",
+      "abstraction_level": "causal_variant",
+      "premises": ["compact_extent", "rare_pattern_or_internal_structure"],
+      "applicability": ["a_measured_reachable_candidate_has_compact_rare_structured_morphology_and_no_established_role"],
+      "invariants": ["button_target_actor_and_symbol_remain_alternatives"],
+      "falsifiers": ["controlled_probe_has_no_effect_in_the_current_context"],
+      "general_principle_refs": [
+        "principle.attention_cue_opens_revisable_interaction_supposition"
+      ],
+      "aspect_parameters": [
+        "aspect.compactness",
+        "aspect.rare_aspect",
+        "aspect.internal_structure"
+      ],
+      "reason_refs": ["reason.compact_complex_morphology_is_information_rich"]
+    },
+    {
+      "id": "principle.peer_continuity_supports_alignment_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.relational_identity_and_coordinates",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "entity_role", "type_name": "Ref", "required": true},
+        {"name": "peer_role", "type_name": "Ref", "required": true},
+        {"name": "continuity_relation_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": ["translated_entity", "stationary_peer", "shared_exact_shape_or_unique_value", "measured_distance_change"],
+      "applicability": ["action_conditioned_peer_relation"],
+      "invariants": ["goal_is_proposed_not_proven", "entity_identity_is_preserved"],
+      "falsifiers": ["peer_correspondence_is_ambiguous", "later_evidence_rejects_alignment_utility"],
+      "reason_refs": ["reason.peer_morphology_plus_transition_supports_a_revisable_alignment_goal"]
+    },
+    {
+      "id": "principle.composite_identity_requires_relational_persistence",
+      "kind": "principle",
+      "family_ref": "family.morphology.relational_identity_and_coordinates",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "part_role", "type_name": "Ref", "required": true},
+        {"name": "relation_kind", "type_name": "Ref", "required": true},
+        {"name": "transformation_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "candidate_parts_are_observationally_distinct",
+        "parts_are_adjacent_before_transition",
+        "parts_co_move_under_action_conditioned_observation",
+        "relative_offset_is_preserved"
+      ],
+      "applicability": ["one_identity_candidate_contains_multiple_observed_parts"],
+      "invariants": [
+        "initial_adjacency_supports_only_a_candidate",
+        "complete_identity_requires_persistent_relational_evidence",
+        "distinguishing_appearance_never_defines_function",
+        "all_constituent_parts_share_one_temporal_identity_trajectory"
+      ],
+      "falsifiers": [
+        "candidate_parts_move_independently",
+        "relative_offset_changes_without_a_declared_transformation",
+        "later_tracking_splits_the_candidate_trajectory"
+      ],
+      "reason_refs": ["reason.composite_identity_requires_adjacency_comotion_and_invariant_offset"]
+    },
+    {
+      "id": "principle.boundary_first_regions_are_occupancy_independent",
+      "kind": "principle",
+      "family_ref": "family.morphology.surface_boundary_partition",
+      "abstraction_level": "causal_variant",
+      "premises": [
+        "stable_enclosing_or_separating_morphology_is_measured",
+        "current_contents_have_independent_component_identity"
+      ],
+      "applicability": ["spatial_regions_must_survive_quantity_or_occupant_change"],
+      "invariants": [
+        "contents_are_occupants_not_region_boundaries",
+        "empty_or_partially_filled_regions_keep_their_measured_support_frame",
+        "folded_screen_arrangement_is_preserved_as_observation"
+      ],
+      "falsifiers": [
+        "measured_boundary_is_not_stable",
+        "supposed_region_has_no_persistent_enclosure_or_interface_incidence"
+      ],
+      "reason_refs": ["reason.boundary_incidence_preserves_regions_across_content_change"]
+    },
+    {
+      "id": "principle.directional_relations_require_explicit_reference_frames",
+      "kind": "principle",
+      "family_ref": "family.morphology.relational_identity_and_coordinates",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "entity_role", "type_name": "Ref", "required": true},
+        {"name": "support_role", "type_name": "Ref", "required": true},
+        {"name": "reference_frame_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "support_axis_and_origin_side_are_measured",
+        "screen_component_boxes_are_preserved"
+      ],
+      "applicability": ["one_entity_set_has_screen_and_support_relative_descriptions"],
+      "invariants": [
+        "every_directional_relation_names_its_reference_frame",
+        "support_normalization_adds_relations_without_overwriting_screen_relations",
+        "entity_identity_and_graph_incidence_survive_frame_transformation"
+      ],
+      "falsifiers": [
+        "support_direction_is_unresolved",
+        "the_proposed_transform_changes_entity_or_interface_incidence"
+      ],
+      "reason_refs": ["reason.screen_and_support_relative_position_are_distinct_relations"]
+    },
+    {
+      "id": "principle.causal_connectivity_requires_measured_interface",
+      "kind": "principle",
+      "family_ref": "family.morphology.graph_topology_and_routes",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "node_role", "type_name": "Ref", "required": true},
+        {"name": "interface_role", "type_name": "Ref", "required": true},
+        {"name": "relation_graph_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "geometric_order_or_proximity_is_measured",
+        "material_and_identity_interface_incidence_are_measured_separately"
+      ],
+      "applicability": ["geometrically_near_regions_may_have_distinct_relation_graphs"],
+      "invariants": [
+        "visual_proximity_does_not_create_a_causal_edge",
+        "causal_edges_require_observed_or_inherited_and_rebound_interfaces",
+        "material_identity_and_geometric_relation_dimensions_remain_separate"
+      ],
+      "falsifiers": ["an_action_conditioned_transition_establishes_the_missing_interface"],
+      "reason_refs": ["reason.mechanism_incidence_not_screen_proximity_defines_causal_connectivity"]
+    },
+    {
+      "id": "principle.required_intermediate_nodes_support_linking_supposition",
+      "kind": "principle",
+      "family_ref": "family.morphology.graph_topology_and_routes",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "source_role", "type_name": "Ref", "required": true},
+        {"name": "target_role", "type_name": "Ref", "required": true},
+        {"name": "intermediate_role", "type_name": "Ref", "required": true},
+        {"name": "relation_graph_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "source_and_target_are_distinct_graph_nodes",
+        "node_removal_proves_an_intermediate_is_on_every_source_target_path"
+      ],
+      "applicability": ["a_finite_measured_graph_has_a_required_intermediate"],
+      "invariants": [
+        "linking_meaning_is_a_revisable_supposition_before_causal_execution",
+        "interface_order_follows_the_first_exact_path_from_current_location",
+        "no_preference_score_substitutes_for_graph_necessity"
+      ],
+      "falsifiers": [
+        "a_source_target_path_exists_without_the_intermediate",
+        "a_new_measured_edge_changes_the_graph"
+      ],
+      "reason_refs": ["reason.required_intermediate_is_derived_by_finite_node_removal"]
+    },
+    {
+      "id": "principle.shared_nodes_preserve_distinct_causal_edge_meanings",
+      "kind": "principle",
+      "family_ref": "family.morphology.graph_topology_and_routes",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "node_role", "type_name": "Ref", "required": true},
+        {"name": "relation_graph_kind", "type_name": "Ref", "required": true},
+        {"name": "effect_signature_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "two_measured_relation_graphs_share_one_node_set",
+        "their_action_conditioned_edge_effect_signatures_differ"
+      ],
+      "applicability": ["the_same_persistent_regions_support_several_mechanisms"],
+      "invariants": [
+        "each_edge_keeps_its_relation_graph_and_effect_signature",
+        "connectivity_in_one_graph_never_authorizes_another_mechanism",
+        "a_missing_edge_remains_missing_even_when_another_graph_connects_the_same_nodes",
+        "graph_identity_survives_local_frame_transformation"
+      ],
+      "falsifiers": [
+        "the_two_effect_signatures_become_observationally_indistinguishable",
+        "action_conditioned_evidence_establishes_the_previously_missing_typed_edge"
+      ],
+      "reason_refs": ["reason.shared_nodes_do_not_merge_distinct_causal_relations"]
+    },
+    {
+      "id": "principle.graph_centrality_does_not_assign_semantic_targetness",
+      "kind": "principle",
+      "family_ref": "family.morphology.graph_topology_and_routes",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "node_role", "type_name": "Ref", "required": true},
+        {"name": "relation_graph_kind", "type_name": "Ref", "required": true},
+        {"name": "semantic_role_candidate", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "finite_graph_incidence_is_measured",
+        "one_node_has_greater_relevant_degree"
+      ],
+      "applicability": ["a_topological_hub_supposition_is_available"],
+      "invariants": [
+        "centrality_is_bound_only_to_measured_graph_incidence",
+        "targetness_requires_independent_correspondence_evidence",
+        "a_hub_may_be_a_target_for_one_identity_without_becoming_a_universal_target",
+        "topological_and_semantic_roles_remain_separately_falsifiable"
+      ],
+      "falsifiers": [
+        "a_new_edge_removes_the_claimed_degree_distinction",
+        "the_supposed_target_correspondence_lacks_independent_evidence"
+      ],
+      "reason_refs": ["reason.topological_degree_is_not_semantic_target_evidence"]
+    },
+    {
+      "id": "principle.side_local_interface_coordinates_survive_mixed_orientation",
+      "kind": "principle",
+      "family_ref": "family.morphology.relational_identity_and_coordinates",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "interface_role", "type_name": "Ref", "required": true},
+        {"name": "incident_node_role", "type_name": "Ref", "required": true},
+        {"name": "support_role", "type_name": "Ref", "required": true},
+        {"name": "local_coordinate_kind", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "each_interface_is_incident_to_two_measured_graph_nodes",
+        "each_incident_side_has_a_local_support_origin"
+      ],
+      "applicability": ["interface_readiness_depends_on_local_material_extent"],
+      "invariants": [
+        "each_side_local_coordinate_is_measured_from_its_own_node_origin",
+        "opposite_sides_need_not_have_equal_readiness_coordinates",
+        "screen_orientation_does_not_replace_node_local_incidence",
+        "one_missing_interface_edge_is_not_fabricated_from_repeated_morphology"
+      ],
+      "falsifiers": [
+        "a_measured_action_changes_readiness_without_the_declared_side_local_coordinates",
+        "the_interface_component_is_not_incident_to_the_measured_node_pair"
+      ],
+      "reason_refs": ["reason.interface_readiness_is_a_conjunction_of_side_local_coordinates"]
+    },
+    {
+      "id": "principle.reciprocal_route_group_precedes_incident_independent_obligation",
+      "kind": "principle",
+      "family_ref": "family.morphology.graph_topology_and_routes",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "transported_identity_role", "type_name": "Ref", "required": true},
+        {"name": "route_group_kind", "type_name": "Ref", "required": true},
+        {"name": "independent_obligation_role", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "two_identity_routes_are_exact_graph_reverses",
+        "their_first_shortest_paths_share_internal_nodes_and_interfaces",
+        "one_independent_route_obligation_is_incident_to_the_shared_route"
+      ],
+      "applicability": ["one_execution_order_must_preserve_shared_interface_feasibility"],
+      "invariants": [
+        "the_exact_reverse_routes_remain_one_reciprocal_route_group",
+        "the_reciprocal_group_precedes_the_incident_independent_obligation",
+        "every_identity_transport_precedes_terminal_material_alignment",
+        "unselected_execution_orders_remain_explicit_until_commitment",
+        "route_generation_retains_only_the_first_shortest_witness_per_declared_order"
+      ],
+      "falsifiers": [
+        "the_two_routes_are_not_exact_reverses",
+        "the_independent_obligation_is_not_incident_to_the_shared_route",
+        "the_declared_order_has_no_bounded_valid_counterfactual_witness"
+      ],
+      "reason_refs": ["reason.reciprocal_route_coupling_precedes_incident_independent_transport"]
+    },
+    {
+      "id": "principle.systematic_initial_visual_meaning_coverage",
+      "kind": "principle",
+      "family_ref": "family.morphology.coverage_and_depth",
+      "abstraction_level": "causal_variant",
+      "premises": ["bounded_distinct_visual_elements_were_measured_on_the_initial_observation"],
+      "applicability": ["initial_observation_has_bounded_measured_elements_without_established_roles"],
+      "invariants": [
+        "every_measured_element_opens_one_coherent_supposition_group",
+        "unknown_role_remains_a_live_revisable_alternative",
+        "morphology_alone_never_establishes_a_final_role"
+      ],
+      "falsifiers": ["any_measured_initial_element_has_no_declared_group_or_unknown_role_supposition"],
+      "reason_refs": ["reason.every_initial_element_receives_a_revisable_supposition_group"]
+    },
+    {
+      "id": "principle.supposition_cascade_preserves_alternatives",
+      "kind": "principle",
+      "family_ref": "family.morphology.epistemic_lifecycle",
+      "abstraction_level": "causal_variant",
+      "premises": ["one_parent_supposition_opens_more_specific_children"],
+      "applicability": ["a_live_parent_supposition_has_multiple_evidence_compatible_refinements"],
+      "invariants": ["parent_child_links_are_explicit", "children_remain_revisable", "competing_children_are_preserved"],
+      "falsifiers": ["a_child_is_committed_as_a_role_without_action_conditioned_evidence"],
+      "reason_refs": ["reason.cascade_links_questions_without_establishing_roles"]
+    },
+    {
+      "id": "principle.minimum_effective_solution_depth_is_revisable",
+      "kind": "principle",
+      "family_ref": "family.morphology.coverage_and_depth",
+      "abstraction_level": "causal_variant",
+      "premises": ["an_initial_configuration_gap_and_an_action_vocabulary_are_observed"],
+      "applicability": ["a_current_unsolved_configuration_gap_has_a_bounded_observed_action_vocabulary"],
+      "invariants": [
+        "only_actions_with_verified_configuration_change_count",
+        "no_effect_and_resource_only_transitions_do_not_count",
+        "the_depth_expectation_is_not_an_action_quota_or_script"
+      ],
+      "falsifiers": ["official_success_occurs_with_fewer_causally_effective_actions"],
+      "reason_refs": ["reason.initial_gap_opens_a_revisable_minimum_effective_depth_expectation"]
+    },
+    {
+      "id": "policy.declared_multi_resolution_morphology_frontier",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "bounded_multi_resolution_measurements",
+        "schema.morphological_supposition_set"
+      ],
+      "applicability": ["one_normalized_visual_scene_was_measured"],
+      "invariants": [
+        "no_weighted_score",
+        "measurement_is_not_meaning",
+        "all_licensed_suppositions_remain_revisable",
+        "palette_value_never_assigns_a_role"
+      ],
+      "falsifiers": [
+        "measurement_lineage_is_missing",
+        "description_bound_is_not_attested"
+      ],
+      "declared_alternative_refs": [
+        "morphology_evidence.initial_elements_observed",
+        "morphology_evidence.descriptive_structure_observed",
+        "morphology_evidence.no_descriptive_structure"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.multi_resolution.initial_elements_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.initial_elements_observed"
+            }
+          ],
+          "static_facts": {"morphology_evidence_candidate_kind": "initial_elements"}
+        },
+        {
+          "id": "projection.multi_resolution.observed_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            }
+          ],
+          "static_facts": {"morphology_evidence_candidate_kind": "observed"}
+        },
+        {
+          "id": "projection.multi_resolution.absent_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.no_descriptive_structure"
+            }
+          ],
+          "static_facts": {"morphology_evidence_candidate_kind": "not_observed"}
+        },
+        {
+          "id": "projection.multi_resolution.frame_enclosure_suppositions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "frame_enclosure_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "surface_supposition_status": "proposed_revisable",
+            "viewport_anchor_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.multi_resolution.periodic_lattice_suppositions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "periodic_lattice_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "separator_supposition_status": "proposed_revisable",
+            "interface_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.multi_resolution.zero_gap_offset_grid_suppositions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "zero_gap_lattice_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "cell_carrier_grid_supposition_status": "proposed_revisable",
+            "global_offset_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.multi_resolution.enclosed_region_suppositions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "hole_sprite_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "canonical_region_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.multi_resolution.thin_extent_suppositions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "thin_extent_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "separator_supposition_status": "proposed_revisable",
+            "interface_supposition_status": "proposed_revisable",
+            "display_band_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.multi_resolution.composite_crop_supposition",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "composite_crop_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "composite_body_supposition_status": "proposed_revisable"
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.initial_distinct_elements_observed",
+          "all_conditions": [
+            {
+              "field": "morphology_evidence_candidate_kind",
+              "operator": "equals",
+              "expected": "initial_elements"
+            },
+            {"field": "is_initial_observation", "operator": "equals", "expected": true},
+            {
+              "field": "distinct_visual_element_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.every_initial_element_receives_a_revisable_supposition_group"
+        },
+        {
+          "id": "tier.multi_resolution_descriptive_structure_observed",
+          "all_conditions": [
+            {
+              "field": "morphology_evidence_candidate_kind",
+              "operator": "equals",
+              "expected": "observed"
+            },
+            {
+              "field": "enclosure_lattice_thin_or_composite_family_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.exact_morphology_opens_only_revisable_suppositions"
+        },
+        {
+          "id": "tier.multi_resolution_no_descriptive_structure",
+          "all_conditions": [
+            {
+              "field": "morphology_evidence_candidate_kind",
+              "operator": "equals",
+              "expected": "not_observed"
+            },
+            {
+              "field": "enclosure_lattice_thin_or_composite_family_count",
+              "operator": "equals",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.no_morphological_supposition_is_fabricated_without_measurement"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "morphology_evidence_candidate_kind", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {
+        "morphology_evidence.initial_elements_observed": "rule.systematic_initial_element_suppositions",
+        "morphology_evidence.descriptive_structure_observed": "rule.multi_resolution_morphology_frontier"
+      },
+      "reason_refs": ["reason.morphology_projects_measurements_into_an_explicit_frontier"]
+    },
+    {
+      "id": "rule.multi_resolution_morphology_frontier",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "observation_ref",
+        "bounded_multi_resolution_measurements",
+        "one_or_more_licensed_supposition_statuses"
+      ],
+      "applicability": ["descriptive_structure_was_selected_as_observed"],
+      "invariants": [
+        "each_supposition_keeps_measurement_lineage",
+        "each_supposition_is_proposed_not_established",
+        "later_causal_evidence_may_revise_one_link_without_erasing_the_others"
+      ],
+      "falsifiers": [
+        "source_measurement_is_invalidated",
+        "action_conditioned_evidence_contradicts_the_individual_link"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "supposition.surface.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable surface supposition",
+          "required_fields": ["observation_ref", "surface_supposition_status"],
+          "static_attributes": {"role": "surface_supposition", "commitment": "revisable"},
+          "attribute_bindings": {"measurements": "frame_enclosure_measurements"}
+        },
+        {
+          "id_pattern": "supposition.separator.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable separator supposition",
+          "required_fields": ["observation_ref", "separator_supposition_status"],
+          "static_attributes": {"role": "separator_supposition", "commitment": "revisable"},
+          "attribute_bindings": {
+            "lattice_measurements": "periodic_lattice_measurements",
+            "thin_extent_measurements": "thin_extent_measurements"
+          }
+        },
+        {
+          "id_pattern": "supposition.cell_carrier_grid.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable zero-gap cell-carrier grid supposition",
+          "required_fields": [
+            "observation_ref",
+            "cell_carrier_grid_supposition_status",
+            "global_offset_supposition_status"
+          ],
+          "static_attributes": {
+            "role": "cell_carrier_grid_supposition",
+            "commitment": "revisable",
+            "preserves_parallel_regions": true
+          },
+          "attribute_bindings": {
+            "measurements": "zero_gap_lattice_measurements"
+          }
+        },
+        {
+          "id_pattern": "supposition.canonical_region.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable complete enclosed-region supposition",
+          "required_fields": [
+            "observation_ref",
+            "canonical_region_supposition_status"
+          ],
+          "static_attributes": {
+            "role": "canonical_region_supposition",
+            "commitment": "revisable",
+            "fragmentation_forbidden": true
+          },
+          "attribute_bindings": {
+            "measurements": "hole_sprite_measurements"
+          }
+        },
+        {
+          "id_pattern": "supposition.interface.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable interface supposition",
+          "required_fields": ["observation_ref", "interface_supposition_status"],
+          "static_attributes": {"role": "interface_supposition", "commitment": "revisable"},
+          "attribute_bindings": {"thin_extent_measurements": "thin_extent_measurements"}
+        },
+        {
+          "id_pattern": "supposition.display_band.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable display-band supposition",
+          "required_fields": ["observation_ref", "display_band_supposition_status"],
+          "static_attributes": {"role": "display_band_supposition", "commitment": "revisable"},
+          "attribute_bindings": {
+            "thin_extent_measurements": "thin_extent_measurements",
+            "frame_padding_measurements": "frame_padding_measurements"
+          }
+        },
+        {
+          "id_pattern": "supposition.composite_body.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable composite-body supposition",
+          "required_fields": ["observation_ref", "composite_body_supposition_status"],
+          "static_attributes": {"role": "composite_body_supposition", "commitment": "revisable"},
+          "attribute_bindings": {"measurements": "composite_crop_measurements"}
+        },
+        {
+          "id_pattern": "supposition.viewport_anchor.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable viewport-anchor supposition",
+          "required_fields": ["observation_ref", "viewport_anchor_supposition_status"],
+          "static_attributes": {"role": "viewport_anchor_supposition", "commitment": "revisable"},
+          "attribute_bindings": {"measurements": "frame_enclosure_measurements"}
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.supposition.surface.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.surface.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "surface_supposition_status"],
+          "static_attributes": {"supposition_kind": "surface", "role_kind": "surface", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_surface_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.supposition.separator.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.separator.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "separator_supposition_status"],
+          "static_attributes": {"supposition_kind": "separator", "role_kind": "separator", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_separator_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.supposition.cell_carrier_grid.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": [
+            "{observation_ref}",
+            "supposition.cell_carrier_grid.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "observation_ref",
+            "cell_carrier_grid_supposition_status",
+            "global_offset_supposition_status"
+          ],
+          "static_attributes": {
+            "supposition_kind": "cell_carrier_grid",
+            "role_kind": "cell_carrier_grid",
+            "role_basis": "morphology_only",
+            "commitment": "revisable",
+            "falsifier": "action_conditioned_quantum_or_complete_frame_arithmetic_contradicts_the_grid_description",
+            "preserves_competing_roles": true,
+            "preserves_parallel_regions": true
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.canonical_region.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": [
+            "{observation_ref}",
+            "supposition.canonical_region.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "observation_ref",
+            "canonical_region_supposition_status"
+          ],
+          "static_attributes": {
+            "supposition_kind": "canonical_region",
+            "role_kind": "complete_enclosed_region",
+            "role_basis": "morphology_only",
+            "commitment": "revisable",
+            "falsifier": "the_enclosure_or_complete_internal_organization_is_not_preserved",
+            "preserves_competing_roles": true,
+            "fragmentation_forbidden": true
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.interface.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.interface.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "interface_supposition_status"],
+          "static_attributes": {"supposition_kind": "interface", "role_kind": "interface_candidate", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_interface_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.supposition.display_band.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.display_band.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "display_band_supposition_status"],
+          "static_attributes": {"supposition_kind": "display_band", "role_kind": "border_display", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_display_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.supposition.composite_body.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.composite_body.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "composite_body_supposition_status"],
+          "static_attributes": {"supposition_kind": "composite_body", "role_kind": "compact_body", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_body_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.supposition.viewport_anchor.{observation_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{observation_ref}", "supposition.viewport_anchor.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "viewport_anchor_supposition_status"],
+          "static_attributes": {"supposition_kind": "viewport_anchor", "role_kind": "world_viewport_anchor", "role_basis": "morphology_only", "commitment": "revisable", "falsifier": "action_conditioned_evidence_contradicts_the_anchor_role", "preserves_competing_roles": true}
+        },
+        {
+          "id_pattern": "claim.relation.support_occupancy.surface.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.support_occupancy",
+            "{observation_ref}",
+            "supposition.surface.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "surface_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "support_occupancy",
+            "link_kind": "frame_enclosure_support_candidate",
+            "commitment": "revisable",
+            "falsifier": "persistent_enclosure_or_occupation_evidence_is_contradicted"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.material_topology.separator.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.material_topology",
+            "{observation_ref}",
+            "supposition.separator.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "separator_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "material_topology",
+            "link_kind": "separator_incidence_candidate",
+            "commitment": "revisable",
+            "falsifier": "measured_separation_or_incidence_is_contradicted"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.material_topology.interface.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.material_topology",
+            "{observation_ref}",
+            "supposition.interface.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "interface_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "material_topology",
+            "link_kind": "interface_incidence_candidate",
+            "commitment": "revisable",
+            "falsifier": "the_measured_interface_is_not_incident_to_the_references"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.correspondence_location.display_band.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.correspondence_location",
+            "{observation_ref}",
+            "supposition.display_band.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "display_band_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "correspondence_location",
+            "link_kind": "boundary_band_location_candidate",
+            "commitment": "revisable",
+            "falsifier": "the_band_location_or_persistence_is_contradicted"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.identity_composition.composite_body.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.identity_composition",
+            "{observation_ref}",
+            "supposition.composite_body.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "composite_body_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "identity_composition",
+            "link_kind": "component_membership_candidate",
+            "commitment": "revisable",
+            "falsifier": "candidate_parts_do_not_preserve_one_identity_trajectory"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.correspondence_location.viewport_anchor.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.correspondence_location",
+            "{observation_ref}",
+            "supposition.viewport_anchor.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "viewport_anchor_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "correspondence_location",
+            "link_kind": "frame_anchor_correspondence_candidate",
+            "commitment": "revisable",
+            "falsifier": "later_correspondence_does_not_preserve_the_anchor"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.transformation_invariant.viewport_anchor.{observation_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "structural",
+          "argument_patterns": [
+            "graph.dimension.transformation_invariant",
+            "{observation_ref}",
+            "supposition.viewport_anchor.{observation_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "viewport_anchor_supposition_status"],
+          "static_attributes": {
+            "relation_dimension": "transformation_invariant",
+            "link_kind": "frame_anchor_transform_candidate",
+            "commitment": "revisable",
+            "falsifier": "the_anchor_is_not_preserved_under_the_measured_transform"
+          }
+        }
+      ],
+      "reason_refs": ["reason.revisable_morphological_links_preserve_all_live_alternatives"]
+    },
+    {
+      "id": "rule.systematic_initial_element_suppositions",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "configuration": {
+        "template_evidence_ref_patterns": {
+          "non_iterated": ["measurement.multi_resolution:{observation_ref}"],
+          "distinct_visual_element_measurements": ["measurement.multi_resolution:{observation_ref}", "{element_ref}"],
+          "distinct_visual_element_pair_relation_measurements": ["measurement.multi_resolution:{observation_ref}", "{relation_ref}"],
+          "distinct_visual_element_repeated_pair_thin_relation_measurements": ["measurement.multi_resolution:{observation_ref}", "{relation_ref}"],
+          "exact_mask_transform_measurements": ["measurement.multi_resolution:{observation_ref}", "{transform_ref}"]
+        }
+      },
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "premises": [
+        "principle.systematic_initial_visual_meaning_coverage",
+        "principle.supposition_cascade_preserves_alternatives",
+        "principle.minimum_effective_solution_depth_is_revisable"
+      ],
+      "invariants": [
+        "one_group_and_unknown_role_supposition_per_measured_element",
+        "input_order_is_preserved_without_semantic_filtering",
+        "morphology_does_not_establish_a_final_role",
+        "minimum_depth_is_revisable_and_never_releases_an_action"
+      ],
+      "falsifiers": [
+        "an_initial_element_is_not_covered_exactly_once",
+        "a_child_supposition_loses_its_parent_or_falsifier",
+        "official_success_or_the_effective_transition_ledger_contradicts_the_current_depth_expectation"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "context.relational_pose_frontier",
+          "kind": "schema",
+          "label": "observation supporting the active revisable pose frontier",
+          "required_fields": ["observation_ref"],
+          "static_attributes": {"projection_contract": "yf_arc3_v5.relational_pose_observation_scope.v1", "lifetime": "until_source_assimilates_a_new_scene", "does_not_rebind_current_body_geometry": true},
+          "attribute_bindings": {"observation_ref": "observation_ref"}
+        },
+        {
+          "id_pattern": "supposition_group.initial.{element_ref}",
+          "kind": "schema",
+          "label": "coherent revisable supposition group for one observed element",
+          "required_fields": ["observation_ref", "element_ref", "shape_ref", "descriptor_refs"],
+          "static_attributes": {"group_kind": "coherent_supposition_group", "commitment": "revisable", "preserves_alternatives": true},
+          "attribute_bindings": {"observation_ref": "observation_ref", "element_ref": "element_ref", "descriptor_refs": "descriptor_refs", "shape_ref": "shape_ref", "source_index": "element_index", "exact_alias_refs": "alias_refs"},
+          "iteration": {"source_field": "distinct_visual_element_measurements", "item_bindings": {"element_ref": "element_ref", "descriptor_refs": "descriptor_refs", "shape_ref": "relative_shape_ref", "alias_refs": "alias_refs"}, "index_binding": "element_index", "max_items": 256}
+        },
+        {
+          "id_pattern": "supposition.unknown_role.initial.{element_ref}",
+          "kind": "schema",
+          "label": "unknown role retained as a revisable alternative",
+          "required_fields": ["observation_ref", "element_ref", "descriptor_refs"],
+          "static_attributes": {"supposition_kind": "unknown_role", "role_basis": "morphology_only", "commitment": "revisable", "is_final_role": false, "preserves_competing_roles": true},
+          "attribute_bindings": {"observation_ref": "observation_ref", "element_ref": "element_ref", "descriptor_refs": "descriptor_refs", "source_index": "element_index"},
+          "iteration": {"source_field": "distinct_visual_element_measurements", "item_bindings": {"element_ref": "element_ref", "descriptor_refs": "descriptor_refs"}, "index_binding": "element_index", "max_items": 256}
+        },
+        {
+          "id_pattern": "supposition.initial_configuration_gap.{observation_ref}",
+          "kind": "schema",
+          "label": "revisable initial configuration gap",
+          "required_fields": ["observation_ref", "distinct_visual_element_measurement_count", "available_action_refs"],
+          "static_attributes": {"commitment": "revisable", "does_not_select_an_action": true},
+          "attribute_bindings": {"element_count": "distinct_visual_element_measurement_count", "available_action_refs": "available_action_refs"}
+        },
+        {
+          "id_pattern": "supposition.minimum_effective_solution_depth.{observation_ref}",
+          "kind": "value",
+          "label": "revisable minimum causally effective solution depth",
+          "required_fields": ["observation_ref", "available_action_refs"],
+          "static_attributes": {"counts_only_verified_configuration_change": true, "excludes_no_effect": true, "excludes_resource_only_change": true, "is_action_quota": false, "is_action_script": false, "commitment": "revisable"},
+          "attribute_bindings": {"available_action_refs": "available_action_refs"}
+        },
+        {
+          "id_pattern": "supposition_group.reference_output.{relation_ref}.first_reference",
+          "kind": "schema", "label": "revisable reference and output correspondence group",
+          "required_fields": ["relation_ref", "reference_ref", "output_ref"],
+          "static_attributes": {"group_kind": "reference_output_correspondence", "commitment": "revisable", "preserves_alternatives": true, "position_alone_is_insufficient": true, "role_bindings": {"reference_candidate": ["reference_candidate_ref"], "output_candidate": ["output_candidate_ref"]}, "role_falsifiers": {"reference_candidate": "peripheral_independence_or_structural_correspondence_is_contradicted", "output_candidate": "central_independence_or_structural_correspondence_is_contradicted"}},
+          "attribute_bindings": {"reference_candidate_ref": "reference_ref", "output_candidate_ref": "output_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "reference_ref": "first_element_ref", "output_ref": "second_element_ref", "same_extent": "same_extent", "same_shape": "same_relative_shape", "unique_hole_pair": "unique_same_extent_hole_sprite_pair", "overlap": "support_overlap_present", "first_contains": "first_contains_second", "second_contains": "second_contains_first", "reference_is_peripheral": "first_closer_to_frame_edge", "output_is_central": "second_closer_to_frame_center"}, "max_items": 4096, "all_conditions": [{"field": "unique_hole_pair", "operator": "equals", "expected": true}, {"field": "overlap", "operator": "equals", "expected": false}, {"field": "first_contains", "operator": "equals", "expected": false}, {"field": "second_contains", "operator": "equals", "expected": false}, {"field": "reference_is_peripheral", "operator": "equals", "expected": true}, {"field": "output_is_central", "operator": "equals", "expected": true}], "any_conditions": [{"field": "same_extent", "operator": "equals", "expected": true}, {"field": "same_shape", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "supposition_group.reference_output.{relation_ref}.second_reference",
+          "kind": "schema", "label": "revisable reference and output correspondence group",
+          "required_fields": ["relation_ref", "reference_ref", "output_ref"],
+          "static_attributes": {"group_kind": "reference_output_correspondence", "commitment": "revisable", "preserves_alternatives": true, "position_alone_is_insufficient": true, "role_bindings": {"reference_candidate": ["reference_candidate_ref"], "output_candidate": ["output_candidate_ref"]}, "role_falsifiers": {"reference_candidate": "peripheral_independence_or_structural_correspondence_is_contradicted", "output_candidate": "central_independence_or_structural_correspondence_is_contradicted"}},
+          "attribute_bindings": {"reference_candidate_ref": "reference_ref", "output_candidate_ref": "output_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "reference_ref": "second_element_ref", "output_ref": "first_element_ref", "same_extent": "same_extent", "same_shape": "same_relative_shape", "unique_hole_pair": "unique_same_extent_hole_sprite_pair", "overlap": "support_overlap_present", "first_contains": "first_contains_second", "second_contains": "second_contains_first", "reference_is_peripheral": "second_closer_to_frame_edge", "output_is_central": "first_closer_to_frame_center"}, "max_items": 4096, "all_conditions": [{"field": "unique_hole_pair", "operator": "equals", "expected": true}, {"field": "overlap", "operator": "equals", "expected": false}, {"field": "first_contains", "operator": "equals", "expected": false}, {"field": "second_contains", "operator": "equals", "expected": false}, {"field": "reference_is_peripheral", "operator": "equals", "expected": true}, {"field": "output_is_central", "operator": "equals", "expected": true}], "any_conditions": [{"field": "same_extent", "operator": "equals", "expected": true}, {"field": "same_shape", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "supposition_group.selector_options_marker.{relation_ref}",
+          "kind": "schema", "label": "revisable selector options and local marker group",
+          "required_fields": ["relation_ref", "first_option_ref", "second_option_ref", "marker_ref"],
+          "static_attributes": {"group_kind": "selector_option_active_marker", "commitment": "revisable", "preserves_alternatives": true, "role_bindings": {"selector_candidate": ["selector_candidate_ref"], "option_candidate": ["first_option_candidate_ref", "second_option_candidate_ref"], "active_marker_candidate": ["active_marker_candidate_ref"]}, "role_falsifiers": {"selector_candidate": "repetition_and_local_marker_do_not_covary_under_selection", "option_candidate": "the_repeated_element_does_not_participate_in_a_selection_effect", "active_marker_candidate": "the_local_thin_element_does_not_covary_with_option_selection"}},
+          "attribute_bindings": {"selector_candidate_ref": "relation_ref", "first_option_candidate_ref": "first_option_ref", "second_option_candidate_ref": "second_option_ref", "active_marker_candidate_ref": "marker_ref"},
+          "iteration": {"source_field": "distinct_visual_element_repeated_pair_thin_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "first_option_ref": "first_repeated_element_ref", "second_option_ref": "second_repeated_element_ref", "marker_ref": "local_thin_element_ref", "same_extent": "repeated_same_extent", "same_shape": "repeated_same_relative_shape", "thin": "local_thin_extent_present", "adjacent_first": "local_orthogonally_adjacent_to_first", "adjacent_second": "local_orthogonally_adjacent_to_second", "diagonal_first": "local_diagonally_adjacent_to_first", "diagonal_second": "local_diagonally_adjacent_to_second", "overlap_first": "local_overlaps_first", "overlap_second": "local_overlaps_second"}, "max_items": 1024, "all_conditions": [{"field": "thin", "operator": "equals", "expected": true}], "any_condition_groups": [[{"field": "same_extent", "operator": "equals", "expected": true}, {"field": "same_shape", "operator": "equals", "expected": true}], [{"field": "adjacent_first", "operator": "equals", "expected": true}, {"field": "adjacent_second", "operator": "equals", "expected": true}, {"field": "diagonal_first", "operator": "equals", "expected": true}, {"field": "diagonal_second", "operator": "equals", "expected": true}, {"field": "overlap_first", "operator": "equals", "expected": true}, {"field": "overlap_second", "operator": "equals", "expected": true}]]}
+        },
+        {
+          "id_pattern": "supposition_group.cursor_application.{relation_ref}.first_cursor",
+          "kind": "schema", "label": "revisable cursor and application surface group",
+          "required_fields": ["relation_ref", "cursor_ref", "surface_ref"],
+          "static_attributes": {"group_kind": "cursor_application", "commitment": "revisable", "preserves_alternatives": true, "orientation_is_only_a_supposition": true, "role_bindings": {"cursor_candidate": ["cursor_candidate_ref"], "application_surface_candidate": ["application_surface_candidate_ref"]}, "role_falsifiers": {"cursor_candidate": "the_oriented_compact_element_does_not_move_or_apply_to_the_adjacent_surface", "application_surface_candidate": "action_conditioned_effects_do_not_localize_on_the_adjacent_larger_element"}},
+          "attribute_bindings": {"cursor_candidate_ref": "cursor_ref", "application_surface_candidate_ref": "surface_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "cursor_ref": "first_element_ref", "surface_ref": "second_element_ref", "cursor_oriented": "first_oriented_extent_present", "surface_larger": "second_larger_bbox_area", "adjacent": "orthogonal_adjacency_present", "nearest_side": "first_nearest_aligned_side_candidate", "current_side_ref": "first_relative_side_ref", "reflected_side_ref": "first_reflected_side_ref", "overlap": "support_overlap_present", "first_contains": "first_contains_second", "second_contains": "second_contains_first"}, "max_items": 4096, "all_conditions": [{"field": "cursor_oriented", "operator": "equals", "expected": true}, {"field": "surface_larger", "operator": "equals", "expected": true}, {"field": "overlap", "operator": "equals", "expected": false}, {"field": "first_contains", "operator": "equals", "expected": false}, {"field": "second_contains", "operator": "equals", "expected": false}], "any_conditions": [{"field": "adjacent", "operator": "equals", "expected": true}, {"field": "nearest_side", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "supposition_group.cursor_application.{relation_ref}.second_cursor",
+          "kind": "schema", "label": "revisable cursor and application surface group",
+          "required_fields": ["relation_ref", "cursor_ref", "surface_ref"],
+          "static_attributes": {"group_kind": "cursor_application", "commitment": "revisable", "preserves_alternatives": true, "orientation_is_only_a_supposition": true, "role_bindings": {"cursor_candidate": ["cursor_candidate_ref"], "application_surface_candidate": ["application_surface_candidate_ref"]}, "role_falsifiers": {"cursor_candidate": "the_oriented_compact_element_does_not_move_or_apply_to_the_adjacent_surface", "application_surface_candidate": "action_conditioned_effects_do_not_localize_on_the_adjacent_larger_element"}},
+          "attribute_bindings": {"cursor_candidate_ref": "cursor_ref", "application_surface_candidate_ref": "surface_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "cursor_ref": "second_element_ref", "surface_ref": "first_element_ref", "cursor_oriented": "second_oriented_extent_present", "surface_larger": "first_larger_bbox_area", "adjacent": "orthogonal_adjacency_present", "nearest_side": "second_nearest_aligned_side_candidate", "current_side_ref": "second_relative_side_ref", "reflected_side_ref": "second_reflected_side_ref", "overlap": "support_overlap_present", "first_contains": "first_contains_second", "second_contains": "second_contains_first"}, "max_items": 4096, "all_conditions": [{"field": "cursor_oriented", "operator": "equals", "expected": true}, {"field": "surface_larger", "operator": "equals", "expected": true}, {"field": "overlap", "operator": "equals", "expected": false}, {"field": "first_contains", "operator": "equals", "expected": false}, {"field": "second_contains", "operator": "equals", "expected": false}], "any_conditions": [{"field": "adjacent", "operator": "equals", "expected": true}, {"field": "nearest_side", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "goal.reference_guided_pattern_match.{relation_ref}.first_reference", "kind": "goal", "label": "revisable goal to make output pattern correspond to reference pattern",
+          "required_fields": ["relation_ref", "reference_ref", "output_ref"], "required_term_patterns": ["supposition_group.reference_output.{relation_ref}.first_reference"],
+          "static_attributes": {"goal_kind": "reference_guided_pattern_correspondence", "status": "proposed", "commitment": "revisable", "does_not_require_exact_actions": true, "output_identity_preserved_across_palette_change": true, "falsifier": "unique_same_extent_hole_correspondence_or_roles_are_contradicted"},
+          "attribute_bindings": {"reference_candidate_ref": "reference_ref", "output_candidate_ref": "output_ref", "output_bbox_top": "output_top", "output_bbox_left": "output_left", "output_bbox_bottom": "output_bottom", "output_bbox_right": "output_right"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "reference_ref": "first_element_ref", "output_ref": "second_element_ref", "output_top": "second_bbox_top", "output_left": "second_bbox_left", "output_bottom": "second_bbox_bottom", "output_right": "second_bbox_right"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "goal.reference_guided_pattern_match.{relation_ref}.second_reference", "kind": "goal", "label": "revisable goal to make output pattern correspond to reference pattern",
+          "required_fields": ["relation_ref", "reference_ref", "output_ref"], "required_term_patterns": ["supposition_group.reference_output.{relation_ref}.second_reference"],
+          "static_attributes": {"goal_kind": "reference_guided_pattern_correspondence", "status": "proposed", "commitment": "revisable", "does_not_require_exact_actions": true, "output_identity_preserved_across_palette_change": true, "falsifier": "unique_same_extent_hole_correspondence_or_roles_are_contradicted"},
+          "attribute_bindings": {"reference_candidate_ref": "reference_ref", "output_candidate_ref": "output_ref", "output_bbox_top": "output_top", "output_bbox_left": "output_left", "output_bbox_bottom": "output_bottom", "output_bbox_right": "output_right"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "reference_ref": "second_element_ref", "output_ref": "first_element_ref", "output_top": "first_bbox_top", "output_left": "first_bbox_left", "output_bottom": "first_bbox_bottom", "output_right": "first_bbox_right"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "goal.cursor_reflected_side_pose.{relation_ref}.first_cursor", "kind": "goal", "label": "revisable reflected-side cursor pose subgoal",
+          "required_fields": ["observation_ref", "relation_ref", "cursor_ref", "surface_ref", "current_side_ref", "reflected_side_ref"], "required_term_patterns": ["supposition_group.cursor_application.{relation_ref}.first_cursor", "supposition.minimum_effective_solution_depth.{observation_ref}"],
+          "static_attributes": {"goal_kind": "cursor_reflected_side_pose", "status": "proposed", "commitment": "revisable", "is_exact_action_plan": false, "falsifier": "cursor_control_or_surface_role_is_contradicted_or_depth_expectation_is_revised", "canonical_observation_scope_binding": {"term_ref": "context.relational_pose_frontier", "attribute": "observation_ref"}},
+          "attribute_bindings": {"operational_observation_ref": "observation_ref", "cursor_candidate_ref": "cursor_ref", "surface_candidate_ref": "surface_ref", "current_side_ref": "current_side_ref", "target_side_ref": "reflected_side_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "cursor_ref": "first_element_ref", "surface_ref": "second_element_ref", "nearest_side": "first_nearest_aligned_side_candidate", "current_side_ref": "first_relative_side_ref", "reflected_side_ref": "first_reflected_side_ref"}, "max_items": 4096, "all_conditions": [{"field": "nearest_side", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "goal.cursor_reflected_side_pose.{relation_ref}.second_cursor", "kind": "goal", "label": "revisable reflected-side cursor pose subgoal",
+          "required_fields": ["observation_ref", "relation_ref", "cursor_ref", "surface_ref", "current_side_ref", "reflected_side_ref"], "required_term_patterns": ["supposition_group.cursor_application.{relation_ref}.second_cursor", "supposition.minimum_effective_solution_depth.{observation_ref}"],
+          "static_attributes": {"goal_kind": "cursor_reflected_side_pose", "status": "proposed", "commitment": "revisable", "is_exact_action_plan": false, "falsifier": "cursor_control_or_surface_role_is_contradicted_or_depth_expectation_is_revised", "canonical_observation_scope_binding": {"term_ref": "context.relational_pose_frontier", "attribute": "observation_ref"}},
+          "attribute_bindings": {"operational_observation_ref": "observation_ref", "cursor_candidate_ref": "cursor_ref", "surface_candidate_ref": "surface_ref", "current_side_ref": "current_side_ref", "target_side_ref": "reflected_side_ref"},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref", "cursor_ref": "second_element_ref", "surface_ref": "first_element_ref", "nearest_side": "second_nearest_aligned_side_candidate", "current_side_ref": "second_relative_side_ref", "reflected_side_ref": "second_reflected_side_ref"}, "max_items": 4096, "all_conditions": [{"field": "nearest_side", "operator": "equals", "expected": true}]}
+        },
+        {
+          "id_pattern": "plan.abstract.reference_guided_application.{relation_ref}.first_reference", "kind": "procedure", "label": "abstract reference-guided application plan frontier",
+          "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.first_reference"],
+          "static_attributes": {"plan_kind": "reference_guided_application", "status": "proposed", "commitment": "revisable", "is_action_script": false, "releases_no_action": true, "abstract_stage_refs": ["stage.measure_reference_output_difference", "stage.identify_controls_from_morphology_then_effect", "stage.establish_required_cursor_pose", "stage.reduce_pattern_difference_with_verified_operator", "stage.reconcile_and_repair"]},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "plan.abstract.reference_guided_application.{relation_ref}.second_reference", "kind": "procedure", "label": "abstract reference-guided application plan frontier",
+          "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.second_reference"],
+          "static_attributes": {"plan_kind": "reference_guided_application", "status": "proposed", "commitment": "revisable", "is_action_script": false, "releases_no_action": true, "abstract_stage_refs": ["stage.measure_reference_output_difference", "stage.identify_controls_from_morphology_then_effect", "stage.establish_required_cursor_pose", "stage.reduce_pattern_difference_with_verified_operator", "stage.reconcile_and_repair"]},
+          "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "supposition.morphology.current_scene_basis",
+          "kind": "schema",
+          "label": "current initial morphology observation basis",
+          "required_fields": ["frame_ref"],
+          "all_conditions": [{"field": "is_initial_observation", "operator": "equals", "expected": true}],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.morphology_scene_basis.v1",
+            "commitment": "revisable",
+            "action_authorization": false
+          },
+          "attribute_bindings": {"frame_ref": "frame_ref"}
+        },
+        {
+          "id_pattern": "supposition_group.normalized_mask_correspondence.{transform_ref}",
+          "kind": "schema",
+          "label": "revisable exact finite-mask transform correspondence",
+          "required_term_patterns": ["supposition.morphology.current_scene_basis"],
+          "required_fields": [
+            "frame_ref",
+            "transform_ref",
+            "relation_ref",
+            "first_element_ref",
+            "second_element_ref",
+            "shared_value",
+            "first_isotropic_factor",
+            "second_isotropic_factor",
+            "quarter_turns_clockwise",
+            "first_bbox_top",
+            "first_bbox_left",
+            "first_bbox_bottom",
+            "first_bbox_right",
+            "second_bbox_top",
+            "second_bbox_left",
+            "second_bbox_bottom",
+            "second_bbox_right",
+            "first_normalized_mask_ref",
+            "second_normalized_mask_ref"
+          ],
+          "static_attributes": {
+            "group_kind": "normalized_mask_transform_correspondence",
+            "canonical_observation_scope_binding": {
+              "term_ref": "supposition.morphology.current_scene_basis",
+              "attribute": "frame_ref"
+            },
+            "commitment": "revisable",
+            "preserves_alternatives": true,
+            "palette_value_does_not_assign_roles": true
+          },
+          "attribute_bindings": {
+            "operational_observation_ref": "frame_ref",
+            "relation_ref": "relation_ref",
+            "first_element_ref": "first_element_ref",
+            "second_element_ref": "second_element_ref",
+            "shared_value": "shared_value",
+            "first_isotropic_factor": "first_isotropic_factor",
+            "second_isotropic_factor": "second_isotropic_factor",
+            "quarter_turns_clockwise": "quarter_turns_clockwise",
+            "normalized_cell_count": "normalized_cell_count",
+            "first_bbox_top": "first_bbox_top",
+            "first_bbox_left": "first_bbox_left",
+            "first_bbox_bottom": "first_bbox_bottom",
+            "first_bbox_right": "first_bbox_right",
+            "second_bbox_top": "second_bbox_top",
+            "second_bbox_left": "second_bbox_left",
+            "second_bbox_bottom": "second_bbox_bottom",
+            "second_bbox_right": "second_bbox_right",
+            "first_normalized_mask_ref": "first_normalized_mask_ref",
+            "second_normalized_mask_ref": "second_normalized_mask_ref"
+          },
+          "iteration": {
+            "source_field": "exact_mask_transform_measurements",
+            "item_bindings": {
+              "transform_ref": "transform_ref",
+              "relation_ref": "relation_ref",
+              "first_element_ref": "first_element_ref",
+              "second_element_ref": "second_element_ref",
+              "shared_value": "shared_value",
+              "first_isotropic_factor": "first_isotropic_factor",
+              "second_isotropic_factor": "second_isotropic_factor",
+              "quarter_turns_clockwise": "quarter_turns_clockwise",
+              "normalized_cell_count": "normalized_cell_count",
+              "first_bbox_top": "first_bbox_top",
+              "first_bbox_left": "first_bbox_left",
+              "first_bbox_bottom": "first_bbox_bottom",
+              "first_bbox_right": "first_bbox_right",
+              "second_bbox_top": "second_bbox_top",
+              "second_bbox_left": "second_bbox_left",
+              "second_bbox_bottom": "second_bbox_bottom",
+              "second_bbox_right": "second_bbox_right",
+              "first_normalized_mask_ref": "first_normalized_mask_ref",
+              "second_normalized_mask_ref": "second_normalized_mask_ref",
+              "scale_relation_non_identity": "scale_relation_non_identity",
+              "rotation_relation_non_identity": "rotation_relation_non_identity"
+            },
+            "max_items": 4096,
+            "all_conditions": [
+              {
+                "field": "normalized_cell_count",
+                "operator": "greater_than",
+                "expected": 1
+              }
+            ],
+            "any_conditions": [
+              {
+                "field": "scale_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              },
+              {
+                "field": "rotation_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              }
+            ]
+          }
+        },
+        {
+          "id_pattern": "goal.normalized_mask_alignment.{transform_ref}",
+          "kind": "goal",
+          "label": "revisable normalized mask alignment goal",
+          "required_fields": [
+            "transform_ref",
+            "first_element_ref",
+            "second_element_ref",
+            "quarter_turns_clockwise"
+          ],
+          "required_term_patterns": [
+            "supposition_group.normalized_mask_correspondence.{transform_ref}"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.pattern.normalized",
+            "status": "proposed",
+            "commitment": "revisable",
+            "measured_aspects": ["shape", "color", "scale", "rotation"],
+            "releases_no_action": true,
+            "falsifier": "the_exact_normalized_transform_or_correspondence_pair_is_contradicted"
+          },
+          "attribute_bindings": {
+            "first_element_ref": "first_element_ref",
+            "second_element_ref": "second_element_ref",
+            "quarter_turns_clockwise": "quarter_turns_clockwise",
+            "first_isotropic_factor": "first_isotropic_factor",
+            "second_isotropic_factor": "second_isotropic_factor"
+          },
+          "iteration": {
+            "source_field": "exact_mask_transform_measurements",
+            "item_bindings": {
+              "transform_ref": "transform_ref",
+              "first_element_ref": "first_element_ref",
+              "second_element_ref": "second_element_ref",
+              "quarter_turns_clockwise": "quarter_turns_clockwise",
+              "first_isotropic_factor": "first_isotropic_factor",
+              "second_isotropic_factor": "second_isotropic_factor",
+              "normalized_cell_count": "normalized_cell_count",
+              "scale_relation_non_identity": "scale_relation_non_identity",
+              "rotation_relation_non_identity": "rotation_relation_non_identity"
+            },
+            "max_items": 4096,
+            "all_conditions": [
+              {
+                "field": "normalized_cell_count",
+                "operator": "greater_than",
+                "expected": 1
+              }
+            ],
+            "any_conditions": [
+              {
+                "field": "scale_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              },
+              {
+                "field": "rotation_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              }
+            ]
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.correspondence.normalized_mask.{transform_ref}",
+          "predicate": "proposes_exact_transform_correspondence",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition_group.normalized_mask_correspondence.{transform_ref}",
+            "{first_element_ref}",
+            "{second_element_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "transform_ref",
+            "first_element_ref",
+            "second_element_ref",
+            "quarter_turns_clockwise"
+          ],
+          "required_term_patterns": [
+            "supposition_group.normalized_mask_correspondence.{transform_ref}"
+          ],
+          "static_attributes": {
+            "commitment": "revisable",
+            "shape_relation": "exact_after_normalization_and_declared_quarter_turn",
+            "color_relation": "one_shared_measured_value_only",
+            "falsifier": "the_exact_finite_mask_relation_is_contradicted",
+            "preserves_competing_roles": true
+          },
+          "attribute_bindings": {
+            "quarter_turns_clockwise": "quarter_turns_clockwise",
+            "first_isotropic_factor": "first_isotropic_factor",
+            "second_isotropic_factor": "second_isotropic_factor",
+            "shared_value": "shared_value"
+          },
+          "iteration": {
+            "source_field": "exact_mask_transform_measurements",
+            "item_bindings": {
+              "transform_ref": "transform_ref",
+              "first_element_ref": "first_element_ref",
+              "second_element_ref": "second_element_ref",
+              "quarter_turns_clockwise": "quarter_turns_clockwise",
+              "first_isotropic_factor": "first_isotropic_factor",
+              "second_isotropic_factor": "second_isotropic_factor",
+              "shared_value": "shared_value",
+              "normalized_cell_count": "normalized_cell_count",
+              "scale_relation_non_identity": "scale_relation_non_identity",
+              "rotation_relation_non_identity": "rotation_relation_non_identity"
+            },
+            "max_items": 4096,
+            "all_conditions": [
+              {
+                "field": "normalized_cell_count",
+                "operator": "greater_than",
+                "expected": 1
+              }
+            ],
+            "any_conditions": [
+              {
+                "field": "scale_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              },
+              {
+                "field": "rotation_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              }
+            ]
+          }
+        },
+        {
+          "id_pattern": "claim.goal.normalized_mask_alignment.{transform_ref}",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "goal.normalized_mask_alignment.{transform_ref}",
+            "supposition_group.normalized_mask_correspondence.{transform_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["transform_ref"],
+          "required_term_patterns": [
+            "goal.normalized_mask_alignment.{transform_ref}",
+            "supposition_group.normalized_mask_correspondence.{transform_ref}"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.pattern.normalized",
+            "status": "proposed",
+            "commitment": "revisable",
+            "falsifier": "the_declared_correspondence_is_contradicted",
+            "releases_no_action": true
+          },
+          "iteration": {
+            "source_field": "exact_mask_transform_measurements",
+            "item_bindings": {
+              "transform_ref": "transform_ref",
+              "normalized_cell_count": "normalized_cell_count",
+              "scale_relation_non_identity": "scale_relation_non_identity",
+              "rotation_relation_non_identity": "rotation_relation_non_identity"
+            },
+            "max_items": 4096,
+            "all_conditions": [
+              {
+                "field": "normalized_cell_count",
+                "operator": "greater_than",
+                "expected": 1
+              }
+            ],
+            "any_conditions": [
+              {
+                "field": "scale_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              },
+              {
+                "field": "rotation_relation_non_identity",
+                "operator": "equals",
+                "expected": true
+              }
+            ]
+          }
+        },
+        {
+          "id_pattern": "claim.initial_supposition_coverage.{element_ref}",
+          "predicate": "covers_salient_visual_element",
+          "family": "epistemic",
+          "argument_patterns": ["{observation_ref}", "{element_ref}", "supposition_group.initial.{element_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["observation_ref", "element_ref"],
+          "static_attributes": {"coverage_kind": "initial_supposition_coverage", "commitment": "revisable"},
+          "attribute_bindings": {"source_index": "element_index"},
+          "iteration": {"source_field": "distinct_visual_element_measurements", "item_bindings": {"element_ref": "element_ref"}, "index_binding": "element_index", "max_items": 256}
+        },
+        {
+          "id_pattern": "claim.supposition.unknown_role.{element_ref}",
+          "predicate": "proposes_morphological_supposition",
+          "family": "structural",
+          "argument_patterns": ["{element_ref}", "supposition.unknown_role.initial.{element_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["element_ref"],
+          "static_attributes": {"supposition_kind": "unknown_role", "role_basis": "morphology_only", "commitment": "revisable", "is_final_role": false, "preserves_competing_roles": true, "falsifier": "action_conditioned_evidence_licenses_a_more_specific_role"},
+          "iteration": {"source_field": "distinct_visual_element_measurements", "item_bindings": {"element_ref": "element_ref"}, "index_binding": "element_index", "max_items": 256}
+        },
+        {
+          "id_pattern": "claim.supposition_cascade.unknown_role.{element_ref}",
+          "predicate": "proposes_supposition_cascade_link",
+          "family": "epistemic",
+          "argument_patterns": ["supposition_group.initial.{element_ref}", "supposition.unknown_role.initial.{element_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["element_ref"],
+          "static_attributes": {"link_kind": "parent_child", "commitment": "revisable", "preserves_alternatives": true, "falsifier": "the_child_is_not_supported_by_later_action_conditioned_evidence"},
+          "iteration": {"source_field": "distinct_visual_element_measurements", "item_bindings": {"element_ref": "element_ref"}, "index_binding": "element_index", "max_items": 256}
+        },
+        {
+          "id_pattern": "claim.initial_configuration_gap.{observation_ref}",
+          "predicate": "proposes_initial_configuration_gap",
+          "family": "epistemic",
+          "argument_patterns": ["{observation_ref}", "supposition.initial_configuration_gap.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "available_action_refs"],
+          "static_attributes": {"commitment": "revisable", "falsifier": "official_completion_requires_no_causal_configuration_change", "does_not_select_an_action": true},
+          "attribute_bindings": {"available_action_refs": "available_action_refs"}
+        },
+        {
+          "id_pattern": "claim.minimum_effective_solution_depth.{observation_ref}",
+          "predicate": "proposes_minimum_effective_solution_depth",
+          "family": "control",
+          "argument_patterns": ["supposition.initial_configuration_gap.{observation_ref}", "supposition.minimum_effective_solution_depth.{observation_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["observation_ref", "available_action_refs"],
+          "static_attributes": {"commitment": "revisable", "is_action_quota": false, "is_action_script": false, "falsifier": "official_success_or_the_effective_transition_ledger_contradicts_the_current_depth_expectation"},
+          "attribute_bindings": {"available_action_refs": "available_action_refs"}
+        },
+        {
+          "id_pattern": "claim.goal.reference_guided_pattern_match.{relation_ref}.first_reference", "predicate": "proposes_open_goal_kind", "family": "control", "argument_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.first_reference", "supposition_group.reference_output.{relation_ref}.first_reference"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.first_reference", "supposition_group.reference_output.{relation_ref}.first_reference"], "static_attributes": {"goal_kind": "reference_guided_pattern_correspondence", "commitment": "revisable", "falsifier": "reference_output_correspondence_is_contradicted"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.goal.reference_guided_pattern_match.{relation_ref}.second_reference", "predicate": "proposes_open_goal_kind", "family": "control", "argument_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.second_reference", "supposition_group.reference_output.{relation_ref}.second_reference"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.second_reference", "supposition_group.reference_output.{relation_ref}.second_reference"], "static_attributes": {"goal_kind": "reference_guided_pattern_correspondence", "commitment": "revisable", "falsifier": "reference_output_correspondence_is_contradicted"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.goal.reference_guided_pattern_match.priority.{relation_ref}.first_reference", "predicate": "goal_instantiates_priority_class", "family": "control", "argument_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.first_reference", "G1_REFERENCE_GUIDED_PATTERN_APPLICATION"], "epistemic_status": "supported", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.first_reference"], "static_attributes": {"generic_priority_class_ref": "G1_REFERENCE_GUIDED_PATTERN_APPLICATION", "declared_priority_ordinal": 0, "active": true, "commitment": "revisable"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.goal.reference_guided_pattern_match.priority.{relation_ref}.second_reference", "predicate": "goal_instantiates_priority_class", "family": "control", "argument_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.second_reference", "G1_REFERENCE_GUIDED_PATTERN_APPLICATION"], "epistemic_status": "supported", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.reference_guided_pattern_match.{relation_ref}.second_reference"], "static_attributes": {"generic_priority_class_ref": "G1_REFERENCE_GUIDED_PATTERN_APPLICATION", "declared_priority_ordinal": 0, "active": true, "commitment": "revisable"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.goal.cursor_reflected_side_pose.{relation_ref}.first_cursor", "predicate": "proposes_open_goal_kind", "family": "control", "argument_patterns": ["goal.cursor_reflected_side_pose.{relation_ref}.first_cursor", "supposition_group.cursor_application.{relation_ref}.first_cursor"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.cursor_reflected_side_pose.{relation_ref}.first_cursor", "supposition_group.cursor_application.{relation_ref}.first_cursor"], "static_attributes": {"commitment": "revisable", "falsifier": "cursor_or_minimum_effective_depth_supposition_is_contradicted"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.goal.cursor_reflected_side_pose.{relation_ref}.second_cursor", "predicate": "proposes_open_goal_kind", "family": "control", "argument_patterns": ["goal.cursor_reflected_side_pose.{relation_ref}.second_cursor", "supposition_group.cursor_application.{relation_ref}.second_cursor"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["goal.cursor_reflected_side_pose.{relation_ref}.second_cursor", "supposition_group.cursor_application.{relation_ref}.second_cursor"], "static_attributes": {"commitment": "revisable", "falsifier": "cursor_or_minimum_effective_depth_supposition_is_contradicted"}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.plan.reference_guided_application.{relation_ref}.first_reference", "predicate": "proposes_abstract_plan_frontier", "family": "control", "argument_patterns": ["plan.abstract.reference_guided_application.{relation_ref}.first_reference", "goal.reference_guided_pattern_match.{relation_ref}.first_reference"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["plan.abstract.reference_guided_application.{relation_ref}.first_reference", "goal.reference_guided_pattern_match.{relation_ref}.first_reference"], "static_attributes": {"commitment": "revisable", "releases_no_action": true}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        },
+        {
+          "id_pattern": "claim.plan.reference_guided_application.{relation_ref}.second_reference", "predicate": "proposes_abstract_plan_frontier", "family": "control", "argument_patterns": ["plan.abstract.reference_guided_application.{relation_ref}.second_reference", "goal.reference_guided_pattern_match.{relation_ref}.second_reference"], "epistemic_status": "proposed", "required_fields": ["relation_ref"], "required_term_patterns": ["plan.abstract.reference_guided_application.{relation_ref}.second_reference", "goal.reference_guided_pattern_match.{relation_ref}.second_reference"], "static_attributes": {"commitment": "revisable", "releases_no_action": true}, "iteration": {"source_field": "distinct_visual_element_pair_relation_measurements", "item_bindings": {"relation_ref": "relation_ref"}, "max_items": 4096}
+        }
+      ],
+      "reason_refs": ["reason.every_initial_element_receives_a_revisable_supposition_group"]
+    },
+    {
+      "id": "policy.declared_descriptive_structure_frontier",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "bounded_multi_resolution_measurements",
+        "initial_element_suppositions_were_already_committed"
+      ],
+      "applicability": ["initial_structural_assimilation_second_pass"],
+      "invariants": [
+        "the_second_pass_releases_no_action",
+        "measurement_is_not_meaning",
+        "all_licensed_structural_suppositions_remain_revisable",
+        "assimilation.group.accessible.zone.states",
+        "assimilation.label.zone.state.statuses",
+        "assimilation.prioritize.unvisited.goal.bearing.group"
+      ],
+      "falsifiers": ["description_bound_is_not_attested"],
+      "declared_alternative_refs": [
+        "morphology_evidence.descriptive_structure_observed",
+        "morphology_evidence.no_descriptive_structure"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.descriptive_structure.observed",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            }
+          ],
+          "static_facts": {
+            "morphology_evidence_candidate_kind": "observed"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.absent",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.no_descriptive_structure"
+            }
+          ],
+          "static_facts": {
+            "morphology_evidence_candidate_kind": "not_observed"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.zero_gap_grid",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "zero_gap_lattice_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "cell_carrier_grid_supposition_status": "proposed_revisable",
+            "global_offset_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.enclosed_regions",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "hole_sprite_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "canonical_region_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.frame_enclosure",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "frame_enclosure_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "surface_supposition_status": "proposed_revisable",
+            "viewport_anchor_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.periodic_lattice",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "periodic_lattice_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "separator_supposition_status": "proposed_revisable",
+            "interface_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.thin_extent",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "thin_extent_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "separator_supposition_status": "proposed_revisable",
+            "interface_supposition_status": "proposed_revisable",
+            "display_band_supposition_status": "proposed_revisable"
+          }
+        },
+        {
+          "id": "projection.descriptive_structure.composite_crop",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "morphology_evidence.descriptive_structure_observed"
+            },
+            {
+              "field": "composite_crop_measurement_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "composite_body_supposition_status": "proposed_revisable"
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.descriptive_structure.observed",
+          "all_conditions": [
+            {
+              "field": "morphology_evidence_candidate_kind",
+              "operator": "equals",
+              "expected": "observed"
+            },
+            {
+              "field": "structural_descriptive_family_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.exact_morphology_opens_only_revisable_suppositions"
+        },
+        {
+          "id": "tier.descriptive_structure.absent",
+          "all_conditions": [
+            {
+              "field": "morphology_evidence_candidate_kind",
+              "operator": "equals",
+              "expected": "not_observed"
+            },
+            {
+              "field": "structural_descriptive_family_count",
+              "operator": "equals",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.no_morphological_supposition_is_fabricated_without_measurement"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "morphology_evidence_candidate_kind",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "morphology_evidence.descriptive_structure_observed": "rule.multi_resolution_morphology_frontier"
+      },
+      "reason_refs": [
+        "reason.initial_elements_and_structural_suppositions_are_sequenced_explicitly"
+      ]
+    },
+    {
+      "id": "principle.zero_gap_offset_grid_preserves_parallel_canonical_regions",
+      "kind": "principle",
+      "family_ref": "family.morphology.surface_boundary_partition",
+      "abstraction_level": "parameterized_core",
+      "parameters": [
+        {"name": "carrier_role", "type_name": "Ref", "required": true},
+        {"name": "region_role", "type_name": "Ref", "required": true},
+        {"name": "lattice_pitch", "type_name": "Integer", "required": true},
+        {"name": "frame_margin_side", "type_name": "Ref", "required": true}
+      ],
+      "premises": [
+        "a_bounded_zero_gap_lattice_description_has_complete_cell_arithmetic",
+        "one_leading_or_trailing_frame_margin_is_measured",
+        "one_or_more_complete_enclosed_regions_overlap_or_cross_cell_carriers"
+      ],
+      "applicability": [
+        "layered_cell_carrier_and_complete_region_assimilation"
+      ],
+      "invariants": [
+        "the_frame_margin_is_global_and_is_never_repeated_between_cells",
+        "cell_carriers_preserve_measured_internal_value_layers",
+        "complete_enclosed_regions_remain_parallel_objects",
+        "a_region_to_carrier_link_never_fragments_or_replaces_the_region",
+        "all_grid_and_region_meanings_remain_revisable_until_action_conditioned_evidence"
+      ],
+      "falsifiers": [
+        "observed_translation_quantum_contradicts_the_lattice_pitch",
+        "complete_frame_arithmetic_is_inconsistent",
+        "the_enclosed_region_does_not_preserve_complete_organization"
+      ],
+      "reason_refs": [
+        "reason.zero_gap_offset_grid_and_complete_regions_are_parallel_descriptions"
+      ]
+    },
+    {
+      "id": "schema.declared_role_kind_contract",
+      "kind": "schema",
+      "premises": [
+        "morphology_may_only_propose_descriptive_roles",
+        "semantic_roles_require_action_conditioned_evidence"
+      ],
+      "invariants": [
+        "every_role_claim_has_explicit_evidence_refs",
+        "every_role_claim_has_an_epistemic_status_and_falsifier_refs",
+        "competing_non_falsified_role_refs_are_preserved",
+        "palette_and_coordinates_never_establish_a_universal_role"
+      ],
+      "falsifiers": [
+        "role_claim_lacks_measurement_lineage",
+        "semantic_role_was_established_from_morphology_alone"
+      ],
+      "configuration": {
+        "morphology_only_role_kinds": [
+          "surface",
+          "separator",
+          "compact_body",
+          "repeated_structure",
+          "axis_like_band",
+          "enclosure",
+          "border_display",
+          "interface_candidate"
+        ],
+        "action_conditioned_role_kinds": [
+          "controlled_source",
+          "dependent_body",
+          "fixed_reference",
+          "target_candidate",
+          "selection_carrier",
+          "actuator",
+          "resource_indicator",
+          "support_surface",
+          "temporal_instance",
+          "world_viewport_anchor"
+        ],
+        "required_claim_fields": [
+          "evidence_refs",
+          "epistemic_status",
+          "falsifier_refs",
+          "preserved_competing_role_refs"
+        ]
+      },
+      "reason_refs": ["reason.role_vocabulary_remains_revisable_and_evidence_bound"]
+    }
+  ]
+}

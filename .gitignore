@@ -2,6 +2,11 @@
 __pycache__/
 *.py[codz]
 *$py.class
+.env
+.env.*
+!.env.example
+kaggle/submission/
+.pytest_cache/
 
 # C extensions
 *.so

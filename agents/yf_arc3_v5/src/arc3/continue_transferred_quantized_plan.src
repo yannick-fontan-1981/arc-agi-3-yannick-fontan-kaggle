@@ -1,0 +1,50 @@
+# Continue an exact transferred route; the first planned use also verifies rebinding.
+MODULE arc3.continue_transferred_quantized_plan
+
+WORKFLOW continue_transferred_quantized_plan(
+    agenda: InteractionProbeAgenda,
+    selected_ref: Ref,
+    context: WorldContext,
+    reference_frame_ref: Ref
+) -> ObservationResult
+    STATE
+        selected: Assessment?
+        prepared: Any?
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+    STEP execute_committed_next_action
+        REQUIRE agenda.has_candidates
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            selected_ref=selected_ref,
+            context=context,
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            selection_source_ref="selection_source.committed_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context
+        ) -> release
+        ACT action_event
+            FROM prepared.intent
+            CONTEXT prepared.context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT prepared.intent.expectation_refs
+        AWAIT FRAME AS after_frame
+        NEXT observe_step
+    STEP observe_step
+        OBSERVE result
+            FROM after_frame
+            USING acquisition.frame
+        STOP result

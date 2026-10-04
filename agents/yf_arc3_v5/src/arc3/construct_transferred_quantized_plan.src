@@ -1,0 +1,316 @@
+# Simulate, select and commit the exact next symbolic state before continuation.
+MODULE arc3.construct_transferred_quantized_plan
+
+WORKFLOW construct_transferred_quantized_plan(
+    scene: VisualSceneDescription,
+    tracking: TemporalTrackingResult,
+    mechanism_evidence: List<Any>,
+    committed_plan_facts: Any,
+    continuation_policy: Any,
+    route_generation_policy: Any,
+    current_context_no_effect_candidate_refs: List<Ref>,
+    current_scope_attempted_route_suffixes: List<Ref>,
+    basis_refs: List<Ref>,
+    available_action_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        route_orders: InteractionProbeAgenda
+        projected_route_orders: InteractionProbeAgenda
+        route_order: Assessment?
+        agenda: InteractionProbeAgenda
+        projected_agenda: InteractionProbeAgenda
+        selected: Assessment?
+        committed_agenda: InteractionProbeAgenda
+        extension: Assessment
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared_updates: PreparedMeaningUpdates?
+        revision: Any?
+        plan_before_revision: Integer
+        method_coverage: Any?
+        method_projection: DeclaredAlternativeFacts?
+        method_assessment: Assessment?
+        method_meaning: DeclaredMeaningInstantiation?
+        method_derived: Any?
+        method_updates: PreparedMeaningUpdates?
+        method_revision: Any?
+    STEP analyze_route_compatibility
+        CALL capability.route_compatible_order_analysis(
+            scene=scene,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            available_action_refs=available_action_refs,
+            committed_plan_facts=committed_plan_facts,
+            continuation_policy=continuation_policy,
+            route_generation_policy=route_generation_policy,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_scope_attempted_route_suffixes=current_scope_attempted_route_suffixes
+        ) -> route_orders
+        MATCH route_orders.has_candidates
+            true -> NEXT select_route_order
+            false -> NEXT simulate_legacy_plan
+    STEP select_route_order
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_route_compatible_execution_order",
+            agenda=route_orders
+        ) -> projected_route_orders
+        REQUIRE projected_route_orders.has_candidates
+        SELECT route_order
+            FOR "goal.select_route_compatible_execution_order"
+            FROM projected_route_orders.alternative_refs
+            UNDER policy.declared_route_compatible_execution_order
+            REQUIRE ["requirement.complete_identity_route_coverage"]
+            PRESERVE projected_route_orders.alternative_refs
+            FACTS projected_route_orders.alternative_facts
+        CALL capability.route_compatible_graph_plan_enumeration(
+            scene=scene,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            available_action_refs=available_action_refs,
+            committed_plan_facts=committed_plan_facts,
+            continuation_policy=continuation_policy,
+            route_generation_policy=route_generation_policy,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_scope_attempted_route_suffixes=current_scope_attempted_route_suffixes,
+            route_order_analysis=route_orders,
+            declared_route_order_ref=route_order.alternatives.selected
+        ) -> agenda
+        REQUIRE agenda.has_candidates
+        NEXT project_plan_alternatives
+    STEP simulate_legacy_plan
+        CALL capability.transferred_quantized_plan_enumeration(
+            scene=scene,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            available_action_refs=available_action_refs,
+            committed_plan_facts=committed_plan_facts,
+            continuation_policy=continuation_policy,
+            route_generation_policy=route_generation_policy,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_scope_attempted_route_suffixes=current_scope_attempted_route_suffixes
+        ) -> agenda
+        REQUIRE agenda.has_candidates
+        NEXT project_plan_alternatives
+    STEP project_plan_alternatives
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            agenda=agenda
+        ) -> projected_agenda
+        MATCH projected_agenda.requires_ontology_extension
+            true -> NEXT extend_scoped_ontology
+            false -> NEXT measure_current_method
+    STEP extend_scoped_ontology
+        CALL workflow.extend_insufficient_ontology(
+            insufficiency_premises=projected_agenda.ontology_extension_context.insufficiency_premises,
+            insufficiency_context=projected_agenda.ontology_extension_context.insufficiency_context,
+            extension_seeds=projected_agenda.ontology_extension_context.extension_seeds,
+            extension_basis=projected_agenda.ontology_extension_context.extension_basis,
+            extension_scope=projected_agenda.ontology_extension_context.extension_scope,
+            alternatives=projected_agenda.ontology_extension_context.alternatives,
+            missing_evidence=projected_agenda.ontology_extension_context.missing_evidence,
+            falsifiers=projected_agenda.ontology_extension_context.falsifiers,
+            selection_goal=projected_agenda.ontology_extension_context.selection_goal,
+            selection_requirements=projected_agenda.ontology_extension_context.selection_requirements,
+            preservation_rules=projected_agenda.ontology_extension_context.preservation_rules,
+            dominance_witnesses=projected_agenda.ontology_extension_context.dominance_witnesses,
+            before_revision=before_revision
+        ) -> extension
+        NEXT measure_current_method
+    STEP measure_current_method
+        CALL control.measure_current_method_activity_coverage(
+            agenda=projected_agenda,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            coverage_policy_ref="policy.activate_current_method_activity"
+        ) -> method_coverage
+        MATCH method_coverage.has_complete_rows
+            true -> NEXT check_method_delta
+            false -> NEXT choose_selection_authority
+    STEP check_method_delta
+        MATCH method_coverage.has_new_complete_rows
+            true -> NEXT commit_current_method
+            false -> NEXT attach_current_method
+    STEP commit_current_method
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.activate_current_method_activity",
+            alternative_refs=[],
+            descriptive_facts=method_coverage
+        ) -> method_projection
+        SELECT method_assessment
+            FOR "goal.bind_current_covered_method_activity"
+            FROM method_projection.alternative_refs
+            UNDER policy.activate_current_method_activity
+            REQUIRE ["requirement.current_method_activity_has_live_premises"]
+            PRESERVE method_projection.alternative_refs
+            FACTS method_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.activate_current_method_activity",
+            selected_ref=method_assessment.alternatives.selected,
+            alternative_facts=method_projection.alternative_facts,
+            evidence_refs=method_coverage.evidence_refs
+        ) -> method_meaning
+        REQUIRE method_meaning.template_iteration_complete
+        DERIVE method_derived
+            FROM method_meaning.evidence_refs
+            USING rule.current_method_activity_binding
+            CONTEXT method_meaning
+        CALL control.prepare_meaning_updates(
+            terms=method_meaning.terms,
+            claims=method_derived.claims
+        ) -> method_updates
+        TRANSACTION bind_current_method
+            UPDATE method_revision
+                TARGET method_updates.update_items
+                FROM method_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE method_coverage.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE method_projection.alternative_refs
+        NEXT attach_current_method
+    STEP attach_current_method
+        CALL control.project_current_method_activity_premises(
+            agenda=projected_agenda,
+            coverage=method_coverage,
+            basis_refs=basis_refs,
+            frame_ref=tracking.frame_ref,
+            plan_policy_ref="policy.declared_transferred_quantized_plan"
+        ) -> projected_agenda
+        NEXT choose_selection_authority
+    STEP choose_selection_authority
+        MATCH agenda.context_facts.selection_mode
+            "explicit_symbolic_dominance" -> NEXT select_dominant_plan
+            "declared_route_order" -> NEXT select_plan
+    STEP select_dominant_plan
+        SELECT selected
+            FOR "goal.continue_exact_quantized_alignment_route"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.explicit_symbolic_dominance
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE ["preserve.only_committed_route"]
+            DOMINANCE agenda.context_facts.dominance_witnesses
+            FACTS projected_agenda.alternative_facts
+        NEXT commit_plan
+    STEP select_plan
+        SELECT selected
+            FOR "goal.continue_exact_quantized_alignment_route"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_transferred_quantized_plan
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE ["preserve.only_committed_route"]
+            FACTS projected_agenda.alternative_facts
+        NEXT commit_plan
+    STEP commit_plan
+        CALL control.current_state_revision() -> plan_before_revision
+        CALL control.retain_selected_agenda(
+            agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected
+        ) -> committed_agenda
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=projected_agenda.alternative_facts,
+            evidence_refs=basis_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.transferred_quantized_plan_expectation
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_expected_plan_state
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE plan_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [selected.alternatives.selected]
+        STOP selected
+
+WORKFLOW inspect_current_method_relocation_prerequisites(
+    descriptive_current_method_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP inspect_prerequisites
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_method_control_relocation_preflight",
+            alternative_refs=[],
+            descriptive_facts=descriptive_current_method_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.bind_current_covered_method_activity"
+            FROM projected.alternative_refs
+            UNDER policy.current_method_control_relocation_preflight
+            REQUIRE ["requirement.current_method_relocation_has_measurement_basis"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+WORKFLOW revalidate_memorial_control_identity(
+    agenda: InteractionProbeAgenda,
+    candidate_available: Boolean,
+    tracking: TemporalTrackingResult,
+    mechanism_evidence: List<Any>
+) -> Assessment
+    STATE
+        projected_agenda: InteractionProbeAgenda
+        coverage: Any
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP check_current_plan_eligibility
+        MATCH candidate_available
+            true -> NEXT project_current_plan
+            false -> NEXT retain_evidence_requirement
+    STEP project_current_plan
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            agenda=agenda
+        ) -> projected_agenda
+        MATCH projected_agenda.requires_ontology_extension
+            true -> NEXT retain_evidence_requirement
+            false -> NEXT check_current_method
+    STEP check_current_method
+        CALL control.measure_current_method_activity_coverage(
+            agenda=projected_agenda,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            coverage_policy_ref="policy.activate_current_method_activity"
+        ) -> coverage
+        MATCH coverage.has_complete_rows
+            true -> NEXT relocate_from_current_method
+            false -> NEXT retain_evidence_requirement
+    STEP relocate_from_current_method
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_method_control_relocation",
+            alternative_refs=[],
+            descriptive_facts=coverage
+        ) -> projected
+        SELECT selected
+            FOR "goal.bind_current_covered_method_activity"
+            FROM projected.alternative_refs
+            UNDER policy.current_method_control_relocation
+            REQUIRE ["requirement.current_method_activity_has_live_premises"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+    STEP retain_evidence_requirement
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_method_control_relocation_missing",
+            alternative_refs=[],
+            descriptive_facts=agenda.context_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.bind_current_covered_method_activity"
+            FROM projected.alternative_refs
+            UNDER policy.current_method_control_relocation_missing
+            REQUIRE ["requirement.source_checked_current_control_relocation"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected

@@ -1,0 +1,49 @@
+{
+  "module_id": "mechanism_application_questions",
+  "declarations": [{
+    "id": "policy.declared_unobserved_joint_application",
+    "kind": "selection_policy",
+    "evaluation": "declared_eligibility_single",
+    "supported_operators": ["SELECT"],
+    "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+    "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+    "premises": ["a_current_known_operator_has_an_unanswered_joint_application"],
+    "applicability": ["a_discriminating_finite_probe_changes_a_current_decision"],
+    "invariants": [
+      "unobserved_combinations_remain_hypotheses",
+      "two_participants_are_not_a_certified_fusion",
+      "question_selection_does_not_release_an_action"
+    ],
+    "declared_alternative_refs": ["experiment.unobserved_joint_application"],
+    "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+    "fact_projections": [{
+      "id": "projection.mechanism_application_questions.unobserved_joint_application",
+      "all_conditions": [
+        {"field": "alternative_ref", "operator": "equals", "expected": "experiment.unobserved_joint_application"},
+        {"field": "mechanism_application_question_requested", "operator": "equals", "expected": true},
+        {"field": "current_operator_evidence_rebound", "operator": "equals", "expected": true},
+        {"field": "candidate_measurement_complete", "operator": "equals", "expected": true},
+        {"field": "all_participants_current", "operator": "equals", "expected": true},
+        {"field": "participant_count", "operator": "greater_than", "expected": 1},
+        {"field": "matching_observation_count", "operator": "equals", "expected": 0},
+        {"field": "declared_competing_effect_count", "operator": "greater_than", "expected": 1},
+        {"field": "question_changes_current_decision", "operator": "equals", "expected": true},
+        {"field": "probe_continuation_or_discovery_risk_declared", "operator": "equals", "expected": true}
+      ],
+      "static_facts": {
+        "applicable": true,
+        "question_ref": "question.effect_of_unobserved_joint_operator_application",
+        "instrumental_goal_ref": "goal.characterize_unobserved_joint_operator_application",
+        "epistemic_status": "proposed_requires_action_conditioned_comparison",
+        "reason_ref": "reason.known_operator_has_decision_relevant_unobserved_joint_application",
+        "hypothesis_refs": ["hypothesis.participants_preserved", "hypothesis.participants_consumed_into_new_output", "hypothesis.other_joint_effect"],
+        "falsifier_refs": ["falsifier.participant_binding_changed", "falsifier.influence_domain_incomplete", "falsifier.effect_differs_from_proposed_composition"],
+        "reconciliation_required": true,
+        "selection_releases_action": false,
+        "experiment_workflow_ref": "arc3.test_mechanism.test_mechanism",
+        "reasoning_tree_node_id": "frontier.experiment.mechanism_or_usefulness"
+      }
+    }],
+    "reason_refs": ["reason.known_operator_has_decision_relevant_unobserved_joint_application"]
+  }]
+}

@@ -1,0 +1,118 @@
+# DRM licenses each provisional inverse-anchor extension before Python measures it.
+MODULE arc3.assess_inverse_anchor_signature_extensions
+
+WORKFLOW assess_inverse_anchor_signature_extensions(
+    descriptive_facts: Any,
+    typed_clearance_request: InverseAnchorTypedClearanceInput,
+    successor_request: InverseAnchorSuccessorInput,
+    waypoint_request: InverseAnchorWaypointCandidatesInput
+) -> Any
+    STATE
+        geometry_projected: DeclaredAlternativeFacts
+        geometry_assessed: Assessment
+        terrain_projected: DeclaredAlternativeFacts
+        terrain_assessed: Assessment
+        utility_projected: DeclaredAlternativeFacts
+        utility_assessed: Assessment
+        clearance_projected: DeclaredAlternativeFacts
+        clearance_assessed: Assessment
+        clearance_result: InverseAnchorTypedClearanceMeasurements?
+        successor_projected: DeclaredAlternativeFacts
+        successor_assessed: Assessment
+        successor_result: InverseAnchorSuccessorMeasurements?
+        waypoint_projected: DeclaredAlternativeFacts
+        waypoint_assessed: Assessment
+        waypoint_result: InverseAnchorWaypointCandidatesMeasurements?
+    STEP reconcile_geometry
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_geometry_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> geometry_projected
+        SELECT geometry_assessed
+            FOR "goal.reconcile_declared_inverse_anchor_geometry"
+            FROM geometry_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_geometry_reconciliation
+            REQUIRE ["requirement.complete_masks_wires_displacements_and_system_refs_are_supplied"]
+            PRESERVE geometry_projected.alternative_refs
+            FACTS geometry_projected.alternative_facts
+        NEXT reconcile_terrain
+    STEP reconcile_terrain
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_terrain_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> terrain_projected
+        SELECT terrain_assessed
+            FOR "goal.reconcile_declared_inverse_anchor_blocked_result"
+            FROM terrain_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_terrain_reconciliation
+            REQUIRE ["requirement.blocked_result_cause_partition_is_complete"]
+            PRESERVE terrain_projected.alternative_refs
+            FACTS terrain_projected.alternative_facts
+        NEXT reconcile_utility
+    STEP reconcile_utility
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_utility_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> utility_projected
+        SELECT utility_assessed
+            FOR "goal.revise_only_the_declared_inverse_anchor_configuration"
+            FROM utility_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_utility_reconciliation
+            REQUIRE ["requirement.legal_placement_left_next_waypoint_inaccessible"]
+            PRESERVE utility_projected.alternative_refs
+            FACTS utility_projected.alternative_facts
+        NEXT assess_typed_clearance
+    STEP assess_typed_clearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_typed_clearance",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> clearance_projected
+        SELECT clearance_assessed
+            FOR "goal.measure_declared_inverse_anchor_typed_clearance"
+            FROM clearance_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_typed_clearance
+            REQUIRE ["requirement.typed_footprints_terrain_path_policy_and_bound_are_supplied"]
+            PRESERVE clearance_projected.alternative_refs
+            FACTS clearance_projected.alternative_facts
+        NEXT measure_typed_clearance
+    STEP measure_typed_clearance
+        CALL capability.inverse_anchor_typed_clearance_measurement(request=typed_clearance_request) -> clearance_result
+        NEXT assess_successor
+    STEP assess_successor
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_successor",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> successor_projected
+        SELECT successor_assessed
+            FOR "goal.measure_declared_inverse_anchor_successor"
+            FROM successor_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_successor
+            REQUIRE ["requirement.complete_system_operator_result_and_preservation_packets_are_supplied"]
+            PRESERVE successor_projected.alternative_refs
+            FACTS successor_projected.alternative_facts
+        NEXT measure_successor
+    STEP measure_successor
+        CALL capability.inverse_anchor_successor_measurement(request=successor_request) -> successor_result
+        NEXT assess_waypoint_candidates
+    STEP assess_waypoint_candidates
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_waypoint_candidates",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> waypoint_projected
+        SELECT waypoint_assessed
+            FOR "goal.measure_declared_inverse_anchor_waypoint_candidates"
+            FROM waypoint_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_waypoint_candidates
+            REQUIRE ["requirement.inverse_domain_insufficient_and_bounded_corridor_witnesses_are_supplied"]
+            PRESERVE waypoint_projected.alternative_refs
+            FACTS waypoint_projected.alternative_facts
+        NEXT measure_waypoint_candidates
+    STEP measure_waypoint_candidates
+        CALL capability.inverse_anchor_waypoint_candidate_measurement(request=waypoint_request) -> waypoint_result
+        STOP waypoint_result

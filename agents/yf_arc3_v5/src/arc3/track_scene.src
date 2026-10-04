@@ -1,0 +1,19 @@
+# Temporal identity is a source-visible stage between perception and meaning.
+MODULE arc3.track_scene
+
+WORKFLOW track_scene(
+    descriptive_components: ComponentExtractionResult,
+    frame_ref: Ref,
+    previous_tracking: Any?,
+    action_ref: Ref,
+    reset_correspondence: Boolean
+) -> TemporalTrackingResult
+    STEP preserve_identity
+        CALL capability.temporal_component_tracking(
+            current=descriptive_components,
+            frame_ref=frame_ref,
+            previous=previous_tracking,
+            action_ref=action_ref,
+            reset_correspondence=reset_correspondence
+        ) -> result
+        STOP result

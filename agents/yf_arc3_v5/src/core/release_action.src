@@ -1,0 +1,65 @@
+# Release is a source-visible gate over an already constructed wisdom decision.
+MODULE core.release_action
+
+WORKFLOW release_action(
+    viability: ViabilityAssessment,
+    wisdom: CommitmentDecision,
+    announced_data: Any,
+    observed_fatal_replay_facts: Any,
+    current_frame_ref: Ref
+) -> TerminalResult
+    STATE
+        endpoint_measurements: AnnouncedStepMeasurements?
+        endpoint_projection: Any?
+        endpoint_assessment: Assessment?
+        fatal_replay_projection: Any?
+        fatal_replay_assessment: Assessment?
+    STEP require_commitment
+        MATCH wisdom.decision
+            commit -> NEXT require_viability
+            revise -> BLOCK revise
+            defer -> DEFER wait
+            reject -> BLOCK reject
+    STEP require_viability
+        MATCH viability.status
+            viable, conditional -> NEXT require_observed_fatal_replay_safety
+            blocked -> BLOCK blocked
+            undetermined -> DEFER unresolved
+    STEP require_observed_fatal_replay_safety
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_fatal_replay_safety",
+            alternative_refs=[],
+            descriptive_facts=observed_fatal_replay_facts
+        ) -> fatal_replay_projection
+        SELECT fatal_replay_assessment
+            FOR "goal.preserve_protected_entity_before_progress"
+            FROM fatal_replay_projection.alternative_refs
+            UNDER policy.declared_observed_fatal_replay_safety
+            REQUIRE ["requirement.no_exact_fatal_action_retry"]
+            PRESERVE fatal_replay_projection.alternative_refs
+            FACTS fatal_replay_projection.alternative_facts
+        MATCH fatal_replay_assessment.alternatives.selected
+            "safety.reject_observed_fatal_replay" -> BLOCK "observed_fatal_replay"
+            "safety.no_observed_fatal_replay" -> NEXT require_endpoint_preservation
+    STEP require_endpoint_preservation
+        CALL capability.announced_step_measurements(
+            data=announced_data,
+            current_frame_ref=current_frame_ref,
+            alternative_refs=["announced.not_applicable", "announced.contact", "announced.clear", "announced.unresolved"]
+        ) -> endpoint_measurements
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_announced_step_safety",
+            alternative_refs=endpoint_measurements.alternative_refs,
+            descriptive_facts=endpoint_measurements.alternative_facts
+        ) -> endpoint_projection
+        SELECT endpoint_assessment
+            FOR "goal.preserve_protected_entity_before_progress"
+            FROM endpoint_projection.alternative_refs
+            UNDER policy.declared_announced_step_safety
+            REQUIRE ["requirement.preserve_declared_excluded_coincidences"]
+            PRESERVE endpoint_projection.alternative_refs
+            FACTS endpoint_projection.alternative_facts
+        MATCH endpoint_assessment.alternatives.selected
+            "announced.not_applicable", "announced.clear" -> STOP release
+            "announced.contact" -> BLOCK "hostile_contact"
+            "announced.unresolved" -> DEFER "unknown_contact_safety"

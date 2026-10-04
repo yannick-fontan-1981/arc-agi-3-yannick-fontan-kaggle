@@ -1,0 +1,50 @@
+# Execute one exact mismatch selected from the committed composed field.
+MODULE arc3.continue_composed_constraint_repair
+
+WORKFLOW continue_composed_constraint_repair(
+    agenda: InteractionProbeAgenda,
+    selected_ref: Ref,
+    context: WorldContext,
+    reference_scene: VisualSceneDescription,
+    reference_tracking: TemporalTrackingResult
+) -> ObservationResult
+    STATE
+        prepared: Any
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+    STEP continue_selected_repair
+        REQUIRE agenda.has_candidates
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            selected_ref=selected_ref,
+            context=context,
+            selection_policy_ref="policy.declared_composed_constraint_mismatch_repair",
+            selection_source_ref="selection_source.committed_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context
+        ) -> release
+        ACT action_event
+            FROM prepared.intent
+            CONTEXT prepared.context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT prepared.intent.expectation_refs
+        AWAIT FRAME AS after_frame
+        NEXT observe_effect
+    STEP observe_effect
+        OBSERVE result
+            FROM after_frame
+            USING acquisition.frame
+        STOP result

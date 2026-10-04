@@ -1,0 +1,102 @@
+# DRM licenses each provisional typed-program reconciliation or measurement before Python runs it.
+MODULE arc3.assess_typed_recursive_program
+
+WORKFLOW assess_typed_recursive_program(
+    descriptive_facts: Any,
+    assignment_request: TypedAssignmentDomainsInput,
+    edit_request: TypedEditSuccessorInput,
+    interpreter_request: TypedInterpreterInput
+) -> Any
+    STATE
+        edit_effect_projected: DeclaredAlternativeFacts
+        edit_effect_assessed: Assessment
+        execution_effect_projected: DeclaredAlternativeFacts
+        execution_effect_assessed: Assessment
+        assignment_projected: DeclaredAlternativeFacts
+        assignment_assessed: Assessment
+        assignment_result: TypedAssignmentDomainsMeasurements?
+        edit_projected: DeclaredAlternativeFacts
+        edit_assessed: Assessment
+        edit_result: TypedEditSuccessorMeasurements?
+        interpreter_projected: DeclaredAlternativeFacts
+        interpreter_assessed: Assessment
+        interpreter_result: TypedInterpreterMeasurements?
+    STEP reconcile_edit_effect
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_typed_program_edit_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> edit_effect_projected
+        SELECT edit_effect_assessed
+            FOR "goal.reconcile_declared_typed_program_edit_effect"
+            FROM edit_effect_projected.alternative_refs
+            UNDER policy.declared_typed_program_edit_reconciliation
+            REQUIRE ["requirement.sealed_edit_packet_separates_selection_placement_exchange_and_execution"]
+            PRESERVE edit_effect_projected.alternative_refs
+            FACTS edit_effect_projected.alternative_facts
+        NEXT reconcile_execution_effect
+    STEP reconcile_execution_effect
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_typed_program_execution_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> execution_effect_projected
+        SELECT execution_effect_assessed
+            FOR "goal.reconcile_declared_typed_program_execution_effect"
+            FROM execution_effect_projected.alternative_refs
+            UNDER policy.declared_typed_program_execution_reconciliation
+            REQUIRE ["requirement.ordered_validation_calls_returns_boundaries_and_provenance_are_complete"]
+            PRESERVE execution_effect_projected.alternative_refs
+            FACTS execution_effect_projected.alternative_facts
+        NEXT assess_assignment_domains
+    STEP assess_assignment_domains
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_typed_assignment_domains_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> assignment_projected
+        SELECT assignment_assessed
+            FOR "goal.measure_declared_typed_assignment_domains"
+            FROM assignment_projected.alternative_refs
+            UNDER policy.declared_typed_assignment_domains_measurement
+            REQUIRE ["requirement.complete_typed_inventory_socket_schema_definition_identities_and_bound_are_supplied"]
+            PRESERVE assignment_projected.alternative_refs
+            FACTS assignment_projected.alternative_facts
+        NEXT measure_assignment_domains
+    STEP measure_assignment_domains
+        CALL capability.typed_assignment_domains_measurement(request=assignment_request) -> assignment_result
+        NEXT assess_edit_successor
+    STEP assess_edit_successor
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_typed_edit_successor_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> edit_projected
+        SELECT edit_assessed
+            FOR "goal.measure_declared_typed_edit_successor"
+            FROM edit_projected.alternative_refs
+            UNDER policy.declared_typed_edit_successor_measurement
+            REQUIRE ["requirement.complete_occupancy_selection_edit_and_conservation_packet_is_supplied"]
+            PRESERVE edit_projected.alternative_refs
+            FACTS edit_projected.alternative_facts
+        NEXT measure_edit_successor
+    STEP measure_edit_successor
+        CALL capability.typed_edit_successor_measurement(request=edit_request) -> edit_result
+        NEXT assess_interpreter
+    STEP assess_interpreter
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_typed_interpreter_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> interpreter_projected
+        SELECT interpreter_assessed
+            FOR "goal.measure_declared_typed_interpreter"
+            FROM interpreter_projected.alternative_refs
+            UNDER policy.declared_typed_interpreter_measurement
+            REQUIRE ["requirement.complete_definitions_entry_reference_semantics_boundary_and_bounds_are_supplied"]
+            PRESERVE interpreter_projected.alternative_refs
+            FACTS interpreter_projected.alternative_facts
+        NEXT measure_interpreter
+    STEP measure_interpreter
+        CALL capability.typed_interpreter_measurement(request=interpreter_request) -> interpreter_result
+        STOP interpreter_result

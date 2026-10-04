@@ -1,0 +1,62 @@
+# A mechanism remains a hypothesis until action-conditioned evidence is compared.
+MODULE arc3.test_mechanism
+
+WORKFLOW test_mechanism
+    INPUT
+        viability: ViabilityAssessment
+        intent: ActionIntent
+        context: WorldContext
+        expected_transition_refs: List<Ref>
+        update_items: List<Any>
+        before_revision: Integer
+        invalidation_refs: List<Ref>
+        recalculation_refs: List<Ref>
+        preserved_refs: List<Ref>
+    OUTPUT
+        result: Assessment
+    STATE
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+        transition: ObservationResult?
+        revision: Any?
+    STEP execute_test
+        CALL control.validate_action_grounding(
+            intent=intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=intent,
+            viability=viability,
+            wisdom=wisdom,
+            context=context
+        ) -> release
+        ACT action_event
+            FROM intent
+            CONTEXT context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT expected_transition_refs
+        AWAIT FRAME AS after_frame
+        NEXT compare_effect
+    STEP compare_effect
+        OBSERVE transition
+            FROM after_frame
+            USING acquisition.frame
+        COMPARE result
+            LEFT expected_transition_refs
+            RIGHT transition.evidence.reason_refs
+            USING criterion.transition_expectation_exact
+        TRANSACTION revise_mechanism_claim
+            UPDATE revision
+                TARGET update_items
+                FROM [result]
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE invalidation_refs
+                RECALCULATE recalculation_refs
+                PRESERVE preserved_refs
+        STOP result

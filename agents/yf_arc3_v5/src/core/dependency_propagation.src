@@ -1,0 +1,18 @@
+# Explicit comparison decides fixpoint versus contradiction; Python owns no branch.
+MODULE core.dependency_propagation
+
+WORKFLOW dependency_propagation(
+    expected_refs: List<Ref>,
+    current_refs: List<Ref>
+) -> TerminalResult
+    STATE
+        assessment: Assessment?
+    STEP inspect
+        COMPARE assessment
+            LEFT expected_refs
+            RIGHT current_refs
+            USING criterion.transition_expectation_exact
+        MATCH assessment.comparison
+            match -> STOP success
+            mismatch -> BLOCK blocked
+            undetermined -> DEFER unresolved

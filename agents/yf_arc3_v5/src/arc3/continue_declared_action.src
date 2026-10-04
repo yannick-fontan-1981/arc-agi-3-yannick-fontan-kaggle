@@ -1,0 +1,54 @@
+# A committed CONTINUE is intentionally action-only.  All semantic selection,
+# grounding and release authorization arrive as immutable inputs from DRM/SRC.
+# The loop may trigger only the already declared actions.  It deliberately has
+# no CALL, SELECT, perception, or reconciliation between actions.  The single
+# OBSERVE happens after the complete committed series.  Its terminal contract
+# treats an observed score increase as a complete world boundary; otherwise
+# explicit terminal refs must match or retrospection reopens.
+MODULE arc3.continue_declared_action
+
+WORKFLOW continue_declared_action(
+    intents: List<ActionIntent>,
+    release: ActionReleasePermit,
+    wisdom: CommitmentDecision,
+    context: WorldContext,
+    reference_score: Integer,
+    expected_terminal_refs: List<Ref>,
+    agenda: InteractionProbeAgenda,
+    selected_ref: Ref,
+    prepared: Any,
+    reference_frame_ref: Ref,
+    reference_scene: Any?,
+    reference_tracking: Any?
+) -> ObservationResult
+    STATE
+        action_event: ActionEvent?
+        after_frame: Frame?
+        final_observation: ObservationResult
+        terminal_verification: TerminalResult?
+    STEP execute_declared_action
+        FOR EACH intent IN intents
+            ACT action_event
+                FROM intent
+                CONTEXT context
+                USING environment.primary
+                RELEASE release
+                WISDOM wisdom
+                EXPECT intent.expectation_refs
+            AWAIT FRAME AS after_frame
+        NEXT reconcile_observed_delta
+    STEP reconcile_observed_delta
+        OBSERVE final_observation
+            FROM after_frame
+            USING acquisition.frame
+        CALL control.verify_declared_continue_terminal(
+            observation=final_observation,
+            expected_terminal_refs=expected_terminal_refs,
+            reference_score=reference_score
+        ) -> terminal_verification
+        MATCH terminal_verification
+            "continue.terminal_match" -> STOP final_observation
+            "continue.terminal_mismatch_retro" -> NEXT retrospection
+            "continue.terminal_unknown_retro" -> NEXT retrospection
+    STEP retrospection
+        STOP "continue.retrospection_required"

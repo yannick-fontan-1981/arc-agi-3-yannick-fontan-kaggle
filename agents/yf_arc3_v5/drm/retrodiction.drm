@@ -1,0 +1,307 @@
+{
+  "module_id": "retrodiction",
+  "declarations": [
+    {
+      "id": "principle.mechanism_declares_prediction_domain_and_coverage",
+      "kind": "principle",
+      "premises": [
+        "a_candidate_mechanism_predicts_one_or_more_transition_effects",
+        "a_bounded_observed_transition_ledger_is_available"
+      ],
+      "applicability": [
+        "mechanism_support_commitment_and_revision"
+      ],
+      "invariants": [
+        "the_mechanism_declares_the_contexts_states_actions_and_resources_inside_its_prediction_domain",
+        "coverage_and_exactness_are_measured_separately",
+        "uncovered_transitions_are_unknown_not_successes_or_failures",
+        "support_never_generalizes_beyond_the_declared_domain",
+        "coverage_is_recomputed_when_the_ledger_or_domain_revision_changes"
+      ],
+      "falsifiers": [
+        "the_prediction_domain_is_missing_or_unbounded",
+        "the_transition_ledger_bound_is_reached_without_a_valid_summary"
+      ],
+      "prediction_domain_parameters": [
+        "domain.action_context",
+        "domain.state_precondition",
+        "domain.resource_revision",
+        "domain.level_law",
+        "domain.observed_transition_prefix",
+        "coverage.uncovered",
+        "coverage.partial",
+        "coverage.complete",
+        "coverage.exact"
+      ],
+      "reason_refs": [
+        "reason.mechanism_support_is_scoped_by_explicit_predictive_coverage"
+      ]
+    },
+    {
+      "id": "principle.first_ordered_retrodictive_divergence_precedes_revision",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.mechanism_declares_prediction_domain_and_coverage"
+      ],
+      "premises": [
+        "one_or_more_covered_transitions_diverge_from_a_candidate_mechanism",
+        "the_transition_ledger_has_a_declared_stable_order"
+      ],
+      "applicability": [
+        "mechanism_retrodiction_and_revision"
+      ],
+      "invariants": [
+        "the_first_ordered_covered_divergence_is_preserved_as_the_revision_frontier",
+        "later_mismatches_do_not_replace_the_first_divergence",
+        "only_links_incompatible_with_that_transition_are_falsified",
+        "all_non_falsified_alternatives_and_uncovered_domains_remain_explicit"
+      ],
+      "falsifiers": [
+        "the_preserved_transition_is_not_inside_the_declared_prediction_domain",
+        "the_ledger_order_or_prediction_is_revised"
+      ],
+      "prediction_domain_parameters": [
+        "domain.observed_transition_prefix",
+        "coverage.divergent"
+      ],
+      "reason_refs": [
+        "reason.first_retrodictive_divergence_is_the_minimal_revision_witness"
+      ]
+    },
+    {
+      "id": "principle.cross_level_memory_preserves_laws_and_rebinds_resource_instances",
+      "kind": "principle",
+      "premises": [
+        "a_level_boundary_is_observed",
+        "reusable_mechanism_laws_have_explicit_validity_conditions"
+      ],
+      "applicability": [
+        "cross_level_knowledge_handoff"
+      ],
+      "invariants": [
+        "mechanism_laws_prediction_domains_open_alternatives_and_falsifiers_may_persist",
+        "scene_resource_identities_numeric_costs_stocks_capacities_locks_and_occupancies_do_not_persist",
+        "every_preserved_law_is_rebound_to_current_scene_entities_and_resource_revisions",
+        "a_current_level_contradiction_revises_only_the_incompatible_law_links"
+      ],
+      "falsifiers": [
+        "the_preserved_law_depends_on_a_scene_local_identity_or_numeric_resource_fact",
+        "current_observation_contradicts_a_validity_condition"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.capacity",
+        "resource.stock",
+        "resource.lock",
+        "resource.occupancy",
+        "resource.shared_constraint"
+      ],
+      "prediction_domain_parameters": [
+        "domain.level_law",
+        "domain.resource_revision"
+      ],
+      "reason_refs": [
+        "reason.cross_level_memory_keeps_laws_but_rebinds_resource_instances"
+      ]
+    },
+    {
+      "id": "principle.conventional_directional_interface_is_the_initial_revisable_supposition",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.mechanism_declares_prediction_domain_and_coverage"
+      ],
+      "action_family_parameters": [
+        "action_family.directional"
+      ],
+      "prediction_domain_parameters": [
+        "domain.action_context",
+        "domain.state_precondition",
+        "coverage.uncovered",
+        "coverage.partial"
+      ],
+      "premises": ["interface_exposes_action1_through_action4"],
+      "applicability": ["initial_unknown_action_vocabulary_interpretation"],
+      "invariants": [
+        "action1_is_initially_supposed_up",
+        "action2_is_initially_supposed_down",
+        "action3_is_initially_supposed_left",
+        "action4_is_initially_supposed_right",
+        "the_four_actions_are_initially_supposed_directional",
+        "every_mapping_remains_revisable",
+        "the_supposition_may_prioritize_a_discriminating_probe_but_not_release_an_unverified_long_plan"
+      ],
+      "falsifiers": [
+        "controlled_transitions_repeatedly_exhibit_an_incompatible_spatial_vector",
+        "controlled_transitions_establish_a_non_spatial_effect_for_the_action"
+      ],
+      "reason_refs": ["reason.stable_interface_convention_is_the_first_testable_control_supposition"]
+    },
+    {
+      "id": "principle.local_no_effect_does_not_falsify_directional_interface_meaning",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.mechanism_declares_prediction_domain_and_coverage"
+      ],
+      "action_family_parameters": [
+        "action_family.directional"
+      ],
+      "prediction_domain_parameters": [
+        "domain.action_context",
+        "domain.state_precondition",
+        "coverage.partial"
+      ],
+      "premises": ["directional_interface_supposition", "one_local_no_effect_transition"],
+      "applicability": ["directional_probe_reconciliation"],
+      "invariants": [
+        "wall_boundary_disabled_control_and_missing_actuator_remain_alternatives",
+        "no_effect_closes_only_the_observed_action_context_edge",
+        "the_interface_vector_supposition_remains_available_in_other_contexts"
+      ],
+      "falsifiers": ["effectful_controlled_transition_exhibits_an_incompatible_non_obstructed_vector"],
+      "reason_refs": ["reason.local_obstruction_is_not_global_control_semantics"]
+    },
+    {
+      "id": "principle.partial_transition_model_requires_retrodictive_accountability",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.mechanism_declares_prediction_domain_and_coverage",
+        "principle.first_ordered_retrodictive_divergence_precedes_revision"
+      ],
+      "prediction_domain_parameters": [
+        "domain.action_context",
+        "domain.state_precondition",
+        "domain.resource_revision",
+        "domain.observed_transition_prefix",
+        "coverage.uncovered",
+        "coverage.partial",
+        "coverage.complete",
+        "coverage.exact",
+        "coverage.divergent"
+      ],
+      "premises": ["declared_partial_transition_model", "bounded_observed_transition_ledger"],
+      "applicability": ["mechanism_commitment_or_revision"],
+      "invariants": [
+        "coverage_and_exactness_are_distinct",
+        "unknown_predictions_are_neither_successes_nor_failures",
+        "the_first_ordered_divergence_precedes_any_later_mismatch",
+        "a_model_is_committed_only_inside_its_declared_prediction_domain",
+        "a_divergence_falsifies_only_the_incompatible_links",
+        "all_non_falsified_alternatives_are_preserved"
+      ],
+      "falsifiers": ["transition_history_bound_is_reached", "prediction_index_is_incomplete"],
+      "reason_refs": ["reason.a_transition_law_must_account_for_prior_compatible_evidence"]
+    },
+    {
+      "id": "principle.cross_level_memory_preserves_laws_not_instance_facts",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.cross_level_memory_preserves_laws_and_rebinds_resource_instances"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.capacity",
+        "resource.stock",
+        "resource.lock",
+        "resource.occupancy",
+        "resource.shared_constraint"
+      ],
+      "prediction_domain_parameters": [
+        "domain.level_law",
+        "domain.resource_revision"
+      ],
+      "premises": ["level_boundary_observed", "reconciled_transition_claims_available"],
+      "applicability": ["next_level_assimilation"],
+      "invariants": [
+        "confirmed_mechanism_laws_and_their_validity_conditions_persist",
+        "open_alternatives_and_falsifiers_persist",
+        "coordinates_palette_bindings_and_level_local_assignments_do_not_persist",
+        "scene_resource_identities_numeric_costs_stocks_capacities_locks_and_occupancies_do_not_persist",
+        "later_contradiction_revises_the_preserved_law"
+      ],
+      "falsifiers": ["later_level_transition_contradicts_the_preserved_validity_conditions"],
+      "reason_refs": ["reason.transfer_keeps_reusable_causal_structure_only"]
+    },
+    {
+      "id": "rule.transition_retrodiction_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "epistemic",
+      "premises": ["model_ref", "retrodiction_status", "observed_count", "covered_count", "exact_count"],
+      "applicability": ["transition_retrodiction_interpretation_selected"],
+      "invariants": ["coverage_and_exactness_remain_separate", "first_divergence_is_preserved", "commitment_is_revisable"],
+      "falsifiers": ["later_compatible_transition_diverges"],
+      "term_templates": [
+        {
+          "id_pattern": "retrodiction.assessment.{model_ref}",
+          "kind": "schema",
+          "label": "bounded transition retrodiction assessment",
+          "required_fields": ["model_ref", "retrodiction_status"],
+          "attribute_bindings": {
+            "model_ref": "model_ref",
+            "status": "retrodiction_status",
+            "observed_count": "observed_count",
+            "covered_count": "covered_count",
+            "exact_count": "exact_count",
+            "first_divergence_transition_ref": "first_divergence_transition_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.retrodiction.assessment.{model_ref}",
+          "predicate": "records_bounded_transition_retrodiction",
+          "family": "epistemic",
+          "argument_patterns": ["retrodiction.assessment.{model_ref}", "{model_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["model_ref", "retrodiction_status"],
+          "attribute_bindings": {
+            "status": "retrodiction_status",
+            "uncovered_transition_refs": "uncovered_transition_refs",
+            "divergent_transition_refs": "divergent_transition_refs"
+          },
+          "static_attributes": {"selection_authority": "drm", "falsifier": "later_compatible_transition_diverges"}
+        }
+      ],
+      "reason_refs": ["reason.retrodiction_status_is_declared_from_separate_measures"]
+    },
+    {
+      "id": "policy.declared_transition_retrodiction_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_retrodiction_measurements"],
+      "applicability": ["transition_retrodiction_measurement_available"],
+      "invariants": ["divergence_precedes_support", "complete_support_precedes_partial_support", "uncovered_is_not_failure"],
+      "falsifiers": ["measurement_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "transition_retrodiction.divergent",
+        "transition_retrodiction.exact_complete",
+        "transition_retrodiction.exact_partial",
+        "transition_retrodiction.uncovered"
+      ],
+      "fact_projections": [
+        {"id": "projection.retrodiction.divergent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.divergent"}], "static_facts": {"retrodiction_status": "divergent"}},
+        {"id": "projection.retrodiction.exact_complete", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.exact_complete"}], "static_facts": {"retrodiction_status": "exact_complete"}},
+        {"id": "projection.retrodiction.exact_partial", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.exact_partial"}], "static_facts": {"retrodiction_status": "exact_partial"}},
+        {"id": "projection.retrodiction.uncovered", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.uncovered"}], "static_facts": {"retrodiction_status": "uncovered"}}
+      ],
+      "selection_tiers": [
+        {"id": "tier.retrodiction.divergent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.divergent"}, {"field": "has_divergence", "operator": "equals", "expected": true}], "reason_ref": "reason.first_divergence_requires_revision"},
+        {"id": "tier.retrodiction.exact_complete", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.exact_complete"}, {"field": "has_coverage", "operator": "equals", "expected": true}, {"field": "complete_coverage", "operator": "equals", "expected": true}, {"field": "exact_on_covered", "operator": "equals", "expected": true}], "reason_ref": "reason.complete_covered_history_is_exact"},
+        {"id": "tier.retrodiction.exact_partial", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.exact_partial"}, {"field": "has_coverage", "operator": "equals", "expected": true}, {"field": "complete_coverage", "operator": "equals", "expected": false}, {"field": "exact_on_covered", "operator": "equals", "expected": true}], "reason_ref": "reason.partial_domain_is_exact_but_not_complete"},
+        {"id": "tier.retrodiction.uncovered", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "transition_retrodiction.uncovered"}, {"field": "has_coverage", "operator": "equals", "expected": false}], "reason_ref": "reason.no_covered_transition_supports_commitment"}
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {"*": "rule.transition_retrodiction_meaning"},
+      "reason_refs": ["reason.retrodiction_interpretation_is_declared_not_mechanically_selected"]
+    }
+  ]
+}

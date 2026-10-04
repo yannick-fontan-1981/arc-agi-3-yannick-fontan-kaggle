@@ -1,0 +1,53 @@
+# DRM selects one explicitly requested K25 operation; Python only evaluates it.
+MODULE arc3.measure_inverse_anchor_signature
+
+WORKFLOW measure_inverse_anchor_signature(
+    descriptive_facts: Any,
+    forward_request: RationalAnchorDependenceInput,
+    inverse_request: InverseMeanAnchorDomainInput
+) -> Any
+    STATE
+        forward_projected: DeclaredAlternativeFacts
+        forward_selected: Assessment
+        forward_result: RationalAnchorDependenceMeasurements?
+        inverse_projected: DeclaredAlternativeFacts
+        inverse_selected: Assessment
+        inverse_result: InverseMeanAnchorDomainMeasurements?
+    STEP select_forward_dependence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_forward_dependence",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> forward_projected
+        SELECT forward_selected
+            FOR "goal.measure_declared_inverse_anchor_forward_dependence"
+            FROM forward_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_forward_dependence
+            REQUIRE ["requirement.model_and_live_quantizer_are_supplied"]
+            PRESERVE forward_projected.alternative_refs
+            FACTS forward_projected.alternative_facts
+        NEXT measure_forward_dependence
+    STEP measure_forward_dependence
+        CALL capability.rational_anchor_dependence_measurement(
+            request=forward_request
+        ) -> forward_result
+        NEXT select_inverse_domain
+    STEP select_inverse_domain
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_inverse_anchor_inverse_domain",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> inverse_projected
+        SELECT inverse_selected
+            FOR "goal.enumerate_declared_inverse_anchor_domain"
+            FROM inverse_projected.alternative_refs
+            UNDER policy.declared_inverse_anchor_inverse_domain
+            REQUIRE ["requirement.established_mean_and_bounded_domain_are_supplied"]
+            PRESERVE inverse_projected.alternative_refs
+            FACTS inverse_projected.alternative_facts
+        NEXT enumerate_inverse_domain
+    STEP enumerate_inverse_domain
+        CALL capability.inverse_mean_anchor_domain_enumeration(
+            request=inverse_request
+        ) -> inverse_result
+        STOP inverse_result

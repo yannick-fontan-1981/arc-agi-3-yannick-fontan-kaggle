@@ -1,0 +1,47 @@
+# Generic bridge from descriptive facts to DRM-owned symbolic vocabulary.
+MODULE core.project_declared_alternatives
+
+WORKFLOW project_declared_alternatives(
+    selection_policy_ref: String,
+    alternative_refs: List<Ref>,
+    descriptive_facts: Any
+) -> DeclaredAlternativeFacts
+    STATE
+        projected: DeclaredAlternativeFacts
+    STEP project
+        CALL control.project_declared_alternatives(
+            selection_policy_ref=selection_policy_ref,
+            alternative_refs=alternative_refs,
+            descriptive_facts=descriptive_facts
+        ) -> projected
+        STOP projected
+
+WORKFLOW project_declared_agenda(
+    selection_policy_ref: String,
+    agenda: InteractionProbeAgenda
+) -> InteractionProbeAgenda
+    STATE
+        projected: InteractionProbeAgenda
+    STEP project
+        CALL control.project_declared_agenda(
+            selection_policy_ref=selection_policy_ref,
+            agenda=agenda
+        ) -> projected
+        STOP projected
+
+WORKFLOW project_declared_delta(
+    selection_policy_ref: String,
+    alternative_refs: List<Ref>,
+    context_facts: Any,
+    descriptive_delta: Any
+) -> DeclaredAlternativeFacts
+    STATE
+        projected: DeclaredAlternativeFacts
+    STEP project_delta
+        CALL control.project_declared_delta(
+            selection_policy_ref=selection_policy_ref,
+            alternative_refs=alternative_refs,
+            context_facts=context_facts,
+            descriptive_delta=descriptive_delta
+        ) -> projected
+        STOP projected

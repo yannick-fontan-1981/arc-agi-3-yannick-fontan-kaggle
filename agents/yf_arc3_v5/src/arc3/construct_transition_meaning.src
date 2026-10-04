@@ -1,0 +1,982 @@
+# Selected DRM meaning is derived and committed to the single TERM/CLAIM reducer.
+MODULE arc3.construct_transition_meaning
+
+WORKFLOW construct_transition_meaning(
+    analysis: ControlledTransitionAnalysis,
+    projected: DeclaredAlternativeFacts,
+    interpretation: Assessment,
+    after_tracking: TemporalTrackingResult?,
+    access_completion_facts: Any?,
+    committed_plan_facts: Any?,
+    reconciled_action_facts: Any?,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        revision: Any?
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        activation: DynamicGoalFrontierActivation
+        frontier_prepared: PreparedMeaningUpdates
+        activation_before_revision: Integer
+        activation_payload_present: Boolean
+        access_completion_payload_present: Boolean
+        committed_access_plan_present: Boolean
+        access_completion_projected: DeclaredAlternativeFacts
+        access_completion: Assessment?
+        access_completion_meaning: DeclaredMeaningInstantiation?
+        access_completion_derived: Any?
+        access_completion_prepared: PreparedMeaningUpdates?
+        access_completion_before_revision: Integer
+        access_completion_revision: Any?
+        access_parent_handoff_derived: Any?
+        access_parent_handoff_prepared: PreparedMeaningUpdates?
+        parent_handoff_before_revision: Integer
+        parent_handoff_revision: Any?
+        memory_capture: Any?
+        memory_projected: DeclaredAlternativeFacts?
+        memory_assessment: Assessment?
+        memory_meaning: DeclaredMeaningInstantiation?
+        memory_derived: Any?
+        memory_prepared: PreparedMeaningUpdates?
+        memory_before_revision: Integer?
+        memory_revision: Any?
+        step_records: Any?
+        axis_activity_support: Any?
+        axis_activity_projection: DeclaredAlternativeFacts?
+        axis_activity_assessment: Assessment?
+        axis_activity_meaning: DeclaredMeaningInstantiation?
+        axis_activity_derived: Any?
+        axis_activity_prepared: PreparedMeaningUpdates?
+        axis_activity_revision: Any?
+        paired_peer_context_projected: DeclaredAlternativeFacts?
+        paired_peer_context_disposition: Assessment?
+        paired_peer_context_meaning: DeclaredMeaningInstantiation?
+        paired_peer_context_derived: Any?
+        paired_peer_context_prepared: PreparedMeaningUpdates?
+        paired_peer_context_before_revision: Integer
+        paired_peer_context_revision: Any?
+    # Midpoint and N-ary evidence are compatibility projections of the same
+    # finite equal-weight mean principle; their evidence schemas remain distinct.
+    STEP route_selected_meaning
+        MATCH interpretation.alternatives.selected
+            "mechanism.controlled_quantized_transfer" -> NEXT commit_controlled_transfer
+            "mechanism.known_actuator_disabled" -> NEXT commit_disabled_status
+            "mechanism.effect_carried_cell_reflection_axis" -> NEXT commit_effect_carried_cell_reflection_axis
+            "mechanism.observed_revisable_nary_affine_relation" -> NEXT commit_finite_equal_weight_mean_relation
+            "mechanism.observed_half_delta_midpoint_relation" -> NEXT commit_half_delta_midpoint
+            "mechanism.observed_horizontal_ordered_focus_progress" -> NEXT commit_horizontal_ordered_focus_progress
+            "mechanism.observed_action_conditioned_axis_focus_transfer" -> NEXT commit_action_conditioned_axis_focus_transfer
+            "mechanism.observed_action_conditioned_unique_support_focus_transfer" -> NEXT commit_action_conditioned_unique_support_focus_transfer
+            "mechanism.observed_connector_binary_state_transition" -> NEXT commit_observed_connector_binary_state_transition
+            "mechanism.observed_connector_activation" -> NEXT commit_observed_connector_activation
+            "mechanism.reversible_exclusive_visual_state" -> NEXT commit_reversible_selection_supposition
+            "mechanism.observed_action_conditioned_translation" -> NEXT commit_observed_translation
+            "mechanism.observed_anchored_multicell_transform" -> NEXT commit_anchored_multicell_transform
+            "mechanism.periodic_cellular_transition" -> NEXT commit_periodic_cellular_transition
+            "mechanism.closed_support_permutation" -> NEXT commit_closed_support_permutation
+            "mechanism.focused_complete_word_translation" -> NEXT commit_focused_word_translation
+            "mechanism.unresolved_effect" -> STOP interpretation
+    STEP commit_effect_carried_cell_reflection_axis
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.effect_carried_cell_reflection_axis_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT inspect_completed_axis_activity
+    STEP inspect_completed_axis_activity
+        # Only a canonically reconciled, closed residual teaches an activity.
+        # A first effect or an ambiguous target still teaches its role below.
+        CALL control.measure_canonical_activity_support(
+            activity_facts=meaning.facts,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            admission_policy_ref="policy.capture_closed_reflection_axis_activity"
+        ) -> axis_activity_support
+        MATCH axis_activity_support.canonical_support_present
+            true -> NEXT remember_completed_axis_activity
+            false -> NEXT capture_axis_role_appearance
+    STEP remember_completed_axis_activity
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            alternative_refs=[], descriptive_facts=axis_activity_support
+        ) -> axis_activity_projection
+        SELECT axis_activity_assessment
+            FOR "goal.remember_reconciled_method_activity"
+            FROM axis_activity_projection.alternative_refs
+            UNDER policy.record_reconciled_method_activity
+            REQUIRE ["requirement.method_activity_has_canonical_completion_proof"]
+            PRESERVE axis_activity_projection.alternative_refs
+            FACTS axis_activity_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            selected_ref=axis_activity_assessment.alternatives.selected,
+            alternative_facts=axis_activity_projection.alternative_facts,
+            evidence_refs=axis_activity_support.evidence_refs
+        ) -> axis_activity_meaning
+        REQUIRE axis_activity_meaning.template_iteration_complete
+        DERIVE axis_activity_derived
+            FROM axis_activity_meaning.evidence_refs
+            USING rule.reconciled_method_activity
+            CONTEXT axis_activity_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=axis_activity_meaning.terms, claims=axis_activity_derived.claims
+        ) -> axis_activity_prepared
+        TRANSACTION remember_closed_independent_residual_activity
+            UPDATE axis_activity_revision
+                TARGET axis_activity_prepared.update_items
+                FROM axis_activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE axis_activity_support.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE axis_activity_projection.alternative_refs
+        NEXT capture_axis_role_appearance
+    STEP capture_axis_role_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=meaning.terms,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            learning_policy_ref="policy.capture_canonical_affine_axis_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_causal_role_appearance
+            false -> STOP interpretation
+    STEP commit_finite_equal_weight_mean_relation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_revisable_nary_affine_relation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_half_delta_midpoint
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_half_delta_midpoint_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_observed_connector_binary_state_transition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_connector_binary_state_transition_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_observed_connector_activation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_connector_activation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_reversible_selection_supposition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.reversible_exclusive_visual_state_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_action_conditioned_axis_focus_transfer
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.action_conditioned_axis_focus_transfer_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_horizontal_ordered_focus_progress
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.action_conditioned_horizontal_ordered_focus_progress_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_action_conditioned_unique_support_focus_transfer
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.action_conditioned_unique_support_focus_transfer_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_periodic_cellular_transition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.periodic_cellular_transition_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        CALL control.access_goal_completion_payload_present(
+            facts=access_completion_facts
+        ) -> access_completion_payload_present
+        MATCH access_completion_payload_present
+            true -> NEXT project_access_goal_completion
+            false -> NEXT preserve_committed_access_plan
+    STEP preserve_committed_access_plan
+        CALL control.committed_access_plan_present(
+            facts=committed_plan_facts,
+            selected_key="selected"
+        ) -> committed_access_plan_present
+        MATCH committed_access_plan_present
+            true -> STOP interpretation
+            false -> NEXT continue_periodic_frontier_activation
+    STEP continue_periodic_frontier_activation
+        CALL control.dynamic_goal_frontier_payload_present(
+            facts=meaning.facts
+        ) -> activation_payload_present
+        MATCH activation_payload_present
+            true -> NEXT activate_periodic_cellular_frontier
+            false -> STOP interpretation
+    STEP project_access_goal_completion
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_access_goal_completion",
+            alternative_refs=[],
+            descriptive_facts=access_completion_facts
+        ) -> access_completion_projected
+        NEXT select_access_goal_completion
+    STEP select_access_goal_completion
+        SELECT access_completion
+            FOR "goal.open_required_passage"
+            FROM access_completion_projected.alternative_refs
+            UNDER policy.declared_access_goal_completion
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE access_completion_projected.alternative_refs
+            FACTS access_completion_projected.alternative_facts
+        NEXT commit_access_goal_completion
+    STEP commit_access_goal_completion
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_access_goal_completion",
+            selected_ref=access_completion.alternatives.selected,
+            alternative_facts=access_completion_projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> access_completion_meaning
+        DERIVE access_completion_derived
+            FROM access_completion_meaning.evidence_refs
+            USING rule.access_goal_lifecycle_meaning
+            CONTEXT access_completion_meaning
+        CALL control.prepare_meaning_updates(
+            terms=access_completion_meaning.terms,
+            claims=access_completion_derived.claims
+        ) -> access_completion_prepared
+        CALL control.current_state_revision() -> access_completion_before_revision
+        TRANSACTION commit_access_goal_lifecycle
+            UPDATE access_completion_revision
+                TARGET access_completion_prepared.update_items
+                FROM access_completion_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE access_completion_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE ["goal.open_required_passage"]
+        CALL control.dynamic_goal_frontier_payload_present(
+            facts=access_completion_meaning.facts
+        ) -> resolved_parent_activation_payload_present
+        MATCH resolved_parent_activation_payload_present
+            true -> NEXT derive_resolved_access_parent_handoff
+            false -> STOP interpretation
+    STEP derive_resolved_access_parent_handoff
+        DERIVE access_parent_handoff_derived
+            FROM access_completion_meaning.evidence_refs
+            USING rule.access_goal_parent_handoff_meaning
+            CONTEXT access_completion_meaning
+        CALL control.prepare_meaning_updates(
+            terms=[],
+            claims=access_parent_handoff_derived.claims
+        ) -> access_parent_handoff_prepared
+        CALL control.current_state_revision() -> parent_handoff_before_revision
+        TRANSACTION commit_access_parent_handoff
+            UPDATE parent_handoff_revision
+                TARGET access_parent_handoff_prepared.update_items
+                FROM access_completion_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE parent_handoff_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE ["goal.open_required_passage"]
+        NEXT activate_resolved_access_parent_frontier
+    STEP activate_resolved_access_parent_frontier
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=access_completion_meaning.facts
+        ) -> activation
+        CALL control.current_state_revision() -> parent_activation_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=activation,
+            before_revision=parent_activation_before_revision
+        ) -> parent_frontier_prepared
+        STOP interpretation
+    STEP activate_periodic_cellular_frontier
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=meaning.facts
+        ) -> activation
+        CALL control.current_state_revision() -> activation_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=activation,
+            before_revision=activation_before_revision
+        ) -> frontier_prepared
+        STOP interpretation
+    STEP commit_focused_word_translation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.focused_complete_word_translation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_closed_support_permutation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.closed_support_permutation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation
+    STEP commit_anchored_multicell_transform
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_anchored_multicell_transform_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT project_reconciled_paired_peer_shared_path_context
+    STEP commit_observed_translation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_action_conditioned_translation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        CALL workflow.retain_observed_logical_command_steps(tracking=after_tracking) -> step_records
+        NEXT capture_alignment_mover_appearance
+    STEP capture_alignment_mover_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=meaning.terms,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            learning_policy_ref="policy.capture_canonical_alignment_mover_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_alignment_mover_appearance
+            false -> NEXT capture_alignment_target_appearance
+    STEP record_alignment_mover_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_alignment_mover_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT capture_alignment_target_appearance
+    STEP capture_alignment_target_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=meaning.terms,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            learning_policy_ref="policy.capture_canonical_alignment_target_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_alignment_target_appearance
+            false -> NEXT project_reconciled_paired_peer_shared_path_context
+    STEP record_alignment_target_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_alignment_target_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT project_reconciled_paired_peer_shared_path_context
+    STEP project_reconciled_paired_peer_shared_path_context
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reconciled_paired_peer_shared_path_context",
+            alternative_refs=[],
+            descriptive_facts=reconciled_action_facts
+        ) -> paired_peer_context_projected
+        SELECT paired_peer_context_disposition
+            FOR "goal.reconcile_paired_peer_shared_path_context"
+            FROM paired_peer_context_projected.alternative_refs
+            UNDER policy.declared_reconciled_paired_peer_shared_path_context
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE paired_peer_context_projected.alternative_refs
+            FACTS paired_peer_context_projected.alternative_facts
+        MATCH paired_peer_context_disposition.alternatives.selected
+            "paired_peer_shared_path_context.present" -> NEXT instantiate_reconciled_paired_peer_shared_path_context
+            "paired_peer_shared_path_context.absent" -> NEXT continue_observed_translation_frontier
+    STEP instantiate_reconciled_paired_peer_shared_path_context
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_reconciled_paired_peer_shared_path_context",
+            selected_ref=paired_peer_context_disposition.alternatives.selected,
+            alternative_facts=paired_peer_context_projected.alternative_facts,
+            evidence_refs=meaning.evidence_refs
+        ) -> paired_peer_context_meaning
+        DERIVE paired_peer_context_derived
+            FROM paired_peer_context_meaning.evidence_refs
+            USING rule.reconciled_paired_peer_shared_path_progress_meaning
+            CONTEXT paired_peer_context_meaning
+        CALL control.prepare_meaning_updates(
+            terms=paired_peer_context_meaning.terms,
+            claims=paired_peer_context_derived.claims
+        ) -> paired_peer_context_prepared
+        CALL control.current_state_revision() -> paired_peer_context_before_revision
+        TRANSACTION commit_reconciled_paired_peer_shared_path_context
+            UPDATE paired_peer_context_revision
+                TARGET paired_peer_context_prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE paired_peer_context_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT continue_observed_translation_frontier
+    STEP continue_observed_translation_frontier
+        CALL control.dynamic_goal_frontier_payload_present(
+            facts=meaning.facts
+        ) -> activation_payload_present
+        MATCH activation_payload_present
+            true -> NEXT activate_observed_translation_frontier
+            false -> STOP interpretation
+    STEP activate_observed_translation_frontier
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=meaning.facts
+        ) -> activation
+        CALL control.current_state_revision() -> activation_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=activation,
+            before_revision=activation_before_revision
+        ) -> frontier_prepared
+        STOP interpretation
+    STEP commit_controlled_transfer
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.controlled_quantized_transfer_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=meaning.terms,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            learning_policy_ref="policy.capture_canonical_rigid_composite_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_composite_appearance
+            false -> NEXT capture_committed_transfer_actuator_appearance
+    STEP record_committed_composite_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_committed_composite_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT capture_committed_transfer_actuator_appearance
+    STEP capture_committed_transfer_actuator_appearance
+        CALL control.measure_declared_role_appearance(
+            tracking=after_tracking,
+            canonical_term_candidates=meaning.terms,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=analysis.transition_ref,
+            learning_policy_ref="policy.capture_canonical_transfer_actuator_appearance",
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_items=64
+        ) -> memory_capture
+        MATCH memory_capture.has_learning_rows
+            true -> NEXT record_committed_causal_role_appearance
+            false -> NEXT check_committed_memorial_tracking
+    STEP check_committed_memorial_tracking
+        MATCH memory_capture.tracking_present
+            true -> NEXT read_committed_memorial_roles
+            false -> NEXT assess_controlled_transfer_goal_frontier
+    STEP record_committed_causal_role_appearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM memory_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT memory_meaning
+        CALL control.prepare_revisable_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION remember_committed_transfer_actuator_appearance
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT read_committed_memorial_roles
+    STEP read_committed_memorial_roles
+        # The translation CLAIM and the tracking prerequisite are now present.
+        CALL workflow.retain_observed_logical_command_steps(tracking=after_tracking) -> step_records
+        CALL control.read_perceptual_memory_matches(
+            scene=null,
+            tracking=after_tracking,
+            current_support_requests=null,
+            omit_current_bindings=true,
+            observation_ref=after_tracking.frame_ref,
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_bearers=1024,
+            max_matches_per_bearer=1024,
+            max_rows=1024
+        ) -> memory_capture
+        MATCH memory_capture.has_matches
+            true -> NEXT bind_committed_memorial_roles
+            false -> NEXT assess_controlled_transfer_goal_frontier
+    STEP bind_committed_memorial_roles
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            alternative_refs=[], descriptive_facts=memory_capture.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.bind_operational_memorial_roles"
+            FROM memory_projected.alternative_refs
+            UNDER policy.recognize_memory_bearers
+            REQUIRE ["requirement.memory_match_has_canonical_lineage"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_capture.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.memorial_role_binding
+            CONTEXT memory_meaning
+        CALL control.prepare_revisable_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        CALL control.current_state_revision() -> memory_before_revision
+        TRANSACTION bind_committed_memorial_roles
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT assess_controlled_transfer_goal_frontier
+    STEP assess_controlled_transfer_goal_frontier
+        CALL control.dynamic_goal_frontier_payload_present(
+            facts=meaning.facts
+        ) -> activation_payload_present
+        MATCH activation_payload_present
+            true -> NEXT activate_goal_frontier
+            false -> STOP interpretation
+    STEP activate_goal_frontier
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=meaning.facts
+        ) -> activation
+        CALL control.current_state_revision() -> activation_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=activation,
+            before_revision=activation_before_revision
+        ) -> frontier_prepared
+        STOP interpretation
+    STEP commit_disabled_status
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_controlled_transition_meaning",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.known_actuator_disabled_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP interpretation

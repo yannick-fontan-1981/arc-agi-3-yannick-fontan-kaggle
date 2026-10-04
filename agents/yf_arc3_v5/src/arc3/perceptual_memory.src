@@ -1,0 +1,895 @@
+# Shared memory: recording/recognition are declared SRC transactions, not a
+# Python role classifier. Unknown evidence fails before any action release.
+MODULE arc3.perceptual_memory
+
+WORKFLOW consult_current_relational_elimination(
+    measurements: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        consultation: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+        gate: Assessment
+        graph: RelationalEliminationGraphMeasurements
+        viability: Assessment
+        reception_projected: DeclaredAlternativeFacts
+        reception_assessment: Assessment
+        reception_meaning: DeclaredMeaningInstantiation
+        reception_derived: Any
+        reception_prepared: PreparedMeaningUpdates
+        transport_projected: DeclaredAlternativeFacts
+        transport_assessment: Assessment
+        transport_meaning: DeclaredMeaningInstantiation
+        transport_derived: Any
+        transport_prepared: PreparedMeaningUpdates
+    STEP bind_current_operator
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.consult_current_relational_elimination",
+            alternative_refs=[], descriptive_facts=measurements
+        ) -> projected
+        SELECT consultation
+            FOR "goal.consult_relational_operator_before_conditional_viability"
+            FROM projected.alternative_refs
+            UNDER policy.consult_current_relational_elimination
+            REQUIRE ["requirement.current_relational_geometry_precedes_static_viability"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH consultation.alternatives.selected
+            "relational_consult.no_current_binding" -> STOP consultation
+            "relational_consult.assess_static_conditional_viability" -> NEXT remember_current_binding
+    STEP remember_current_binding
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.consult_current_relational_elimination",
+            selected_ref=consultation.alternatives.selected,
+            alternative_facts=projected.alternative_facts, evidence_refs=evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.current_relational_elimination_binding
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION retain_current_operator_binding
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        CALL control.current_state_revision() -> revision
+        CALL workflow.assess_mechanism_commitment_readiness(
+            descriptive_readiness_facts=meaning.facts,
+            evidence_refs=meaning.evidence_refs, before_revision=revision
+        ) -> gate
+        MATCH gate.alternatives.selected
+            "mechanism_gate.commit_revisable_mechanism" -> NEXT measure_static_graph
+            "mechanism_gate.select_discriminating_experiment" -> STOP gate
+            "mechanism_gate.extend_scoped_ontology" -> STOP gate
+            "mechanism_gate.fail_closed_named_gap" -> STOP gate
+    STEP measure_static_graph
+        CALL capability.relational_elimination_graph_measurement(
+            cell_positions=meaning.facts.cell_positions,
+            occupied_positions=meaning.facts.occupied_positions,
+            cell_palette_rows=meaning.facts.cell_palette_rows,
+            free_palette_values=meaning.facts.free_palette_values,
+            half_translation_quantum=meaning.facts.half_translation_quantum,
+            operator_ref=meaning.facts.operator_ref,
+            terminal_condition_ref=meaning.facts.terminal_condition_ref,
+            terminal_occupancy_count=meaning.facts.terminal_occupancy_count,
+            measurement_context_ref=meaning.facts.measurement_context_ref,
+            premise_claim_refs=meaning.facts.premise_claim_refs,
+            frame_ref=meaning.facts.frame_ref, analysis_scope=meaning.facts.analysis_scope
+        ) -> graph
+        CALL control.current_state_revision() -> revision
+        CALL workflow.assess_elimination_viability(
+            mechanism_gate=gate, measurement_request=graph.viability_request,
+            evidence_refs=meaning.evidence_refs, before_revision=revision
+        ) -> viability
+        MATCH viability.alternatives.selected
+            "elimination_viability.exact_dead_end" -> NEXT request_missing_reception
+            "elimination_viability.viable_to_declared_terminal" -> STOP viability
+            "elimination_viability.declared_terminal_reached" -> STOP viability
+            "elimination_viability.search_incomplete_bound" -> STOP viability
+    STEP request_missing_reception
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.request_conditional_relational_reception",
+            alternative_refs=[], descriptive_facts=graph.reception_observation_facts
+        ) -> reception_projected
+        SELECT reception_assessment
+            FOR "goal.retain_material_for_a_future_receiving_dependency"
+            FROM reception_projected.alternative_refs
+            UNDER policy.request_conditional_relational_reception
+            REQUIRE ["requirement.explicit_missing_landing_before_material_consumption"]
+            PRESERVE reception_projected.alternative_refs
+            FACTS reception_projected.alternative_facts
+        MATCH reception_assessment.alternatives.selected
+            "relational_reception.no_bounded_service" -> NEXT request_source_pose
+            "relational_reception.request_conditional_service" -> NEXT retain_reception_requirement
+    STEP retain_reception_requirement
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.request_conditional_relational_reception",
+            selected_ref=reception_assessment.alternatives.selected,
+            alternative_facts=reception_projected.alternative_facts,
+            evidence_refs=meaning.evidence_refs
+        ) -> reception_meaning
+        REQUIRE reception_meaning.template_iteration_complete
+        DERIVE reception_derived
+            FROM reception_meaning.evidence_refs
+            USING rule.conditional_relational_reception_requirement
+            CONTEXT reception_meaning
+        CALL control.prepare_meaning_updates(
+            terms=reception_meaning.terms, claims=reception_derived.claims
+        ) -> reception_prepared
+        CALL control.current_state_revision() -> revision
+        TRANSACTION retain_future_reception_and_material_requirement
+            UPDATE revision
+                TARGET reception_prepared.update_items
+                FROM reception_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE reception_projected.alternative_refs
+        STOP viability
+
+    STEP request_source_pose
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.request_conditional_relational_transport",
+            alternative_refs=[], descriptive_facts=graph.transport_observation_facts
+        ) -> transport_projected
+        SELECT transport_assessment
+            FOR "goal.retain_material_for_a_future_source_pose"
+            FROM transport_projected.alternative_refs
+            UNDER policy.request_conditional_relational_transport
+            REQUIRE ["requirement.current_middle_and_measured_free_landing"]
+            PRESERVE transport_projected.alternative_refs
+            FACTS transport_projected.alternative_facts
+        MATCH transport_assessment.alternatives.selected
+            "relational_transport.no_bounded_service" -> STOP viability
+            "relational_transport.request_conditional_service" -> NEXT retain_transport_requirement
+    STEP retain_transport_requirement
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.request_conditional_relational_transport",
+            selected_ref=transport_assessment.alternatives.selected,
+            alternative_facts=transport_projected.alternative_facts,
+            evidence_refs=meaning.evidence_refs
+        ) -> transport_meaning
+        REQUIRE transport_meaning.template_iteration_complete
+        DERIVE transport_derived
+            FROM transport_meaning.evidence_refs
+            USING rule.conditional_relational_transport_requirement
+            CONTEXT transport_meaning
+        CALL control.prepare_meaning_updates(
+            terms=transport_meaning.terms, claims=transport_derived.claims
+        ) -> transport_prepared
+        CALL control.current_state_revision() -> revision
+        TRANSACTION retain_future_transport_and_material_requirement
+            UPDATE revision
+                TARGET transport_prepared.update_items
+                FROM transport_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE transport_projected.alternative_refs
+        STOP viability
+
+WORKFLOW retain_measured_relational_elimination(
+    measurements: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP select_memory_interpretation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.retain_measured_relational_elimination",
+            alternative_refs=[], descriptive_facts=measurements
+        ) -> projected
+        SELECT assessment
+            FOR "goal.retain_action_conditioned_relational_operator"
+            FROM projected.alternative_refs
+            UNDER policy.retain_measured_relational_elimination
+            REQUIRE ["requirement.exact_source_middle_landing_delta"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH assessment.alternatives.selected
+            "relational_memory.no_matching_measurement" -> STOP assessment
+            "relational_memory.retain" -> NEXT retain_exact_delta
+    STEP retain_exact_delta
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.retain_measured_relational_elimination",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.remember_measured_relational_elimination
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION retain_measured_relational_operator
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP assessment
+
+WORKFLOW record_learned_association(
+    learning_facts: Any,
+    appearance: BearerAppearanceMeasurement,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP project_learning
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.record_learned_memory_association",
+            alternative_refs=[],
+            context_facts=learning_facts,
+            descriptive_delta=appearance.descriptive_delta
+        ) -> projected
+        SELECT assessment
+            FOR "goal.remember_causally_learned_role_appearance"
+            FROM projected.alternative_refs
+            UNDER policy.record_learned_memory_association
+            REQUIRE ["requirement.memory_learning_is_causal"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_learned_memory_association",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.learned_memory_association
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION remember_appearance_association
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP assessment
+
+WORKFLOW retain_observed_logical_command_steps(tracking: TemporalTrackingResult?) -> Any
+    STATE
+        step_records: Any
+        step_projected: DeclaredAlternativeFacts
+        step_assessment: Assessment
+        step_meaning: DeclaredMeaningInstantiation
+        step_derived: Any
+        step_prepared: PreparedMeaningUpdates
+        step_revision: Any
+    STEP measure_logical_command_steps
+        CALL control.measure_logical_command_steps(
+            tracking=tracking, measurement_policy_ref="policy.retain_observed_logical_command_steps"
+        ) -> step_records
+        MATCH step_records.has_new_steps
+            false -> STOP step_records
+            true -> NEXT retain_logical_command_steps
+    STEP retain_logical_command_steps
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.retain_observed_logical_command_steps",
+            alternative_refs=[], descriptive_facts=step_records
+        ) -> step_projected
+        SELECT step_assessment
+            FOR "goal.retain_observed_direct_control_in_cell_units"
+            FROM step_projected.alternative_refs
+            UNDER policy.retain_observed_logical_command_steps
+            REQUIRE ["requirement.direct_control_and_current_cell_calibration"]
+            PRESERVE step_projected.alternative_refs
+            FACTS step_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.retain_observed_logical_command_steps",
+            selected_ref=step_assessment.alternatives.selected,
+            alternative_facts=step_projected.alternative_facts,
+            evidence_refs=step_records.evidence_refs
+        ) -> step_meaning
+        REQUIRE step_meaning.template_iteration_complete
+        DERIVE step_derived
+            FROM step_meaning.evidence_refs
+            USING rule.observed_logical_command_step
+            CONTEXT step_meaning
+        CALL control.prepare_meaning_updates(terms=step_meaning.terms, claims=step_derived.claims) -> step_prepared
+        TRANSACTION retain_logical_command_step_without_scene_position
+            UPDATE step_revision
+                TARGET step_prepared.update_items
+                FROM step_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE step_records.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE step_projected.alternative_refs
+        STOP step_records
+
+# This source path is the continuation of a completed temporal measurement.
+# It relocates learned roles; it never executes an identification probe.
+WORKFLOW refresh_tracked_roles(
+    tracking: TemporalTrackingResult,
+    scene: Any?,
+    current_support_requests: List<Any>?,
+    before_revision: Integer
+) -> Any
+    STATE
+        matches: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+        selection_measurements: Any
+        selection_before_revision: Integer
+        terminal_inventory: Any
+        cell_lattices: Any
+        step_records: Any
+        role_binding_before_revision: Integer
+    STEP read_current_matches
+        CALL control.read_perceptual_memory_matches(
+            scene=null,
+            tracking=tracking,
+            current_support_requests=current_support_requests,
+            omit_current_bindings=true,
+            observation_ref=tracking.frame_ref,
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_bearers=1024,
+            max_matches_per_bearer=1024,
+            max_rows=1024
+        ) -> matches
+        MATCH matches.has_matches
+            true -> NEXT bind_current_roles
+            false -> NEXT read_current_selection
+    STEP bind_current_roles
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            alternative_refs=[],
+            descriptive_facts=matches.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.bind_operational_memorial_roles"
+            FROM projected.alternative_refs
+            UNDER policy.recognize_memory_bearers
+            REQUIRE ["requirement.memory_match_has_canonical_lineage"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=matches.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.memorial_role_binding
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        CALL control.current_state_revision() -> role_binding_before_revision
+        TRANSACTION relocate_current_memorial_roles
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE role_binding_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT read_current_selection
+    STEP read_current_selection
+        CALL control.measure_memorial_selection(
+            tracking=tracking,
+            selection_policy_ref="policy.memorial_current_selection"
+        ) -> selection_measurements
+        MATCH selection_measurements.has_measurements
+            false -> NEXT consult_terminal_goal
+            true -> NEXT bind_current_selection
+    STEP bind_current_selection
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.memorial_current_selection",
+            alternative_refs=[],
+            descriptive_facts=selection_measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.recognize_current_selection_from_memory"
+            FROM projected.alternative_refs
+            UNDER policy.memorial_current_selection
+            REQUIRE ["requirement.selection_decoration_has_same_game_memory"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.memorial_current_selection",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=selection_measurements.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.memorial_current_selection
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        CALL control.current_state_revision() -> selection_before_revision
+        TRANSACTION bind_current_selection_and_retain_dormant_bearers
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE selection_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT consult_terminal_goal
+    STEP consult_terminal_goal
+        CALL workflow.recall_navigation_cell_lattice(tracking=tracking) -> cell_lattices
+        NEXT bind_current_cells
+    STEP bind_current_cells
+        CALL workflow.bind_typed_cell_lattices(scene=scene, frame_ref=tracking.frame_ref) -> cell_lattices
+        NEXT measure_logical_command_steps
+    STEP measure_logical_command_steps
+        CALL workflow.retain_observed_logical_command_steps(tracking=tracking) -> step_records
+        NEXT measure_terminal_goal
+    STEP measure_terminal_goal
+        CALL control.measure_current_terminal_inventory(
+            tracking=tracking, consultation_policy_ref="policy.consult_current_terminal_goal"
+        ) -> terminal_inventory
+        MATCH terminal_inventory.has_inventory_delta
+            false -> STOP matches
+            true -> NEXT bind_terminal_goal
+    STEP bind_terminal_goal
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.consult_current_terminal_goal",
+            alternative_refs=[], descriptive_facts=terminal_inventory
+        ) -> projected
+        SELECT assessment
+            FOR "goal.recall_effective_terminal_objective"
+            FROM projected.alternative_refs
+            UNDER policy.consult_current_terminal_goal
+            REQUIRE ["requirement.current_terminal_goal_has_canonical_lineage"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.consult_current_terminal_goal",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=terminal_inventory.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.current_terminal_goal_recall
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION recall_effective_goal_before_method
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE terminal_inventory.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP matches
+
+# The consultation is not a route builder or an action permission. It records
+# every retained activity and its current requirement evidence before choosing.
+WORKFLOW prepare_current_method_consultation(
+    tracking: TemporalTrackingResult,
+    components: ComponentExtractionResult,
+    evidence_refs: List<Ref>,
+    geometry_components_available: Boolean,
+    geometry_assessment_completed: Boolean,
+    before_revision: Integer
+) -> Any
+    STATE
+        geometry: Assessment
+        inventory: Any
+    STEP check_geometry_source
+        MATCH geometry_components_available
+            true -> NEXT check_current_geometry
+            false -> NEXT consult_current_memory
+    STEP check_current_geometry
+        MATCH geometry_assessment_completed
+            true -> NEXT consult_current_memory
+            false -> NEXT interpret_current_geometry
+    STEP interpret_current_geometry
+        CALL workflow.assess_orthogonal_perimeter_assembly(
+            components=components,
+            evidence_refs=evidence_refs,
+            before_revision=before_revision
+        ) -> geometry
+        NEXT consult_current_memory
+    STEP consult_current_memory
+        CALL workflow.consult_current_shared_method(tracking=tracking) -> inventory
+        STOP inventory
+
+WORKFLOW consult_current_shared_method(tracking: TemporalTrackingResult) -> Any
+    STATE
+        inventory: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP read_current_requirements
+        CALL control.measure_current_shared_method_inventory(
+            tracking=tracking,
+            consultation_policy_ref="policy.consult_current_shared_method"
+        ) -> inventory
+        MATCH inventory.has_inventory_delta
+            false -> STOP inventory
+            true -> NEXT declare_consultation
+    STEP declare_consultation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.consult_current_shared_method",
+            alternative_refs=[], descriptive_facts=inventory
+        ) -> projected
+        SELECT assessment
+            FOR "goal.consult_shared_method_before_reasoning"
+            FROM projected.alternative_refs
+            UNDER policy.consult_current_shared_method
+            REQUIRE ["requirement.current_method_inventory_has_canonical_lineage"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.consult_current_shared_method",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=inventory.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.current_shared_method_consultation
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION listen_to_current_method_requirements
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE inventory.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP inventory
+
+# Explicit materialization only. Refreshing roles must not rebuild a second
+# copy of every remembered effect on each frame. Mechanism consumers read the
+# canonical learned samples/proofs; this workflow remains available when a
+# declared caller actually requires scene-bound effect-slot inventory.
+WORKFLOW consult_current_shared_effects(tracking: TemporalTrackingResult) -> Any
+    STATE
+        inventory: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP read_current_effect_bearers
+        CALL control.measure_current_shared_effect_inventory(
+            tracking=tracking,
+            consultation_policy_ref="policy.consult_current_shared_effects"
+        ) -> inventory
+        MATCH inventory.has_inventory_delta
+            false -> STOP inventory
+            true -> NEXT declare_effect_consultation
+    STEP declare_effect_consultation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.consult_current_shared_effects",
+            alternative_refs=[], descriptive_facts=inventory
+        ) -> projected
+        SELECT assessment
+            FOR "goal.consult_shared_method_before_reasoning"
+            FROM projected.alternative_refs
+            UNDER policy.consult_current_shared_effects
+            REQUIRE ["requirement.current_method_inventory_has_canonical_lineage"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.consult_current_shared_effects",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=inventory.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.current_shared_effect_consultation
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION listen_to_remembered_effect_bearers
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE inventory.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP inventory
+
+WORKFLOW bind_typed_cell_lattices(
+    scene: Any?,
+    frame_ref: Ref
+) -> Any
+    STATE
+        measurements: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP measure_cells
+        CALL control.measure_typed_cell_lattices(
+            scene=scene, observation_ref=frame_ref,
+            measurement_policy_ref="policy.bind_typed_cell_lattices"
+        ) -> measurements
+        MATCH measurements.has_measurements
+            false -> STOP measurements
+            true -> NEXT check_unrecorded_lattices
+    STEP check_unrecorded_lattices
+        MATCH measurements.has_unrecorded_measurements
+            false -> STOP measurements
+            true -> NEXT project_lattices
+    STEP project_lattices
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.bind_typed_cell_lattices",
+            alternative_refs=[], descriptive_facts=measurements
+        ) -> projected
+        SELECT assessment
+            FOR "goal.describe_current_typed_cell_objects"
+            FROM projected.alternative_refs
+            UNDER policy.bind_typed_cell_lattices
+            REQUIRE ["requirement.exact_typed_cell_supports"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.bind_typed_cell_lattices",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.current_typed_cell_lattices
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION retain_typed_cell_lattices
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE measurements.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP measurements
+
+# A terminal action can close without reading the next scene. Before reasoning
+# resumes, this source-owned preparation measures that scene and listens to the
+# same-game memory. It neither resets the game nor releases an action.
+WORKFLOW prepare_observed_scene(
+    raw_frame: Any,
+    raw_input_ref: Ref,
+    frame_ref: Ref,
+    tracking_action_ref: Ref,
+    available_action_refs: List<Ref>,
+    before_revision: Integer,
+    preparation_facts: Any,
+    retained_grid_geometry: Any?,
+    retained_grid_separator_consistency_ppm: Integer
+) -> TemporalTrackingResult
+    STATE
+        preparation_projection: DeclaredAlternativeFacts
+        preparation_assessment: Assessment
+        scene: VisualSceneDescription
+        recalled_scene: BlockGridSceneDescription
+        tracking: TemporalTrackingResult
+        memory_before_revision: Integer
+        memory_result: Any
+    STEP select_scene_preparation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_scene_memory_preparation",
+            alternative_refs=[], descriptive_facts=preparation_facts
+        ) -> preparation_projection
+        SELECT preparation_assessment
+            FOR "goal.relocate_preserved_method_on_current_scene"
+            FROM preparation_projection.alternative_refs
+            UNDER policy.current_scene_memory_preparation
+            REQUIRE ["requirement.revalidate_current_bearers"]
+            PRESERVE preparation_projection.alternative_refs
+            FACTS preparation_projection.alternative_facts
+        MATCH preparation_assessment.alternatives.selected
+            "scene_preparation.full_initial_frontier" -> NEXT read_scene
+            "scene_preparation.recalled_peer_bearers" -> NEXT read_recalled_peer_scene
+    STEP read_recalled_peer_scene
+        CALL workflow.assimilate_block_grid_frame(
+            raw_frame=raw_frame, raw_input_ref=raw_input_ref,
+            action_conditioned_grid_evidence=true,
+            before_revision=before_revision,
+            retained_grid_geometry=retained_grid_geometry,
+            retained_grid_separator_consistency_ppm=retained_grid_separator_consistency_ppm
+        ) -> recalled_scene
+        NEXT locate_recalled_peer_bearers
+    STEP locate_recalled_peer_bearers
+        CALL workflow.track_scene(
+            descriptive_components=recalled_scene.blocks,
+            frame_ref=frame_ref, previous_tracking=null,
+            action_ref=tracking_action_ref, reset_correspondence=true
+        ) -> tracking
+        STOP tracking
+    STEP read_scene
+        CALL workflow.assimilate_frame(
+            raw_frame=raw_frame,
+            raw_input_ref=raw_input_ref,
+            available_action_refs=available_action_refs,
+            is_initial_observation=true,
+            action_conditioned_grid_evidence=false,
+            before_revision=before_revision,
+            retained_grid_geometry=retained_grid_geometry,
+            retained_grid_separator_consistency_ppm=retained_grid_separator_consistency_ppm
+        ) -> scene
+        NEXT locate_current_bearers
+    STEP locate_current_bearers
+        CALL workflow.track_scene(
+            descriptive_components=scene.blocks,
+            frame_ref=frame_ref,
+            previous_tracking=null,
+            action_ref=tracking_action_ref,
+            reset_correspondence=true
+        ) -> tracking
+        MATCH preparation_assessment.alternatives.selected
+            "scene_preparation.recalled_peer_bearers" -> STOP tracking
+            "scene_preparation.full_initial_frontier" -> NEXT listen_to_memory
+    STEP listen_to_memory
+        CALL control.current_state_revision() -> memory_before_revision
+        CALL workflow.refresh_tracked_roles(
+            tracking=tracking,
+            scene=scene,
+            current_support_requests=null,
+            before_revision=memory_before_revision
+        ) -> memory_result
+        STOP tracking
+
+WORKFLOW recognize_current_bearers(
+    recognition_facts: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        ranked_recognition_facts: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP project_recognition
+        CALL control.project_memorial_binding_rows(
+            recognition_facts=recognition_facts,
+            key_policy_ref="policy.perceptual_memory_key_contract"
+        ) -> ranked_recognition_facts
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            alternative_refs=[],
+            descriptive_facts=ranked_recognition_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.bind_operational_memorial_roles"
+            FROM projected.alternative_refs
+            UNDER policy.recognize_memory_bearers
+            REQUIRE ["requirement.memory_match_has_canonical_lineage"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.memorial_role_binding
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION bind_current_bearers
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP assessment
+
+# Reuse observed calibration; no current movement is authorized here.
+WORKFLOW recall_navigation_cell_lattice(tracking: TemporalTrackingResult) -> Any
+    STATE
+        inventory: Any
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any
+    STEP read_current_requirements
+        CALL control.measure_recalled_navigation_lattices(
+            tracking=tracking,
+            measurement_policy_ref="policy.recall_navigation_cell_lattice"
+        ) -> inventory
+        MATCH inventory.has_inventory_delta
+            false -> STOP inventory
+            true -> NEXT declare_consultation
+    STEP declare_consultation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.recall_navigation_cell_lattice",
+            alternative_refs=[], descriptive_facts=inventory
+        ) -> projected
+        SELECT assessment
+            FOR "goal.reuse_observed_grid_until_current_contradiction"
+            FROM projected.alternative_refs
+            UNDER policy.recall_navigation_cell_lattice
+            REQUIRE ["requirement.recalled_calibration_has_current_geometric_support"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.recall_navigation_cell_lattice",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=inventory.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.recalled_navigation_cell_lattice
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        TRANSACTION revalidate_recalled_navigation_grid
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE inventory.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP inventory

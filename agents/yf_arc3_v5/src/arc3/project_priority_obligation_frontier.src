@@ -1,0 +1,73 @@
+# Select the current declared obligation frontier as an action-release veto.
+MODULE arc3.project_priority_obligation_frontier
+
+WORKFLOW project_priority_obligation_frontier(
+    descriptive_frontier_evidence: Any,
+    mechanism_goal_plan_parent_present: Boolean,
+    mechanism_gate: Assessment?,
+    mechanism_declared_gap_request: DeclaredGoalGapInput?,
+    mechanism_plan_request: GoalPlanRequest?,
+    mechanism_quantity_gate_required: Boolean,
+    mechanism_quantity_simulation_request_present: Boolean,
+    mechanism_quantity_simulation_request: QuantitySimulationInput?
+) -> Assessment
+    STATE
+        frontiers: DeclaredAlternativeFacts
+        selected: Assessment
+        mechanism_goal_plan: Assessment?
+        mechanism_goal_plan_selected_present: Boolean
+        mechanism_quantity_gate: TerminalResult?
+    STEP project_current_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_priority_obligation_frontier",
+            alternative_refs=[],
+            descriptive_facts=descriptive_frontier_evidence
+        ) -> frontiers
+        SELECT selected
+            FOR "goal.project_current_priority_obligation_frontier"
+            FROM frontiers.alternative_refs
+            UNDER policy.declared_priority_obligation_frontier
+            REQUIRE ["requirement.priority_obligation_frontier_is_current"]
+            PRESERVE frontiers.alternative_refs
+            FACTS frontiers.alternative_facts
+        MATCH selected.alternatives.selected
+            "frontier.apply_planned_understood_mechanism" -> NEXT require_goal_plan_parent
+            "frontier.close_post_action_reconciliation" -> STOP selected
+            "frontier.handoff_reconciled_successor" -> STOP selected
+            "frontier.revalidate_current_control" -> STOP selected
+            "frontier.establish_transport_mechanism" -> STOP selected
+            "frontier.resolve_blocking_function_obligation" -> STOP selected
+            "frontier.produce_required_route_predicate" -> STOP selected
+            "frontier.advance_open_beneficiary_goal" -> STOP selected
+            "frontier.resolve_named_causal_gap" -> STOP selected
+    STEP require_goal_plan_parent
+        MATCH mechanism_goal_plan_parent_present
+            true -> NEXT validate_goal_plan
+            false -> BLOCK "missing_mechanism_goal_plan_parent"
+    STEP validate_goal_plan
+        CALL workflow.plan_goal(
+            mechanism_gate=mechanism_gate,
+            declared_gap_request=mechanism_declared_gap_request,
+            plan_request=mechanism_plan_request,
+            requirements=["requirement.current_mechanism_use_matches_source_selected_intent"],
+            preservation_rules=["preserve.all_other_understood_mechanism_use_dispositions"]
+        ) -> mechanism_goal_plan
+        CALL control.assessment_selection_present(
+            assessment=mechanism_goal_plan
+        ) -> mechanism_goal_plan_selected_present
+        MATCH mechanism_goal_plan_selected_present
+            true -> NEXT choose_quantity_gate
+            false -> BLOCK "mechanism_goal_plan_preserved_ambiguity"
+    STEP choose_quantity_gate
+        MATCH mechanism_quantity_gate_required
+            true -> NEXT require_quantity_request
+            false -> STOP selected
+    STEP require_quantity_request
+        MATCH mechanism_quantity_simulation_request_present
+            true -> NEXT validate_quantities
+            false -> BLOCK "missing_declared_quantity_simulation_request"
+    STEP validate_quantities
+        CALL workflow.evaluate_constrained_plan(
+            simulation_request=mechanism_quantity_simulation_request
+        ) -> mechanism_quantity_gate
+        STOP selected

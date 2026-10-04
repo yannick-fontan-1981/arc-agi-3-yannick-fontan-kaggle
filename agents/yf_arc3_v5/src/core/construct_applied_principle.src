@@ -1,0 +1,13 @@
+# Construct one situation-grounded principle record from exact premises.
+MODULE core.construct_applied_principle
+
+WORKFLOW construct_applied_principle(
+    premise_refs: List<Ref>,
+    derivation_spec: Any
+) -> Any
+    STEP construct
+        DERIVE result
+            FROM premise_refs
+            USING rule.scene_structure_from_geometry
+            CONTEXT derivation_spec
+        STOP result

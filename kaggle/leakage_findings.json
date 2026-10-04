@@ -1,0 +1,149 @@
+[
+  {
+    "file": "agents/yf_arc3_v5/capabilities/contracts.py",
+    "id": "55b9c95ba668128b691a03bd4f7d8a0e920853909467b22cb147574ecbf0e71a",
+    "kind": "solution_or_level_reference",
+    "line": 2362,
+    "text": "# Canonical conditional dependencies, not a creator-side route or oracle."
+  },
+  {
+    "file": "agents/yf_arc3_v5/capabilities/interaction.py",
+    "id": "80950c94eca6332ea5212fc2c166b248c697c02c7b9f228bbb6f02204aedfc1a",
+    "kind": "solution_or_level_reference",
+    "line": 13076,
+    "text": "\"\"\"Shortest action sequence reducing residual to zero without \u00e9loignement."
+  },
+  {
+    "file": "agents/yf_arc3_v5/capabilities/interaction.py",
+    "id": "f2d4b025db5004a88c0f5f65a59d0c2f8f19713ff06ac89d78076bb2db20082f",
+    "kind": "game_identifier",
+    "line": 39516,
+    "text": "# logical cell (the DC22 cursor case); an actual assembly spanning"
+  },
+  {
+    "file": "agents/yf_arc3_v5/capabilities/layered_relief.py",
+    "id": "6e3d170aef63552aba5d3e1bfd1fc076993a96ef9a83a6a8bcdfe76f38814096",
+    "kind": "solution_or_level_reference",
+    "line": 4,
+    "text": "shape completion (for example, from an exact peer), never an oracle answer."
+  },
+  {
+    "file": "agents/yf_arc3_v5/capabilities/multiscale.py",
+    "id": "af49c4aaf5454b8cebd3256777fb755d745b5ec65a0bb980eca877b387efc238",
+    "kind": "solution_or_level_reference",
+    "line": 4,
+    "text": "chooses a mapping, assigns universal color meaning, or reads game/oracle data."
+  },
+  {
+    "file": "agents/yf_arc3_v5/drm/dynamic_workflow_components.json",
+    "id": "565a4ad0fb793334a007b9dbd7577fe836f20b38b47de4b5ac1391b5c946b5f3",
+    "kind": "game_identifier",
+    "line": 7775,
+    "text": "\"docs/good_run/AR25/LVL6/workflows.md\""
+  },
+  {
+    "file": "agents/yf_arc3_v5/drm/dynamic_workflow_components.json",
+    "id": "3f73ff6fedb16253171be7d1d4c9d88cacedda3ee0c77211d383a59afc067b08",
+    "kind": "numbered_level",
+    "line": 7775,
+    "text": "\"docs/good_run/AR25/LVL6/workflows.md\""
+  },
+  {
+    "file": "agents/yf_arc3_v5/drm/interaction.drm",
+    "id": "5ccebdac77dbea462304d31da0136ea45db6aac66c036988fc1d8f86659e8aea",
+    "kind": "literal_action_witness",
+    "line": 76111,
+    "text": "[\"measurement.temporal_route.vertical_first\", [\"ACTION1\", \"ACTION2\", \"ACTION3\", \"ACTION4\"]],"
+  },
+  {
+    "file": "agents/yf_arc3_v5/drm/interaction.drm",
+    "id": "2f93223b34ce71b6f215e72ec8a24ed856053f47ccca5419709ad3d96d6bd5ad",
+    "kind": "literal_action_witness",
+    "line": 76112,
+    "text": "[\"measurement.temporal_route.horizontal_first\", [\"ACTION3\", \"ACTION4\", \"ACTION1\", \"ACTION2\"]],"
+  },
+  {
+    "file": "agents/yf_arc3_v5/drm/interaction.drm",
+    "id": "20ffff5063c5726ebb6d99cdbdfee47a3d3d39411a7803f5466854a7efcba21d",
+    "kind": "literal_action_witness",
+    "line": 76113,
+    "text": "[\"measurement.temporal_route.opposite_first\", [\"ACTION4\", \"ACTION3\", \"ACTION2\", \"ACTION1\"]]"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/compiled_todo_projection.py",
+    "id": "8b83623cd2608ed0eb071d4c78ba5db403fbe434b3bc07c38381c0bd211bba3f",
+    "kind": "solution_or_level_reference",
+    "line": 22,
+    "text": "This reads no oracle and changes no scheduler, TERM, CLAIM or action state."
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "0625356d7b557895d828c11792b5a28d5f6c0e31ded563dc5aa1a07382534e62",
+    "kind": "oracle_or_environment",
+    "line": 3202,
+    "text": "self._manual_oracle_recorder = None"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "e075a76dbad2df7280b16665d52350fe63629f93417af1734cf864785d8634cb",
+    "kind": "oracle_or_environment",
+    "line": 3689,
+    "text": "if self._manual_oracle_recorder is not None:"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "49d3b983342f4765c59f5276a85892cabe096a3c67fb583adf06c9f0466da135",
+    "kind": "oracle_or_environment",
+    "line": 3690,
+    "text": "self._manual_oracle_recorder.reset()"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "b05838dd87a8259cb931161f752ae4b55003bcf78fa1d6aa6033c408d1323547",
+    "kind": "oracle_or_environment",
+    "line": 11899,
+    "text": "if self._manual_oracle_recorder is None:"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "cce5fb5c441c92bf88b375536c41afd328fd6d1a62bfbbd2bf892dbadef41281",
+    "kind": "oracle_or_environment",
+    "line": 11900,
+    "text": "from tools.manual_oracle_recorder import ManualOracleRecorder"
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "f8c7293b4dc82b66b3c649c6f1ed0e5dd6480646627d6890e0ffe743ea2d5bed",
+    "kind": "oracle_or_environment",
+    "line": 11902,
+    "text": "self._manual_oracle_recorder = ManualOracleRecorder("
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "8d8c9c14850894b00d6170a773172852abcd3329425c997c48ca3e643b6765ca",
+    "kind": "oracle_or_environment",
+    "line": 11906,
+    "text": "oracle_recording = self._manual_oracle_recorder.observe_action("
+  },
+  {
+    "file": "agents/yf_arc3_v5/runtime/controller.py",
+    "id": "b6062ceb0aff7b22c30c0f02ff3a6e5d91c69da5c591cbe946f340c1ada6f4fb",
+    "kind": "game_identifier",
+    "line": 17172,
+    "text": "The initial DC22 frame intentionally defers lattice interpretation."
+  },
+  {
+    "file": "agents/yf_arc3_v5/src/validation.py",
+    "id": "8e501b76e469670f618b2aa007cd5a64421e85b98aa4f0313357c34b2705f65b",
+    "kind": "solution_or_level_reference",
+    "line": 66,
+    "text": "\"oracle\","
+  },
+  {
+    "file": "agents/yf_arc3_v5/src/validation.py",
+    "id": "8e501b76e469670f618b2aa007cd5a64421e85b98aa4f0313357c34b2705f65b",
+    "kind": "solution_or_level_reference",
+    "line": 1152,
+    "text": "\"oracle\","
+  }
+]

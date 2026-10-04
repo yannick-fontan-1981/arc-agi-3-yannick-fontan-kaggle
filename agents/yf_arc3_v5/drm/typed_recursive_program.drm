@@ -1,0 +1,209 @@
+{
+  "module_id": "typed_recursive_program",
+  "declarations": [
+    {
+      "id": "policy.declared_typed_program_edit_reconciliation",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_sealed_edit_packet_distinguishes_selection_placement_exchange_and_execution"],
+      "applicability": ["provisional_typed_program_edit_reconciliation"],
+      "invariants": ["editing_is_not_execution", "a_contextual_no_change_does_not_prove_inertness", "physical_occurrences_remain_distinct"],
+      "falsifiers": ["edit_packet_unsealed", "selection_context_missing", "resource_identity_lost"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.typed_recursive_program.edit"],
+      "fact_projections": [{
+        "id": "projection.typed_recursive_program.edit",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.typed_recursive_program.edit"},
+          {"field": "provisional_typed_recursive_program_family_requested", "operator": "equals", "expected": true},
+          {"field": "sealed_edit_packet_complete", "operator": "equals", "expected": true},
+          {"field": "selection_placement_exchange_events_separated", "operator": "equals", "expected": true},
+          {"field": "edit_and_execution_events_separated", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.typed_recursive_program.edit",
+          "reasoning_tree_parent_key": "frontier.effect.typed_recursive_program",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm", "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.typed_recursive_program.edit"]
+    },
+    {
+      "id": "policy.declared_typed_program_execution_reconciliation",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["an_ordered_validation_packet_contains_focus_emission_calls_returns_and_boundaries"],
+      "applicability": ["provisional_typed_program_execution_reconciliation"],
+      "invariants": ["focus_is_not_user_selection", "prefix_match_is_not_termination", "repair_preserves_shared_definition_dependencies"],
+      "falsifiers": ["validation_packet_incomplete", "boundary_unknown", "mismatch_provenance_missing"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.typed_recursive_program.call_literal"],
+      "fact_projections": [{
+        "id": "projection.typed_recursive_program.execution",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.typed_recursive_program.call_literal"},
+          {"field": "provisional_typed_recursive_program_family_requested", "operator": "equals", "expected": true},
+          {"field": "ordered_validation_packet_complete", "operator": "equals", "expected": true},
+          {"field": "call_literal_and_return_observations_complete", "operator": "equals", "expected": true},
+          {"field": "output_boundary_evidence_explicit", "operator": "equals", "expected": true},
+          {"field": "mismatch_provenance_packet_complete", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.typed_recursive_program.call_literal",
+          "reasoning_tree_parent_key": "frontier.effect.typed_recursive_program",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm", "selection_releases_action": false,
+          "reasoning_tree_typed_program_observation_or_reconciliation_activations": [
+            {"reasoning_tree_node_id": "frontier.effect.typed_recursive_program.return", "reasoning_tree_parent_key": "frontier.effect.typed_recursive_program", "reasoning_tree_provisional_gate": "observation_or_reconciliation", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "frontier.effect.typed_recursive_program.prefix", "reasoning_tree_parent_key": "frontier.effect.typed_recursive_program", "reasoning_tree_provisional_gate": "observation_or_reconciliation", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "frontier.effect.typed_recursive_program.repair", "reasoning_tree_parent_key": "frontier.effect.typed_recursive_program", "reasoning_tree_provisional_gate": "observation_or_reconciliation", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+          ]
+        }
+      }],
+      "reason_refs": ["frontier.effect.typed_recursive_program.call_literal"]
+    },
+    {
+      "id": "policy.declared_typed_assignment_domains_measurement",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["the_typed_token_multiset_socket_schema_and_shared_definition_identities_are_complete"],
+      "applicability": ["provisional_typed_assignment_domain_request"],
+      "invariants": ["multiplicity_is_per_occurrence", "literal_and_call_types_remain_distinct", "python_does_not_select_an_assignment"],
+      "falsifiers": ["typed_inventory_incomplete", "socket_schema_incomplete", "domain_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.typed_recursive_program.assignment_domains"],
+      "fact_projections": [{
+        "id": "projection.typed_recursive_program.assignment_domains",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.typed_recursive_program.assignment_domains"},
+          {"field": "provisional_typed_recursive_program_family_requested", "operator": "equals", "expected": true},
+          {"field": "typed_token_multiset_complete", "operator": "equals", "expected": true},
+          {"field": "socket_schema_complete", "operator": "equals", "expected": true},
+          {"field": "definition_identities_complete", "operator": "equals", "expected": true},
+          {"field": "assignment_domain_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.typed_recursive_program.assignment_domains",
+          "reasoning_tree_parent_key": "mechanics.typed_recursive_program",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.typed_assignment_domains_measurement",
+          "operation_authority": "drm", "selection_releases_action": false,
+          "reasoning_tree_typed_program_action_ready_activations": [
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.typing", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.inventory", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+          ]
+        }
+      }],
+      "reason_refs": ["mechanics.typed_recursive_program.assignment_domains"]
+    },
+    {
+      "id": "policy.declared_typed_edit_successor_measurement",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["complete_occupancy_selection_and_one_actual_edit_are_supplied"],
+      "applicability": ["provisional_typed_edit_successor_request"],
+      "invariants": ["token_conservation_is_exact", "exchange_uses_the_actual_source", "selection_state_is_explicit"],
+      "falsifiers": ["occupancy_incomplete", "selection_unknown", "edit_target_absent"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.typed_recursive_program.edit_successor"],
+      "fact_projections": [{
+        "id": "projection.typed_recursive_program.edit_successor",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.typed_recursive_program.edit_successor"},
+          {"field": "provisional_typed_recursive_program_family_requested", "operator": "equals", "expected": true},
+          {"field": "occupancy_state_complete", "operator": "equals", "expected": true},
+          {"field": "selection_state_explicit", "operator": "equals", "expected": true},
+          {"field": "edit_operation_explicit", "operator": "equals", "expected": true},
+          {"field": "conservation_check_available", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.typed_recursive_program.edit_successor",
+          "reasoning_tree_parent_key": "mechanics.typed_recursive_program",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.typed_edit_successor_measurement",
+          "operation_authority": "drm", "selection_releases_action": false,
+          "reasoning_tree_typed_program_action_ready_activations": [
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.editing", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+          ]
+        }
+      }],
+      "reason_refs": ["mechanics.typed_recursive_program.edit_successor"]
+    },
+    {
+      "id": "policy.declared_typed_interpreter_measurement",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["complete_definitions_entry_reference_execution_semantics_acceptance_boundary_and_bounds_are_supplied"],
+      "applicability": ["provisional_typed_interpreter_request"],
+      "invariants": ["literal_call_and_return_are_distinct", "active_context_cycles_are_output_indexed", "prefix_termination_and_acceptance_are_distinct"],
+      "falsifiers": ["definition_graph_incomplete", "acceptance_boundary_unknown", "interpreter_bound_missing"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.typed_recursive_program.bounded_interpret"],
+      "fact_projections": [{
+        "id": "projection.typed_recursive_program.bounded_interpret",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.typed_recursive_program.bounded_interpret"},
+          {"field": "provisional_typed_recursive_program_family_requested", "operator": "equals", "expected": true},
+          {"field": "definition_graph_complete", "operator": "equals", "expected": true},
+          {"field": "entry_definition_explicit", "operator": "equals", "expected": true},
+          {"field": "reference_sequence_complete", "operator": "equals", "expected": true},
+          {"field": "execution_semantics_explicit", "operator": "equals", "expected": true},
+          {"field": "acceptance_boundary_explicit", "operator": "equals", "expected": true},
+          {"field": "interpreter_bounds_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.typed_recursive_program.bounded_interpret",
+          "reasoning_tree_parent_key": "mechanics.typed_recursive_program",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.typed_interpreter_measurement",
+          "operation_authority": "drm", "selection_releases_action": false,
+          "reasoning_tree_typed_program_action_ready_activations": [
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.interpreter", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.termination", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.progress_cycle", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "solving.typed_recursive_program.validation", "reasoning_tree_parent_key": "solving.typed_recursive_program", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+          ],
+          "reasoning_tree_typed_program_action_boundary_activations": [
+            {"reasoning_tree_node_id": "mechanics.typed_recursive_program.literal", "reasoning_tree_parent_key": "mechanics.typed_recursive_program", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "mechanics.typed_recursive_program.call", "reasoning_tree_parent_key": "mechanics.typed_recursive_program", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "mechanics.typed_recursive_program.nonproductive_cycle", "reasoning_tree_parent_key": "mechanics.typed_recursive_program", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "mechanics.typed_recursive_program.provenance", "reasoning_tree_parent_key": "mechanics.typed_recursive_program", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+            {"reasoning_tree_node_id": "mechanics.typed_recursive_program.prefix_certificate", "reasoning_tree_parent_key": "mechanics.typed_recursive_program", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+          ]
+        }
+      }],
+      "reason_refs": ["mechanics.typed_recursive_program.bounded_interpret"]
+    }
+  ]
+}

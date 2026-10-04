@@ -1,0 +1,73 @@
+# Generic role probing preserves ambiguity and crosses a causal frame boundary.
+MODULE arc3.resolve_role_by_probe
+
+WORKFLOW resolve_role_by_probe
+    INPUT
+        role_goal: Goal
+        actions: List<Ref>
+        selection_requirements: List<Ref>
+        preservation_rules: List<Ref>
+        viability: ViabilityAssessment
+        intent: ActionIntent
+        context: WorldContext
+        expected_transition_refs: List<Ref>
+        update_items: List<Any>
+        before_revision: Integer
+        invalidation_refs: List<Ref>
+        recalculation_refs: List<Ref>
+        preserved_refs: List<Ref>
+    OUTPUT
+        result: Assessment
+    STATE
+        selected_probe: Any?
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+        transition: ObservationResult?
+        revision: Any?
+    STEP choose_and_probe
+        SELECT selected_probe
+            FOR role_goal
+            FROM actions
+            UNDER policy.preserve_ambiguity_unless_single
+            REQUIRE selection_requirements
+            PRESERVE preservation_rules
+        CALL control.validate_action_grounding(
+            intent=intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=intent,
+            viability=viability,
+            wisdom=wisdom,
+            context=context
+        ) -> release
+        ACT action_event
+            FROM intent
+            CONTEXT context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT expected_transition_refs
+        AWAIT FRAME AS after_frame
+        NEXT compare_transition
+    STEP compare_transition
+        OBSERVE transition
+            FROM after_frame
+            USING acquisition.frame
+        COMPARE result
+            LEFT expected_transition_refs
+            RIGHT transition.evidence.reason_refs
+            USING criterion.transition_expectation_exact
+        TRANSACTION revise_exact_mapping
+            UPDATE revision
+                TARGET update_items
+                FROM [result]
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE invalidation_refs
+                RECALCULATE recalculation_refs
+                PRESERVE preserved_refs
+        STOP result

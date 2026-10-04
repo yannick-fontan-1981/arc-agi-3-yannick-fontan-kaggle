@@ -1,0 +1,493 @@
+# Repeat only a mechanism already observed to reduce the proposed goal distance.
+# Optional committed_plan_facts advances a multi-step verified cursor without
+# resimulation (same discipline as transferred quantized plan continue).
+# Accessibility candidates deliberately contain one executable primitive even
+# when their bounded measurement includes a longer witness. The generic commit
+# and reconciliation path therefore re-enters this workflow at every phase
+# boundary instead of retaining a counterfactual future route payload.
+MODULE arc3.choose_verified_alignment_action
+
+WORKFLOW choose_verified_alignment_action(
+    scene: VisualSceneDescription,
+    tracking: TemporalTrackingResult,
+    mechanism_evidence: List<Any>,
+    canonical_peer_method_facts: List<Any>,
+    canonical_terminal_inventory_facts: List<Any>,
+    canonical_provisional_control_term_facts: List<Any>,
+    calibrated_affine_evidence: List<Any>,
+    effect_carried_reflection_axis_evidence: List<Any>,
+    terminally_exhausted_action_refs: List<Ref>,
+    calibrated_nary_affine_evidence: List<Any>,
+    available_action_refs: List<Ref>,
+    periodic_cell_grids: Any,
+    cellular_mover_pattern_refs: List<Ref>,
+    recent_moved_cell_pattern_refs: List<Ref>,
+    cellular_actuator_pattern_refs: List<Ref>,
+    effectful_point_cell_pattern_pairs: List<Any>,
+    cellular_traversable_pattern_refs: List<Ref>,
+    current_transition_change_bboxes: List<Any>,
+    cellular_entity_traversable_pattern_refs: List<Any>,
+    cellular_entity_footprint_offsets: List<Any>,
+    open_contact_pattern_refs: List<Ref>,
+    established_hostile_contact_pattern_faces: List<Any>,
+    observed_fatal_initial_action_facts: List<Any>,
+    known_open_cell_coordinates: List<Any>,
+    newly_reachable_cell_coordinates: List<Any>,
+    context: WorldContext,
+    committed_plan_facts: Any,
+    committed_plan_cursor_present: Boolean,
+    committed_plan_is_object_terminating_route: Boolean,
+    current_object_terminating_route_measurement_present: Boolean,
+    verified_alignment_measurement_scope_facts: Any,
+    unique_current_input_alignment_present: Boolean,
+    all_directional_actions_exhausted: Boolean,
+    current_object_terminating_route_first_action_refs: List<Ref>,
+    prior_context_orthogonal_reflection_direct_body_values: List<Integer>,
+    committed_fast_cursor_ready: Boolean,
+    reference_scene: Any,
+    reference_tracking: Any,
+    reference_frame_ref: Ref,
+    current_context_no_effect_candidate_refs: List<Ref>,
+    current_configuration_executed_candidate_refs: List<Ref>,
+    action_execution_counts: List<Any>,
+    action_first_execution_ordinals: List<Any>,
+    resource_only_effect_action_refs: List<Ref>,
+    cyclic_pose_only_effect_action_refs: List<Ref>,
+    known_action_translation_deltas: List<Any>,
+    calibrated_local_point_evidence: List<Any>,
+    interface_action_translation_deltas: List<Any>,
+    known_viewport_grid_shift_deltas: List<Any>,
+    dynamic_goal_refs: List<Ref>,
+    dynamic_goal_facts: Any,
+    dynamic_goal_frontier_present: Boolean,
+    reasoning_strategy_ref: Ref?,
+    residual_axis_coupling_row: Integer,
+    residual_axis_coupling_column: Integer,
+    action_conditioned_marker_axis_overlap_reconstructed: Boolean,
+    marker_axis_residual_measurement_present: Boolean,
+    marker_axis_residual_transport_present: Boolean,
+    marker_axis_residual_row_signed: Integer,
+    marker_axis_residual_col_signed: Integer,
+    configuration_revisit_action_refs: List<Ref>,
+    continuation_policy: Any,
+    route_generation_policy: Any,
+    current_scope_attempted_route_suffixes: List<Ref>,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        agenda: InteractionProbeAgenda
+        projected_agenda: InteractionProbeAgenda
+        candidate_local_projected_agenda: InteractionProbeAgenda?
+        measurement_scope_projected: DeclaredAlternativeFacts?
+        measurement_scope_selected: Assessment?
+        empty_lazy_handoff_projected: DeclaredAlternativeFacts?
+        empty_lazy_handoff_selected: Assessment?
+        dynamic_goal_projected: DeclaredAlternativeFacts?
+        active_dynamic_goal: Assessment?
+        selected: Assessment?
+        committed_agenda: InteractionProbeAgenda
+        extension: Assessment
+        reconciled_context: WorldContext
+        prepared: Any?
+        grounding: ActionGroundingContract?
+        grounding_valid: Boolean?
+        action_event: ActionEvent?
+        after_frame: Frame?
+    STEP choose_committed_cursor_or_full_verified_agenda
+        MATCH committed_fast_cursor_ready
+            true -> NEXT construct_committed_fast_cursor_agenda
+            false -> NEXT project_verified_alignment_measurement_scope
+    STEP project_verified_alignment_measurement_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_verified_alignment_measurement_scope",
+            alternative_refs=[],
+            descriptive_facts=verified_alignment_measurement_scope_facts
+        ) -> measurement_scope_projected
+        SELECT measurement_scope_selected
+            FOR "goal.measure_only_the_alignment_family_required_by_the_active_route"
+            FROM measurement_scope_projected.alternative_refs
+            UNDER policy.declared_verified_alignment_measurement_scope
+            REQUIRE ["requirement.verified_alignment_measurement_scope_is_eligible"]
+            PRESERVE measurement_scope_projected.alternative_refs
+            FACTS measurement_scope_projected.alternative_facts
+        MATCH measurement_scope_selected.alternatives.selected
+            "measurement_scope.action_changed_object_route" -> NEXT construct_lazy_object_route_agenda
+            "measurement_scope.full_verified_alignment" -> NEXT construct_verified_agenda
+    STEP construct_lazy_object_route_agenda
+        CALL capability.verified_alignment_action_enumeration(
+            canonical_peer_method_facts=canonical_peer_method_facts,
+            canonical_terminal_inventory_facts=canonical_terminal_inventory_facts,
+            canonical_provisional_control_term_facts=canonical_provisional_control_term_facts,
+            measurement_scope_ref=measurement_scope_selected.alternatives.selected,
+            scene=scene,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            calibrated_affine_evidence=calibrated_affine_evidence,
+            effect_carried_reflection_axis_evidence=effect_carried_reflection_axis_evidence,
+            terminally_exhausted_action_refs=terminally_exhausted_action_refs,
+            calibrated_nary_affine_evidence=calibrated_nary_affine_evidence,
+            available_action_refs=available_action_refs,
+            periodic_cell_grids=periodic_cell_grids,
+            cellular_mover_pattern_refs=cellular_mover_pattern_refs,
+            recent_moved_cell_pattern_refs=recent_moved_cell_pattern_refs,
+            cellular_actuator_pattern_refs=cellular_actuator_pattern_refs,
+            effectful_point_cell_pattern_pairs=effectful_point_cell_pattern_pairs,
+            cellular_traversable_pattern_refs=cellular_traversable_pattern_refs,
+            current_transition_change_bboxes=current_transition_change_bboxes,
+            cellular_entity_traversable_pattern_refs=cellular_entity_traversable_pattern_refs,
+            cellular_entity_footprint_offsets=cellular_entity_footprint_offsets,
+            open_contact_pattern_refs=open_contact_pattern_refs,
+            established_hostile_contact_pattern_faces=established_hostile_contact_pattern_faces,
+            observed_fatal_initial_action_facts=observed_fatal_initial_action_facts,
+            known_open_cell_coordinates=known_open_cell_coordinates,
+            newly_reachable_cell_coordinates=newly_reachable_cell_coordinates,
+            committed_plan_facts=committed_plan_facts,
+            committed_plan_cursor_present=false,
+            current_object_terminating_route_measurement_present=current_object_terminating_route_measurement_present,
+            current_object_terminating_route_first_action_refs=current_object_terminating_route_first_action_refs,
+            prior_context_orthogonal_reflection_direct_body_values=prior_context_orthogonal_reflection_direct_body_values,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_configuration_executed_candidate_refs=current_configuration_executed_candidate_refs,
+            action_execution_counts=action_execution_counts,
+            action_first_execution_ordinals=action_first_execution_ordinals,
+            resource_only_effect_action_refs=resource_only_effect_action_refs,
+            cyclic_pose_only_effect_action_refs=cyclic_pose_only_effect_action_refs,
+            known_action_translation_deltas=known_action_translation_deltas,
+            calibrated_local_point_evidence=calibrated_local_point_evidence,
+            interface_action_translation_deltas=interface_action_translation_deltas,
+            known_viewport_grid_shift_deltas=known_viewport_grid_shift_deltas,
+            residual_axis_coupling_row=residual_axis_coupling_row,
+            residual_axis_coupling_column=residual_axis_coupling_column,
+            action_conditioned_marker_axis_overlap_reconstructed=action_conditioned_marker_axis_overlap_reconstructed,
+            marker_axis_residual_measurement_present=marker_axis_residual_measurement_present,
+            marker_axis_residual_transport_present=marker_axis_residual_transport_present,
+            marker_axis_residual_row_signed=marker_axis_residual_row_signed,
+            marker_axis_residual_col_signed=marker_axis_residual_col_signed,
+            dynamic_goal_refs=dynamic_goal_refs,
+            dynamic_goal_facts=dynamic_goal_facts,
+            configuration_revisit_action_refs=configuration_revisit_action_refs,
+            continuation_policy=continuation_policy,
+            route_generation_policy=route_generation_policy,
+            current_scope_attempted_route_suffixes=current_scope_attempted_route_suffixes
+        ) -> agenda
+        MATCH agenda.has_candidates
+            true -> NEXT project_lazy_object_route_agenda
+            false -> NEXT select_empty_lazy_handoff
+    STEP select_empty_lazy_handoff
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_verified_alignment_empty_lazy_handoff",
+            alternative_refs=[],
+            descriptive_facts=verified_alignment_measurement_scope_facts
+        ) -> empty_lazy_handoff_projected
+        SELECT empty_lazy_handoff_selected
+            FOR "goal.reconcile_empty_route_measurement_with_open_parent_goal"
+            FROM empty_lazy_handoff_projected.alternative_refs
+            UNDER policy.declared_verified_alignment_empty_lazy_handoff
+            REQUIRE ["requirement.empty_lazy_handoff_is_declared"]
+            PRESERVE empty_lazy_handoff_projected.alternative_refs
+            FACTS empty_lazy_handoff_projected.alternative_facts
+        MATCH empty_lazy_handoff_selected.alternatives.selected
+            "handoff.open_composite_pose_calibration" -> NEXT finish_without_verified_action
+            "handoff.full_verified_fallback" -> NEXT construct_verified_agenda
+    STEP project_lazy_object_route_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        REQUIRE projected_agenda.has_candidates
+        NEXT inspect_projected_verified_agenda
+    STEP construct_committed_fast_cursor_agenda
+        CALL capability.committed_verified_alignment_cursor_advance(
+            canonical_peer_method_facts=canonical_peer_method_facts,
+            canonical_terminal_inventory_facts=canonical_terminal_inventory_facts,
+            canonical_provisional_control_term_facts=canonical_provisional_control_term_facts,
+            tracking=tracking,
+            committed_plan_facts=committed_plan_facts,
+            available_action_refs=available_action_refs,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_configuration_executed_candidate_refs=current_configuration_executed_candidate_refs,
+            action_execution_counts=action_execution_counts,
+            resource_only_effect_action_refs=resource_only_effect_action_refs,
+            cyclic_pose_only_effect_action_refs=cyclic_pose_only_effect_action_refs,
+            known_action_translation_deltas=known_action_translation_deltas,
+            interface_action_translation_deltas=interface_action_translation_deltas,
+            residual_axis_coupling_row=residual_axis_coupling_row,
+            residual_axis_coupling_column=residual_axis_coupling_column,
+            route_generation_policy=route_generation_policy
+        ) -> agenda
+        REQUIRE agenda.has_candidates
+        NEXT project_committed_fast_cursor_agenda
+    STEP project_committed_fast_cursor_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        REQUIRE projected_agenda.has_candidates
+        NEXT execute_committed_verified_action
+    STEP construct_verified_agenda
+        CALL capability.verified_alignment_action_enumeration(
+            canonical_peer_method_facts=canonical_peer_method_facts,
+            canonical_terminal_inventory_facts=canonical_terminal_inventory_facts,
+            canonical_provisional_control_term_facts=canonical_provisional_control_term_facts,
+            scene=scene,
+            tracking=tracking,
+            mechanism_evidence=mechanism_evidence,
+            calibrated_affine_evidence=calibrated_affine_evidence,
+            effect_carried_reflection_axis_evidence=effect_carried_reflection_axis_evidence,
+            terminally_exhausted_action_refs=terminally_exhausted_action_refs,
+            calibrated_nary_affine_evidence=calibrated_nary_affine_evidence,
+            available_action_refs=available_action_refs,
+            periodic_cell_grids=periodic_cell_grids,
+            cellular_mover_pattern_refs=cellular_mover_pattern_refs,
+            recent_moved_cell_pattern_refs=recent_moved_cell_pattern_refs,
+            cellular_actuator_pattern_refs=cellular_actuator_pattern_refs,
+            effectful_point_cell_pattern_pairs=effectful_point_cell_pattern_pairs,
+            cellular_traversable_pattern_refs=cellular_traversable_pattern_refs,
+            current_transition_change_bboxes=current_transition_change_bboxes,
+            cellular_entity_traversable_pattern_refs=cellular_entity_traversable_pattern_refs,
+            cellular_entity_footprint_offsets=cellular_entity_footprint_offsets,
+            open_contact_pattern_refs=open_contact_pattern_refs,
+            established_hostile_contact_pattern_faces=established_hostile_contact_pattern_faces,
+            observed_fatal_initial_action_facts=observed_fatal_initial_action_facts,
+            known_open_cell_coordinates=known_open_cell_coordinates,
+            newly_reachable_cell_coordinates=newly_reachable_cell_coordinates,
+            committed_plan_facts=committed_plan_facts,
+            committed_plan_cursor_present=committed_plan_cursor_present,
+            current_object_terminating_route_measurement_present=current_object_terminating_route_measurement_present,
+            current_object_terminating_route_first_action_refs=current_object_terminating_route_first_action_refs,
+            prior_context_orthogonal_reflection_direct_body_values=prior_context_orthogonal_reflection_direct_body_values,
+            current_context_no_effect_candidate_refs=current_context_no_effect_candidate_refs,
+            current_configuration_executed_candidate_refs=current_configuration_executed_candidate_refs,
+            action_execution_counts=action_execution_counts,
+            action_first_execution_ordinals=action_first_execution_ordinals,
+            resource_only_effect_action_refs=resource_only_effect_action_refs,
+            cyclic_pose_only_effect_action_refs=cyclic_pose_only_effect_action_refs,
+            known_action_translation_deltas=known_action_translation_deltas,
+            calibrated_local_point_evidence=calibrated_local_point_evidence,
+            interface_action_translation_deltas=interface_action_translation_deltas,
+            known_viewport_grid_shift_deltas=known_viewport_grid_shift_deltas,
+            residual_axis_coupling_row=residual_axis_coupling_row,
+            residual_axis_coupling_column=residual_axis_coupling_column,
+            action_conditioned_marker_axis_overlap_reconstructed=action_conditioned_marker_axis_overlap_reconstructed,
+            marker_axis_residual_measurement_present=marker_axis_residual_measurement_present,
+            marker_axis_residual_transport_present=marker_axis_residual_transport_present,
+            marker_axis_residual_row_signed=marker_axis_residual_row_signed,
+            marker_axis_residual_col_signed=marker_axis_residual_col_signed,
+            dynamic_goal_refs=dynamic_goal_refs,
+            dynamic_goal_facts=dynamic_goal_facts,
+            configuration_revisit_action_refs=configuration_revisit_action_refs,
+            continuation_policy=continuation_policy,
+            route_generation_policy=route_generation_policy,
+            current_scope_attempted_route_suffixes=current_scope_attempted_route_suffixes
+        ) -> agenda
+        MATCH agenda.has_candidates
+            true -> NEXT choose_committed_or_dynamic_projection
+            false -> NEXT finish_without_verified_action
+    STEP choose_committed_or_dynamic_projection
+        MATCH committed_plan_cursor_present
+            true -> NEXT inspect_committed_object_route_freshness
+            false -> NEXT choose_verified_dynamic_goal_projection
+    STEP inspect_committed_object_route_freshness
+        MATCH committed_plan_is_object_terminating_route
+            true -> NEXT require_current_object_route_measurement
+            false -> NEXT project_committed_verified_agenda
+    STEP require_current_object_route_measurement
+        # A cursor TERM is revisable.  Every BFS primitive requires a fresh
+        # mechanical route witness and current control grounding before any
+        # stale action can be released.
+        MATCH current_object_terminating_route_measurement_present
+            true -> NEXT inspect_current_object_route_control_grounding
+            false -> NEXT finish_without_verified_action
+    STEP inspect_current_object_route_control_grounding
+        MATCH all_directional_actions_exhausted
+            true -> NEXT project_committed_verified_agenda
+            false -> NEXT require_unique_current_input_alignment
+    STEP require_unique_current_input_alignment
+        MATCH unique_current_input_alignment_present
+            true -> NEXT project_committed_verified_agenda
+            false -> NEXT finish_without_verified_action
+    STEP execute_committed_verified_action
+        SELECT selected
+            FOR "goal.continue_committed_verified_alignment_cursor"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_verified_alignment_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        CALL control.retain_selected_agenda(
+            agenda=agenda,
+            selected_ref=selected.alternatives.selected
+        ) -> committed_agenda
+        CALL control.prepare_interaction_probe(
+            agenda=committed_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=context,
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            selection_source_ref="selection_source.committed_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=prepared.context.declared_complete_series_authorized,
+            defer_concentration_acquisition=true
+        ) -> release
+        # Selection, grounding and release finish here.  The global action
+        # series kernel owns the environment trigger and terminal observation.
+        STOP prepared
+    STEP project_committed_verified_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        NEXT inspect_projected_verified_agenda
+    STEP choose_verified_dynamic_goal_projection
+        MATCH agenda.context_facts.dynamic_goal_frontier_present
+            true -> NEXT inspect_verified_dynamic_goal_witness_frontier
+            false -> NEXT project_verified_agenda_without_dynamic_goal
+    STEP inspect_verified_dynamic_goal_witness_frontier
+        MATCH agenda.context_facts.dynamic_goal_with_untried_action_witness_present
+            true -> NEXT project_dynamic_goal_frontier
+            false -> NEXT inspect_verified_unmeasured_dynamic_goal_frontier
+    STEP inspect_verified_unmeasured_dynamic_goal_frontier
+        MATCH agenda.context_facts.dynamic_goal_without_action_witness_measurement_present
+            true -> NEXT project_dynamic_goal_frontier
+            false -> NEXT project_verified_agenda_without_dynamic_goal
+    STEP project_dynamic_goal_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_active_dynamic_goal_frontier",
+            alternative_refs=agenda.context_facts.dynamic_goal_refs,
+            descriptive_facts=agenda.context_facts.dynamic_goal_facts
+        ) -> dynamic_goal_projected
+        SELECT active_dynamic_goal
+            FOR "goal.select_first_active_dynamic_goal"
+            FROM dynamic_goal_projected.alternative_refs
+            UNDER policy.declared_active_dynamic_goal_frontier
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE dynamic_goal_projected.alternative_refs
+            FACTS dynamic_goal_projected.alternative_facts
+        NEXT project_verified_agenda_with_dynamic_goal
+    STEP project_verified_agenda_with_dynamic_goal
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=true,
+            selected_dynamic_goal_ref=active_dynamic_goal.alternatives.selected
+        ) -> projected_agenda
+        NEXT inspect_projected_verified_agenda
+    STEP project_verified_agenda_without_dynamic_goal
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        NEXT inspect_projected_verified_agenda
+    STEP inspect_projected_verified_agenda
+        MATCH projected_agenda.requires_ontology_extension
+            true -> NEXT extend_scoped_ontology
+            false -> NEXT select_verified_action
+    STEP extend_scoped_ontology
+        CALL workflow.extend_insufficient_ontology(
+            insufficiency_premises=projected_agenda.ontology_extension_context.insufficiency_premises,
+            insufficiency_context=projected_agenda.ontology_extension_context.insufficiency_context,
+            extension_seeds=projected_agenda.ontology_extension_context.extension_seeds,
+            extension_basis=projected_agenda.ontology_extension_context.extension_basis,
+            extension_scope=projected_agenda.ontology_extension_context.extension_scope,
+            alternatives=projected_agenda.ontology_extension_context.alternatives,
+            missing_evidence=projected_agenda.ontology_extension_context.missing_evidence,
+            falsifiers=projected_agenda.ontology_extension_context.falsifiers,
+            selection_goal=projected_agenda.ontology_extension_context.selection_goal,
+            selection_requirements=projected_agenda.ontology_extension_context.selection_requirements,
+            preservation_rules=projected_agenda.ontology_extension_context.preservation_rules,
+            dominance_witnesses=projected_agenda.ontology_extension_context.dominance_witnesses,
+            before_revision=before_revision
+        ) -> extension
+        NEXT select_verified_action
+    STEP select_verified_action
+        SELECT selected
+            FOR "goal.reduce_alignment_distance_by_one_observed_quantum"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_verified_alignment_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            selection_source_ref="selection_source.projected_agenda"
+        ) -> prepared
+        CALL control.action_grounding_is_valid(
+            intent=prepared.intent
+        ) -> grounding_valid
+        MATCH grounding_valid
+            true -> NEXT validate_selected_verified_grounding
+            false -> NEXT reprepare_verified_with_candidate_local_goal
+    STEP reprepare_verified_with_candidate_local_goal
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> candidate_local_projected_agenda
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            projected_agenda=candidate_local_projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_verified_alignment_action",
+            selection_source_ref="selection_source.projected_agenda",
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        NEXT validate_selected_verified_grounding
+    STEP validate_selected_verified_grounding
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=prepared.context.declared_complete_series_authorized,
+            defer_concentration_acquisition=true
+        ) -> release
+        # Selection, grounding and release finish here.  The global action
+        # series kernel owns the environment trigger and terminal observation.
+        STOP prepared
+    STEP finish_without_verified_action
+        STOP agenda

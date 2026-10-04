@@ -1,0 +1,13 @@
+{
+  "network": "blocked",
+  "point_payload": {
+    "x": 17,
+    "y": 29
+  },
+  "python": "3.10.4",
+  "real_controller_start": true,
+  "repository_reads": "blocked",
+  "result": "PASS",
+  "source_authorized_actions": 1,
+  "terminal": "WIN"
+}

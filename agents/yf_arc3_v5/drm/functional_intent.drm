@@ -1,0 +1,762 @@
+{
+  "module_id": "functional_intent",
+  "declarations": [
+    {
+      "id": "principle.every_eligible_unexplained_affordance_retains_a_function_obligation",
+      "kind": "principle",
+      "premises": [
+        "one_perceptually_distinct_or_action_affordance_is_currently_eligible",
+        "its_function_is_not_explained_refuted_in_scope_or_proven_redundant"
+      ],
+      "applicability": ["functional_intent_obligation_projection"],
+      "invariants": [
+        "no_eligible_unexplained_affordance_disappears_silently",
+        "a_local_no_effect_does_not_refute_function_outside_its_tested_context",
+        "a_progressing_causal_parent_precedes_a_nonblocking_stable_window_test",
+        "an_open_function_question_may_veto_but_never_mechanically_rewrite_a_candidate"
+      ],
+      "falsifiers": [
+        "the_affordance_is_not_distinct_persistent_available_or_interactable",
+        "causal_evidence_explains_refutes_or_proves_the_affordance_redundant_in_scope"
+      ],
+      "reason_refs": [
+        "reason.designed_system_affordances_retain_refutable_function_questions"
+      ]
+    },
+    {
+      "id": "principle.reconciled_unsuccessful_action_family_may_be_deferred_to_future_context",
+      "kind": "principle",
+      "premises": [
+        "one_action_family_has_reconciled_no_effect_evidence_in_the_current_context",
+        "one_bounded_current_level_completion_plan_remains_viable_without_that_action_family"
+      ],
+      "applicability": ["functional_research_explanatory_coverage"],
+      "invariants": [
+        "current_level_deferral_is_a_revisable_supposition_not_global_uselessness",
+        "redundancy_requires_positive_functional_equivalence_and_is_not_inferred_from_current_no_effect",
+        "every_deferred_action_retains_an_explicit_wake_condition",
+        "a_viable_completion_plan_is_not_interrupted_only_to_execute_every_available_action"
+      ],
+      "falsifiers": [
+        "the_plan_without_the_action_family_fails_or_is_exhausted",
+        "a_new_objective_requires_the_action_family",
+        "the_context_or_level_changes",
+        "bounded_retry_hard_reopens_the_global_frontier"
+      ],
+      "reason_refs": [
+        "reason.unsuccessful_action_family_is_deferred_to_future_context_after_a_viable_current_completion_route_excludes_it"
+      ]
+    },
+    {
+      "id": "principle.every_understood_mechanism_retains_a_global_and_local_use_plan",
+      "kind": "principle",
+      "premises": [
+        "one_canonical_term_declares_revisable_action_conditioned_mechanism_evidence",
+        "its_current_or_future_application_has_not_been_refuted_in_every_declared_context"
+      ],
+      "applicability": ["mechanism_utilization_planning"],
+      "invariants": [
+        "every_understood_mechanism_has_exactly_one_current_use_disposition",
+        "every_disposition_names_an_application_test_expected_effect_falsifier_and_wake_condition",
+        "deferred_mechanism_uses_remain_visible_without_interrupting_a_progressing_parent",
+        "an_understood_mechanism_without_a_declared_use_is_explicit_debt_not_integrated_knowledge",
+        "the_use_plan_never_releases_or_ranks_an_action"
+      ],
+      "falsifiers": [
+        "one_understood_mechanism_is_missing_from_the_global_use_plan",
+        "one_active_use_has_no_beneficiary_plan_stage_or_reconciliation_test",
+        "one_deferred_use_has_no_named_wake_condition"
+      ],
+      "reason_refs": [
+        "reason.understanding_a_mechanism_requires_planning_when_and_how_to_use_or_test_it"
+      ]
+    },
+    {
+      "id": "policy.declared_functional_usefulness_frontier",
+      "kind": "selection_policy",
+      "static_knowledge_node_kind": "priority",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "current_term_claim_revision_exists",
+        "one_local_candidate_has_been_selected_but_not_dispatched"
+      ],
+      "applicability": ["functional_usefulness_action_authority"],
+      "invariants": [
+        "the_projection_is_bound_to_the_current_term_claim_revision",
+        "one_untried_available_discrete_command_opens_a_function_question",
+        "a_current_function_test_must_match_the_exact_pending_affordance",
+        "a_progressing_committed_route_is_preserved_without_a_blocking_or_closing_window"
+      ],
+      "falsifiers": [
+        "the_projection_revision_is_stale",
+        "the_pending_candidate_does_not_match_the_required_function_test",
+        "an_exact_attempted_composition_is_reopened_without_new_context"
+      ],
+      "declared_alternative_refs": [
+        "function_frontier.resume_blocked_parent_with_known_effectful_control",
+        "function_frontier.test_visible_status_asymmetry_at_structural_checkpoint",
+        "function_frontier.test_current_blocking_affordance",
+        "function_frontier.defer_to_progressing_parent",
+        "function_frontier.preserve_unexplained_affordance",
+        "function_frontier.no_eligible_affordance"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.functional_usefulness.resume_blocked_parent_with_known_effectful_control",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.resume_blocked_parent_with_known_effectful_control"},
+            {"field": "last_action_no_effect_in_current_context", "operator": "equals", "expected": true},
+            {"field": "bounded_zone_state_graph_present", "operator": "equals", "expected": true},
+            {"field": "bounded_zone_state_graph_bound_reached", "operator": "equals", "expected": false},
+            {"field": "bounded_zone_state_peer_reachable", "operator": "equals", "expected": false},
+            {"field": "alternate_effectful_point_locus_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "unique_alternate_effectful_point_locus_candidate_ref", "operator": "is_present"},
+            {"field": "current_candidate_ref", "operator": "equals_reference_field", "reference_field": "unique_alternate_effectful_point_locus_candidate_ref"},
+            {"field": "priority_active_goal_ref", "operator": "is_present"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "pending_affordance_must_match": true,
+            "applicable": true,
+            "declared_disposition_ref": "disposition.resume_blocked_goal_with_known_effectful_control",
+            "lifecycle_ref": "functional_lifecycle.blocking_required",
+            "alternative_function_refs": [
+              "function.control_changes_route_support_state",
+              "function.control_does_not_change_route_support_state_in_current_context"
+            ],
+            "blocking_predicate_refs": [
+              "predicate.current_directional_route_has_no_reachable_successor"
+            ],
+            "opportunity_window_ref": "window.current_blocked_route_control_reuse",
+            "recommended_activity_ref": "activity.resolve_blocking_function_obligation",
+            "expected_effect_ref": "effect.known_control_reopens_a_successor_for_the_pursued_goal",
+            "falsifier_refs": [
+              "falsifier.known_control_does_not_change_route_reachability_in_current_context"
+            ],
+            "wake_condition_ref": "condition.pursued_route_becomes_directionally_blocked",
+            "divergence_reason_refs": [
+              "reason.blocking_known_control_precedes_unrelated_visual_novelty"
+            ]
+          },
+          "bound_facts": {
+            "eligible_affordance_ref": "unique_alternate_effectful_point_locus_candidate_ref"
+          },
+          "templated_facts": {
+            "active_function_obligation_ref": "obligation.restore_route_support_with.{unique_alternate_effectful_point_locus_candidate_ref}",
+            "beneficiary_goal_refs": ["{priority_active_goal_ref}"]
+          }
+        },
+        {
+          "id": "projection.functional_usefulness.test_visible_status_asymmetry_at_structural_checkpoint",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.test_visible_status_asymmetry_at_structural_checkpoint"},
+            {"field": "unique_untested_nondirectional_action_ref", "operator": "is_present"},
+            {"field": "unique_lateral_open_closed_rectangular_pair_present", "operator": "equals", "expected": true},
+            {"field": "hollow_cell_body_occupies_strictly_compact_endpoint", "operator": "equals", "expected": true},
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": true},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "functional_test_already_attempted_in_context", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "pending_affordance_must_match": true,
+            "applicable": true,
+            "declared_disposition_ref": "disposition.test_function_now",
+            "lifecycle_ref": "functional_lifecycle.testable",
+            "alternative_function_refs": [
+              "function.command_changes_persistent_status",
+              "function.command_reconfigures_control_phase",
+              "function.command_has_no_effect_in_current_context"
+            ],
+            "blocking_predicate_refs": [
+              "predicate.visible_status_asymmetry_remains_causally_unexplained"
+            ],
+            "beneficiary_goal_refs": [
+              "goal.explain_visible_control_status_relation"
+            ],
+            "opportunity_window_ref": "window.reconciled_structural_checkpoint_with_unused_control",
+            "recommended_activity_ref": "activity.run_discriminating_experiment",
+            "expected_effect_ref": "effect.one_visible_control_status_relation_confirmed_or_refuted",
+            "falsifier_refs": [
+              "falsifier.unused_control_does_not_change_status_or_control_phase_in_current_context"
+            ],
+            "wake_condition_ref": "condition.unused_control_and_visible_status_asymmetry_at_structural_checkpoint",
+            "divergence_reason_refs": [
+              "reason.unused_control_and_unexplained_status_asymmetry_support_one_reversible_utility_supposition"
+            ]
+          },
+          "bound_facts": {
+            "eligible_affordance_ref": "unique_untested_nondirectional_action_ref"
+          },
+          "templated_facts": {
+            "active_function_obligation_ref": "obligation.explain_visible_status_with.{unique_untested_nondirectional_action_ref}"
+          }
+        },
+        {
+          "id": "projection.functional_usefulness.test_current_blocking_affordance",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.test_current_blocking_affordance"},
+            {"field": "unique_untested_nondirectional_action_ref", "operator": "is_present"},
+            {"field": "functional_test_window_open", "operator": "equals", "expected": true},
+            {"field": "functional_test_reversible", "operator": "equals", "expected": true},
+            {"field": "functional_test_already_attempted_in_context", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "pending_affordance_must_match": true,
+            "applicable": true,
+            "declared_disposition_ref": "disposition.test_function_now",
+            "lifecycle_ref": "functional_lifecycle.testable",
+            "alternative_function_refs": [
+              "function.command_changes_current_mechanism",
+              "function.command_changes_persistent_status",
+              "function.command_has_no_effect_in_current_context"
+            ],
+            "blocking_predicate_refs": [],
+            "opportunity_window_ref": "window.current_reversible_discrimination",
+            "recommended_activity_ref": "activity.run_one_bounded_function_experiment",
+            "expected_effect_ref": "effect.one_function_alternative_confirmed_or_refuted_in_scope",
+            "falsifier_refs": ["falsifier.function_probe_does_not_distinguish_live_alternatives"],
+            "wake_condition_ref": "condition.current_reversible_discrimination_available",
+            "divergence_reason_refs": ["reason.current_function_test_window_precedes_nonrequired_continuation"]
+          },
+          "bound_facts": {
+            "eligible_affordance_ref": "unique_untested_nondirectional_action_ref"
+          },
+          "templated_facts": {
+            "active_function_obligation_ref": "obligation.understand_function.{unique_untested_nondirectional_action_ref}"
+          }
+        },
+        {
+          "id": "projection.functional_usefulness.defer_to_progressing_parent",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.defer_to_progressing_parent"},
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": true},
+            {"field": "active_goal_ref", "operator": "is_present"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "functional_test_required_for_open_goal", "operator": "equals", "expected": false},
+            {"field": "functional_test_window_will_close", "operator": "equals", "expected": false}
+          ],
+          "any_conditions": [
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": true},
+            {"field": "advances_active_goal_chain", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.defer_function_question_to_progressing_parent",
+            "lifecycle_ref": "functional_lifecycle.deferred_with_wake",
+            "alternative_function_refs": [],
+            "blocking_predicate_refs": [],
+            "beneficiary_goal_refs": [],
+            "wake_condition_ref": "condition.parent_route_stops_progressing_or_function_becomes_blocking",
+            "divergence_reason_refs": []
+          },
+          "bound_facts": {
+            "recommended_activity_ref": "pending_activity_ref"
+          }
+        },
+        {
+          "id": "projection.functional_usefulness.preserve_unexplained_affordance",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.preserve_unexplained_affordance"},
+            {"field": "unique_untested_nondirectional_action_ref", "operator": "is_present"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.preserve_function_question_without_interrupting_parent",
+            "lifecycle_ref": "functional_lifecycle.alternatives_open",
+            "alternative_function_refs": [
+              "function.command_changes_current_mechanism",
+              "function.command_changes_persistent_status",
+              "function.command_has_no_effect_in_current_context"
+            ],
+            "blocking_predicate_refs": ["predicate.safe_discriminating_window_not_established"],
+            "expected_effect_ref": "effect.function_question_remains_explicit",
+            "falsifier_refs": ["falsifier.affordance_is_not_currently_available"],
+            "wake_condition_ref": "condition.safe_discriminating_window_established",
+            "divergence_reason_refs": []
+          },
+          "bound_facts": {
+            "eligible_affordance_ref": "unique_untested_nondirectional_action_ref",
+            "recommended_activity_ref": "pending_activity_ref"
+          },
+          "templated_facts": {
+            "active_function_obligation_ref": "obligation.understand_function.{unique_untested_nondirectional_action_ref}"
+          }
+        },
+        {
+          "id": "projection.functional_usefulness.no_eligible_affordance",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.no_eligible_affordance"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.no_current_function_affordance",
+            "lifecycle_ref": "functional_lifecycle.none_current",
+            "alternative_function_refs": [],
+            "blocking_predicate_refs": [],
+            "beneficiary_goal_refs": [],
+            "divergence_reason_refs": []
+          },
+          "bound_facts": {
+            "recommended_activity_ref": "pending_activity_ref"
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {"id": "tier.functional_usefulness.blocked_parent_known_control", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.resume_blocked_goal_with_known_effectful_control"}], "reason_ref": "reason.blocking_known_control_precedes_unrelated_visual_novelty"},
+        {"id": "tier.functional_usefulness.visible_status_checkpoint_test", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "function_frontier.test_visible_status_asymmetry_at_structural_checkpoint"}], "reason_ref": "reason.unused_control_and_unexplained_status_asymmetry_support_one_reversible_utility_supposition"},
+        {"id": "tier.functional_usefulness.current_blocking_test", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.test_function_now"}], "reason_ref": "reason.current_safe_blocking_function_test_precedes_parent"},
+        {"id": "tier.functional_usefulness.progressing_parent", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.defer_function_question_to_progressing_parent"}], "reason_ref": "reason.progressing_causal_parent_precedes_nonblocking_stable_window_test"},
+        {"id": "tier.functional_usefulness.preserve_unexplained", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.preserve_function_question_without_interrupting_parent"}], "reason_ref": "reason.unexplained_affordance_retains_explicit_wake_condition"},
+        {"id": "tier.functional_usefulness.none", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.no_current_function_affordance"}], "reason_ref": "reason.no_current_eligible_affordance_preserves_pending_activity"}
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize", "criterion_ref": "criterion.canonical_structural_alternative_ref", "reason_ref": "reason.canonical_structural_ref_makes_total_order_explicit"}
+      ],
+      "reason_refs": [
+        "reason.functional_obligations_veto_an_unexplained_or_mismatched_dispatch"
+      ]
+    },
+    {
+      "id": "policy.declared_functional_research_coverage",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "one_bounded_current_affordance_visible_subject_or_understood_mechanism_inventory_exists",
+        "each_inventory_member_carries_only_current_observation_execution_or_canonical_mechanism_evidence"
+      ],
+      "applicability": ["functional_research_explanatory_coverage"],
+      "invariants": [
+        "every_inventory_member_receives_exactly_one_declared_disposition",
+        "execution_or_interaction_evidence_does_not_by_itself_close_a_function_question",
+        "every_open_question_retains_alternatives_falsifier_and_wake_condition",
+        "every_understood_mechanism_retains_a_detailed_application_or_test_disposition",
+        "a_deferred_mechanism_use_does_not_interrupt_a_progressing_parent",
+        "the_coverage_projection_never_releases_or_ranks_an_action"
+      ],
+      "falsifiers": [
+        "one_inventory_member_has_no_declared_disposition",
+        "a_visual_action_or_mechanism_subject_is_dropped_because_it_is_not_currently_selected"
+      ],
+      "configuration": {
+        "understood_mechanism_projection_contract_refs": [
+          "yf_arc3_v5.verified_mechanism_evidence.v1",
+          "yf_arc3_v5.verified_mechanism_evidence_set.v1",
+          "yf_arc3_v5.calibrated_affine_action_evidence.v1",
+          "yf_arc3_v5.effect_carried_reflection_axis_plan_evidence.v1",
+          "yf_arc3_v5.calibrated_nary_affine_relation_evidence.v1",
+          "yf_arc3_v5.observed_connector_activation_evidence.v1",
+          "yf_arc3_v5.observed_connector_state_transition_evidence.v1",
+          "yf_arc3_v5.calibrated_local_point_transport_evidence.v1"
+        ],
+        "goal_attribute_names": ["goal_ref"],
+        "action_attribute_names": ["action_ref"],
+        "evidence_attribute_names": ["evidence_ref", "transition_ref"],
+        "precondition_attribute_names": ["activation_precondition_kind"],
+        "numeric_resource_bound_attribute_names": [
+          "activation_threshold",
+          "activation_thresholds",
+          "remaining_action_count",
+          "positive_footprint_distance"
+        ],
+        "default_operational_status_ref": "enabled",
+        "non_operational_status_refs": ["disabled"],
+        "maximum_understood_mechanism_count": 64,
+        "empty_coverage_status_ref": "coverage.no_understood_mechanism_yet",
+        "complete_coverage_status_ref": "coverage.every_understood_mechanism_has_one_use_disposition",
+        "non_blocking_contract_ref": "contract.deferred_mechanism_use_never_interrupts_progressing_parent"
+      },
+      "fact_projections": [
+        {
+          "id": "projection.functional_research.untried_action_question",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "available_action"},
+            {"field": "execution_count", "operator": "equals", "expected": 0}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.open_untried_action_function_question",
+            "alternative_function_refs": [
+              "function.action_changes_current_mechanism",
+              "function.action_changes_persistent_status",
+              "function.action_has_no_effect_in_tested_context"
+            ],
+            "falsifier_refs": ["falsifier.action_is_not_available_or_distinct"],
+            "wake_condition_ref": "condition.safe_discriminating_action_window_established"
+          }
+        },
+        {
+          "id": "projection.functional_research.executed_action_question",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "available_action"},
+            {"field": "execution_count", "operator": "greater_than", "expected": 0}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.preserve_executed_action_evidence_until_causally_explained",
+            "alternative_function_refs": [
+              "function.observed_action_effect_is_goal_progress",
+              "function.observed_action_effect_is_information_only",
+              "function.action_effect_depends_on_context"
+            ],
+            "falsifier_refs": ["falsifier.execution_evidence_has_no_matching_observation"],
+            "wake_condition_ref": "condition.action_effect_reconciliation_or_new_context"
+          }
+        },
+        {
+          "id": "projection.functional_research.current_contract_deferred_action_family",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "available_action"},
+            {"field": "execution_count", "operator": "greater_than", "expected": 1},
+            {"field": "action_has_reconciled_no_effect_evidence", "operator": "equals", "expected": true},
+            {"field": "current_level_completion_without_subject_action_family_plausible", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.suppose_action_family_reserved_for_future_context_or_level",
+            "alternative_function_refs": [
+              "function.action_is_reserved_for_a_later_context_or_level",
+              "function.action_becomes_required_if_current_completion_plan_fails"
+            ],
+            "falsifier_refs": [
+              "falsifier.current_plan_without_action_family_fails_or_new_objective_requires_it"
+            ],
+            "wake_condition_ref": "condition.plan_without_family_fails_new_objective_requires_family_context_changes_or_retry_hard"
+          }
+        },
+        {
+          "id": "projection.functional_research.unexplained_visible_subject",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "visible_subject"},
+            {"field": "interaction_evidence_present", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.open_visible_subject_function_question",
+            "alternative_function_refs": [
+              "function.visible_subject_is_interactable",
+              "function.visible_subject_constrains_route_or_state",
+              "function.visible_subject_is_causally_redundant_in_current_contract"
+            ],
+            "falsifier_refs": ["falsifier.visible_subject_is_not_distinct_persistent_or_eligible"],
+            "wake_condition_ref": "condition.safe_interaction_or_relational_discrimination_window"
+          }
+        },
+        {
+          "id": "projection.functional_research.observed_visible_subject",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "visible_subject"},
+            {"field": "interaction_evidence_present", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.preserve_visible_interaction_evidence_until_causally_explained",
+            "alternative_function_refs": [
+              "function.visible_subject_is_causal_control_or_target",
+              "function.visible_subject_is_contextual_effect_witness",
+              "function.visible_subject_is_causally_redundant_in_current_contract"
+            ],
+            "falsifier_refs": ["falsifier.interaction_evidence_does_not_identify_this_subject"],
+            "wake_condition_ref": "condition.subject_effect_reconciliation_or_new_relation"
+          }
+        },
+        {
+          "id": "projection.functional_research.current_declared_test",
+          "all_conditions": [
+            {"field": "is_current_declared_test", "operator": "equals", "expected": true},
+            {"field": "current_function_obligation_ref", "operator": "is_present"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.current_function_test_contract",
+            "wake_condition_ref": "condition.current_test_reconciled"
+          },
+          "bound_facts": {
+            "active_function_obligation_ref": "current_function_obligation_ref",
+            "alternative_function_refs": "current_alternative_function_refs",
+            "falsifier_refs": "current_falsifier_refs"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.family.quantized_action_conditioned_transfer",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.verified_mechanism_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.quantized_action_conditioned_transfer", "quantity_gate_required": true}
+        },
+        {
+          "id": "projection.mechanism_use.family.quantized_action_conditioned_transfer_set",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.verified_mechanism_evidence_set.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.quantized_action_conditioned_transfer", "quantity_gate_required": true}
+        },
+        {
+          "id": "projection.mechanism_use.family.affine_action_relation",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.calibrated_affine_action_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.affine_action_relation", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.family.effect_carried_reflection_axis",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.effect_carried_reflection_axis_plan_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.effect_carried_reflection_axis", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.family.nary_affine_relation",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.calibrated_nary_affine_relation_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.nary_affine_relation", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.family.connector_activation",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.observed_connector_activation_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.connector_activation", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.family.connector_state_transition",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.observed_connector_state_transition_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.connector_state_transition", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.family.local_point_transport",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "evidence_contract_ref", "operator": "equals", "expected": "yf_arc3_v5.calibrated_local_point_transport_evidence.v1"}
+          ],
+          "static_facts": {"mechanism_family_ref": "mechanism_family.local_point_transport", "quantity_gate_required": false}
+        },
+        {
+          "id": "projection.mechanism_use.preserve_last_reconciled_application_context",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "last_reconciled_contribution_ref", "operator": "is_present"},
+            {"field": "last_reconciled_contribution_reason_ref", "operator": "is_present"},
+            {"field": "last_reconciled_contribution_is_useful", "operator": "is_present"},
+            {"field": "last_reconciled_application_test_refs", "operator": "is_present"},
+            {"field": "last_reconciled_utility_success_evidence_refs", "operator": "is_present"},
+            {"field": "last_reconciled_utility_failure_evidence_refs", "operator": "is_present"},
+            {"field": "last_reconciled_utility_stop_condition_refs", "operator": "is_present"},
+            {"field": "last_reconciled_utility_reconciliation_refs", "operator": "is_present"}
+          ],
+          "bound_facts": {
+            "last_reconciled_contribution_ref": "last_reconciled_contribution_ref",
+            "last_reconciled_contribution_reason_ref": "last_reconciled_contribution_reason_ref",
+            "last_reconciled_contribution_is_useful": "last_reconciled_contribution_is_useful",
+            "last_reconciled_application_test_refs": "last_reconciled_application_test_refs",
+            "last_reconciled_utility_success_evidence_refs": "last_reconciled_utility_success_evidence_refs",
+            "last_reconciled_utility_failure_evidence_refs": "last_reconciled_utility_failure_evidence_refs",
+            "last_reconciled_utility_stop_condition_refs": "last_reconciled_utility_stop_condition_refs",
+            "last_reconciled_utility_reconciliation_refs": "last_reconciled_utility_reconciliation_refs"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.preserve_last_reconciled_observation",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "last_reconciled_completed_level_boundary", "operator": "is_present"},
+            {"field": "last_reconciled_expected_route_delta_observed", "operator": "is_present"},
+            {"field": "last_reconciled_exact_context_observation_count", "operator": "is_present"},
+            {"field": "last_reconciled_objective_stop_configuration_revisited", "operator": "is_present"},
+            {"field": "last_reconciled_active_safety_gate_ref", "operator": "is_present"}
+          ],
+          "bound_facts": {
+            "last_reconciled_completed_level_boundary": "last_reconciled_completed_level_boundary",
+            "last_reconciled_expected_route_delta_observed": "last_reconciled_expected_route_delta_observed",
+            "last_reconciled_exact_context_observation_count": "last_reconciled_exact_context_observation_count",
+            "last_reconciled_objective_stop_configuration_revisited": "last_reconciled_objective_stop_configuration_revisited",
+            "last_reconciled_active_safety_gate_ref": "last_reconciled_active_safety_gate_ref",
+            "last_reconciled_declared_causal_class_ref": "last_reconciled_declared_causal_class_ref",
+            "last_reconciled_effect_signature_novelty_ref": "last_reconciled_effect_signature_novelty_ref",
+            "last_reconciled_observable_change_scope_ref": "last_reconciled_observable_change_scope_ref"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.preserved_until_application_context",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "declared_disposition_ref": "disposition.preserve_understood_mechanism_until_declared_application_context",
+            "resource_bound_refs": ["bound.one_mechanism_application_then_reconciliation"],
+            "combination_disposition_ref": "combination.pending_declared_compatibility_analysis",
+            "utility_test_success_evidence_refs": ["evidence.expected_mechanism_effect_observed_without_precondition_violation"],
+            "utility_test_failure_evidence_refs": ["evidence.mechanism_falsifier_observed_or_expected_effect_absent_at_stop"],
+            "utility_test_stop_condition_refs": ["condition.declared_application_test_stop_or_wake_checkpoint"],
+            "utility_test_reconciliation_ref": "reconciliation.confirm_revise_defer_or_retire_mechanism_use",
+            "expected_effect_ref": "effect.mechanism_application_advances_or_falsifies_a_declared_use",
+            "alternative_use_refs": [
+              "use.apply_to_matching_open_goal",
+              "use.run_bounded_application_test",
+              "use.reserve_until_precondition_or_goal_wakes"
+            ],
+            "falsifier_refs": ["falsifier.mechanism_evidence_or_application_precondition_is_revised"],
+            "wake_condition_ref": "condition.compatible_goal_precondition_or_discriminating_context_appears",
+            "application_replay_eligible": true,
+            "application_replay_disposition_ref": "replay.disposition.unreconciled_or_changed_mechanism_application_is_eligible",
+            "application_replay_blocking_predicate_refs": [],
+            "application_replay_wake_condition_ref": "condition.mechanism_test_identity_or_reconciled_evidence_changes",
+            "application_replay_falsifier_refs": ["falsifier.exact_mechanism_test_context_is_already_reconciled_as_failed"],
+            "exact_failed_application_reconciled": false,
+            "active_in_current_plan": false
+          },
+          "templated_facts": {
+            "application_test_ref": "test.mechanism_application::{mechanism_ref}"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.candidate_in_active_lifecycle",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "current_lifecycle_present", "operator": "equals", "expected": true},
+            {"field": "mechanism_operational", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "declared_disposition_ref": "disposition.schedule_understood_mechanism_as_current_or_successor_candidate",
+            "combination_disposition_ref": "combination.preserve_other_mechanisms_until_declared_composition",
+            "expected_effect_ref": "effect.mechanism_application_tests_relevance_to_active_goal_chain",
+            "wake_condition_ref": "condition.current_goal_or_successor_stage_requests_mechanism"
+          },
+          "bound_facts": {
+            "active_plan_or_experiment_ref": "current_plan_or_experiment_ref",
+            "application_stage_refs": "current_application_stage_refs",
+            "utility_test_stop_condition_refs": "current_utility_test_stop_condition_refs"
+          },
+          "templated_facts": {
+            "application_test_ref": "test.mechanism_application::{mechanism_ref}::{current_plan_or_experiment_ref}"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.scheduled_for_current_goal",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "mechanism_goal_matches_current_goal", "operator": "equals", "expected": true},
+            {"field": "mechanism_operational", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "declared_disposition_ref": "disposition.schedule_understood_mechanism_for_current_goal",
+            "combination_disposition_ref": "combination.current_goal_preserves_other_mechanism_alternatives",
+            "expected_effect_ref": "effect.mechanism_application_advances_current_goal_or_yields_discriminating_evidence",
+            "wake_condition_ref": "condition.current_plan_stage_or_mechanism_application_checkpoint"
+          },
+          "bound_facts": {
+            "beneficiary_goal_refs": "matching_beneficiary_goal_refs",
+            "active_plan_or_experiment_ref": "current_plan_or_experiment_ref",
+            "application_stage_refs": "current_application_stage_refs"
+          },
+          "templated_facts": {
+            "application_test_ref": "test.mechanism_current_goal_use::{mechanism_ref}::{current_goal_ref}"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.active_in_current_plan",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "mechanism_goal_matches_current_goal", "operator": "equals", "expected": true},
+            {"field": "mechanism_action_matches_current_action", "operator": "equals", "expected": true},
+            {"field": "current_lifecycle_present", "operator": "equals", "expected": true},
+            {"field": "mechanism_operational", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "declared_disposition_ref": "disposition.use_understood_mechanism_in_current_plan_stage",
+            "combination_disposition_ref": "combination.current_plan_stage_preserves_declared_alternatives",
+            "expected_effect_ref": "effect.current_mechanism_use_advances_goal_or_is_falsified_at_checkpoint",
+            "wake_condition_ref": "condition.current_action_reconciled_or_plan_stage_changes",
+            "active_in_current_plan": true,
+            "goal_plan_gate_ref": "mechanism_gate.commit_revisable_mechanism",
+            "goal_plan_goal_kind_ref": "goal.prerequisite_mechanism",
+            "goal_plan_gap_dimension_ref": "discrete_state",
+            "goal_plan_target_value_ref": "effect.current_mechanism_use_advances_goal_or_is_falsified_at_checkpoint"
+          },
+          "bound_facts": {
+            "beneficiary_goal_refs": "matching_beneficiary_goal_refs",
+            "active_plan_or_experiment_ref": "current_plan_or_experiment_ref",
+            "application_stage_refs": "current_application_stage_refs",
+            "utility_test_stop_condition_refs": "current_utility_test_stop_condition_refs",
+            "goal_plan_observed_value_ref": "current_plan_or_experiment_ref"
+          },
+          "templated_facts": {
+            "application_test_ref": "test.reconcile_current_mechanism_use::{mechanism_ref}::{current_stop_condition_ref}",
+            "goal_plan_subgoal_ref": "subgoal.apply_planned_understood_mechanism::{current_goal_ref}::{current_plan_or_experiment_ref}"
+          }
+        },
+        {
+          "id": "projection.mechanism_use.defer_exact_reconciled_failed_application",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "application_test_ref", "operator": "member_of_reference_field", "reference_field": "last_reconciled_application_test_refs"},
+            {"field": "last_reconciled_completed_level_boundary", "operator": "equals", "expected": false},
+            {"field": "last_reconciled_expected_route_delta_observed", "operator": "equals", "expected": false},
+            {"field": "last_reconciled_objective_stop_configuration_revisited", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "application_replay_eligible": false,
+            "application_replay_disposition_ref": "replay.disposition.defer_exact_failed_mechanism_application_until_new_evidence",
+            "application_replay_blocking_predicate_refs": ["predicate.exact_failed_mechanism_application_context_is_unchanged"],
+            "application_replay_wake_condition_ref": "condition.mechanism_test_identity_goal_plan_stop_or_evidence_changes",
+            "application_replay_falsifier_refs": ["falsifier.new_evidence_changes_the_exact_mechanism_application_context"],
+            "exact_failed_application_reconciled": true
+          }
+        },
+        {
+          "id": "projection.mechanism_use.blocked_disabled_mechanism",
+          "all_conditions": [
+            {"field": "subject_kind", "operator": "equals", "expected": "understood_mechanism"},
+            {"field": "mechanism_operational", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "declared_disposition_ref": "disposition.block_mechanism_use_until_operational_precondition_returns",
+            "combination_disposition_ref": "combination.blocked_mechanism_is_not_composed",
+            "expected_effect_ref": "effect.reenabled_mechanism_can_reenter_declared_use_planning",
+            "blocking_predicate_refs": ["predicate.mechanism_operational_status_disabled"],
+            "falsifier_refs": ["falsifier.mechanism_operational_status_or_evidence_changes"],
+            "wake_condition_ref": "condition.mechanism_operational_status_changes",
+            "active_in_current_plan": false
+          },
+          "templated_facts": {
+            "application_test_ref": "test.mechanism_reenabled_application::{mechanism_ref}"
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {"id": "tier.functional_research.current_test", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.current_function_test_contract"}], "reason_ref": "reason.current_function_test_is_the_active_research_contract"},
+        {"id": "tier.functional_research.current_contract_deferred_family", "all_conditions": [{"field": "declared_disposition_ref", "operator": "equals", "expected": "disposition.suppose_action_family_reserved_for_future_context_or_level"}], "reason_ref": "reason.unsuccessful_action_family_is_deferred_to_future_context_after_a_viable_current_completion_route_excludes_it"},
+        {"id": "tier.functional_research.open_question", "all_conditions": [{"field": "execution_count", "operator": "equals", "expected": 0}], "reason_ref": "reason.unexplained_affordance_retains_explicit_wake_condition"},
+        {"id": "tier.functional_research.preserved_evidence", "all_conditions": [{"field": "applicable", "operator": "equals", "expected": true}], "reason_ref": "reason.existing_evidence_stays_explicit_until_causally_explained"}
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize", "criterion_ref": "criterion.canonical_structural_alternative_ref", "reason_ref": "reason.canonical_structural_ref_makes_total_order_explicit"}
+      ],
+      "reason_refs": ["reason.every_eligible_subject_has_explicit_explanatory_coverage"]
+    }
+  ]
+}

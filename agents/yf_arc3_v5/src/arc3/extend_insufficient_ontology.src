@@ -1,0 +1,89 @@
+# A scoped gap is derived before explanatory extensions are proposed or selected.
+MODULE arc3.extend_insufficient_ontology
+
+WORKFLOW extend_insufficient_ontology(
+    insufficiency_premises: List<Ref>,
+    insufficiency_context: Map<Ref,Any>,
+    extension_seeds: List<Any>,
+    extension_basis: List<Ref>,
+    extension_scope: Map<Ref,Any>,
+    alternatives: List<Ref>,
+    missing_evidence: List<Ref>,
+    falsifiers: List<Ref>,
+    selection_goal: Goal,
+    selection_requirements: List<Ref>,
+    preservation_rules: List<Ref>,
+    dominance_witnesses: List<Any>,
+    before_revision: Integer
+) -> Any
+    STATE
+        insufficiency: Any?
+        prepared_insufficiency: PreparedCommittedDerivation?
+        insufficiency_revision: Any?
+        grounded_extension_basis: List<Ref>?
+        extensions: Any?
+        prepared_extension: PreparedCommittedProposal?
+        reconciliation: Any?
+        extension_before_revision: Integer?
+    STEP prove_gap_then_extend
+        DERIVE insufficiency
+            FROM insufficiency_premises
+            USING rule.scoped_ontology_insufficiency
+            CONTEXT insufficiency_context
+        CALL control.prepare_committed_derivation(
+            derivation=insufficiency
+        ) -> prepared_insufficiency
+        MATCH prepared_insufficiency.canonical_delta_required
+            true -> NEXT reconcile_scoped_insufficiency
+            false -> NEXT propose_grounded_extension
+    STEP reconcile_scoped_insufficiency
+        TRANSACTION reconcile_scoped_ontology_insufficiency
+            UPDATE insufficiency_revision
+                TARGET prepared_insufficiency.update_items
+                FROM insufficiency.exact_premise_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE preservation_rules
+        NEXT propose_grounded_extension
+    STEP propose_grounded_extension
+        CALL control.bind_derivation_basis(
+            derivation=insufficiency,
+            basis_refs=extension_basis
+        ) -> grounded_extension_basis
+        PROPOSE extensions
+            KIND extension_seeds
+            BASIS grounded_extension_basis
+            SCOPE extension_scope
+            ALTERNATIVES alternatives
+            MISSING missing_evidence
+            FALSIFIERS falsifiers
+        SELECT result
+            FOR selection_goal
+            FROM alternatives
+            UNDER policy.explicit_symbolic_dominance
+            REQUIRE selection_requirements
+            PRESERVE preservation_rules
+            DOMINANCE dominance_witnesses
+        CALL control.prepare_committed_proposal(
+            proposal=extensions,
+            decision=result
+        ) -> prepared_extension
+        MATCH prepared_extension.canonical_delta_required
+            true -> NEXT reconcile_selected_extension
+            false -> NEXT ontology_already_reconciled
+    STEP reconcile_selected_extension
+        CALL control.current_state_revision() -> extension_before_revision
+        TRANSACTION reconcile_selected_ontology_extension
+            UPDATE reconciliation
+                TARGET prepared_extension.update_items
+                FROM grounded_extension_basis
+                USING policy.targeted_claim_revision
+                BEFORE extension_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE preservation_rules
+        STOP result
+    STEP ontology_already_reconciled
+        STOP result

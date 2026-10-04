@@ -1,0 +1,245 @@
+# Frame assimilation measures geometry first; DRM alone opens semantic suppositions.
+MODULE arc3.assimilate_frame
+
+WORKFLOW assimilate_frame(
+    raw_frame: Any,
+    raw_input_ref: Ref,
+    available_action_refs: List<Ref>,
+    is_initial_observation: Boolean,
+    action_conditioned_grid_evidence: Boolean,
+    before_revision: Integer,
+    retained_grid_geometry: Any?,
+    retained_grid_separator_consistency_ppm: Integer?
+) -> VisualSceneDescription
+    STATE
+        views: MultiResolutionViewMeasurements
+        projected: DeclaredAlternativeFacts
+        morphology: Assessment
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        morphology_revision: Any?
+        descriptive_projection: DeclaredAlternativeFacts?
+        descriptive_assessment: Assessment?
+        descriptive_meaning: DeclaredMeaningInstantiation?
+        descriptive_derivation: Any?
+        descriptive_prepared: PreparedMeaningUpdates?
+        descriptive_before_revision: Integer?
+        descriptive_revision: Any?
+        memory_measurements: Any?
+        memory_projected: DeclaredAlternativeFacts?
+        memory_assessment: Assessment?
+        memory_meaning: DeclaredMeaningInstantiation?
+        memory_derived: Any?
+        memory_prepared: PreparedMeaningUpdates?
+        memory_revision: Any?
+        morphology_before_revision: Integer?
+    STEP describe
+        MATCH action_conditioned_grid_evidence
+            false -> NEXT describe_without_action_conditioned_grid
+            true -> NEXT describe_with_action_conditioned_grid
+    STEP describe_without_action_conditioned_grid
+        CALL capability.frame_normalization(
+            payload=raw_frame
+        ) -> normalized_initial
+        CALL capability.visual_scene_decomposition(
+            frame=normalized_initial.frame,
+            action_conditioned_grid_evidence=false,
+            retained_grid_geometry=retained_grid_geometry,
+            retained_grid_separator_consistency_ppm=retained_grid_separator_consistency_ppm
+        ) -> result
+        NEXT after_scene_description
+    STEP describe_with_action_conditioned_grid
+        CALL capability.frame_normalization(
+            payload=raw_frame
+        ) -> normalized_action_conditioned
+        CALL capability.visual_scene_decomposition(
+            frame=normalized_action_conditioned.frame,
+            action_conditioned_grid_evidence=true,
+            retained_grid_geometry=retained_grid_geometry,
+            retained_grid_separator_consistency_ppm=retained_grid_separator_consistency_ppm
+        ) -> result
+        NEXT after_scene_description
+    STEP after_scene_description
+        MATCH is_initial_observation
+            true -> NEXT read_initial_memory
+            false -> STOP result
+    STEP read_initial_memory
+        CALL control.read_perceptual_memory_matches(
+            current_support_requests=null,
+            scene=result,
+            tracking=null,
+            omit_current_bindings=false,
+            observation_ref=raw_input_ref,
+            key_policy_ref="policy.perceptual_memory_key_contract",
+            measurement_basis_ref="measurement.pixel_support",
+            cell_quantum=null,
+            max_bearers=1024,
+            max_matches_per_bearer=1024,
+            max_rows=1024
+        ) -> memory_measurements
+        MATCH memory_measurements.has_matches
+            true -> NEXT bind_initial_memory
+            false -> NEXT measure_initial_frontier
+    STEP bind_initial_memory
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            alternative_refs=[],
+            descriptive_facts=memory_measurements.descriptive_facts
+        ) -> memory_projected
+        SELECT memory_assessment
+            FOR "goal.bind_operational_memorial_roles"
+            FROM memory_projected.alternative_refs
+            UNDER policy.recognize_memory_bearers
+            REQUIRE ["requirement.memory_match_has_canonical_lineage"]
+            PRESERVE memory_projected.alternative_refs
+            FACTS memory_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.recognize_memory_bearers",
+            selected_ref=memory_assessment.alternatives.selected,
+            alternative_facts=memory_projected.alternative_facts,
+            evidence_refs=memory_measurements.evidence_refs
+        ) -> memory_meaning
+        REQUIRE memory_meaning.template_iteration_complete
+        DERIVE memory_derived
+            FROM memory_meaning.evidence_refs
+            USING rule.memorial_role_binding
+            CONTEXT memory_meaning
+        CALL control.prepare_meaning_updates(terms=memory_meaning.terms, claims=memory_derived.claims) -> memory_prepared
+        TRANSACTION bind_memorial_roles_before_cold_morphology
+            UPDATE memory_revision
+                TARGET memory_prepared.update_items
+                FROM memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE memory_projected.alternative_refs
+        NEXT measure_initial_frontier
+    STEP measure_initial_frontier
+        CALL capability.multi_resolution_view_measurement(
+            scene=result,
+            observation_ref=raw_input_ref,
+            available_action_refs=available_action_refs,
+            is_initial_observation=is_initial_observation
+        ) -> views
+        NEXT initial_element_coverage_gate
+    STEP initial_element_coverage_gate
+        MATCH views.descriptive_facts.distinct_visual_element_enumeration_truncated
+            true -> FAIL "initial_distinct_visual_element_enumeration_truncated"
+            false -> NEXT project_frontier
+    STEP project_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_multi_resolution_morphology_frontier",
+            alternative_refs=[],
+            descriptive_facts=views.descriptive_facts
+        ) -> projected
+        SELECT morphology
+            FOR "goal.open_revisable_morphological_suppositions"
+            FROM projected.alternative_refs
+            UNDER policy.declared_multi_resolution_morphology_frontier
+            REQUIRE ["requirement.multi_resolution_measurements_are_bounded"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH morphology.alternatives.selected
+            "morphology_evidence.initial_elements_observed" -> NEXT commit_frontier
+            "morphology_evidence.descriptive_structure_observed" -> NEXT commit_frontier
+            "morphology_evidence.no_descriptive_structure" -> STOP result
+    STEP commit_frontier
+        CALL control.current_state_revision() -> morphology_before_revision
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_multi_resolution_morphology_frontier",
+            selected_ref=morphology.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=views.measurement_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.multi_resolution_morphology_frontier
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_morphological_frontier
+            UPDATE morphology_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE morphology_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT project_descriptive_frontier
+    STEP project_descriptive_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_descriptive_structure_frontier",
+            alternative_refs=[],
+            descriptive_facts=views.descriptive_facts
+        ) -> descriptive_projection
+        SELECT descriptive_assessment
+            FOR "goal.open_revisable_structural_suppositions"
+            FROM descriptive_projection.alternative_refs
+            UNDER policy.declared_descriptive_structure_frontier
+            REQUIRE ["requirement.multi_resolution_measurements_are_bounded"]
+            PRESERVE descriptive_projection.alternative_refs
+            FACTS descriptive_projection.alternative_facts
+        MATCH descriptive_assessment.alternatives.selected
+            "morphology_evidence.descriptive_structure_observed" -> NEXT commit_descriptive_frontier
+            "morphology_evidence.no_descriptive_structure" -> STOP result
+    STEP commit_descriptive_frontier
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_descriptive_structure_frontier",
+            selected_ref=descriptive_assessment.alternatives.selected,
+            alternative_facts=descriptive_projection.alternative_facts,
+            evidence_refs=views.measurement_refs
+        ) -> descriptive_meaning
+        DERIVE descriptive_derivation
+            FROM descriptive_meaning.evidence_refs
+            USING rule.multi_resolution_morphology_frontier
+            CONTEXT descriptive_meaning
+        CALL control.prepare_meaning_updates(
+            terms=descriptive_meaning.terms,
+            claims=descriptive_derivation.claims
+        ) -> descriptive_prepared
+        CALL control.current_state_revision() -> descriptive_before_revision
+        TRANSACTION commit_descriptive_morphological_frontier
+            UPDATE descriptive_revision
+                TARGET descriptive_prepared.update_items
+                FROM descriptive_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE descriptive_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE descriptive_projection.alternative_refs
+        STOP result
+
+# A separate, typed branch cannot be mistaken for a complete visual scene.
+# Its caller must first obtain scene_scope.block_grid from the declared
+# post-action scope selector; it never runs for initial observations.
+WORKFLOW assimilate_block_grid_frame(
+    raw_frame: Any,
+    raw_input_ref: Ref,
+    action_conditioned_grid_evidence: Boolean,
+    before_revision: Integer,
+    retained_grid_geometry: Any?,
+    retained_grid_separator_consistency_ppm: Integer
+) -> BlockGridSceneDescription
+    STATE
+        normalized: FrameNormalizationResult
+    STEP normalize
+        CALL capability.frame_normalization(
+            payload=raw_frame
+        ) -> normalized
+        NEXT measure
+    STEP measure
+        CALL capability.block_grid_scene_decomposition(
+            frame=normalized.frame,
+            action_conditioned_grid_evidence=action_conditioned_grid_evidence,
+            retained_grid_geometry=retained_grid_geometry,
+            retained_grid_separator_consistency_ppm=retained_grid_separator_consistency_ppm
+        ) -> result
+        NEXT finish
+    STEP finish
+        STOP result

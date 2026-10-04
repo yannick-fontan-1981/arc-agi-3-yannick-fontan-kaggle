@@ -1,0 +1,113 @@
+# Reversal remains separate; an independent observed sequence can supply
+# revisable recurrence evidence before any replay-dependent plan is committed.
+MODULE arc3.assess_temporal_replay_sequence
+
+WORKFLOW assess_temporal_replay_sequence(
+    mechanism_gate: Assessment,
+    measurement_request: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        measurements: TemporalReplaySequenceMeasurements
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared: PreparedMeaningUpdates
+        assessment_revision: Any?
+    STEP require_committed_mechanism
+        MATCH mechanism_gate.alternatives.selected
+            "mechanism_gate.commit_revisable_mechanism" -> NEXT measure_and_interpret
+            "mechanism_gate.select_discriminating_experiment" -> NEXT measure_reversal_observation
+            "mechanism_gate.extend_scoped_ontology" -> STOP mechanism_gate
+            "mechanism_gate.fail_closed_named_gap" -> STOP mechanism_gate
+    STEP measure_reversal_observation
+        CALL capability.temporal_replay_sequence_measurement(
+            request=measurement_request
+        ) -> measurements
+        MATCH measurements.descriptive_facts.sequence_measurement_kind
+            "ordered_observed_states" -> NEXT interpret_observed_state_sequence
+            "ordered_transition_deltas" -> NEXT interpret_reversal_observation
+    STEP interpret_observed_state_sequence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_observed_state_sequence_recurrence
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        NEXT derive_meaning
+    STEP interpret_reversal_observation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_temporal_reversal_observation",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_temporal_reversal_observation
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_temporal_reversal_observation",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        NEXT derive_meaning
+    STEP measure_and_interpret
+        CALL capability.temporal_replay_sequence_measurement(
+            request=measurement_request
+        ) -> measurements
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_temporal_replay_interpretation",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_temporal_replay_interpretation
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_temporal_replay_interpretation",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        NEXT derive_meaning
+    STEP derive_meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_replay_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_temporal_replay_assessment
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP assessment

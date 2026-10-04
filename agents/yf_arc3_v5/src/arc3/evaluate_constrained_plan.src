@@ -1,0 +1,13 @@
+# Exact intermediate simulation blocks a constraint-violating plan before action.
+MODULE arc3.evaluate_constrained_plan
+
+WORKFLOW evaluate_constrained_plan(
+    simulation_request: QuantitySimulationInput
+) -> TerminalResult
+    STEP simulate
+        CALL capability.quantity_simulation(
+            request=simulation_request
+        ) -> simulation
+        MATCH simulation.all_valid
+            true -> STOP viable
+            false -> BLOCK blocked

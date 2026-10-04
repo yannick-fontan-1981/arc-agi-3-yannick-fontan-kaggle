@@ -1,0 +1,158 @@
+# Classify raw transition measurements without hiding the rule in Python.
+MODULE arc3.classify_interaction_effect
+
+WORKFLOW classify_interaction_effect(
+    before_frame: Any,
+    after_frames: Any,
+    before_raw_input_ref: Ref,
+    after_raw_input_ref: Ref,
+    action_ref: Ref,
+    action_data: Any,
+    candidate_ref: Ref,
+    context_epoch: Any,
+    prior_no_effect_candidate_refs: List<Ref>,
+    before_score: Integer,
+    after_score: Integer,
+    before_available_action_refs: List<Ref>,
+    after_available_action_refs: List<Ref>,
+    transition_ref: Ref,
+    before_configuration_digest: Ref,
+    after_configuration_digest: Ref,
+    before_available_action_set_digest: Ref,
+    boundary_indicator_quantum_delta_measurement: Integer,
+    established_boundary_indicator_decrement_changed_pixel_count_measurement: Integer,
+    declared_boundary_indicator_decrease_changed_pixel_count_measurement: Integer,
+    current_effect_signature_known: Boolean,
+    current_effect_signature_known_cycle: Boolean,
+    known_effect_signature_count: Integer,
+    known_cycle_transition_signature_count: Integer,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        measurements: SceneTransitionMeasurements?
+        effect_projected: DeclaredAlternativeFacts?
+        effect: Assessment?
+        transient_projected: DeclaredAlternativeFacts?
+        transient_evidence: Assessment?
+        transient_meaning: DeclaredMeaningInstantiation?
+        transient_derived: Any?
+        transient_prepared: PreparedMeaningUpdates?
+        transient_before_revision: Integer?
+        transient_revision: Any?
+        contextual_meaning: DeclaredMeaningInstantiation?
+        contextual_derived: Any?
+        contextual_prepared: PreparedMeaningUpdates?
+        contextual_revision: Any?
+    STEP classify
+        CALL capability.frame_normalization(
+            payload=before_frame
+        ) -> normalized_before
+        CALL capability.frame_normalization(
+            payload=after_frames
+        ) -> normalized_after
+        CALL capability.scene_transition_measurement(
+            before=normalized_before.frame,
+            intermediate_frames=normalized_after.transition_frames,
+            after=normalized_after.frame,
+            transition_ref=transition_ref,
+            action_ref=action_ref,
+            action_data=action_data,
+            candidate_ref=candidate_ref,
+            context_epoch=context_epoch,
+            before_configuration_digest=before_configuration_digest,
+            after_configuration_digest=after_configuration_digest,
+            before_available_action_set_digest=before_available_action_set_digest,
+            boundary_indicator_quantum_delta_measurement=boundary_indicator_quantum_delta_measurement,
+            established_boundary_indicator_decrement_changed_pixel_count_measurement=established_boundary_indicator_decrement_changed_pixel_count_measurement,
+            declared_boundary_indicator_decrease_changed_pixel_count_measurement=declared_boundary_indicator_decrease_changed_pixel_count_measurement,
+            current_effect_signature_known=current_effect_signature_known,
+            current_effect_signature_known_cycle=current_effect_signature_known_cycle,
+            known_effect_signature_count=known_effect_signature_count,
+            known_cycle_transition_signature_count=known_cycle_transition_signature_count,
+            before_score=before_score,
+            after_score=after_score
+        ) -> measurements
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_scene_equivalence_after_interaction",
+            alternative_refs=measurements.alternative_refs,
+            descriptive_facts=measurements.alternative_facts
+        ) -> effect_projected
+        SELECT effect
+            FOR "goal.classify_observed_interaction_effect"
+            FROM effect_projected.alternative_refs
+            UNDER policy.declared_scene_equivalence_after_interaction
+            REQUIRE ["requirement.action_conditioned_transition_is_observed"]
+            PRESERVE effect_projected.alternative_refs
+            FACTS effect_projected.alternative_facts
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_transient_pixel_evidence",
+            alternative_refs=[],
+            descriptive_facts=measurements.ordered_packet_facts
+        ) -> transient_projected
+        SELECT transient_evidence
+            FOR "goal.interpret_transient_pixel_evidence"
+            FROM transient_projected.alternative_refs
+            UNDER policy.declared_transient_pixel_evidence
+            REQUIRE ["requirement.ordered_frame_packet_is_measured"]
+            PRESERVE transient_projected.alternative_refs
+            FACTS transient_projected.alternative_facts
+        NEXT commit_contextual_effect
+    STEP commit_contextual_effect
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_scene_equivalence_after_interaction",
+            selected_ref=effect.alternatives.selected,
+            alternative_facts=effect_projected.alternative_facts,
+            evidence_refs=[before_raw_input_ref, after_raw_input_ref]
+        ) -> contextual_meaning
+        DERIVE contextual_derived
+            FROM contextual_meaning.evidence_refs
+            USING rule.contextual_action_effect_meaning
+            CONTEXT contextual_meaning
+        CALL control.prepare_meaning_updates(
+            terms=contextual_meaning.terms,
+            claims=contextual_derived.claims
+        ) -> contextual_prepared
+        TRANSACTION commit_contextual_action_effect
+            UPDATE contextual_revision
+                TARGET contextual_prepared.update_items
+                FROM contextual_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [transition_ref]
+        NEXT route_transient_evidence
+    STEP route_transient_evidence
+        MATCH effect.alternatives.selected
+            "scene_equivalence.equivalent" -> NEXT route_selected_transient_evidence
+            "scene_equivalence.different" -> NEXT route_selected_transient_evidence
+    STEP route_selected_transient_evidence
+        MATCH transient_evidence.alternatives.selected
+            "transition_evidence.transient_pixel_change_observed" -> NEXT commit_transient_evidence
+            "transition_evidence.no_transient_pixel_change" -> STOP effect
+    STEP commit_transient_evidence
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_transient_pixel_evidence",
+            selected_ref=transient_evidence.alternatives.selected,
+            alternative_facts=transient_projected.alternative_facts,
+            evidence_refs=[before_raw_input_ref, after_raw_input_ref]
+        ) -> transient_meaning
+        DERIVE transient_derived
+            FROM transient_meaning.evidence_refs
+            USING rule.transient_pixel_evidence_meaning
+            CONTEXT transient_meaning
+        CALL control.prepare_meaning_updates(
+            terms=transient_meaning.terms,
+            claims=transient_derived.claims
+        ) -> transient_prepared
+        CALL control.current_state_revision() -> transient_before_revision
+        TRANSACTION commit_transient_process_meaning
+            UPDATE transient_revision
+                TARGET transient_prepared.update_items
+                FROM transient_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE transient_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [transition_ref]
+        STOP effect

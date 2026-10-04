@@ -1,0 +1,12 @@
+# Wisdom governs commitment from explicit symbolic viability, never a score.
+MODULE core.operational_wisdom
+
+WORKFLOW operational_wisdom(
+    viability: ViabilityAssessment
+) -> TerminalResult
+    STEP decide
+        MATCH viability.status
+            viable -> STOP commit
+            conditional -> STOP conditional_commit
+            blocked -> BLOCK reject
+            undetermined -> DEFER wait

@@ -1,0 +1,23 @@
+# A symbolic stock witness never authorizes a physical action by itself.
+MODULE arc3.assess_consumptive_type_dependency
+
+WORKFLOW assess_consumptive_type_dependency(
+    descriptive_dependency_measurements: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP distinguish_supported_step_and_missing_effect
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_consumptive_type_dependency",
+            alternative_refs=[],
+            descriptive_facts=descriptive_dependency_measurements
+        ) -> projected
+        SELECT selected
+            FOR "goal.advance_current_required_type_dependency"
+            FROM projected.alternative_refs
+            UNDER policy.declared_consumptive_type_dependency
+            REQUIRE ["requirement.current_type_dependency_has_disjoint_stock_and_rebound_inputs"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected

@@ -1,0 +1,126 @@
+# Every observed frame may refine explicit display/identity correspondences.
+# Python supplies exact rows; only this workflow releases declarative meaning.
+MODULE arc3.interpret_display_correspondence
+
+WORKFLOW interpret_display_correspondence(
+    before_frame: FrameGrid,
+    after_frame: FrameGrid,
+    observation_ref: Ref,
+    previous_observation_ref: Ref,
+    scope_ref: Ref,
+    action_ref: Ref,
+    announced_count: Integer,
+    before_completed: Integer,
+    after_completed: Integer,
+    direction: List<Integer>,
+    boundary_inventory_only: Boolean,
+    lattice_geometry: Any
+) -> Assessment
+    STATE
+        interpretation: Assessment
+        measured: DisplayCorrespondenceMeasurements
+        projected: DeclaredAlternativeFacts
+        meaning: DeclaredMeaningInstantiation?
+        prepared: PreparedMeaningUpdates?
+        derived: Any?
+        revision: Any?
+        refutation_meaning: DeclaredMeaningInstantiation?
+        refutation_derived: Any?
+        refutation_prepared: PreparedMeaningUpdates?
+        refutation_revision: Any?
+    STEP canonical_inputs
+        CALL control.current_term_attribute_rows(
+            filter_attribute="role", filter_value="orientable_cursor",
+            returned_attributes=["body_entity_ref", "body_value", "body_relative_pixels", "part_value", "part_relative_pixels"],
+            max_items=8
+        ) -> body_rows
+        CALL control.current_term_attribute_rows(
+            filter_attribute="role", filter_value="egress_marker_convention",
+            returned_attributes=["marker_value", "status", "scope_ref"], max_items=8
+        ) -> convention_rows
+        CALL control.current_term_attribute_rows(
+            filter_attribute="role", filter_value="action_linked_indicator_correspondence",
+            returned_attributes=["border_before_values", "border_after_value", "scope_ref"], max_items=64
+        ) -> contact_rows
+        CALL capability.display_correspondence_measurements(
+            before=before_frame, after=after_frame, observation_ref=observation_ref,
+            previous_observation_ref=previous_observation_ref, scope_ref=scope_ref,
+            action_ref=action_ref, announced_count=announced_count,
+            before_completed=before_completed, after_completed=after_completed,
+            direction=direction, body_rows=body_rows, convention_rows=convention_rows, contact_rows=contact_rows,
+            boundary_inventory_only=boundary_inventory_only, lattice_geometry=lattice_geometry,
+            max_components=512, max_rows=128
+        ) -> measured
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.symbolic_display_correspondence",
+            alternative_refs=[], descriptive_facts=measured.descriptive_facts
+        ) -> projected
+        SELECT interpretation
+            FOR "goal.interpret_observed_display_and_entry_correspondences"
+            FROM projected.alternative_refs
+            UNDER policy.symbolic_display_correspondence
+            REQUIRE ["requirement.exact_observation_correspondence_is_bounded"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH interpretation.alternatives.selected
+            "display.unresolved" -> STOP interpretation
+            "display.measurements_available" -> NEXT commit_meaning
+    STEP commit_meaning
+        CALL control.declared_meaning_is_applicable(
+            selection_policy_ref="policy.symbolic_display_correspondence",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts, evidence_refs=measured.evidence_refs
+        ) -> applicable
+        MATCH applicable
+            false -> STOP interpretation
+            true -> NEXT derive_meaning
+    STEP derive_meaning
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.symbolic_display_correspondence",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measured.evidence_refs
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.symbolic_display_correspondence
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(terms=meaning.terms, claims=derived.claims) -> prepared
+        CALL control.current_state_revision() -> before_revision
+        TRANSACTION commit_correspondences
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE measured.evidence_refs
+        MATCH measured.descriptive_facts.marker_contradiction_present
+            false -> STOP interpretation
+            true -> NEXT refute_marker
+    STEP refute_marker
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.refute_display_marker_correspondence",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measured.evidence_refs
+        ) -> refutation_meaning
+        REQUIRE refutation_meaning.template_iteration_complete
+        DERIVE refutation_derived
+            FROM refutation_meaning.evidence_refs
+            USING rule.refute_display_marker_correspondence
+            CONTEXT refutation_meaning
+        CALL control.prepare_revisable_meaning_updates(terms=refutation_meaning.terms, claims=refutation_derived.claims) -> refutation_prepared
+        CALL control.current_state_revision() -> refutation_before
+        TRANSACTION refute_correspondences
+            UPDATE refutation_revision
+                TARGET refutation_prepared.update_items
+                FROM refutation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE refutation_before
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE measured.evidence_refs
+        STOP interpretation

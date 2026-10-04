@@ -1,0 +1,214 @@
+{
+  "25f3f844077e9636e616917ec6660e872a6d8e7b75861046f70293fdd34e5222": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "HTTP is a catalogue name collision; this line restricts the gateway URL scheme and is not puzzle knowledge."
+  },
+  "003c112fc9b91ff9623a89f0316f2bb987428a58d69606b6e9eda55658dec93b": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "041fa7fc6a9b89ea8fd48c8018da79856765731e08ea5f78a19ab32bd0466c24": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "05aa9455af1fa25093b5cf69c4d7646f5b8cf0e5e754a80f56432bd612c99737": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "0625356d7b557895d828c11792b5a28d5f6c0e31ded563dc5aa1a07382534e62": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "07c0f45f28cc0d8f63330650edf0d43dd528227ef9cc1b48f970d0f173bb82c6": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "1b7d4c8aa9da951f4d4fac09dd986b27880fbcf2aaa8b05ca5edaced5c3a104b": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "1c5e6d851996b6c586728e8771f3200ce4294d36d9099edb7ba3e2dec63c64e9": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "20ffff5063c5726ebb6d99cdbdfee47a3d3d39411a7803f5466854a7efcba21d": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic vertical/horizontal/opposite-first search ordering alternatives over four movement actions, not an executed puzzle solution."
+  },
+  "2ad5f4c03d4f0ea4290de2a69bcd1ad181549f2330b7b0f983056635b49be245": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "2efe6669f71e5d0b09b70eb93a64c97b678b79957f577a2ee3ae16029dca6143": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "2f93223b34ce71b6f215e72ec8a24ed856053f47ccca5419709ad3d96d6bd5ad": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic vertical/horizontal/opposite-first search ordering alternatives over four movement actions, not an executed puzzle solution."
+  },
+  "3f73ff6fedb16253171be7d1d4c9d88cacedda3ee0c77211d383a59afc067b08": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Migration proof reference only; no level data is shipped or read."
+  },
+  "4009487da3b197fa84f06f457984b09e84b824f63296cf81d56eaeb80b0a1022": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "48474f152d6321e97069242a7c20f2e73f415d259eac818bca2f1aa92caae1fc": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "49d3b983342f4765c59f5276a85892cabe096a3c67fb583adf06c9f0466da135": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "55b9c95ba668128b691a03bd4f7d8a0e920853909467b22cb147574ecbf0e71a": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic contract/documentation explicitly excludes oracle inputs or describes computed finite action search; no stored witness."
+  },
+  "5650b15b04d03cb1cc6b165c32d8243aa4ce60da38429ccd57d26734629b3a71": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "565a4ad0fb793334a007b9dbd7577fe836f20b38b47de4b5ac1391b5c946b5f3": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Cold-component migration shadow_proof_refs provenance; loader validates strings, never opens proof paths."
+  },
+  "5ccebdac77dbea462304d31da0136ea45db6aac66c036988fc1d8f86659e8aea": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic vertical/horizontal/opposite-first search ordering alternatives over four movement actions, not an executed puzzle solution."
+  },
+  "60250e659a97a34e35f95fa7edc8ac76fca19917cfe0017b9553e3cf138793c9": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "614b65c744f4656e77c18f84477f4c8f8dd37745f043d37526ddfde7d7ffcbd0": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "66d3e4b72f293fbb402ec912073243f3248413909842a4369c28047145c2b366": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "6e26fb8892d5596377cd5a30b45a95e856340c83558b8de9e8457d0ea8a9d169": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "6e3d170aef63552aba5d3e1bfd1fc076993a96ef9a83a6a8bcdfe76f38814096": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic contract/documentation explicitly excludes oracle inputs or describes computed finite action search; no stored witness."
+  },
+  "80950c94eca6332ea5212fc2c166b248c697c02c7b9f228bbb6f02204aedfc1a": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic contract/documentation explicitly excludes oracle inputs or describes computed finite action search; no stored witness."
+  },
+  "838a224bee1807192debb4341ff5e5bb5be8ebdf9bf96093987e1addc9306dca": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "8b83623cd2608ed0eb071d4c78ba5db403fbe434b3bc07c38381c0bd211bba3f": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic contract/documentation explicitly excludes oracle inputs or describes computed finite action search; no stored witness."
+  },
+  "8d8c9c14850894b00d6170a773172852abcd3329425c997c48ca3e643b6765ca": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "8e501b76e469670f618b2aa007cd5a64421e85b98aa4f0313357c34b2705f65b": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Compiler rejection vocabulary: forbids oracle authority; not an oracle input or answer."
+  },
+  "9089e03e4c44dec4bf60547e10ac94e0f3e64b6b45bc09715939ef546cc2e75e": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "94a077660c032854020ef9f81f62d2dbda74e5da4458705a1e2595ee2f9be655": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "9c61062478139daaf91ea603e020c93a0513a0eaad0dae5f23d4f26fbdd201ba": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "af49c4aaf5454b8cebd3256777fb755d745b5ec65a0bb980eca877b387efc238": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Generic contract/documentation explicitly excludes oracle inputs or describes computed finite action search; no stored witness."
+  },
+  "b05838dd87a8259cb931161f752ae4b55003bcf78fa1d6aa6033c408d1323547": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "b5283660c2980c22e3236a97d1bbda2830a0fa9110c887aa18e6c9e662eee4c6": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "b5591f4f7e460092847ecce27c09f2b3b770953ddc3452102723e7a6b90b20f6": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "b6062ceb0aff7b22c30c0f02ff3a6e5d91c69da5c591cbe946f340c1ada6f4fb": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Historical example in a comment/docstring; no runtime game dispatch, coordinates or solution."
+  },
+  "bc8e4a21b59bc4dbfa0fb599c7842a550481bb03897ea56187efbc40d4480e4b": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "be3ad4a6553bdfda482f8c2e4b3e7cb6a0dd1ec8ae71b901c148089d5f7ec02a": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "c13c8fac010eb908b3c145f8fc1f975ac3ace6f5380246537ea43bd807383ade": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "c35dd61b255e1578a36ef4c7002fceb7583c9e9d3789299cf472437b32b4263a": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "cce5fb5c441c92bf88b375536c41afd328fd6d1a62bfbbd2bf892dbadef41281": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "cd7d7a5ff0536d5887db5d5dbc6ecd248f2cac588852eea9b4405ce0118fae0c": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "d3bd02e5990cdaab8e8babc755ea9d54bd908262f4897d602db72e2fea103fc9": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "dfb50ea8704556d99099c92de3f618be7f64f6a7e127eefd0751252f2c7d9297": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "e075a76dbad2df7280b16665d52350fe63629f93417af1734cf864785d8634cb": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "e80c2acc6886cc59d241e4156077b85248238c638383a39b49b21eba054f05db": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "e9377d7ae87e85d5c201ffffaf080ae1777ecd8a7d065ad25e837388efde545e": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "f2d4b025db5004a88c0f5f65a59d0c2f8f19713ff06ac89d78076bb2db20082f": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Historical example in a comment/docstring; no runtime game dispatch, coordinates or solution."
+  },
+  "f8c7293b4dc82b66b3c649c6f1ed0e5dd6480646627d6890e0ffe743ea2d5bed": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Lazy human-only output recorder reference; tool absent and submission manual-play disabled; not an oracle read."
+  },
+  "f9a6342e93ddffa26b5223d1b07d462be1656481ebbbaf0d34d4214d362e1316": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  },
+  "febd7409099ef631016bd46875dea447f46694c499d5a889b4deae187083f61b": {
+    "disposition": "reviewed_generic_or_inactive",
+    "reason": "Case-insensitive catalogue collision with generic sign/life/http vocabulary; not a game-specific reference."
+  }
+}

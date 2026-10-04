@@ -1,0 +1,36 @@
+# SRC commits a DRM-declared dynamic frontier activation from scene evidence.
+# The activation payload is already selected and typed; this workflow never
+# invents a terminal goal, instrumental subgoal, priority, or outcome.
+MODULE arc3.activate_dynamic_goal_frontier
+
+WORKFLOW activate_dynamic_goal_frontier(
+    activation: DynamicGoalFrontierActivation,
+    before_revision: Integer
+) -> PreparedMeaningUpdates
+    STATE
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared: PreparedMeaningUpdates
+        revision: Any?
+    STEP derive_activation
+        CALL control.instantiate_dynamic_goal_frontier_meaning(
+            activation=activation
+        ) -> meaning
+        DERIVE derived
+            FROM activation.scene_support_claim_refs
+            USING rule.dynamic_goal_frontier_activation_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_dynamic_goal_frontier_activation
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM activation.scene_support_claim_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [activation.activation_ref]
+        STOP prepared

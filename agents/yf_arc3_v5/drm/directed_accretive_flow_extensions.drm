@@ -1,0 +1,148 @@
+{
+  "module_id": "directed_accretive_flow_extensions",
+  "declarations": [
+    {
+      "id": "policy.declared_directed_flow_collider_union",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["multiple_bounded_collider_masks_with_identity_control_and_attachment_packets_are_supplied"],
+      "applicability": ["provisional_directed_accretive_flow_whole_collider_request"],
+      "invariants": [
+        "overlapping_masks_form_one_collision_union_without_erasing_owner_identities",
+        "control_and_attachment_refs_remain_descriptive_inputs",
+        "python_does_not_infer_semantic_roles"
+      ],
+      "falsifiers": ["fewer_than_two_collider_masks", "identity_packet_incomplete", "collider_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["solving.directed_accretive_flow.whole_collider"],
+      "fact_projections": [{
+        "id": "projection.directed_accretive_flow.whole_collider",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "solving.directed_accretive_flow.whole_collider"},
+          {"field": "provisional_directed_accretive_flow_family_requested", "operator": "equals", "expected": true},
+          {"field": "collider_mask_count", "operator": "greater_than", "expected": 1},
+          {"field": "collider_masks_supplied", "operator": "equals", "expected": true},
+          {"field": "collider_identity_control_attachment_packet_complete", "operator": "equals", "expected": true},
+          {"field": "collider_measurement_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "solving.directed_accretive_flow.whole_collider",
+          "reasoning_tree_parent_key": "solving.directed_accretive_flow",
+          "reasoning_tree_provisional_gate": "action_ready",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.directed_flow_collider_union_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["solving.directed_accretive_flow.whole_collider"]
+    },
+    {
+      "id": "policy.declared_directed_flow_joint_tick",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["multiple_fronts_existing_trace_and_one_to_three_complete_tick_schedules_are_supplied"],
+      "applicability": ["provisional_directed_accretive_flow_joint_tick_request"],
+      "invariants": [
+        "every_front_advances_under_a_declared_complete_schedule",
+        "merged_trace_cells_preserve_all_source_lineages",
+        "insufficient_simultaneous_order_evidence_preserves_alternative_successors"
+      ],
+      "falsifiers": ["fewer_than_two_fronts", "schedule_omits_a_front", "resulting_trace_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.directed_accretive_flow.multi_source_tick"],
+      "fact_projections": [{
+        "id": "projection.directed_accretive_flow.multi_source_tick",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.directed_accretive_flow.multi_source_tick"},
+          {"field": "provisional_directed_accretive_flow_family_requested", "operator": "equals", "expected": true},
+          {"field": "active_front_count", "operator": "greater_than", "expected": 1},
+          {"field": "declared_schedule_count", "operator": "between_inclusive", "lower": 1, "upper": 3},
+          {"field": "complete_front_schedules_supplied", "operator": "equals", "expected": true},
+          {"field": "existing_trace_packet_supplied", "operator": "equals", "expected": true},
+          {"field": "lineage_preservation_requested", "operator": "equals", "expected": true},
+          {"field": "resulting_trace_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.directed_accretive_flow.multi_source_tick",
+          "reasoning_tree_parent_key": "mechanics.directed_accretive_flow",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.directed_flow_joint_tick_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_directed_flow_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.directed_accretive_flow.trace_interaction",
+            "reasoning_tree_parent_key": "solving.directed_accretive_flow",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }],
+          "reasoning_tree_directed_flow_observation_or_reconciliation_activations": [{
+            "reasoning_tree_node_id": "frontier.effect.directed_accretive_flow.multisource",
+            "reasoning_tree_parent_key": "frontier.effect.directed_accretive_flow",
+            "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.directed_accretive_flow.multi_source_tick"]
+    },
+    {
+      "id": "policy.declared_directed_flow_recovery",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["an_observed_failed_release_and_complete_before_failure_recovery_packet_are_supplied"],
+      "applicability": ["provisional_directed_accretive_flow_recovery_request"],
+      "invariants": [
+        "configuration_trace_receptacle_and_resource_quantities_are_reconciled_separately",
+        "resource_quantity_identities_are_preserved",
+        "recovery_measurement_does_not_invent_reset_semantics"
+      ],
+      "falsifiers": ["failed_release_not_observed", "recovery_packet_incomplete", "quantity_identity_changed"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.directed_accretive_flow.recovery"],
+      "fact_projections": [{
+        "id": "projection.directed_accretive_flow.recovery",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.directed_accretive_flow.recovery"},
+          {"field": "provisional_directed_accretive_flow_family_requested", "operator": "equals", "expected": true},
+          {"field": "failed_release_observed", "operator": "equals", "expected": true},
+          {"field": "recovery_packet_supplied", "operator": "equals", "expected": true},
+          {"field": "recovery_identity_packet_complete", "operator": "equals", "expected": true},
+          {"field": "recovery_quantity_pairs_complete", "operator": "equals", "expected": true},
+          {"field": "recovery_measurement_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.directed_accretive_flow.recovery",
+          "reasoning_tree_parent_key": "frontier.effect.directed_accretive_flow",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.directed_flow_recovery_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.directed_accretive_flow.recovery"]
+    }
+  ]
+}

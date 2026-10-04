@@ -1,0 +1,32 @@
+# Reuse reconciled symbolic state only when exact changed pixels remain inside
+# the declared controlled-translation footprint.
+MODULE arc3.verify_reconciled_state_reuse
+
+WORKFLOW verify_reconciled_state_reuse(
+    before: FrameGrid,
+    after: FrameGrid,
+    ignored_regions: List<Any>,
+    permitted_regions: List<Any>,
+    action_ref: Ref,
+    periodic_cycle_workflow_facts: List<Any>
+) -> Assessment
+    STATE
+        measurements: IntermediateSceneChangeMeasurements?
+        verification: Assessment?
+    STEP measure_exact_delta
+        CALL capability.intermediate_scene_change_measurement(
+            before=before,
+            after=after,
+            ignored_regions=ignored_regions,
+            permitted_regions=permitted_regions,
+            action_ref=action_ref,
+            periodic_cycle_workflow_facts=periodic_cycle_workflow_facts
+        ) -> measurements
+        SELECT verification
+            FOR "goal.verify_reconciled_symbolic_state_reuse"
+            FROM measurements.alternative_refs
+            UNDER policy.declared_reconciled_symbolic_state_reuse
+            REQUIRE ["requirement.reconciled_symbolic_state_and_exact_permitted_footprint"]
+            PRESERVE measurements.alternative_refs
+            FACTS measurements.alternative_facts
+        STOP verification

@@ -1,0 +1,31 @@
+# Materialize bounded declared workflow candidates, then select only a disposition.
+MODULE arc3.synthesize_dynamic_workflow
+
+WORKFLOW synthesize_dynamic_workflow(
+    synthesis_request: Any
+) -> Assessment
+    STATE
+        synthesis_result: Any
+        selection_facts: Any
+        dispositions: DeclaredAlternativeFacts
+        decision: Assessment
+    STEP materialize_declared_candidates
+        CALL control.synthesize_declared_dynamic_workflow_candidates(
+            synthesis_request=synthesis_request
+        ) -> synthesis_result
+        CALL control.reduce_dynamic_workflow_synthesis_facts(
+            synthesis_result=synthesis_result
+        ) -> selection_facts
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_dynamic_workflow_synthesis",
+            alternative_refs=[],
+            descriptive_facts=selection_facts
+        ) -> dispositions
+        SELECT decision
+            FOR "goal.choose_current_dynamic_workflow_disposition"
+            FROM dispositions.alternative_refs
+            UNDER policy.declared_dynamic_workflow_synthesis
+            REQUIRE ["requirement.dynamic_workflow_disposition_has_current_support"]
+            PRESERVE dispositions.alternative_refs
+            FACTS dispositions.alternative_facts
+        STOP decision

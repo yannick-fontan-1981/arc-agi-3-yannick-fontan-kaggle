@@ -1,0 +1,39 @@
+# Prepare one immutable action boundary before CONTINUE starts.
+# This workflow owns the one-time grounding/wisdom/release phase.  The
+# subsequent continue_declared_action workflow is action-only.
+MODULE arc3.prepare_declared_action_series
+
+WORKFLOW prepare_declared_action_series(
+    agenda: InteractionProbeAgenda,
+    selected_ref: Ref,
+    context: WorldContext,
+    selection_policy_ref: String,
+    selection_source_ref: String
+) -> ActionIntent
+    STATE
+        prepared: Any?
+        grounding: ActionGroundingContract?
+    STEP prepare
+        REQUIRE agenda.has_candidates
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            selected_ref=selected_ref,
+            context=context,
+            selection_policy_ref=selection_policy_ref,
+            selection_source_ref=selection_source_ref
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared.intent

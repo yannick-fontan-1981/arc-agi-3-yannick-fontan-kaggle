@@ -1,0 +1,142 @@
+# Reconcile one committed plan prediction before another CONTINUE is allowed.
+MODULE arc3.reconcile_transferred_quantized_plan
+
+WORKFLOW reconcile_transferred_quantized_plan(
+    after_scene: Any?,
+    after_tracking: Any?,
+    selected_plan_facts: Any,
+    before_score: Integer,
+    after_score: Integer,
+    transition_ref: Ref,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        analysis: QuantizedPlanReconciliationAnalysis?
+        projected: DeclaredAlternativeFacts?
+        reconciliation: Assessment?
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        revision: Any?
+        activity_support: Any?
+        activity_projection: DeclaredAlternativeFacts?
+        activity_assessment: Assessment?
+        activity_meaning: DeclaredMeaningInstantiation?
+        activity_derived: Any?
+        activity_prepared: PreparedMeaningUpdates?
+        activity_revision: Any?
+    STEP compare_prediction_with_world
+        CALL capability.quantized_plan_reconciliation(
+            after_scene=after_scene,
+            after_tracking=after_tracking,
+            selected_plan_facts=selected_plan_facts,
+            before_score=before_score,
+            after_score=after_score,
+            transition_ref=transition_ref
+        ) -> analysis
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.declared_quantized_plan_reconciliation",
+            alternative_refs=[],
+            context_facts=selected_plan_facts,
+            descriptive_delta=analysis.descriptive_delta
+        ) -> projected
+        SELECT reconciliation
+            FOR selected_plan_facts.plan_ref
+            FROM projected.alternative_refs
+            UNDER policy.declared_quantized_plan_reconciliation
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_quantized_plan_reconciliation",
+            selected_ref=reconciliation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        MATCH reconciliation.alternatives.selected
+            "plan_reconciliation.match" -> NEXT commit_match
+            "plan_reconciliation.complete" -> NEXT commit_complete
+            "plan_reconciliation.mismatch" -> NEXT commit_mismatch
+    STEP commit_match
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.quantized_plan_step_reconciled
+            CONTEXT meaning
+        NEXT commit
+    STEP commit_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.quantized_plan_path_completed
+            CONTEXT meaning
+        NEXT commit
+    STEP commit_mismatch
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.quantized_plan_step_mismatch
+            CONTEXT meaning
+        NEXT commit
+    STEP commit
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_reconciliation
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [selected_plan_facts.plan_ref]
+        MATCH reconciliation.alternatives.selected
+            "plan_reconciliation.complete" -> NEXT measure_activity_support
+            "plan_reconciliation.match" -> STOP reconciliation
+            "plan_reconciliation.mismatch" -> STOP reconciliation
+    STEP measure_activity_support
+        CALL control.measure_canonical_activity_support(
+            activity_facts=selected_plan_facts,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=transition_ref,
+            admission_policy_ref="policy.record_reconciled_method_activity"
+        ) -> activity_support
+        MATCH activity_support.canonical_support_present
+            true -> NEXT record_activity
+            false -> STOP reconciliation
+    STEP record_activity
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            alternative_refs=[],
+            descriptive_facts=activity_support
+        ) -> activity_projection
+        SELECT activity_assessment
+            FOR "goal.remember_reconciled_method_activity"
+            FROM activity_projection.alternative_refs
+            UNDER policy.record_reconciled_method_activity
+            REQUIRE ["requirement.method_activity_has_canonical_completion_proof"]
+            PRESERVE activity_projection.alternative_refs
+            FACTS activity_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            selected_ref=activity_assessment.alternatives.selected,
+            alternative_facts=activity_projection.alternative_facts,
+            evidence_refs=activity_support.evidence_refs
+        ) -> activity_meaning
+        DERIVE activity_derived
+            FROM activity_meaning.evidence_refs
+            USING rule.reconciled_method_activity
+            CONTEXT activity_meaning
+        CALL control.prepare_meaning_updates(
+            terms=activity_meaning.terms,
+            claims=activity_derived.claims
+        ) -> activity_prepared
+        TRANSACTION remember_reconciled_activity
+            UPDATE activity_revision
+                TARGET activity_prepared.update_items
+                FROM activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE activity_support.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [selected_plan_facts.plan_ref]
+        STOP reconciliation

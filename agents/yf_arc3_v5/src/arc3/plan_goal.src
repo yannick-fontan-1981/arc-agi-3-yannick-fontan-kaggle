@@ -1,0 +1,38 @@
+# Planning exposes admissibility and retains every non-selected alternative.
+MODULE arc3.plan_goal
+
+WORKFLOW plan_goal(
+    mechanism_gate: Assessment,
+    declared_gap_request: DeclaredGoalGapInput,
+    plan_request: GoalPlanRequest,
+    requirements: List<Ref>,
+    preservation_rules: List<Ref>
+) -> Assessment
+    STATE
+        gap_measurements: DeclaredGoalGapResult
+        plan_alternatives: DeclaredGoalPlanAlternatives
+    STEP require_committed_mechanism
+        MATCH mechanism_gate.alternatives.selected
+            "mechanism_gate.commit_revisable_mechanism" -> NEXT measure_declared_gaps
+            "mechanism_gate.select_discriminating_experiment" -> STOP mechanism_gate
+            "mechanism_gate.extend_scoped_ontology" -> STOP mechanism_gate
+            "mechanism_gate.fail_closed_named_gap" -> STOP mechanism_gate
+    STEP measure_declared_gaps
+        CALL capability.declared_goal_gap_measurement(
+            request=declared_gap_request
+        ) -> gap_measurements
+        CALL capability.declared_goal_plan_enumeration(
+            gap_measurements=gap_measurements,
+            plan_request=plan_request
+        ) -> plan_alternatives
+        REQUIRE plan_alternatives.has_candidates
+        NEXT select_admissible
+    STEP select_admissible
+        SELECT result
+            FOR plan_alternatives.goal_ref
+            FROM plan_alternatives.alternative_refs
+            UNDER policy.declared_goal_plan_admissibility
+            REQUIRE requirements
+            PRESERVE preservation_rules
+            FACTS plan_alternatives.alternative_facts
+        STOP result

@@ -1,0 +1,1682 @@
+{
+  "module_id": "local_field_inventory",
+  "declarations": [
+    {
+      "id": "policy.measure_current_pair_point_geometry",
+      "reason_refs": [
+        "reason.measure_current_footprints_before_a_revisable_local_field_experiment"
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "configuration": {
+        "measurement_contract": {
+          "maximum_point_checks": 1048576,
+          "calibration_status": "enabled",
+          "representative_order": [
+            "point_residual_squared",
+            "midpoint_offset_squared",
+            "row",
+            "col"
+          ]
+        }
+      }
+    },
+    {
+      "id": "policy.current_local_field_pair_experiment",
+      "reason_refs": [
+        "reason.current_disjoint_dependency_opens_a_selective_pair_rendezvous_question"
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "selection_eligibility_conditions": [
+        {
+          "field": "applicable",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "selection_required_fact_fields": [
+        "participant_refs",
+        "point",
+        "affected_count"
+      ],
+      "meaning_template_ref_by_alternative": {
+        "*": "rule.current_local_field_pair_experiment"
+      },
+      "fact_projections": [
+        {
+          "id": "projection.current_local_field_pair.strict_current_domain",
+          "all_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "strict_domain_under_supplied_radius",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "binding_epistemic_status": "proposed",
+            "radius_is_recalled_hypothesis": true,
+            "action_authorization": false,
+            "reconcile_current_stock_before_continuation": true,
+            "action_ref": "ACTION6",
+            "active_goal_ref": "goal.test_required_type_transformation_with_current_participants",
+            "active_terminal_goal_ref": "goal.produce_and_deliver_displayed_required_type",
+            "subgoal_ref": "goal.test_required_type_transformation_with_current_participants",
+            "goal_graph_edge_refs": [
+              "edge.local_field.question_advances_required_type_delivery"
+            ],
+            "goal_dependency_chain_refs": [
+              "goal.produce_and_deliver_displayed_required_type",
+              "goal.test_required_type_transformation_with_current_participants"
+            ],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "priority_class_ref": "priority.required_terminal_dependency",
+            "expected_effect_class": "effectful_novel",
+            "remaining_action_bound": 1,
+            "reconciliation_checkpoint_ref": "checkpoint.local_field_pair_after_point",
+            "falsifier_refs": [
+              "falsifier.local_field_pair_has_no_approach_or_rewrite",
+              "falsifier.local_field_pair_changes_excluded_stock"
+            ],
+            "expectation_refs": [],
+            "reasoning_tree_node_id": "frontier.experiment.mechanism_or_usefulness",
+            "competing_effect_refs": [
+              "effect.participants_preserved",
+              "effect.participants_rewritten",
+              "effect.other_configuration_change"
+            ]
+          },
+          "templated_facts": {
+            "discriminating_experiment_ref": "experiment.local_field.current.{measurement_observation_ref}.{candidate_ref}",
+            "expected_configuration_or_goal_delta_ref": "prediction.local_field_pair_observation.{measurement_observation_ref}.{candidate_ref}",
+            "premise_claim_refs": [
+              "claim.local_field.inventory.{measurement_observation_ref}",
+              "claim.local_field.pair.{measurement_observation_ref}.{candidate_ref}"
+            ],
+            "canonical_premise_claim_refs": [
+              "claim.local_field.inventory.{measurement_observation_ref}",
+              "claim.local_field.pair.{measurement_observation_ref}.{candidate_ref}"
+            ],
+            "declared_intent_ref": "intent:{measurement_workflow_instance_ref}:{candidate_ref}"
+          }
+        },
+        {
+          "id": "projection.current_local_field_pair.joint_reason",
+          "all_conditions": [
+            {
+              "field": "affected_count",
+              "operator": "equals",
+              "expected": 2
+            }
+          ],
+          "static_facts": {
+            "selection_principle_ref": "reason.test_joint_application_when_current_domains_intersect"
+          }
+        },
+        {
+          "id": "projection.current_local_field_pair.approach_reason",
+          "all_conditions": [
+            {
+              "field": "affected_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "static_facts": {
+            "selection_principle_ref": "reason.reduce_pair_separation_before_testing_joint_application"
+          }
+        }
+      ],
+      "configuration": {
+        "transport_contract": {
+          "point_action_ref": "ACTION6"
+        }
+      },
+      "selection_tiers": [
+        {
+          "id": "tier.local_field_pair.common_point",
+          "all_conditions": [
+            {
+              "field": "affected_count",
+              "operator": "equals",
+              "expected": 2
+            }
+          ],
+          "reason_ref": "reason.test_joint_application_when_current_domains_intersect"
+        },
+        {
+          "id": "tier.local_field_pair.approach",
+          "all_conditions": [
+            {
+              "field": "affected_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "reason_ref": "reason.reduce_pair_separation_before_testing_joint_application"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "pair_separation_squared",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "point_residual_squared",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "midpoint_offset_squared",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "row",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "col",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "participant_a_top",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "participant_a_left",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "participant_b_top",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "participant_b_left",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "alternative_ref",
+          "preferred_order": "minimize"
+        }
+      ]
+    },
+    {
+      "id": "rule.current_local_field_pair_experiment",
+      "reason_refs": [
+        "reason.explicit_current_participants_and_terminal_dependency_ground_one_revisable_experiment"
+      ],
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "term_templates": [
+        {
+          "id_pattern": "experiment.local_field.current.{measurement_observation_ref}.{candidate_ref}",
+          "kind": "schema",
+          "label": "current selective pair experiment with distinct participants",
+          "required_fields": [
+            "measurement_observation_ref",
+            "candidate_ref",
+            "participant_refs",
+            "point"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.current_local_field_pair_experiment.v1",
+            "epistemic_status": "proposed",
+            "action_authorization": false
+          },
+          "attribute_bindings": {
+            "participant_refs": "participant_refs",
+            "affected_refs": "affected_refs",
+            "point": "point",
+            "before_stock_rows": "before_stock_rows",
+            "expected_template_ref": "expected_template_ref",
+            "expected_output_signature_ref": "expected_output_signature_ref",
+            "competing_effect_refs": "competing_effect_refs",
+            "supplied_radius": "supplied_radius",
+            "before_other_rows": "before_other_rows",
+            "before_observation_ref": "measurement_observation_ref",
+            "expected_intent_ref": "declared_intent_ref",
+            "before_stock_lineage_rows": "before_stock_lineage_rows",
+            "measurement_level_ref": "measurement_level_ref"
+          }
+        },
+        {
+          "id_pattern": "experiment.local_field.active",
+          "kind": "schema",
+          "label": "one current declared pair experiment awaiting its action-conditioned observation",
+          "required_fields": [
+            "measurement_observation_ref",
+            "measurement_workflow_instance_ref",
+            "candidate_ref"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.active_local_field_pair_experiment.v1"
+          },
+          "attribute_bindings": {
+            "participant_refs": "participant_refs",
+            "point": "point",
+            "before_stock_rows": "before_stock_rows",
+            "before_other_rows": "before_other_rows",
+            "expected_template_ref": "expected_template_ref",
+            "expected_output_signature_ref": "expected_output_signature_ref",
+            "before_observation_ref": "measurement_observation_ref",
+            "expected_intent_ref": "declared_intent_ref",
+            "experiment_ref": "discriminating_experiment_ref",
+            "before_stock_lineage_rows": "before_stock_lineage_rows",
+            "measurement_level_ref": "measurement_level_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.local_field.pair.{measurement_observation_ref}.{candidate_ref}",
+          "predicate": "proposes_selective_current_pair_experiment_for_required_type",
+          "family": "structural",
+          "epistemic_status": "proposed",
+          "argument_patterns": [
+            "experiment.local_field.current.{measurement_observation_ref}.{candidate_ref}",
+            "goal.test_required_type_transformation_with_current_participants",
+            "goal.produce_and_deliver_displayed_required_type"
+          ],
+          "required_fields": [
+            "measurement_observation_ref",
+            "candidate_ref"
+          ],
+          "static_attributes": {
+            "revisable": true,
+            "recipe_confirmed": false,
+            "reconcile_before_next_action": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.measure_array_adjacent_inventory",
+      "reason_refs": [
+        "reason.measure_display_array_and_adjacent_geometry_before_role_binding"
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "configuration": {
+        "measurement_contract": {
+          "maximum_square_side": 8,
+          "minimum_array_size": 3,
+          "maximum_array_size": 8,
+          "band_height_denominator": 4,
+          "maximum_pattern_rows": 8,
+          "calibration_contract_ref": "yf_arc3_v5.calibrated_local_point_transport_evidence.v1"
+        }
+      }
+    },
+    {
+      "id": "policy.classify_local_field_inventory",
+      "reason_refs": [
+        "reason.unique_display_array_proposes_current_request_and_separate_world_stock"
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "local_field_inventory.present",
+        "local_field_inventory.absent"
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "applicable",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "local_field_inventory.present": "rule.current_local_field_inventory"
+      },
+      "fact_projections": [
+        {
+          "id": "projection.local_field_inventory.current_unique_array",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "local_field_inventory.present"
+            },
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "pattern_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "enlarged_matching_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "adjacent_matching_count",
+              "operator": "greater_than",
+              "expected": 0
+            },
+            {
+              "field": "prior_calibration_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "inventory_epistemic_status": "proposed",
+            "hud_glyphs_are_not_consumable_world_stock": true,
+            "signature_substitution_declared": true,
+            "declared_recipe_input_count": 2,
+            "declared_recipe_template_order": "reverse_neighbor_sequence",
+            "recipe_epistemic_status": "proposed_until_action_conditioned_rewrite",
+            "selection_releases_action": false,
+            "reasoning_tree_node_id": "solving.local_field_type_production.type_plan",
+            "dependency_maximum_states": 4096,
+            "dependency_maximum_depth": 64,
+            "consumptive_type_dependency_requested": true,
+            "current_world_stock_evidence_complete": true,
+            "stock_enumeration_scope": "current_bodies_matching_displayed_signature_family",
+            "unmapped_world_shapes_remain_unresolved": true,
+            "current_participant_binding_revalidated": true,
+            "probe_continuation_or_discovery_risk_declared": true,
+            "empirical_recipe_projection_contract": "yf_arc3_v5.observed_consumptive_recipe.v1",
+            "empirical_recipe_policy_ref": "policy.qualify_observed_local_field_recipe",
+            "stock_lineage_term_prefix": "stock.lineage.current.",
+            "stock_lineage_policy_ref": "policy.bind_current_stock_lineage"
+          },
+          "bound_facts": {
+            "declared_stock_rows": "adjacent_matching_rows",
+            "declared_unmapped_world_rows": "adjacent_other_rows",
+            "declared_world_region_bbox": "adjacent_bbox",
+            "declared_required_signature_ref": "unique_enlarged_matching_signature_ref",
+            "declared_recipe_signature_pairs": "neighbor_signature_pairs"
+          }
+        },
+        {
+          "id": "projection.local_field_inventory.absent_or_ambiguous",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "local_field_inventory.absent"
+            }
+          ],
+          "any_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "pattern_count",
+              "operator": "not_equals",
+              "expected": 1
+            },
+            {
+              "field": "enlarged_matching_count",
+              "operator": "not_equals",
+              "expected": 1
+            },
+            {
+              "field": "adjacent_matching_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "prior_calibration_count",
+              "operator": "equals",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "selection_releases_action": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "rule.current_local_field_inventory",
+      "reason_refs": [
+        "reason.preserve_provisional_type_demand_and_distinct_stock_before_consumptive_dependency"
+      ],
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "term_templates": [
+        {
+          "id_pattern": "edge.local_field.question_advances_required_type_delivery",
+          "kind": "schema",
+          "label": "testing a needed current type transformation advances required type delivery",
+          "required_fields": [
+            "declared_required_signature_ref"
+          ],
+          "static_attributes": {
+            "from_goal_ref": "goal.test_required_type_transformation_with_current_participants",
+            "to_goal_ref": "goal.produce_and_deliver_displayed_required_type",
+            "status": "proposed",
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "required_signature_ref": "declared_required_signature_ref"
+          }
+        },
+        {
+          "id_pattern": "goal.produce_and_deliver_displayed_required_type",
+          "kind": "goal",
+          "label": "produce the displayed required type and obtain official delivery acceptance",
+          "required_fields": [
+            "declared_required_signature_ref",
+            "measurement_observation_ref"
+          ],
+          "static_attributes": {
+            "role": "terminal_objective",
+            "status": "proposed",
+            "commitment": "revisable",
+            "completion_requires_official_signal": true
+          },
+          "attribute_bindings": {
+            "required_signature_ref": "declared_required_signature_ref",
+            "current_observation_ref": "measurement_observation_ref"
+          }
+        },
+        {
+          "id_pattern": "goal.test_required_type_transformation_with_current_participants",
+          "kind": "goal",
+          "label": "discriminate a needed transformation using current distinct participants",
+          "required_fields": [
+            "declared_required_signature_ref",
+            "measurement_observation_ref"
+          ],
+          "static_attributes": {
+            "role": "experimental_subgoal",
+            "terminal_goal_ref": "goal.produce_and_deliver_displayed_required_type",
+            "status": "proposed",
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "required_signature_ref": "declared_required_signature_ref",
+            "current_observation_ref": "measurement_observation_ref"
+          }
+        },
+        {
+          "id_pattern": "inventory.local_field.current.{measurement_observation_ref}",
+          "kind": "schema",
+          "label": "current provisional displayed demand and separate world stock",
+          "required_fields": [
+            "measurement_observation_ref",
+            "declared_stock_rows",
+            "declared_required_signature_ref",
+            "declared_recipe_signature_pairs"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.local_field_type_inventory.v1",
+            "inventory_status": "proposed_requires_effect_comparison",
+            "hud_samples_excluded_from_stock": true,
+            "action_authorization": false,
+            "previous_displacement_is_not_a_current_type_quantum": true
+          },
+          "attribute_bindings": {
+            "world_stock_rows": "declared_stock_rows",
+            "unmapped_world_rows": "declared_unmapped_world_rows",
+            "stock_enumeration_scope": "stock_enumeration_scope",
+            "required_signature_ref": "declared_required_signature_ref",
+            "proposed_recipe_signature_pairs": "declared_recipe_signature_pairs",
+            "prior_calibration_rows": "prior_calibration_rows"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.local_field.inventory.{measurement_observation_ref}",
+          "predicate": "proposes_current_displayed_type_demand_and_distinct_world_stock",
+          "family": "structural",
+          "epistemic_status": "proposed",
+          "argument_patterns": [
+            "inventory.local_field.current.{measurement_observation_ref}"
+          ],
+          "required_fields": [
+            "measurement_observation_ref"
+          ],
+          "static_attributes": {
+            "authorizes_action": false,
+            "scope": "current_observation",
+            "revisable": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.measure_current_pair_stock_change",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "reason_refs": [
+        "reason.compare_only_the_current_declared_experiment_with_its_released_observation"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "configuration": {
+        "measurement_contract": {
+          "active_experiment_term_ref": "experiment.local_field.active"
+        }
+      }
+    },
+    {
+      "id": "policy.reconcile_current_pair_stock_change",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "reason_refs": [
+        "reason_action_conditioned_persistent_stock_discriminates_motion_from_consumption"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "stock_change.rewrite",
+        "stock_change.approach",
+        "stock_change.other",
+        "stock_change.unconditioned"
+      ],
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "selection_eligibility_conditions": [
+        {
+          "field": "applicable",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "alternative_ref",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "stock_change.rewrite": "rule.observed_selective_stock_rewrite",
+        "stock_change.approach": "rule.observed_selective_stock_approach"
+      },
+      "fact_projections": [
+        {
+          "id": "projection.stock_change.rewrite",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.rewrite"
+            },
+            {
+              "field": "active_experiment_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "action_intent_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observed_frame_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "release_permit_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "dispatch_record_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observation_changed",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outside_rows_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "other_rows_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "signature_counts_match_supplied_rewrite",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "residual_body_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "residual_output_signature_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "residual_contains_point",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "parent_leaf_sets_disjoint",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reconciliation_status": "supported_revisable",
+            "action_authorization": false
+          },
+          "templated_facts": {
+            "recipe_claim_ref": "claim.local_field.recipe.{expected_template_ref}.{current_observation_ref}",
+            "lineage_supporting_claim_ref": "claim.local_field.stock_lineage.{current_observation_ref}"
+          }
+        },
+        {
+          "id": "projection.stock_change.approach",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.approach"
+            },
+            {
+              "field": "active_experiment_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "action_intent_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observed_frame_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "release_permit_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "dispatch_record_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observation_changed",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outside_rows_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "other_rows_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "participant_identities_and_signatures_retained",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "stock_count_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "participant_separation_decreased",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reconciliation_status": "supported_revisable",
+            "action_authorization": false
+          }
+        },
+        {
+          "id": "projection.stock_change.other",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.other"
+            },
+            {
+              "field": "active_experiment_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "action_intent_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observed_frame_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "release_permit_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "dispatch_record_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "observation_changed",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reconciliation_status": "supported_revisable",
+            "action_authorization": false
+          }
+        },
+        {
+          "id": "projection.stock_change.unconditioned",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.unconditioned"
+            }
+          ],
+          "any_conditions": [
+            {
+              "field": "active_experiment_present",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "action_intent_matches",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "observed_frame_matches",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "release_permit_matches",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "dispatch_record_matches",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "observation_changed",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "action_authorization": false
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.stock_change.rewrite",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.rewrite"
+            }
+          ],
+          "reason_ref": "reason_exact_persistent_stock_delta_supports_the_supplied_rewrite"
+        },
+        {
+          "id": "tier.stock_change.approach",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.approach"
+            }
+          ],
+          "reason_ref": "reason_preserved_participants_with_reduced_separation_support_approach_only"
+        },
+        {
+          "id": "tier.stock_change.other",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.other"
+            }
+          ],
+          "reason_ref": "reason_unexplained_stock_change_blocks_consumptive_continuation"
+        },
+        {
+          "id": "tier.stock_change.unconditioned",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "stock_change.unconditioned"
+            }
+          ],
+          "reason_ref": "reason_a_prior_or_unexecuted_intent_is_not_current_causal_evidence"
+        }
+      ]
+    },
+    {
+      "id": "rule.observed_selective_stock_rewrite",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "reason_refs": [
+        "reason_exact_action_conditioned_consumption_preserves_distinct_parent_occurrences"
+      ],
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "term_templates": [
+        {
+          "id_pattern": "recipe.local_field.{expected_template_ref}",
+          "kind": "schema",
+          "label": "empirical current-context consumptive rewrite",
+          "required_fields": [
+            "expected_template_ref",
+            "input_signature_refs",
+            "expected_output_signature_ref",
+            "recipe_claim_ref"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.observed_consumptive_recipe.v1",
+            "operator_ref": "ACTION6",
+            "revisable": true,
+            "status": "supported_revisable"
+          },
+          "attribute_bindings": {
+            "template_ref": "expected_template_ref",
+            "input_signature_refs": "input_signature_refs",
+            "output_signature_ref": "expected_output_signature_ref",
+            "supporting_claim_ref": "recipe_claim_ref"
+          }
+        },
+        {
+          "id_pattern": "stock.rewrite.{current_observation_ref}",
+          "kind": "schema",
+          "label": "observed product and distinct consumed logical occurrences",
+          "required_fields": [
+            "current_observation_ref",
+            "parent_occurrence_refs",
+            "output_occurrence_refs"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.consumptive_stock_lineage.v1",
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "parent_occurrence_refs": "parent_occurrence_refs",
+            "output_occurrence_refs": "output_occurrence_refs",
+            "parent_physical_refs": "participant_refs",
+            "after_rows": "residual_rows",
+            "action_intent_ref": "expected_intent_ref",
+            "leaf_occurrence_refs": "combined_leaf_occurrence_refs"
+          }
+        },
+        {
+          "id_pattern": "stock.lineage.current.{measurement_level_ref}.{output_item_ref}",
+          "kind": "schema",
+          "label": "current physical stock body bound to its observed logical product and initial ancestors",
+          "required_fields": [
+            "measurement_level_ref",
+            "output_item_ref",
+            "output_signature_ref",
+            "output_occurrence_ref",
+            "combined_leaf_occurrence_refs",
+            "lineage_supporting_claim_ref"
+          ],
+          "iteration": {
+            "source_field": "residual_rows",
+            "max_items": 64,
+            "item_bindings": {
+              "output_item_ref": "item_ref",
+              "output_signature_ref": "signature_ref",
+              "output_occurrence_ref": "occurrence_ref"
+            }
+          },
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.current_stock_lineage.v1",
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "physical_ref": "output_item_ref",
+            "signature_ref": "output_signature_ref",
+            "occurrence_ref": "output_occurrence_ref",
+            "leaf_occurrence_refs": "combined_leaf_occurrence_refs",
+            "supporting_claim_ref": "lineage_supporting_claim_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.local_field.recipe.{expected_template_ref}.{current_observation_ref}",
+          "predicate": "supports_action_conditioned_selective_consumptive_rewrite",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "recipe.local_field.{expected_template_ref}",
+            "stock.rewrite.{current_observation_ref}"
+          ],
+          "required_fields": [
+            "expected_template_ref",
+            "current_observation_ref"
+          ],
+          "static_attributes": {
+            "revisable": true,
+            "status": "supported_revisable",
+            "glyph_order_alone_is_not_recipe_evidence": true
+          }
+        },
+        {
+          "id_pattern": "claim.local_field.stock_lineage.{current_observation_ref}",
+          "predicate": "supports_disjoint_initial_ancestors_of_observed_stock_product",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "stock.rewrite.{current_observation_ref}"
+          ],
+          "required_fields": [
+            "current_observation_ref"
+          ],
+          "static_attributes": {
+            "revisable": true,
+            "status": "supported_revisable"
+          }
+        }
+      ]
+    },
+    {
+      "id": "rule.observed_selective_stock_approach",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "reason_refs": [
+        "reason_motion_preserves_stock_and_does_not_confirm_a_recipe"
+      ],
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "term_templates": [
+        {
+          "id_pattern": "stock.approach.{current_observation_ref}",
+          "kind": "event",
+          "label": "current selected participants approached without consumption",
+          "required_fields": [
+            "current_observation_ref",
+            "participant_refs"
+          ],
+          "static_attributes": {
+            "recipe_confirmed": false,
+            "revisable": true
+          },
+          "attribute_bindings": {
+            "participant_refs": "participant_refs",
+            "action_intent_ref": "expected_intent_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.local_field.approach.{current_observation_ref}",
+          "predicate": "supports_current_participant_approach_without_consumption",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "stock.approach.{current_observation_ref}"
+          ],
+          "required_fields": [
+            "current_observation_ref"
+          ],
+          "static_attributes": {
+            "revisable": true,
+            "recipe_confirmed": false
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.qualify_observed_local_field_recipe",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "reason_refs": [
+        "reason_only_active_supported_uncontradicted_recipe_claims_qualify_as_observed"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "fact_projections": [
+        {
+          "id": "projection.qualify_observed_local_field_recipe",
+          "all_conditions": [
+            {
+              "field": "source_claim_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "source_claim_epistemic_status",
+              "operator": "equals",
+              "expected": "supported"
+            },
+            {
+              "field": "source_claim_disposition",
+              "operator": "equals",
+              "expected": "active"
+            },
+            {
+              "field": "source_claim_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "source_claim_defeated_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "operator_ref",
+              "operator": "equals",
+              "expected": "ACTION6"
+            },
+            {
+              "field": "source_claim_predicate",
+              "operator": "equals",
+              "expected": "supports_action_conditioned_selective_consumptive_rewrite"
+            }
+          ],
+          "static_facts": {
+            "declared_empirical_recipe_observed": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.bind_current_stock_lineage",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "reason_refs": [
+        "reason.current_stock_rebinds_observed_ancestry_or_distinct_initial_occurrences"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "fact_projections": [
+        {
+          "id": "projection.stock_lineage.distinct_initial_body",
+          "all_conditions": [
+            {
+              "field": "prior_lineage_present",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "static_facts": {
+            "declared_lineage_binding_present": true
+          },
+          "templated_facts": {
+            "declared_current_occurrence_ref": "stock.origin.{measurement_level_ref}.{item_ref}.{signature_ref}",
+            "declared_leaf_occurrence_refs": [
+              "stock.origin.{measurement_level_ref}.{item_ref}.{signature_ref}"
+            ]
+          }
+        },
+        {
+          "id": "projection.stock_lineage.observed_product",
+          "all_conditions": [
+            {
+              "field": "prior_lineage_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "prior_signature_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "source_claim_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "source_claim_predicate",
+              "operator": "equals",
+              "expected": "supports_disjoint_initial_ancestors_of_observed_stock_product"
+            },
+            {
+              "field": "source_claim_epistemic_status",
+              "operator": "equals",
+              "expected": "supported"
+            },
+            {
+              "field": "source_claim_disposition",
+              "operator": "equals",
+              "expected": "active"
+            },
+            {
+              "field": "source_claim_contradiction_count",
+              "operator": "equals",
+              "expected": 0
+            },
+            {
+              "field": "source_claim_defeated_count",
+              "operator": "equals",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "declared_lineage_binding_present": true
+          },
+          "bound_facts": {
+            "declared_current_occurrence_ref": "prior_occurrence_ref",
+            "declared_leaf_occurrence_refs": "prior_leaf_refs"
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.measure_current_local_field_delivery",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "reason_refs": [
+        "reason_recall_the_actually_winning_point_and_remeasure_current_contours_and_body_extent"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "configuration": {
+        "measurement_contract": {
+          "terminal_memory_contract": "yf_arc3_v5.terminal_outcome_evidence.v1",
+          "episode_policy_ref": "policy.qualify_recalled_point_delivery_episode",
+          "point_action_ref": "ACTION6",
+          "calibration_status": "enabled",
+          "maximum_stencil_pixels": 4096,
+          "minimum_visible_fraction_numerator": 1,
+          "minimum_visible_fraction_denominator": 2,
+          "maximum_point_checks": 1048576,
+          "required_recipient_count": 1,
+          "active_delivery_term_ref": "delivery.local_field.active"
+        }
+      }
+    },
+    {
+      "id": "policy.qualify_recalled_point_delivery_episode",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "reason_refs": [
+        "reason_an_official_boundary_and_its_frozen_point_intent_license_a_revisable_recipient_question"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "fact_projections": [
+        {
+          "id": "projection.recalled_point_delivery_episode",
+          "all_conditions": [
+            {
+              "field": "official_boundary_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "before_frame_present",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "point_payload_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "frozen_action_ref",
+              "operator": "equals",
+              "expected": "ACTION6"
+            }
+          ],
+          "static_facts": {
+            "declared_episode_admitted": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "policy.current_local_field_delivery",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "reason_refs": [
+        "reason_the_required_type_exists_and_its_remaining_deficit_is_spatial"
+      ],
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "selection_eligibility_conditions": [
+        {
+          "field": "applicable",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "*": "rule.current_local_field_delivery"
+      },
+      "selection_tiers": [
+        {
+          "id": "tier.current_required_type_delivery",
+          "all_conditions": [
+            {
+              "field": "applicable",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.relocate_required_type_toward_revalidated_recipient_using_current_footprint"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "point_residual_squared_x4",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "movement_squared_x4",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "row",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "col",
+          "preferred_order": "minimize"
+        },
+        {
+          "field": "alternative_ref",
+          "preferred_order": "minimize"
+        }
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.current_local_field_delivery.current_binding",
+          "all_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "strict_domain_under_supplied_radius",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outer_contour_corresponds",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "corresponding_recipient_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "static_facts": {
+            "action_ref": "ACTION6",
+            "recipient_epistemic_status": "proposed_revalidated_from_winning_episode",
+            "active_goal_ref": "goal.deliver_current_required_type_to_revalidated_recipient",
+            "subgoal_ref": "goal.deliver_current_required_type_to_revalidated_recipient",
+            "active_terminal_goal_ref": "goal.produce_and_deliver_displayed_required_type",
+            "goal_graph_edge_refs": [
+              "edge.local_field.delivery_advances_required_type_delivery"
+            ],
+            "goal_dependency_chain_refs": [
+              "goal.produce_and_deliver_displayed_required_type",
+              "goal.deliver_current_required_type_to_revalidated_recipient"
+            ],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "priority_class_ref": "priority.required_terminal_dependency",
+            "expected_effect_class": "effectful_novel",
+            "remaining_action_bound": 1,
+            "reconciliation_checkpoint_ref": "checkpoint.current_required_type_delivery_after_point",
+            "falsifier_refs": [
+              "falsifier.required_type_does_not_approach_recipient",
+              "falsifier.recipient_changes_or_rejects_required_type"
+            ],
+            "expectation_refs": [],
+            "selection_principle_ref": "reason.relocate_required_type_toward_revalidated_recipient_using_current_footprint",
+            "action_authorization": false,
+            "previous_displacement_is_not_a_current_type_quantum": true
+          },
+          "templated_facts": {
+            "declared_intent_ref": "intent:{measurement_workflow_instance_ref}:{candidate_ref}",
+            "discriminating_experiment_ref": "delivery.local_field.current.{measurement_observation_ref}",
+            "expected_configuration_or_goal_delta_ref": "prediction.required_type_approach.{measurement_observation_ref}.{candidate_ref}",
+            "premise_claim_refs": [
+              "claim.local_field.inventory.{measurement_observation_ref}",
+              "claim.local_field.recipient.{measurement_observation_ref}"
+            ],
+            "canonical_premise_claim_refs": [
+              "claim.local_field.inventory.{measurement_observation_ref}",
+              "claim.local_field.recipient.{measurement_observation_ref}"
+            ]
+          }
+        },
+        {
+          "id": "projection.current_local_field_delivery.release_state_0",
+          "all_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "strict_domain_under_supplied_radius",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outer_contour_corresponds",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "corresponding_recipient_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "prior_delivery_scope_matches",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "static_facts": {
+            "applicable": true
+          }
+        },
+        {
+          "id": "projection.current_local_field_delivery.release_state_1",
+          "all_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "strict_domain_under_supplied_radius",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outer_contour_corresponds",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "corresponding_recipient_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "prior_delivery_same_observation",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true
+          }
+        },
+        {
+          "id": "projection.current_local_field_delivery.release_state_2",
+          "all_conditions": [
+            {
+              "field": "enumeration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "strict_domain_under_supplied_radius",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "outer_contour_corresponds",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "corresponding_recipient_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "delivery_action_conditioned",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "delivery_progress_measured",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "delivery_other_stock_unchanged",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "delivery_recipient_unchanged",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_facts": {
+            "applicable": true
+          }
+        }
+      ]
+    },
+    {
+      "id": "rule.current_local_field_delivery",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "reason_refs": [
+        "reason_revalidated_morphology_and_an_official_winning_point_ground_a_current_delivery_subgoal"
+      ],
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "term_templates": [
+        {
+          "id_pattern": "goal.deliver_current_required_type_to_revalidated_recipient",
+          "kind": "goal",
+          "label": "deliver the already produced required type to the current recalled recipient",
+          "required_fields": [
+            "recipient_component_ref",
+            "required_signature_ref"
+          ],
+          "static_attributes": {
+            "status": "proposed",
+            "commitment": "revisable",
+            "terminal_goal_ref": "goal.produce_and_deliver_displayed_required_type"
+          },
+          "attribute_bindings": {
+            "recipient_ref": "recipient_component_ref",
+            "required_signature_ref": "required_signature_ref"
+          }
+        },
+        {
+          "id_pattern": "edge.local_field.delivery_advances_required_type_delivery",
+          "kind": "schema",
+          "label": "current type delivery advances the required official acceptance objective",
+          "static_attributes": {
+            "from_goal_ref": "goal.deliver_current_required_type_to_revalidated_recipient",
+            "to_goal_ref": "goal.produce_and_deliver_displayed_required_type",
+            "revisable": true
+          }
+        },
+        {
+          "id_pattern": "delivery.local_field.current.{measurement_observation_ref}",
+          "kind": "schema",
+          "label": "current delivery recipient revalidated against an actual winning point episode",
+          "required_fields": [
+            "measurement_observation_ref",
+            "recipient_component_ref",
+            "recipient_bbox",
+            "terminal_memory_ref"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.revalidated_local_field_recipient.v1",
+            "revisable": true,
+            "action_authorization": false
+          },
+          "attribute_bindings": {
+            "recipient_component_ref": "recipient_component_ref",
+            "recipient_bbox": "recipient_bbox",
+            "terminal_memory_ref": "terminal_memory_ref",
+            "before_body_row": "before_body_row",
+            "point": "point"
+          }
+        },
+        {
+          "id_pattern": "delivery.local_field.active",
+          "kind": "schema",
+          "label": "one currently declared required type delivery step",
+          "required_fields": [
+            "measurement_level_ref",
+            "measurement_observation_ref",
+            "declared_intent_ref"
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.active_local_field_delivery.v1"
+          },
+          "attribute_bindings": {
+            "measurement_level_ref": "measurement_level_ref",
+            "before_observation_ref": "measurement_observation_ref",
+            "expected_intent_ref": "declared_intent_ref",
+            "before_body_row": "before_body_row",
+            "before_stock_rows": "before_stock_rows",
+            "recipient_component_ref": "recipient_component_ref",
+            "recipient_bbox": "recipient_bbox"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.local_field.recipient.{measurement_observation_ref}",
+          "predicate": "proposes_current_recipient_from_revalidated_winning_point_contour",
+          "family": "structural",
+          "epistemic_status": "proposed",
+          "argument_patterns": [
+            "delivery.local_field.current.{measurement_observation_ref}"
+          ],
+          "required_fields": [
+            "measurement_observation_ref"
+          ],
+          "static_attributes": {
+            "revisable": true,
+            "completion_requires_official_signal": true
+          }
+        }
+      ]
+    }
+  ]
+}

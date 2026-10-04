@@ -1,0 +1,70 @@
+# DRM licenses each provisional directed-flow extension before Python measures it.
+MODULE arc3.assess_directed_accretive_flow_extensions
+
+WORKFLOW assess_directed_accretive_flow_extensions(
+    descriptive_facts: Any,
+    collider_request: DirectedFlowColliderUnionInput,
+    joint_tick_request: DirectedFlowJointTickInput,
+    recovery_request: DirectedFlowRecoveryInput
+) -> Any
+    STATE
+        collider_projected: DeclaredAlternativeFacts
+        collider_selected: Assessment
+        collider_result: DirectedFlowColliderUnionMeasurements?
+        tick_projected: DeclaredAlternativeFacts
+        tick_selected: Assessment
+        tick_result: DirectedFlowJointTickMeasurements?
+        recovery_projected: DeclaredAlternativeFacts
+        recovery_selected: Assessment
+        recovery_result: DirectedFlowRecoveryMeasurements?
+    STEP select_collider_union
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_directed_flow_collider_union",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> collider_projected
+        SELECT collider_selected
+            FOR "goal.measure_declared_directed_flow_collider_union"
+            FROM collider_projected.alternative_refs
+            UNDER policy.declared_directed_flow_collider_union
+            REQUIRE ["requirement.multiple_bounded_collider_masks_are_supplied"]
+            PRESERVE collider_projected.alternative_refs
+            FACTS collider_projected.alternative_facts
+        NEXT measure_collider_union
+    STEP measure_collider_union
+        CALL capability.directed_flow_collider_union_measurement(request=collider_request) -> collider_result
+        NEXT select_joint_tick
+    STEP select_joint_tick
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_directed_flow_joint_tick",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> tick_projected
+        SELECT tick_selected
+            FOR "goal.measure_declared_directed_flow_joint_tick"
+            FROM tick_projected.alternative_refs
+            UNDER policy.declared_directed_flow_joint_tick
+            REQUIRE ["requirement.multiple_fronts_trace_and_bounded_schedules_are_supplied"]
+            PRESERVE tick_projected.alternative_refs
+            FACTS tick_projected.alternative_facts
+        NEXT measure_joint_tick
+    STEP measure_joint_tick
+        CALL capability.directed_flow_joint_tick_measurement(request=joint_tick_request) -> tick_result
+        NEXT select_recovery
+    STEP select_recovery
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_directed_flow_recovery",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> recovery_projected
+        SELECT recovery_selected
+            FOR "goal.measure_declared_directed_flow_recovery"
+            FROM recovery_projected.alternative_refs
+            UNDER policy.declared_directed_flow_recovery
+            REQUIRE ["requirement.failed_release_and_complete_recovery_packet_are_supplied"]
+            PRESERVE recovery_projected.alternative_refs
+            FACTS recovery_projected.alternative_facts
+        NEXT measure_recovery
+    STEP measure_recovery
+        CALL capability.directed_flow_recovery_measurement(request=recovery_request) -> recovery_result
+        STOP recovery_result

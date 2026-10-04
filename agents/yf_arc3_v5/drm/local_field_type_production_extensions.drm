@@ -1,0 +1,228 @@
+{
+  "module_id": "local_field_type_production_extensions",
+  "declarations": [
+    {
+      "id": "policy.declared_local_field_selective_domains",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["required_and_excluded_bodies_with_finite_click_candidates_are_supplied"],
+      "applicability": ["provisional_local_field_selective_domain_request"],
+      "invariants": [
+        "required_and_excluded_body_identities_remain_separate",
+        "boundary_influence_remains_uncertain",
+        "candidate_measurement_does_not_select_a_click"
+      ],
+      "falsifiers": ["required_body_set_empty", "excluded_domains_implicit", "candidate_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.local_field_type_production.selective_domains"],
+      "fact_projections": [{
+        "id": "projection.local_field_type_production.selective_domains",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.local_field_type_production.selective_domains"},
+          {"field": "provisional_local_field_type_production_family_requested", "operator": "equals", "expected": true},
+          {"field": "required_body_count", "operator": "greater_than", "expected": 0},
+          {"field": "excluded_domains_explicit", "operator": "equals", "expected": true},
+          {"field": "finite_click_candidates_supplied", "operator": "equals", "expected": true},
+          {"field": "click_candidate_count", "operator": "between_inclusive", "lower": 1, "upper": 256},
+          {"field": "footprint_influence_packet_complete", "operator": "equals", "expected": true},
+          {"field": "selective_domain_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.local_field_type_production.selective_domains",
+          "reasoning_tree_parent_key": "mechanics.local_field_type_production",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.local_field_selective_domain_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_local_field_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.local_field_type_production.selective_field",
+            "reasoning_tree_parent_key": "solving.local_field_type_production",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.local_field_type_production.selective_domains"]
+    },
+    {
+      "id": "policy.declared_local_field_autonomous_successor",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_supported_clock_named_event_occurrences_and_complete_bounded_schedules_are_supplied"],
+      "applicability": ["provisional_local_field_autonomous_successor_request"],
+      "invariants": [
+        "each_occurrence_advances_once",
+        "undetermined_target_or_conflict_order_preserves_alternative_successors",
+        "domain_complete_advancement_is_not_repeated"
+      ],
+      "falsifiers": ["clock_unsupported", "event_unnamed", "duplicate_advancement_detected"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.local_field_type_production.autonomous_successor"],
+      "fact_projections": [{
+        "id": "projection.local_field_type_production.autonomous_successor",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.local_field_type_production.autonomous_successor"},
+          {"field": "provisional_local_field_type_production_family_requested", "operator": "equals", "expected": true},
+          {"field": "supported_clock_supplied", "operator": "equals", "expected": true},
+          {"field": "named_autonomous_event_supplied", "operator": "equals", "expected": true},
+          {"field": "direct_body_movement_count", "operator": "equals", "expected": 0},
+          {"field": "autonomous_occurrence_count", "operator": "greater_than", "expected": 0},
+          {"field": "autonomous_schedule_count", "operator": "between_inclusive", "lower": 1, "upper": 3},
+          {"field": "complete_autonomous_schedules_supplied", "operator": "equals", "expected": true},
+          {"field": "no_repeated_advancement", "operator": "equals", "expected": true},
+          {"field": "domain_complete_packet_includes_advancement", "operator": "equals", "expected": false},
+          {"field": "autonomous_successor_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.local_field_type_production.autonomous_successor",
+          "reasoning_tree_parent_key": "mechanics.local_field_type_production",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.local_field_autonomous_successor_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_local_field_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.local_field_type_production.auto_time",
+            "reasoning_tree_parent_key": "solving.local_field_type_production",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.local_field_type_production.autonomous_successor"]
+    },
+    {
+      "id": "policy.declared_local_field_acceptance_windows",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["required_predicates_ordered_samples_and_the_current_acceptance_model_are_supplied"],
+      "applicability": ["provisional_local_field_acceptance_window_request"],
+      "invariants": [
+        "all_required_beneficiaries_types_and_zones_are_compared_jointly",
+        "surplus_and_shared_occupancy_follow_only_the_established_acceptance_model",
+        "prediction_stops_at_an_observed_internal_interruption"
+      ],
+      "falsifiers": ["required_predicate_set_empty", "acceptance_model_absent", "sample_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.local_field_type_production.acceptance_windows"],
+      "fact_projections": [{
+        "id": "projection.local_field_type_production.acceptance_windows",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.local_field_type_production.acceptance_windows"},
+          {"field": "provisional_local_field_type_production_family_requested", "operator": "equals", "expected": true},
+          {"field": "required_acceptance_predicate_count", "operator": "greater_than", "expected": 0},
+          {"field": "ordered_acceptance_samples_supplied", "operator": "equals", "expected": true},
+          {"field": "acceptance_sample_count", "operator": "between_inclusive", "lower": 1, "upper": 256},
+          {"field": "established_acceptance_model_supplied", "operator": "equals", "expected": true},
+          {"field": "simultaneous_required_predicates_requested", "operator": "equals", "expected": true},
+          {"field": "internal_interruption_accounted", "operator": "equals", "expected": true},
+          {"field": "acceptance_window_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.local_field_type_production.acceptance_windows",
+          "reasoning_tree_parent_key": "mechanics.local_field_type_production",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.local_field_acceptance_window_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_local_field_action_ready_activations": [
+            {
+              "reasoning_tree_node_id": "solving.local_field_type_production.future_window",
+              "reasoning_tree_parent_key": "solving.local_field_type_production",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            },
+            {
+              "reasoning_tree_node_id": "solving.local_field_type_production.terminal_scope",
+              "reasoning_tree_parent_key": "solving.local_field_type_production",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            }
+          ],
+          "reasoning_tree_local_field_observation_or_reconciliation_activations": [{
+            "reasoning_tree_node_id": "frontier.effect.local_field_type_production.conjunction",
+            "reasoning_tree_parent_key": "frontier.effect.local_field_type_production",
+            "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.local_field_type_production.acceptance_windows"]
+    },
+    {
+      "id": "policy.declared_local_field_transaction",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["before_transient_and_post_event_body_type_resource_packets_with_actual_contacts_and_timing_are_supplied"],
+      "applicability": ["provisional_local_field_transaction_request"],
+      "invariants": [
+        "transient_products_are_not_retained_after_restoration",
+        "product_survival_is_checked_across_the_complete_post_event_packet",
+        "resource_and_population_deltas_remain_separate"
+      ],
+      "falsifiers": ["actual_parent_contacts_or_timing_absent", "identity_packet_incomplete", "post_event_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.local_field_type_production.transaction"],
+      "fact_projections": [{
+        "id": "projection.local_field_type_production.transaction",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.local_field_type_production.transaction"},
+          {"field": "provisional_local_field_type_production_family_requested", "operator": "equals", "expected": true},
+          {"field": "before_transient_after_packet_supplied", "operator": "equals", "expected": true},
+          {"field": "actual_parent_contacts_and_timing_supplied", "operator": "equals", "expected": true},
+          {"field": "post_event_snapshot_count", "operator": "between_inclusive", "lower": 1, "upper": 32},
+          {"field": "resource_and_population_identities_complete", "operator": "equals", "expected": true},
+          {"field": "transaction_measurement_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.local_field_type_production.transaction",
+          "reasoning_tree_parent_key": "mechanics.local_field_type_production",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.local_field_transaction_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_local_field_observation_or_reconciliation_activations": [{
+            "reasoning_tree_node_id": "frontier.effect.local_field_type_production.rewrite",
+            "reasoning_tree_parent_key": "frontier.effect.local_field_type_production",
+            "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.local_field_type_production.transaction"]
+    }
+  ]
+}

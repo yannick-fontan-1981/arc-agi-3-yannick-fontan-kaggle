@@ -1,0 +1,78 @@
+# Select the next post-action continuation; Python dispatches only this result.
+MODULE arc3.select_post_action_continuation
+
+# This child is the mandatory retrospective boundary of a reconciled action:
+# it compares current outcome facts with continuation eligibility and commits
+# the only declared disposition that may open the next reasoning child.
+WORKFLOW select_post_action_continuation(
+    descriptive_continuation_evidence: Any,
+    transition_phenomenon_request: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        phenomenon_measurements: TransitionPhenomenonInventoryMeasurements
+        coverage_projected: DeclaredAlternativeFacts
+        coverage: Assessment
+        coverage_meaning: DeclaredMeaningInstantiation
+        coverage_derived: Any?
+        coverage_prepared: PreparedMeaningUpdates
+        coverage_revision: Any?
+        continuations: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP inventory_every_transition_phenomenon
+        CALL capability.transition_phenomenon_inventory(
+            request=transition_phenomenon_request
+        ) -> phenomenon_measurements
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.declared_transition_phenomenon_coverage",
+            alternative_refs=[],
+            context_facts=descriptive_continuation_evidence,
+            descriptive_delta=phenomenon_measurements.descriptive_facts
+        ) -> coverage_projected
+        SELECT coverage
+            FOR "goal.explain_link_or_preserve_unknown_for_every_transition_phenomenon"
+            FROM coverage_projected.alternative_refs
+            UNDER policy.declared_transition_phenomenon_coverage
+            REQUIRE ["requirement.every_changed_pixel_has_an_epistemic_disposition"]
+            PRESERVE coverage_projected.alternative_refs
+            FACTS coverage_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_transition_phenomenon_coverage",
+            selected_ref=coverage.alternatives.selected,
+            alternative_facts=coverage_projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> coverage_meaning
+        DERIVE coverage_derived
+            FROM coverage_meaning.evidence_refs
+            USING rule.transition_phenomenon_retrospection_meaning
+            CONTEXT coverage_meaning
+        CALL control.prepare_meaning_updates(
+            terms=coverage_meaning.terms,
+            claims=coverage_derived.claims
+        ) -> coverage_prepared
+        TRANSACTION commit_transition_phenomenon_disposition
+            UPDATE coverage_revision
+                TARGET coverage_prepared.update_items
+                FROM coverage_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE coverage_projected.alternative_refs
+        NEXT construct_continuation_agenda
+    STEP construct_continuation_agenda
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.declared_post_action_continuation",
+            alternative_refs=[],
+            context_facts=descriptive_continuation_evidence,
+            descriptive_delta=coverage_meaning.facts
+        ) -> continuations
+        SELECT selected
+            FOR "procedure.choose_post_action_continuation"
+            FROM continuations.alternative_refs
+            UNDER policy.declared_post_action_continuation
+            REQUIRE ["requirement.post_action_continuation_is_applicable"]
+            PRESERVE continuations.alternative_refs
+            FACTS continuations.alternative_facts
+        STOP selected

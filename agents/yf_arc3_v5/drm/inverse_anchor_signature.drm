@@ -1,0 +1,122 @@
+{
+  "module_id": "inverse_anchor_signature",
+  "declarations": [
+    {
+      "id": "policy.declared_inverse_anchor_forward_dependence",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_finite_rational_dependence_and_one_live_quantizer_are_supplied"],
+      "applicability": ["bounded_inverse_anchor_signature_mechanics"],
+      "invariants": [
+        "python_does_not_choose_the_dependence_or_quantizer",
+        "unrounded_rational_coordinates_are_preserved",
+        "a_supplied_quantizer_remains_a_revisable_alternative_not_an_established_convention"
+      ],
+      "falsifiers": [
+        "the_rational_dependence_was_not_explicitly_supplied",
+        "the_quantizer_was_implicitly_defaulted"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.inverse_anchor_signature.forward_dependence"],
+      "fact_projections": [
+        {
+          "id": "projection.inverse_anchor_signature.forward_dependence",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.inverse_anchor_signature.forward_dependence"},
+            {"field": "rational_dependence_supplied", "operator": "equals", "expected": true},
+            {"field": "finite_rational_parameters", "operator": "equals", "expected": true},
+            {"field": "quantizer_supplied", "operator": "equals", "expected": true},
+            {"field": "quantizer_commitment", "operator": "equals", "expected": "live_revisable_alternative"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.inverse_anchor_signature.forward_dependence",
+            "reasoning_tree_parent_key": "mechanics.inverse_anchor_signature",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.rational_anchor_dependence_measurement",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "inverse_anchor_dependent_law_status": "supplied_finite_rational_dependence_under_live_revisable_quantizer",
+            "reasoning_tree_inverse_anchor_signature_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.inverse_anchor_signature.dependent_law",
+                "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.inverse_anchor_signature.forward_dependence"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_inverse_domain",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["an_established_mean_model_and_one_live_quantizer_are_supplied"],
+      "applicability": ["bounded_inverse_anchor_signature_mechanics"],
+      "invariants": [
+        "python_does_not_choose_the_mean_model_or_quantizer",
+        "inverse_enumeration_returns_every_compatible_bounded_candidate",
+        "a_supplied_quantizer_remains_a_revisable_alternative_not_an_established_convention"
+      ],
+      "falsifiers": [
+        "the_mean_model_was_not_established",
+        "the_quantizer_was_implicitly_defaulted",
+        "the_inverse_domain_is_not_bounded",
+        "one_compatible_inverse_candidate_is_selected_by_the_measurement"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.inverse_anchor_signature.inverse_domains"],
+      "fact_projections": [
+        {
+          "id": "projection.inverse_anchor_signature.inverse_domains",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.inverse_anchor_signature.inverse_domains"},
+            {"field": "established_mean_model", "operator": "equals", "expected": true},
+            {"field": "fixed_anchor_positions_complete", "operator": "equals", "expected": true},
+            {"field": "desired_dependent_position_supplied", "operator": "equals", "expected": true},
+            {"field": "candidate_domain_bounded", "operator": "equals", "expected": true},
+            {"field": "quantizer_supplied", "operator": "equals", "expected": true},
+            {"field": "quantizer_commitment", "operator": "equals", "expected": "live_revisable_alternative"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.inverse_anchor_signature.inverse_domains",
+            "reasoning_tree_parent_key": "mechanics.inverse_anchor_signature",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.inverse_mean_anchor_domain_enumeration",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "compatible_candidates_must_all_be_retained": true,
+            "inverse_anchor_inverse_request_status": "bounded_domain_requested_without_candidate_selection",
+            "reasoning_tree_inverse_anchor_signature_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.inverse_anchor_signature.inverse",
+                "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.inverse_anchor_signature.inverse_domains"]
+    }
+  ]
+}

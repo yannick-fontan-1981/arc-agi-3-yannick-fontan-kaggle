@@ -1,0 +1,2039 @@
+{
+  "module_id": "display_correspondence",
+  "declarations": [
+    {
+      "id": "principle.regular_boundary_repetition_opens_segmented_display",
+      "kind": "principle",
+      "premises": ["compact_equal_support_members_repeat_with_positive_constant_spacing_near_a_frame_edge"],
+      "applicability": ["creator_confirmed_generic_observation_rule"],
+      "invariants": ["segment_colour_changes_preserve_geometric_membership", "edge_position_alone_never_confirms_an_indicator_function"],
+      "falsifiers": ["members_translate_with_world_control_or_repetition_has_an_incompatible_effect"],
+      "reason_refs": ["reason.regular_boundary_repetition_opens_segmented_display"]
+    },
+    {
+      "id": "principle.spanning_surface_and_off_lattice_glyphs_support_wall_and_interface",
+      "kind": "principle",
+      "premises": ["one_connected_uniform_surface_spans_all_four_frame_edges", "compact_boundary_glyphs_do_not_share_the_retained_action_grounded_lattice"],
+      "applicability": ["creator_confirmed_generic_observation_rule"],
+      "invariants": ["wall_and_interface_are_strong_revisable_suppositions", "palette_identity_alone_never_binds_a_role", "symbolic_reference_displays_remain_eligible_for_correspondence"],
+      "falsifiers": ["observed_control_crosses_the_surface_without_obstruction", "a_glyph_translates_with_world_control"],
+      "reason_refs": ["reason.border_spanning_surface_and_off_lattice_display_have_distinct_functions"]
+    },
+    {
+      "id": "policy.symbolic_display_correspondence",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "display.measurements_available",
+        "display.unresolved"
+      ],
+      "fact_projections": [],
+      "selection_tiers": [
+        {
+          "id": "tier.display.measured",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "display.measurements_available"
+            },
+            {
+              "field": "measurement_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "measured_row_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.exact_bounded_display_relations_have_inspectable_evidence"
+        },
+        {
+          "id": "tier.display.unresolved",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "display.unresolved"
+            }
+          ],
+          "reason_ref": "reason.incomplete_or_absent_measurements_do_not_assign_display_meaning"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "measured_row_count",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "display.measurements_available": "rule.symbolic_display_correspondence"
+      },
+      "reason_refs": [
+        "reason.exact_bounded_display_relations_have_inspectable_evidence",
+        "reason.incomplete_or_absent_measurements_do_not_assign_display_meaning"
+      ]
+    },
+    {
+      "id": "principle.repeated_boundary_cardinality_supports_level_counter",
+      "kind": "principle",
+      "premises": [
+        "regular_aligned_solid_boundary_members",
+        "announced_total_matches_observed_cardinality"
+      ],
+      "applicability": [
+        "creator_confirmed_generic_observation_rule"
+      ],
+      "invariants": [
+        "all_roles_are_revisable",
+        "observation_identity_is_not_invented",
+        "keep_unfalsified_alternatives"
+      ],
+      "falsifiers": [
+        "corresponding_exact_observation_disagrees"
+      ],
+      "reason_refs": [
+        "principle.repeated_boundary_cardinality_supports_level_counter"
+      ]
+    },
+    {
+      "id": "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+      "kind": "principle",
+      "premises": [
+        "boundary_spanning_band_contains_element",
+        "interior_pattern_equality_is_exact",
+        "action_linked_border_state_change_preserves_interior"
+      ],
+      "applicability": [
+        "creator_confirmed_generic_observation_rule"
+      ],
+      "invariants": [
+        "all_roles_are_revisable",
+        "observation_identity_is_not_invented",
+        "keep_unfalsified_alternatives"
+      ],
+      "falsifiers": [
+        "corresponding_exact_observation_disagrees"
+      ],
+      "reason_refs": [
+        "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+      ]
+    },
+    {
+      "id": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker",
+      "kind": "principle",
+      "premises": [
+        "one_canonical_body_has_unique_before_and_after_matches",
+        "entered_tile_and_nonlocal_appearance_have_one_matching_peer",
+        "marker_normal_can_transfer_as_a_revisable_prediction"
+      ],
+      "applicability": [
+        "creator_confirmed_generic_observation_rule"
+      ],
+      "invariants": [
+        "all_roles_are_revisable",
+        "observation_identity_is_not_invented",
+        "keep_unfalsified_alternatives"
+      ],
+      "falsifiers": [
+        "corresponding_exact_observation_disagrees"
+      ],
+      "reason_refs": [
+        "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+      ]
+    },
+    {
+      "id": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate",
+      "kind": "principle",
+      "premises": [
+        "an_action_linked_indicator_family_has_no_remaining_open_member",
+        "the_final_indicator_transition_is_observed_on_the_same_action",
+        "one_stationary_non_display_cell_changes_every_pixel_while_preserving_its_exact_equality_partition"
+      ],
+      "applicability": [
+        "creator_confirmed_generic_observation_rule"
+      ],
+      "invariants": [
+        "palette_identity_assigns_no_role",
+        "the_candidate_remains_revisable_until_contact",
+        "switch_reward_and_decorative_signal_remain_live_alternatives"
+      ],
+      "falsifiers": [
+        "contact_produces_no_access_or_terminal_evidence",
+        "another_same_action_stationary_partition_preserving_change_makes_identity_ambiguous"
+      ],
+      "reason_refs": [
+        "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+      ]
+    },
+    {
+      "id": "rule.symbolic_display_correspondence",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "principle.repeated_boundary_cardinality_supports_level_counter",
+        "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+        "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker",
+        "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+      ],
+      "applicability": [
+        "exact_bounded_descriptive_rows"
+      ],
+      "invariants": [
+        "no_game_palette_or_coordinate_binds_a_role",
+        "all_correspondences_retain_explicit_epistemic_status",
+        "ambiguous_identity_pair_or_motif_stays_unresolved"
+      ],
+      "falsifiers": [
+        "measurement_incomplete_or_correspondence_contradicted"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "supposition.boundary_gauge.{group_ref}",
+          "kind": "schema",
+          "label": "Regular segmented boundary display",
+          "required_fields": ["group_ref", "member_count", "member_bboxes"],
+          "all_conditions": [{"field": "member_count", "operator": "greater_than", "expected": 2}],
+          "iteration": {"source_field": "boundary_rows", "item_bindings": {"group_ref": "group_ref", "member_count": "member_count", "member_bboxes": "member_bboxes"}, "max_items": 128},
+          "static_attributes": {"role": "segmented_gauge", "status": "proposed", "commitment": "revisable", "not_confirmed_by_edge_position_alone": true, "reason": "principle.regular_boundary_repetition_opens_segmented_display", "falsifier": "members_translate_with_world_control_or_repetition_has_an_incompatible_effect"},
+          "attribute_bindings": {"group_ref": "group_ref", "member_count": "member_count", "member_bboxes": "member_bboxes", "observation_ref": "observation_ref", "scope_ref": "scope_ref"}
+        },
+        {
+          "id_pattern": "supposition.spanning_surface.{surface_ref}",
+          "kind": "schema",
+          "label": "Frame-spanning surface carrying off-lattice boundary glyphs",
+          "required_fields": ["surface_ref", "surface_value", "bbox", "off_grid_member_bboxes", "off_grid_member_count"],
+          "all_conditions": [{"field": "off_grid_member_count", "operator": "greater_than", "expected": 0}],
+          "iteration": {"source_field": "spanning_surface_rows", "item_bindings": {"surface_ref": "surface_ref", "surface_value": "surface_value", "bbox": "bbox", "off_grid_member_bboxes": "off_grid_member_bboxes", "off_grid_member_count": "off_grid_member_count"}, "max_items": 128},
+          "static_attributes": {"role": "wall_surface", "status": "proposed", "strength": "strong_supposition", "commitment": "revisable", "projection_contract": "yf_arc3_v5.boundary_surface.v1", "falsifier": "controlled_body_crosses_this_surface_without_obstruction"},
+          "attribute_bindings": {"surface_ref": "surface_ref", "surface_value": "surface_value", "bbox": "bbox", "off_grid_member_bboxes": "off_grid_member_bboxes", "observation_ref": "observation_ref", "scope_ref": "scope_ref"}
+        },
+        {
+          "id_pattern": "supposition.level_counter.{group_ref}",
+          "kind": "schema",
+          "label": "Strong boundary repetition / announced cardinality level-counter supposition",
+          "required_fields": [
+            "group_ref",
+            "member_count",
+            "announced_count",
+            "member_bboxes",
+            "changed_member_count",
+            "completed_delta"
+          ],
+          "all_conditions": [
+            {
+              "field": "announced_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "equals_reference_field",
+              "reference_field": "announced_count"
+            }
+          ],
+          "iteration": {
+            "source_field": "boundary_rows",
+            "item_bindings": {
+              "group_ref": "group_ref",
+              "member_count": "member_count",
+              "announced_count": "announced_count",
+              "member_bboxes": "member_bboxes",
+              "changed_member_count": "changed_member_count",
+              "completed_delta": "completed_delta"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "level_counter",
+            "commitment": "revisable",
+            "status": "proposed",
+            "strength": "strong_supposition",
+            "not_confirmed_by_cardinality_alone": true,
+            "projection_contract": "yf_arc3_v5.interface_members.v1",
+            "excluded_from_spatial_mover": true,
+            "excluded_from_spatial_destination": true,
+            "post_action_display_inventory_declared": true,
+            "falsifier": "verified_level_boundary_changes_no_member_or_an_incompatible_number",
+            "reason": "principle.repeated_boundary_cardinality_supports_level_counter"
+          },
+          "attribute_bindings": {
+            "group_ref": "group_ref",
+            "member_count": "member_count",
+            "announced_count": "announced_count",
+            "member_bboxes": "member_bboxes",
+            "changed_member_count": "changed_member_count",
+            "completed_delta": "completed_delta",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "meaning.level_counter.{group_ref}",
+          "kind": "schema",
+          "label": "Observed level-boundary and single-member counter change",
+          "required_fields": [
+            "group_ref",
+            "member_count",
+            "announced_count",
+            "changed_member_count",
+            "completed_delta"
+          ],
+          "all_conditions": [
+            {
+              "field": "announced_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "equals_reference_field",
+              "reference_field": "announced_count"
+            },
+            {
+              "field": "completed_delta",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "changed_member_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "iteration": {
+            "source_field": "boundary_rows",
+            "item_bindings": {
+              "group_ref": "group_ref",
+              "member_count": "member_count",
+              "announced_count": "announced_count",
+              "changed_member_count": "changed_member_count",
+              "completed_delta": "completed_delta"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "level_counter_confirmation",
+            "commitment": "revisable",
+            "status": "supported",
+            "falsifier": "later_verified_level_boundary_contradicts_member_progress",
+            "reason": "principle.repeated_boundary_cardinality_supports_level_counter"
+          },
+          "attribute_bindings": {
+            "group_ref": "group_ref",
+            "member_count": "member_count",
+            "announced_count": "announced_count",
+            "changed_member_count": "changed_member_count",
+            "completed_delta": "completed_delta",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "supposition.hud_member.{part_ref}",
+          "kind": "schema",
+          "label": "Element enclosed by a boundary-spanning display band",
+          "required_fields": [
+            "part_ref",
+            "band_ref",
+            "bbox",
+            "band_bbox"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "containment_rows",
+            "item_bindings": {
+              "part_ref": "part_ref",
+              "band_ref": "band_ref",
+              "bbox": "bbox",
+              "band_bbox": "band_bbox"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "interface_member",
+            "commitment": "revisable",
+            "status": "proposed",
+            "falsifier": "enclosing_band_or_persistent_membership_is_contradicted",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "part_ref": "part_ref",
+            "band_ref": "band_ref",
+            "bbox": "bbox",
+            "band_bbox": "band_bbox",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "supposition.indicator_family.{indicator_ref}.{family_ref}",
+          "kind": "schema",
+          "label": "Exact interior correspondence between display member and object family",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "member_count",
+            "indicator_count",
+            "matching_family_count",
+            "inner_digest"
+          ],
+          "all_conditions": [
+            {
+              "field": "matching_family_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "greater_than",
+              "expected": 1
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "member_count": "member_count",
+              "indicator_count": "indicator_count",
+              "matching_family_count": "matching_family_count",
+              "inner_digest": "inner_digest"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "indicator_family_correspondence",
+            "commitment": "revisable",
+            "status": "proposed",
+            "one_to_one_not_established": true,
+            "falsifier": "another_family_has_the_same_inner_motif_or_display_changes_independently",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "member_count": "member_count",
+            "indicator_count": "indicator_count",
+            "matching_family_count": "matching_family_count",
+            "inner_digest": "inner_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "meaning.indicator_contact.{indicator_ref}.{family_ref}",
+          "kind": "schema",
+          "label": "Observed object-family entry and homologous display activation",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "changed_family_indicator_count",
+            "entry_family_observed",
+            "inner_preserved",
+            "changed_border_pixels",
+            "border_pixel_count",
+            "border_before_values",
+            "border_after_value"
+          ],
+          "all_conditions": [
+            {
+              "field": "entry_family_observed",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "inner_preserved",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "changed_family_indicator_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "changed_border_pixels",
+              "operator": "equals_reference_field",
+              "reference_field": "border_pixel_count"
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "changed_family_indicator_count": "changed_family_indicator_count",
+              "entry_family_observed": "entry_family_observed",
+              "inner_preserved": "inner_preserved",
+              "changed_border_pixels": "changed_border_pixels",
+              "border_pixel_count": "border_pixel_count",
+              "border_before_values": "border_before_values",
+              "border_after_value": "border_after_value"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "action_linked_indicator_correspondence",
+            "commitment": "revisable",
+            "status": "supported",
+            "positive_objective_progress": true,
+            "falsifier": "matched_indicator_changes_without_family_entry_or_entry_has_no_matching_progress",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "changed_family_indicator_count": "changed_family_indicator_count",
+            "entry_family_observed": "entry_family_observed",
+            "inner_preserved": "inner_preserved",
+            "changed_border_pixels": "changed_border_pixels",
+            "border_pixel_count": "border_pixel_count",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "border_before_values": "border_before_values",
+            "border_after_value": "border_after_value"
+          }
+        },
+        {
+          "id_pattern": "relation.nonlocal_entry.{entry_ref}",
+          "kind": "schema",
+          "label": "Observed nonlocal relocation from entered object to unique matching peer",
+          "required_fields": [
+            "entry_ref",
+            "exit_ref",
+            "family_ref",
+            "body_ref",
+            "arrival_bbox",
+            "entry_cell",
+            "exit_cell",
+            "side"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "entry_ref": "entry_ref",
+              "exit_ref": "exit_ref",
+              "family_ref": "family_ref",
+              "body_ref": "body_ref",
+              "arrival_bbox": "arrival_bbox",
+              "entry_cell": "entry_cell",
+              "exit_cell": "exit_cell",
+              "side": "side"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "observed_nonlocal_entry",
+            "commitment": "revisable",
+            "status": "supported",
+            "reverse_direction_not_established": true,
+            "falsifier": "later_same_context_entry_relocates_to_a_different_or_ambiguous_peer",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "entry_ref": "entry_ref",
+            "exit_ref": "exit_ref",
+            "family_ref": "family_ref",
+            "body_ref": "body_ref",
+            "arrival_bbox": "arrival_bbox",
+            "entry_cell": "entry_cell",
+            "exit_cell": "exit_cell",
+            "side": "side",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "schema.boundary_egress_marker.{scope_ref}.{marker_value}",
+          "kind": "schema",
+          "label": "Outward boundary marker agrees with observed appearance side",
+          "required_fields": [
+            "marker_value",
+            "marker_matches",
+            "part_value_equal",
+            "side",
+            "exit_ref",
+            "previous_marker_mismatch"
+          ],
+          "all_conditions": [
+            {
+              "field": "marker_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "part_value_equal",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "previous_marker_mismatch",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "marker_value": "marker_value",
+              "marker_matches": "marker_matches",
+              "part_value_equal": "part_value_equal",
+              "side": "side",
+              "exit_ref": "exit_ref",
+              "previous_marker_mismatch": "previous_marker_mismatch"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "egress_marker_convention",
+            "commitment": "revisable",
+            "status": "supported",
+            "untried_members_remain_suppositions": true,
+            "falsifier": "a_homologous_marker_predicts_a_side_different_from_observed_appearance",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "marker_value": "marker_value",
+            "marker_matches": "marker_matches",
+            "part_value_equal": "part_value_equal",
+            "side": "side",
+            "exit_ref": "exit_ref",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "supposition.egress.{cell_ref}",
+          "kind": "schema",
+          "label": "Revisable outward appearance prediction transferred from observed marker convention",
+          "required_fields": [
+            "cell_ref",
+            "family_ref",
+            "cell",
+            "side",
+            "marker_value",
+            "analogy_supported",
+            "arrival_cell"
+          ],
+          "all_conditions": [
+            {
+              "field": "analogy_supported",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "iteration": {
+            "source_field": "marker_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "family_ref": "family_ref",
+              "cell": "cell",
+              "side": "side",
+              "marker_value": "marker_value",
+              "analogy_supported": "analogy_supported",
+              "arrival_cell": "arrival_cell"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "egress_prediction",
+            "commitment": "revisable",
+            "status": "proposed",
+            "validate_on_next_entry": true,
+            "falsifier": "observed_appearance_is_not_in_the_predicted_adjacent_cell",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "family_ref": "family_ref",
+            "cell": "cell",
+            "side": "side",
+            "marker_value": "marker_value",
+            "analogy_supported": "analogy_supported",
+            "arrival_cell": "arrival_cell",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "observation.cursor_pose.{body_ref}",
+          "kind": "schema",
+          "label": "Current unique canonical-body location and attached-part side",
+          "required_fields": [
+            "body_ref",
+            "bbox",
+            "side",
+            "delta_row",
+            "delta_col"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "pose_rows",
+            "item_bindings": {
+              "body_ref": "body_ref",
+              "bbox": "bbox",
+              "side": "side",
+              "delta_row": "delta_row",
+              "delta_col": "delta_col"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "controlled_pose",
+            "commitment": "revisable",
+            "status": "supported",
+            "universal_command_to_orientation_not_established": true,
+            "falsifier": "body_or_attached_part_has_multiple_exact_matches",
+            "reason": "principle.attached_rotation_preserves_cursor_body_identity"
+          },
+          "attribute_bindings": {
+            "body_ref": "body_ref",
+            "bbox": "bbox",
+            "side": "side",
+            "delta_row": "delta_row",
+            "delta_col": "delta_col",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "goal.activate_indicator.{indicator_ref}",
+          "kind": "goal",
+          "label": "Activate the still-open indicator through its exact matching object family",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "member_count",
+            "indicator_count",
+            "matching_family_count",
+            "inner_digest",
+            "current_border_equals_observed_before",
+            "current_border_equals_observed_after"
+          ],
+          "all_conditions": [
+            {
+              "field": "matching_family_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "greater_than",
+              "expected": 1
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "member_count": "member_count",
+              "indicator_count": "indicator_count",
+              "matching_family_count": "matching_family_count",
+              "inner_digest": "inner_digest",
+              "current_border_equals_observed_before": "current_border_equals_observed_before",
+              "current_border_equals_observed_after": "current_border_equals_observed_after"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "indicator_family_subobjective",
+            "commitment": "revisable",
+            "status": "proposed",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+            "falsifier": "matched_family_contact_fails_to_reproduce_the_observed_indicator_state_transfer"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "member_count": "member_count",
+            "indicator_count": "indicator_count",
+            "matching_family_count": "matching_family_count",
+            "inner_digest": "inner_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "goal_open": "current_border_equals_observed_before",
+            "goal_satisfied": "current_border_equals_observed_after"
+          },
+          "any_conditions": [
+            {
+              "field": "current_border_equals_observed_before",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_border_equals_observed_after",
+              "operator": "equals",
+              "expected": true
+            }
+          ]
+        },
+        {
+          "id_pattern": "supposition.access_state_transition.{cell_ref}",
+          "kind": "schema",
+          "label": "Shape-preserving stationary state change at completed objective progress",
+          "required_fields": [
+            "cell_ref",
+            "cell",
+            "bbox",
+            "before_partition_digest",
+            "after_partition_digest",
+            "changed_pixel_count",
+            "pixel_count",
+            "linked_indicator_member_count",
+            "remaining_linked_indicator_member_count",
+            "changed_to_satisfied_indicator_member_count",
+            "action_linked_indicator_completion_observed",
+            "stationary_partition_change_candidate_count"
+          ],
+          "all_conditions": [
+            {"field": "action_linked_indicator_completion_observed", "operator": "equals", "expected": true},
+            {"field": "remaining_linked_indicator_member_count", "operator": "equals", "expected": 0},
+            {"field": "changed_to_satisfied_indicator_member_count", "operator": "greater_than", "expected": 0},
+            {"field": "stationary_partition_change_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "changed_pixel_count", "operator": "equals_reference_field", "reference_field": "pixel_count"},
+            {"field": "before_partition_digest", "operator": "equals_reference_field", "reference_field": "after_partition_digest"}
+          ],
+          "iteration": {
+            "source_field": "stationary_partition_change_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "cell": "cell",
+              "bbox": "bbox",
+              "before_partition_digest": "before_partition_digest",
+              "after_partition_digest": "after_partition_digest",
+              "changed_pixel_count": "changed_pixel_count",
+              "pixel_count": "pixel_count",
+              "linked_indicator_member_count": "linked_indicator_member_count",
+              "remaining_linked_indicator_member_count": "remaining_linked_indicator_member_count",
+              "changed_to_satisfied_indicator_member_count": "changed_to_satisfied_indicator_member_count",
+              "action_linked_indicator_completion_observed": "action_linked_indicator_completion_observed",
+              "stationary_partition_change_candidate_count": "stationary_partition_change_candidate_count"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "access_state_transition",
+            "commitment": "revisable",
+            "status": "supported",
+            "shape_preserved": true,
+            "objective_progress_complete": true,
+            "palette_role_forbidden": true,
+            "falsifier": "candidate_contact_produces_no_access_or_terminal_evidence",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "cell": "cell",
+            "bbox": "bbox",
+            "before_partition_digest": "before_partition_digest",
+            "after_partition_digest": "after_partition_digest",
+            "changed_pixel_count": "changed_pixel_count",
+            "pixel_count": "pixel_count",
+            "linked_indicator_member_count": "linked_indicator_member_count",
+            "changed_to_satisfied_indicator_member_count": "changed_to_satisfied_indicator_member_count",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "goal.test_terminal_access_candidate.{cell_ref}",
+          "kind": "goal",
+          "label": "Test the unique completion-linked access candidate for terminal evidence",
+          "required_fields": [
+            "cell_ref",
+            "cell",
+            "bbox",
+            "before_partition_digest",
+            "after_partition_digest",
+            "changed_pixel_count",
+            "pixel_count",
+            "remaining_linked_indicator_member_count",
+            "changed_to_satisfied_indicator_member_count",
+            "action_linked_indicator_completion_observed",
+            "stationary_partition_change_candidate_count"
+          ],
+          "required_term_patterns": [
+            "supposition.access_state_transition.{cell_ref}"
+          ],
+          "all_conditions": [
+            {"field": "action_linked_indicator_completion_observed", "operator": "equals", "expected": true},
+            {"field": "remaining_linked_indicator_member_count", "operator": "equals", "expected": 0},
+            {"field": "changed_to_satisfied_indicator_member_count", "operator": "greater_than", "expected": 0},
+            {"field": "stationary_partition_change_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "changed_pixel_count", "operator": "equals_reference_field", "reference_field": "pixel_count"},
+            {"field": "before_partition_digest", "operator": "equals_reference_field", "reference_field": "after_partition_digest"}
+          ],
+          "iteration": {
+            "source_field": "stationary_partition_change_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "cell": "cell",
+              "bbox": "bbox",
+              "before_partition_digest": "before_partition_digest",
+              "after_partition_digest": "after_partition_digest",
+              "changed_pixel_count": "changed_pixel_count",
+              "pixel_count": "pixel_count",
+              "remaining_linked_indicator_member_count": "remaining_linked_indicator_member_count",
+              "changed_to_satisfied_indicator_member_count": "changed_to_satisfied_indicator_member_count",
+              "action_linked_indicator_completion_observed": "action_linked_indicator_completion_observed",
+              "stationary_partition_change_candidate_count": "stationary_partition_change_candidate_count"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "terminal_access_candidate",
+            "commitment": "revisable",
+            "status": "proposed",
+            "goal_open": true,
+            "terminal_role_confirmed": false,
+            "alternative_roles": ["switch", "reward", "decorative_signal"],
+            "falsifier": "candidate_contact_produces_no_official_level_boundary_or_access_effect",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "cell": "cell",
+            "bbox": "bbox",
+            "before_partition_digest": "before_partition_digest",
+            "after_partition_digest": "after_partition_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "action_ref": "action_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.supposition.boundary_gauge.{group_ref}.{observation_ref}",
+          "predicate": "supports_revisable_segmented_boundary_display",
+          "family": "structural",
+          "argument_patterns": ["supposition.boundary_gauge.{group_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["group_ref", "member_count", "member_bboxes"],
+          "required_term_patterns": ["supposition.boundary_gauge.{group_ref}"],
+          "all_conditions": [{"field": "member_count", "operator": "greater_than", "expected": 2}],
+          "iteration": {"source_field": "boundary_rows", "item_bindings": {"group_ref": "group_ref", "member_count": "member_count", "member_bboxes": "member_bboxes"}, "max_items": 128},
+          "static_attributes": {"commitment": "revisable", "reason": "principle.regular_boundary_repetition_opens_segmented_display", "falsifier": "members_translate_with_world_control_or_repetition_has_an_incompatible_effect"},
+          "attribute_bindings": {"member_bboxes": "member_bboxes", "observation_ref": "observation_ref", "scope_ref": "scope_ref"}
+        },
+        {
+          "id_pattern": "claim.supposition.spanning_surface.{surface_ref}.{observation_ref}",
+          "predicate": "supports_spanning_wall_and_off_lattice_display_supposition",
+          "family": "structural",
+          "argument_patterns": ["supposition.spanning_surface.{surface_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["surface_ref", "off_grid_member_count"],
+          "required_term_patterns": ["supposition.spanning_surface.{surface_ref}"],
+          "all_conditions": [{"field": "off_grid_member_count", "operator": "greater_than", "expected": 0}],
+          "iteration": {"source_field": "spanning_surface_rows", "item_bindings": {"surface_ref": "surface_ref", "off_grid_member_count": "off_grid_member_count"}, "max_items": 128},
+          "static_attributes": {"commitment": "revisable", "reason": "principle.spanning_surface_and_off_lattice_glyphs_support_wall_and_interface", "falsifier": "controlled_body_crosses_this_surface_without_obstruction"},
+          "attribute_bindings": {"surface_ref": "surface_ref", "observation_ref": "observation_ref", "scope_ref": "scope_ref"}
+        },
+        {
+          "id_pattern": "claim.supposition.level_counter.{group_ref}.{observation_ref}",
+          "predicate": "supports_boundary_level_counter_supposition",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.level_counter.{group_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "group_ref",
+            "member_count",
+            "announced_count",
+            "member_bboxes",
+            "changed_member_count",
+            "completed_delta"
+          ],
+          "required_term_patterns": [
+            "supposition.level_counter.{group_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "announced_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "equals_reference_field",
+              "reference_field": "announced_count"
+            }
+          ],
+          "iteration": {
+            "source_field": "boundary_rows",
+            "item_bindings": {
+              "group_ref": "group_ref",
+              "member_count": "member_count",
+              "announced_count": "announced_count",
+              "member_bboxes": "member_bboxes",
+              "changed_member_count": "changed_member_count",
+              "completed_delta": "completed_delta"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "verified_level_boundary_changes_no_member_or_an_incompatible_number",
+            "reason": "principle.repeated_boundary_cardinality_supports_level_counter"
+          },
+          "attribute_bindings": {
+            "group_ref": "group_ref",
+            "member_count": "member_count",
+            "announced_count": "announced_count",
+            "member_bboxes": "member_bboxes",
+            "changed_member_count": "changed_member_count",
+            "completed_delta": "completed_delta",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.meaning.level_counter.{group_ref}.{observation_ref}",
+          "predicate": "supports_level_counter_after_verified_level_boundary",
+          "family": "structural",
+          "argument_patterns": [
+            "meaning.level_counter.{group_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "group_ref",
+            "member_count",
+            "announced_count",
+            "changed_member_count",
+            "completed_delta"
+          ],
+          "required_term_patterns": [
+            "meaning.level_counter.{group_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "announced_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "equals_reference_field",
+              "reference_field": "announced_count"
+            },
+            {
+              "field": "completed_delta",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "changed_member_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "iteration": {
+            "source_field": "boundary_rows",
+            "item_bindings": {
+              "group_ref": "group_ref",
+              "member_count": "member_count",
+              "announced_count": "announced_count",
+              "changed_member_count": "changed_member_count",
+              "completed_delta": "completed_delta"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "later_verified_level_boundary_contradicts_member_progress",
+            "reason": "principle.repeated_boundary_cardinality_supports_level_counter"
+          },
+          "attribute_bindings": {
+            "group_ref": "group_ref",
+            "member_count": "member_count",
+            "announced_count": "announced_count",
+            "changed_member_count": "changed_member_count",
+            "completed_delta": "completed_delta",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.hud_member.{part_ref}.{observation_ref}",
+          "predicate": "proposes_display_band_membership",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.hud_member.{part_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "part_ref",
+            "band_ref",
+            "bbox",
+            "band_bbox"
+          ],
+          "required_term_patterns": [
+            "supposition.hud_member.{part_ref}"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "containment_rows",
+            "item_bindings": {
+              "part_ref": "part_ref",
+              "band_ref": "band_ref",
+              "bbox": "bbox",
+              "band_bbox": "band_bbox"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "enclosing_band_or_persistent_membership_is_contradicted",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "part_ref": "part_ref",
+            "band_ref": "band_ref",
+            "bbox": "bbox",
+            "band_bbox": "band_bbox",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.indicator_family.{indicator_ref}.{family_ref}.{observation_ref}",
+          "predicate": "proposes_indicator_to_object_family_correspondence",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.indicator_family.{indicator_ref}.{family_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "member_count",
+            "indicator_count",
+            "matching_family_count",
+            "inner_digest"
+          ],
+          "required_term_patterns": [
+            "supposition.indicator_family.{indicator_ref}.{family_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "matching_family_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "greater_than",
+              "expected": 1
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "member_count": "member_count",
+              "indicator_count": "indicator_count",
+              "matching_family_count": "matching_family_count",
+              "inner_digest": "inner_digest"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "another_family_has_the_same_inner_motif_or_display_changes_independently",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "member_count": "member_count",
+            "indicator_count": "indicator_count",
+            "matching_family_count": "matching_family_count",
+            "inner_digest": "inner_digest",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.meaning.indicator_contact.{indicator_ref}.{family_ref}.{observation_ref}",
+          "predicate": "supports_object_family_entry_activates_corresponding_indicators",
+          "family": "structural",
+          "argument_patterns": [
+            "meaning.indicator_contact.{indicator_ref}.{family_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "changed_family_indicator_count",
+            "entry_family_observed",
+            "inner_preserved",
+            "changed_border_pixels",
+            "border_pixel_count",
+            "border_before_values",
+            "border_after_value"
+          ],
+          "required_term_patterns": [
+            "meaning.indicator_contact.{indicator_ref}.{family_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "entry_family_observed",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "inner_preserved",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "changed_family_indicator_count",
+              "operator": "greater_than",
+              "expected": 1
+            },
+            {
+              "field": "changed_border_pixels",
+              "operator": "equals_reference_field",
+              "reference_field": "border_pixel_count"
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "changed_family_indicator_count": "changed_family_indicator_count",
+              "entry_family_observed": "entry_family_observed",
+              "inner_preserved": "inner_preserved",
+              "changed_border_pixels": "changed_border_pixels",
+              "border_pixel_count": "border_pixel_count",
+              "border_before_values": "border_before_values",
+              "border_after_value": "border_after_value"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "matched_indicator_changes_without_family_entry_or_entry_has_no_matching_progress",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "changed_family_indicator_count": "changed_family_indicator_count",
+            "entry_family_observed": "entry_family_observed",
+            "inner_preserved": "inner_preserved",
+            "changed_border_pixels": "changed_border_pixels",
+            "border_pixel_count": "border_pixel_count",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "border_before_values": "border_before_values",
+            "border_after_value": "border_after_value",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.nonlocal_entry.{entry_ref}.{observation_ref}",
+          "predicate": "supports_nonlocal_transport_between_matching_endpoints",
+          "family": "structural",
+          "argument_patterns": [
+            "relation.nonlocal_entry.{entry_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "entry_ref",
+            "exit_ref",
+            "family_ref",
+            "body_ref",
+            "arrival_bbox",
+            "entry_cell",
+            "exit_cell",
+            "side"
+          ],
+          "required_term_patterns": [
+            "relation.nonlocal_entry.{entry_ref}"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "entry_ref": "entry_ref",
+              "exit_ref": "exit_ref",
+              "family_ref": "family_ref",
+              "body_ref": "body_ref",
+              "arrival_bbox": "arrival_bbox",
+              "entry_cell": "entry_cell",
+              "exit_cell": "exit_cell",
+              "side": "side"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "later_same_context_entry_relocates_to_a_different_or_ambiguous_peer",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "entry_ref": "entry_ref",
+            "exit_ref": "exit_ref",
+            "family_ref": "family_ref",
+            "body_ref": "body_ref",
+            "arrival_bbox": "arrival_bbox",
+            "entry_cell": "entry_cell",
+            "exit_cell": "exit_cell",
+            "side": "side",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.schema.boundary_egress_marker.{scope_ref}.{marker_value}.{observation_ref}",
+          "predicate": "supports_boundary_marker_as_egress_side",
+          "family": "structural",
+          "argument_patterns": [
+            "schema.boundary_egress_marker.{scope_ref}.{marker_value}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "marker_value",
+            "marker_matches",
+            "part_value_equal",
+            "side",
+            "exit_ref",
+            "marker_ref",
+            "previous_marker_mismatch"
+          ],
+          "required_term_patterns": [
+            "schema.boundary_egress_marker.{scope_ref}.{marker_value}"
+          ],
+          "all_conditions": [
+            {
+              "field": "marker_matches",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "part_value_equal",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "previous_marker_mismatch",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "marker_value": "marker_value",
+              "marker_matches": "marker_matches",
+              "part_value_equal": "part_value_equal",
+              "side": "side",
+              "exit_ref": "exit_ref",
+              "marker_ref": "marker_ref",
+              "previous_marker_mismatch": "previous_marker_mismatch"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "a_homologous_marker_predicts_a_side_different_from_observed_appearance",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "marker_value": "marker_value",
+            "marker_matches": "marker_matches",
+            "part_value_equal": "part_value_equal",
+            "side": "side",
+            "exit_ref": "exit_ref",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "revision_family_ref": "marker_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.egress.{cell_ref}.{observation_ref}",
+          "predicate": "proposes_marker_conditioned_appearance_cell",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.egress.{cell_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "cell_ref",
+            "family_ref",
+            "cell",
+            "side",
+            "marker_value",
+            "analogy_supported",
+            "arrival_cell"
+          ],
+          "required_term_patterns": [
+            "supposition.egress.{cell_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "analogy_supported",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "iteration": {
+            "source_field": "marker_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "family_ref": "family_ref",
+              "cell": "cell",
+              "side": "side",
+              "marker_value": "marker_value",
+              "analogy_supported": "analogy_supported",
+              "arrival_cell": "arrival_cell"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "observed_appearance_is_not_in_the_predicted_adjacent_cell",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "family_ref": "family_ref",
+            "cell": "cell",
+            "side": "side",
+            "marker_value": "marker_value",
+            "analogy_supported": "analogy_supported",
+            "arrival_cell": "arrival_cell",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "revision_family_ref": "cell_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.observation.cursor_pose.{body_ref}.{observation_ref}",
+          "predicate": "records_current_body_location_and_attached_side",
+          "family": "structural",
+          "argument_patterns": [
+            "observation.cursor_pose.{body_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "body_ref",
+            "bbox",
+            "side",
+            "delta_row",
+            "delta_col"
+          ],
+          "required_term_patterns": [
+            "observation.cursor_pose.{body_ref}"
+          ],
+          "all_conditions": [],
+          "iteration": {
+            "source_field": "pose_rows",
+            "item_bindings": {
+              "body_ref": "body_ref",
+              "bbox": "bbox",
+              "side": "side",
+              "delta_row": "delta_row",
+              "delta_col": "delta_col"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "body_or_attached_part_has_multiple_exact_matches",
+            "reason": "principle.attached_rotation_preserves_cursor_body_identity"
+          },
+          "attribute_bindings": {
+            "body_ref": "body_ref",
+            "bbox": "bbox",
+            "side": "side",
+            "delta_row": "delta_row",
+            "delta_col": "delta_col",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "revision_family_ref": "body_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.activate_indicator.{indicator_ref}.{observation_ref}",
+          "predicate": "proposes_matching_family_activation_for_open_indicator",
+          "family": "structural",
+          "argument_patterns": [
+            "goal.activate_indicator.{indicator_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "family_ref",
+            "indicator_ref",
+            "object_refs",
+            "object_cells",
+            "member_count",
+            "indicator_count",
+            "matching_family_count",
+            "inner_digest",
+            "current_border_equals_observed_before",
+            "current_border_equals_observed_after"
+          ],
+          "required_term_patterns": [
+            "goal.activate_indicator.{indicator_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "matching_family_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "member_count",
+              "operator": "greater_than",
+              "expected": 1
+            }
+          ],
+          "any_conditions": [
+            {
+              "field": "current_border_equals_observed_before",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_border_equals_observed_after",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "iteration": {
+            "source_field": "interior_rows",
+            "item_bindings": {
+              "family_ref": "family_ref",
+              "indicator_ref": "indicator_ref",
+              "object_refs": "object_refs",
+              "object_cells": "object_cells",
+              "member_count": "member_count",
+              "indicator_count": "indicator_count",
+              "matching_family_count": "matching_family_count",
+              "inner_digest": "inner_digest",
+              "current_border_equals_observed_before": "current_border_equals_observed_before",
+              "current_border_equals_observed_after": "current_border_equals_observed_after"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "reason": "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+            "falsifier": "matched_family_contact_fails_to_reproduce_the_observed_indicator_state_transfer"
+          },
+          "attribute_bindings": {
+            "family_ref": "family_ref",
+            "indicator_ref": "indicator_ref",
+            "object_refs": "object_refs",
+            "object_cells": "object_cells",
+            "member_count": "member_count",
+            "indicator_count": "indicator_count",
+            "matching_family_count": "matching_family_count",
+            "inner_digest": "inner_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "goal_open": "current_border_equals_observed_before",
+            "goal_satisfied": "current_border_equals_observed_after"
+          }
+        },
+        {
+          "id_pattern": "claim.access_state_transition.{cell_ref}.{observation_ref}",
+          "predicate": "supports_completion_linked_shape_preserving_access_transition",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.access_state_transition.{cell_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "cell_ref",
+            "bbox",
+            "before_partition_digest",
+            "after_partition_digest",
+            "changed_pixel_count",
+            "pixel_count",
+            "remaining_linked_indicator_member_count",
+            "changed_to_satisfied_indicator_member_count",
+            "action_linked_indicator_completion_observed",
+            "stationary_partition_change_candidate_count"
+          ],
+          "required_term_patterns": [
+            "supposition.access_state_transition.{cell_ref}"
+          ],
+          "all_conditions": [
+            {"field": "action_linked_indicator_completion_observed", "operator": "equals", "expected": true},
+            {"field": "remaining_linked_indicator_member_count", "operator": "equals", "expected": 0},
+            {"field": "changed_to_satisfied_indicator_member_count", "operator": "greater_than", "expected": 0},
+            {"field": "stationary_partition_change_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "changed_pixel_count", "operator": "equals_reference_field", "reference_field": "pixel_count"},
+            {"field": "before_partition_digest", "operator": "equals_reference_field", "reference_field": "after_partition_digest"}
+          ],
+          "iteration": {
+            "source_field": "stationary_partition_change_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "bbox": "bbox",
+              "before_partition_digest": "before_partition_digest",
+              "after_partition_digest": "after_partition_digest",
+              "changed_pixel_count": "changed_pixel_count",
+              "pixel_count": "pixel_count",
+              "remaining_linked_indicator_member_count": "remaining_linked_indicator_member_count",
+              "changed_to_satisfied_indicator_member_count": "changed_to_satisfied_indicator_member_count",
+              "action_linked_indicator_completion_observed": "action_linked_indicator_completion_observed",
+              "stationary_partition_change_candidate_count": "stationary_partition_change_candidate_count"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "terminal_role_not_yet_confirmed": true,
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate",
+            "falsifier": "candidate_contact_produces_no_access_or_terminal_evidence"
+          },
+          "attribute_bindings": {
+            "bbox": "bbox",
+            "before_partition_digest": "before_partition_digest",
+            "after_partition_digest": "after_partition_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "action_ref": "action_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.test_terminal_access_candidate.{cell_ref}.{observation_ref}",
+          "predicate": "proposes_contact_test_for_completion_linked_terminal_candidate",
+          "family": "structural",
+          "argument_patterns": [
+            "goal.test_terminal_access_candidate.{cell_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "cell_ref",
+            "bbox",
+            "before_partition_digest",
+            "after_partition_digest",
+            "changed_pixel_count",
+            "pixel_count",
+            "remaining_linked_indicator_member_count",
+            "changed_to_satisfied_indicator_member_count",
+            "action_linked_indicator_completion_observed",
+            "stationary_partition_change_candidate_count"
+          ],
+          "required_term_patterns": [
+            "goal.test_terminal_access_candidate.{cell_ref}"
+          ],
+          "all_conditions": [
+            {"field": "action_linked_indicator_completion_observed", "operator": "equals", "expected": true},
+            {"field": "remaining_linked_indicator_member_count", "operator": "equals", "expected": 0},
+            {"field": "changed_to_satisfied_indicator_member_count", "operator": "greater_than", "expected": 0},
+            {"field": "stationary_partition_change_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "changed_pixel_count", "operator": "equals_reference_field", "reference_field": "pixel_count"},
+            {"field": "before_partition_digest", "operator": "equals_reference_field", "reference_field": "after_partition_digest"}
+          ],
+          "iteration": {
+            "source_field": "stationary_partition_change_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "bbox": "bbox",
+              "before_partition_digest": "before_partition_digest",
+              "after_partition_digest": "after_partition_digest",
+              "changed_pixel_count": "changed_pixel_count",
+              "pixel_count": "pixel_count",
+              "remaining_linked_indicator_member_count": "remaining_linked_indicator_member_count",
+              "changed_to_satisfied_indicator_member_count": "changed_to_satisfied_indicator_member_count",
+              "action_linked_indicator_completion_observed": "action_linked_indicator_completion_observed",
+              "stationary_partition_change_candidate_count": "stationary_partition_change_candidate_count"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate",
+            "falsifier": "candidate_contact_produces_no_official_level_boundary_or_access_effect"
+          },
+          "attribute_bindings": {
+            "bbox": "bbox",
+            "before_partition_digest": "before_partition_digest",
+            "after_partition_digest": "after_partition_digest",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "action_ref": "action_ref"
+          }
+        }
+      ],
+      "reason_refs": [
+        "principle.repeated_boundary_cardinality_supports_level_counter",
+        "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+        "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker",
+        "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+      ]
+    },
+    {
+      "id": "rule.refute_display_marker_correspondence",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "principle.repeated_boundary_cardinality_supports_level_counter",
+        "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+        "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+      ],
+      "applicability": [
+        "exact_bounded_descriptive_rows"
+      ],
+      "invariants": [
+        "no_game_palette_or_coordinate_binds_a_role",
+        "all_correspondences_retain_explicit_epistemic_status",
+        "ambiguous_identity_pair_or_motif_stays_unresolved"
+      ],
+      "falsifiers": [
+        "measurement_incomplete_or_correspondence_contradicted"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "schema.boundary_egress_marker.{scope_ref}.{marker_value}",
+          "kind": "schema",
+          "label": "Observed appearance contradicts the marker convention",
+          "required_fields": [
+            "marker_value",
+            "marker_matches",
+            "part_value_equal",
+            "side",
+            "exit_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "marker_matches",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "marker_value": "marker_value",
+              "marker_matches": "marker_matches",
+              "part_value_equal": "part_value_equal",
+              "side": "side",
+              "exit_ref": "exit_ref"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "egress_marker_convention",
+            "commitment": "revisable",
+            "status": "rejected",
+            "untried_members_remain_suppositions": true,
+            "falsifier": "a_homologous_marker_predicts_a_side_different_from_observed_appearance",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "marker_value": "marker_value",
+            "marker_matches": "marker_matches",
+            "part_value_equal": "part_value_equal",
+            "side": "side",
+            "exit_ref": "exit_ref",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref"
+          }
+        },
+        {
+          "id_pattern": "supposition.egress.{cell_ref}",
+          "kind": "schema",
+          "label": "Appearance prediction invalidated by a contradictory observed side",
+          "required_fields": [
+            "cell_ref",
+            "family_ref",
+            "cell",
+            "side",
+            "marker_value",
+            "analogy_supported",
+            "arrival_cell",
+            "analogy_contradicted"
+          ],
+          "all_conditions": [
+            {
+              "field": "analogy_contradicted",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "iteration": {
+            "source_field": "marker_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "family_ref": "family_ref",
+              "cell": "cell",
+              "side": "side",
+              "marker_value": "marker_value",
+              "analogy_supported": "analogy_supported",
+              "arrival_cell": "arrival_cell",
+              "analogy_contradicted": "analogy_contradicted"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "role": "egress_prediction",
+            "commitment": "revisable",
+            "status": "rejected",
+            "validate_on_next_entry": true,
+            "falsifier": "observed_appearance_is_not_in_the_predicted_adjacent_cell",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "family_ref": "family_ref",
+            "cell": "cell",
+            "side": "side",
+            "marker_value": "marker_value",
+            "analogy_supported": "analogy_supported",
+            "arrival_cell": "arrival_cell",
+            "observation_ref": "observation_ref",
+            "scope_ref": "scope_ref",
+            "analogy_contradicted": "analogy_contradicted"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.schema.boundary_egress_marker.{scope_ref}.{marker_value}.{observation_ref}",
+          "predicate": "supports_boundary_marker_as_egress_side",
+          "family": "structural",
+          "argument_patterns": [
+            "schema.boundary_egress_marker.{scope_ref}.{marker_value}"
+          ],
+          "epistemic_status": "defeated",
+          "required_fields": [
+            "marker_value",
+            "marker_matches",
+            "part_value_equal",
+            "side",
+            "exit_ref",
+            "marker_ref"
+          ],
+          "required_term_patterns": [
+            "schema.boundary_egress_marker.{scope_ref}.{marker_value}"
+          ],
+          "all_conditions": [
+            {
+              "field": "marker_matches",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "iteration": {
+            "source_field": "entry_rows",
+            "item_bindings": {
+              "marker_value": "marker_value",
+              "marker_matches": "marker_matches",
+              "part_value_equal": "part_value_equal",
+              "side": "side",
+              "exit_ref": "exit_ref",
+              "marker_ref": "marker_ref"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "a_homologous_marker_predicts_a_side_different_from_observed_appearance",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "marker_value": "marker_value",
+            "marker_matches": "marker_matches",
+            "part_value_equal": "part_value_equal",
+            "side": "side",
+            "exit_ref": "exit_ref",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "revision_family_ref": "marker_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.egress.{cell_ref}.{observation_ref}",
+          "predicate": "proposes_marker_conditioned_appearance_cell",
+          "family": "structural",
+          "argument_patterns": [
+            "supposition.egress.{cell_ref}"
+          ],
+          "epistemic_status": "defeated",
+          "required_fields": [
+            "cell_ref",
+            "family_ref",
+            "cell",
+            "side",
+            "marker_value",
+            "analogy_supported",
+            "arrival_cell",
+            "analogy_contradicted"
+          ],
+          "required_term_patterns": [
+            "supposition.egress.{cell_ref}"
+          ],
+          "all_conditions": [
+            {
+              "field": "analogy_contradicted",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "iteration": {
+            "source_field": "marker_rows",
+            "item_bindings": {
+              "cell_ref": "cell_ref",
+              "family_ref": "family_ref",
+              "cell": "cell",
+              "side": "side",
+              "marker_value": "marker_value",
+              "analogy_supported": "analogy_supported",
+              "arrival_cell": "arrival_cell",
+              "analogy_contradicted": "analogy_contradicted"
+            },
+            "max_items": 128
+          },
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "observed_appearance_is_not_in_the_predicted_adjacent_cell",
+            "reason": "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+          },
+          "attribute_bindings": {
+            "cell_ref": "cell_ref",
+            "family_ref": "family_ref",
+            "cell": "cell",
+            "side": "side",
+            "marker_value": "marker_value",
+            "analogy_supported": "analogy_supported",
+            "arrival_cell": "arrival_cell",
+            "observation_ref": "observation_ref",
+            "action_ref": "action_ref",
+            "analogy_contradicted": "analogy_contradicted",
+            "revision_family_ref": "cell_ref"
+          }
+        }
+      ],
+      "reason_refs": [
+        "principle.repeated_boundary_cardinality_supports_level_counter",
+        "principle.enclosure_and_exact_inner_motif_support_display_correspondence",
+        "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"
+      ]
+    },
+    {
+      "id": "policy.refute_display_marker_correspondence",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "display.measurements_available",
+        "display.unresolved"
+      ],
+      "fact_projections": [],
+      "selection_tiers": [
+        {
+          "id": "tier.display.measured",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "display.measurements_available"
+            },
+            {
+              "field": "measurement_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "measured_row_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "reason_ref": "reason.exact_bounded_display_relations_have_inspectable_evidence"
+        },
+        {
+          "id": "tier.display.unresolved",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "display.unresolved"
+            }
+          ],
+          "reason_ref": "reason.incomplete_or_absent_measurements_do_not_assign_display_meaning"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "measured_row_count",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "display.measurements_available": "rule.refute_display_marker_correspondence"
+      },
+      "reason_refs": [
+        "reason.exact_bounded_display_relations_have_inspectable_evidence",
+        "reason.incomplete_or_absent_measurements_do_not_assign_display_meaning"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+# Every predicted repair is reconciled before the next component is selected.
+MODULE arc3.reconcile_homologous_repair
+
+WORKFLOW reconcile_homologous_repair(
+    before: FrameGrid,
+    after: FrameGrid,
+    selected_plan_facts: Any,
+    before_score: Integer,
+    after_score: Integer,
+    transition_ref: Ref,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        analysis: HomologousRepairReconciliationAnalysis
+        projected: DeclaredAlternativeFacts
+        reconciliation: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared_updates: PreparedMeaningUpdates
+        revision: Any?
+    STEP compare_prediction
+        CALL capability.homologous_repair_reconciliation(
+            before=before,
+            after=after,
+            selected_plan_facts=selected_plan_facts,
+            before_score=before_score,
+            after_score=after_score,
+            transition_ref=transition_ref
+        ) -> analysis
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.declared_homologous_repair_reconciliation",
+            alternative_refs=[],
+            context_facts=selected_plan_facts,
+            descriptive_delta=analysis.descriptive_delta
+        ) -> projected
+        SELECT reconciliation
+            FOR "goal.reconcile_predicted_homologous_repair"
+            FROM projected.alternative_refs
+            UNDER policy.declared_homologous_repair_reconciliation
+            REQUIRE ["requirement.action_observation_lineage_is_current"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_homologous_repair_reconciliation",
+            selected_ref=reconciliation.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        MATCH reconciliation.alternatives.selected
+            "homologous_repair_reconciliation.match" -> NEXT derive_match
+            "homologous_repair_reconciliation.complete" -> NEXT derive_complete
+            "homologous_repair_reconciliation.mismatch" -> NEXT derive_mismatch
+    STEP derive_match
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.homologous_repair_step_reconciled
+            CONTEXT meaning
+        NEXT commit
+    STEP derive_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.homologous_repair_path_completed
+            CONTEXT meaning
+        NEXT commit
+    STEP derive_mismatch
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.homologous_repair_step_mismatch
+            CONTEXT meaning
+        NEXT commit
+    STEP commit
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_reconciliation
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        STOP reconciliation

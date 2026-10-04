@@ -1,0 +1,41 @@
+# M7 vertical action cycle: source wisdom, source release, action, causal resume.
+MODULE core.released_action_cycle
+
+WORKFLOW released_action_cycle
+    INPUT
+        viability: ViabilityAssessment
+        intent: ActionIntent
+        context: WorldContext
+    OUTPUT
+        observation: ObservationResult
+    STATE
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+    STEP authorize_and_act
+        CALL control.validate_action_grounding(
+            intent=intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=intent,
+            viability=viability,
+            wisdom=wisdom,
+            context=context
+        ) -> release
+        ACT action_event
+            FROM intent
+            CONTEXT context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT intent.expectation_refs
+        AWAIT FRAME AS after_frame
+        NEXT observe_result
+    STEP observe_result
+        OBSERVE observation
+            FROM after_frame
+            USING acquisition.frame
+        STOP success

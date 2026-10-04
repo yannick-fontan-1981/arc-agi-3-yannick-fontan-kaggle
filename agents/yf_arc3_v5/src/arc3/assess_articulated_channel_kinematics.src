@@ -1,0 +1,118 @@
+# DRM licenses each provisional articulated-channel operation before Python measures it.
+MODULE arc3.assess_articulated_channel_kinematics
+
+WORKFLOW assess_articulated_channel_kinematics(
+    descriptive_facts: Any,
+    kinematics_request: ArticulatedKinematicsInput,
+    shared_snapshot_request: ArticulatedSharedSnapshotInput,
+    successor_request: ArticulatedSuccessorInput
+) -> Any
+    STATE
+        extent_projected: DeclaredAlternativeFacts
+        extent_assessed: Assessment
+        channel_projected: DeclaredAlternativeFacts
+        channel_assessed: Assessment
+        collision_projected: DeclaredAlternativeFacts
+        collision_assessed: Assessment
+        kinematics_projected: DeclaredAlternativeFacts
+        kinematics_assessed: Assessment
+        kinematics_result: ArticulatedKinematicsMeasurements?
+        snapshot_projected: DeclaredAlternativeFacts
+        snapshot_assessed: Assessment
+        snapshot_result: ArticulatedSharedSnapshotMeasurements?
+        successor_projected: DeclaredAlternativeFacts
+        successor_assessed: Assessment
+        successor_result: ArticulatedSuccessorMeasurements?
+    STEP reconcile_extent
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_extent_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> extent_projected
+        SELECT extent_assessed
+            FOR "goal.reconcile_declared_articulated_extent_effect"
+            FROM extent_projected.alternative_refs
+            UNDER policy.declared_articulated_extent_reconciliation
+            REQUIRE ["requirement.sealed_roots_free_ends_and_co_moving_components_are_supplied"]
+            PRESERVE extent_projected.alternative_refs
+            FACTS extent_projected.alternative_facts
+        NEXT reconcile_channel
+    STEP reconcile_channel
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_channel_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> channel_projected
+        SELECT channel_assessed
+            FOR "goal.reconcile_declared_articulated_channel_effect"
+            FROM channel_projected.alternative_refs
+            UNDER policy.declared_articulated_channel_reconciliation
+            REQUIRE ["requirement.complete_channel_receivers_and_separate_attachment_graph_are_supplied"]
+            PRESERVE channel_projected.alternative_refs
+            FACTS channel_projected.alternative_facts
+        NEXT reconcile_collision
+    STEP reconcile_collision
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_collision_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> collision_projected
+        SELECT collision_assessed
+            FOR "goal.reconcile_declared_articulated_transaction_outcome"
+            FROM collision_projected.alternative_refs
+            UNDER policy.declared_articulated_collision_reconciliation
+            REQUIRE ["requirement.transaction_animation_and_collision_scope_are_explicit"]
+            PRESERVE collision_projected.alternative_refs
+            FACTS collision_projected.alternative_facts
+        NEXT assess_kinematics
+    STEP assess_kinematics
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_kinematics_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> kinematics_projected
+        SELECT kinematics_assessed
+            FOR "goal.measure_declared_articulated_local_frame_composition"
+            FROM kinematics_projected.alternative_refs
+            UNDER policy.declared_articulated_kinematics_measurement
+            REQUIRE ["requirement.complete_bounded_attachment_forest_and_exact_local_frames_are_supplied"]
+            PRESERVE kinematics_projected.alternative_refs
+            FACTS kinematics_projected.alternative_facts
+        NEXT measure_kinematics
+    STEP measure_kinematics
+        CALL capability.articulated_kinematics_measurement(request=kinematics_request) -> kinematics_result
+        NEXT assess_shared_snapshot
+    STEP assess_shared_snapshot
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_shared_snapshot_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> snapshot_projected
+        SELECT snapshot_assessed
+            FOR "goal.measure_declared_articulated_shared_snapshot"
+            FROM snapshot_projected.alternative_refs
+            UNDER policy.declared_articulated_shared_snapshot_measurement
+            REQUIRE ["requirement.complete_receiver_scope_cause_ids_order_status_and_bound_are_supplied"]
+            PRESERVE snapshot_projected.alternative_refs
+            FACTS snapshot_projected.alternative_facts
+        NEXT measure_shared_snapshot
+    STEP measure_shared_snapshot
+        CALL capability.articulated_shared_snapshot_measurement(request=shared_snapshot_request) -> snapshot_result
+        NEXT assess_successor
+    STEP assess_successor
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_articulated_successor_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> successor_projected
+        SELECT successor_assessed
+            FOR "goal.measure_declared_articulated_joint_successor"
+            FROM successor_projected.alternative_refs
+            UNDER policy.declared_articulated_successor_measurement
+            REQUIRE ["requirement.complete_before_after_markers_transaction_atomicity_and_bound_are_supplied"]
+            PRESERVE successor_projected.alternative_refs
+            FACTS successor_projected.alternative_facts
+        NEXT measure_successor
+    STEP measure_successor
+        CALL capability.articulated_successor_measurement(request=successor_request) -> successor_result
+        STOP successor_result

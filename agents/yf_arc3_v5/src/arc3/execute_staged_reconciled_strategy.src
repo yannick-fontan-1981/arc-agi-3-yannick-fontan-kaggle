@@ -1,0 +1,229 @@
+# Execute one declaratively selected strategy phase without hiding a loop in Python.
+MODULE arc3.execute_staged_reconciled_strategy
+
+WORKFLOW execute_staged_reconciled_strategy(
+    phase_ref: Ref,
+    phase_facts: Any,
+    route_agenda: InteractionProbeAgenda,
+    committed_route_ref: Ref,
+    context: WorldContext,
+    after_scene: Any?,
+    after_tracking: Any?,
+    identity_delta_request: Any,
+    before_score: Integer,
+    after_score: Integer,
+    transition_ref: Ref,
+    before_revision: Integer,
+    evidence_refs: List<Ref>
+) -> Any
+    STATE
+        projected_agenda: InteractionProbeAgenda
+        route_commitment: Assessment?
+        committed_agenda: InteractionProbeAgenda
+        route_meaning: DeclaredMeaningInstantiation?
+        route_claims: Any?
+        prepared_route_updates: PreparedMeaningUpdates?
+        route_revision: Any?
+        prepared_action: Any?
+        grounding: ActionGroundingContract?
+        action_event: ActionEvent?
+        after_frame: Frame?
+        observation: ObservationResult?
+        analysis: QuantizedPlanReconciliationAnalysis?
+        identity_analysis: DimensionTransitionResult?
+        projected_delta: DeclaredAlternativeFacts?
+        reconciliation: Assessment?
+        reconciliation_meaning: DeclaredMeaningInstantiation?
+        reconciliation_claims: Any?
+        prepared_reconciliation_updates: PreparedMeaningUpdates?
+        reconciliation_revision: Any?
+    STEP dispatch_declared_phase
+        REQUIRE phase_facts.strategy_is_committed
+        MATCH phase_ref
+            "prepare_route" -> NEXT commit_single_route
+            "release_one_action" -> NEXT release_single_action
+            "reconcile_observation" -> NEXT reconcile_causal_delta
+            "resolve_mismatch" -> NEXT require_resolved_mismatch_cause
+            "terminal_alignment" -> NEXT require_completed_precedence
+    STEP commit_single_route
+        REQUIRE route_agenda.has_candidates
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            agenda=route_agenda
+        ) -> projected_agenda
+        SELECT route_commitment
+            FOR phase_facts.strategy_ref
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_transferred_quantized_plan
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE ["preserve.only_committed_route"]
+            FACTS projected_agenda.alternative_facts
+        CALL control.retain_selected_agenda(
+            agenda=projected_agenda,
+            selected_ref=route_commitment.alternatives.selected
+        ) -> committed_agenda
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            selected_ref=route_commitment.alternatives.selected,
+            alternative_facts=projected_agenda.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> route_meaning
+        DERIVE route_claims
+            FROM route_meaning.evidence_refs
+            USING rule.transferred_quantized_plan_expectation
+            CONTEXT route_meaning
+        CALL control.prepare_meaning_updates(
+            terms=route_meaning.terms,
+            claims=route_claims.claims
+        ) -> prepared_route_updates
+        TRANSACTION commit_one_route_payload
+            UPDATE route_revision
+                TARGET prepared_route_updates.update_items
+                FROM route_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [route_commitment.alternatives.selected]
+        STOP route_commitment
+    STEP release_single_action
+        REQUIRE route_agenda.has_candidates
+        CALL control.prepare_interaction_probe(
+            agenda=route_agenda,
+            selected_ref=committed_route_ref,
+            context=context,
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            selection_source_ref="selection_source.committed_agenda"
+        ) -> prepared_action
+        CALL control.validate_action_grounding(
+            intent=prepared_action.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared_action.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared_action.intent,
+            viability=prepared_action.viability,
+            wisdom=wisdom,
+            context=prepared_action.context
+        ) -> release
+        ACT action_event
+            FROM prepared_action.intent
+            CONTEXT prepared_action.context
+            USING environment.primary
+            RELEASE release
+            WISDOM wisdom
+            EXPECT prepared_action.intent.expectation_refs
+        AWAIT FRAME AS after_frame
+        NEXT observe_causal_feedback
+    STEP observe_causal_feedback
+        OBSERVE observation
+            FROM after_frame
+            USING acquisition.frame
+        STOP observation
+    STEP reconcile_causal_delta
+        REQUIRE phase_facts.causal_observation_is_available
+        CALL capability.quantized_plan_reconciliation(
+            after_scene=after_scene,
+            after_tracking=after_tracking,
+            selected_plan_facts=phase_facts,
+            before_score=before_score,
+            after_score=after_score,
+            transition_ref=transition_ref
+        ) -> analysis
+        CALL capability.dimension_transition(
+            request=identity_delta_request
+        ) -> identity_analysis
+        MATCH identity_analysis.exact
+            true -> NEXT project_declared_reconciliation
+            false -> NEXT block_identity_mismatch
+    STEP project_declared_reconciliation
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.declared_quantized_plan_reconciliation",
+            alternative_refs=[],
+            context_facts=phase_facts,
+            descriptive_delta=analysis.descriptive_delta
+        ) -> projected_delta
+        SELECT reconciliation
+            FOR phase_facts.strategy_ref
+            FROM projected_delta.alternative_refs
+            UNDER policy.declared_quantized_plan_reconciliation
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE projected_delta.alternative_refs
+            FACTS projected_delta.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_quantized_plan_reconciliation",
+            selected_ref=reconciliation.alternatives.selected,
+            alternative_facts=projected_delta.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> reconciliation_meaning
+        MATCH reconciliation.alternatives.selected
+            "plan_reconciliation.match" -> NEXT commit_reconciled_match
+            "plan_reconciliation.complete" -> NEXT commit_reconciled_completion
+            "plan_reconciliation.mismatch" -> NEXT commit_reconciled_mismatch
+    STEP block_identity_mismatch
+        BLOCK identity_analysis
+    STEP commit_reconciled_match
+        DERIVE reconciliation_claims
+            FROM reconciliation_meaning.evidence_refs
+            USING rule.quantized_plan_step_reconciled
+            CONTEXT reconciliation_meaning
+        CALL control.prepare_meaning_updates(
+            terms=reconciliation_meaning.terms,
+            claims=reconciliation_claims.claims
+        ) -> prepared_reconciliation_updates
+        TRANSACTION commit_exact_match
+            UPDATE reconciliation_revision
+                TARGET prepared_reconciliation_updates.update_items
+                FROM reconciliation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [phase_facts.plan_ref]
+        STOP reconciliation
+    STEP commit_reconciled_completion
+        REQUIRE phase_facts.precedence_transitions_complete
+        DERIVE reconciliation_claims
+            FROM reconciliation_meaning.evidence_refs
+            USING rule.quantized_plan_path_completed
+            CONTEXT reconciliation_meaning
+        CALL control.prepare_meaning_updates(
+            terms=reconciliation_meaning.terms,
+            claims=reconciliation_claims.claims
+        ) -> prepared_reconciliation_updates
+        TRANSACTION commit_terminal_completion
+            UPDATE reconciliation_revision
+                TARGET prepared_reconciliation_updates.update_items
+                FROM reconciliation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [phase_facts.plan_ref]
+        STOP reconciliation
+    STEP commit_reconciled_mismatch
+        DERIVE reconciliation_claims
+            FROM reconciliation_meaning.evidence_refs
+            USING rule.quantized_plan_step_mismatch
+            CONTEXT reconciliation_meaning
+        CALL control.prepare_meaning_updates(
+            terms=reconciliation_meaning.terms,
+            claims=reconciliation_claims.claims
+        ) -> prepared_reconciliation_updates
+        TRANSACTION commit_exact_mismatch
+            UPDATE reconciliation_revision
+                TARGET prepared_reconciliation_updates.update_items
+                FROM reconciliation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [phase_facts.plan_ref]
+        BLOCK reconciliation
+    STEP require_resolved_mismatch_cause
+        REQUIRE phase_facts.reconciliation_cause_is_resolved
+        NEXT commit_single_route
+    STEP require_completed_precedence
+        REQUIRE phase_facts.precedence_transitions_complete
+        NEXT commit_single_route

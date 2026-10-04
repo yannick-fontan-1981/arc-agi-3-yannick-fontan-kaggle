@@ -1,0 +1,402 @@
+{
+  "module_id": "ontology",
+  "declarations": [
+    {
+      "id": "schema.spatial_support_material_family",
+      "kind": "schema",
+      "premises": [
+        "two_or_more_material_classes_share_one_bounded_spatial_grammar",
+        "the_same_persistent_mobile_traverses_or_settles_on_their_composition"
+      ],
+      "applicability": [
+        "action_conditioned_material_topology_interpretation"
+      ],
+      "invariants": [
+        "palette_values_remain_measurements_not_roles",
+        "family_membership_is_revisable_per_material_link",
+        "one_material_may_be_a_stable_state_while_another_is_transit_support",
+        "more_than_two_material_classes_may_belong_to_one_support_family"
+      ],
+      "falsifiers": [
+        "the_mobile_cannot_traverse_or_settle_as_predicted",
+        "later_transition_evidence_separates_one_material_from_the_support_family"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_motion_confirms_shared_multimaterial_support"
+      ]
+    },
+    {
+      "id": "schema.alternating_stable_transit_graph",
+      "kind": "schema",
+      "premises": [
+        "repeated_equal_block_quanta",
+        "one_material_class_occurs_at_stable_lattice_positions",
+        "another_material_class_occurs_at_cardinal_half_steps"
+      ],
+      "applicability": [
+        "bounded_node_link_compression_of_spatial_support"
+      ],
+      "invariants": [
+        "stable_positions_and_transit_positions_remain_distinct",
+        "overlay_footprints_may_preserve_hidden_stable_positions",
+        "graph_edges_require_complete_measured_half_step_support",
+        "no_game_palette_or_benchmark_coordinate_enters_the_schema"
+      ],
+      "falsifiers": [
+        "the_repeated_quantum_is_not_stable",
+        "a_measured_connector_does_not_link_two_stable_positions",
+        "action_conditioned_motion_uses_a_different_spatial_quantum"
+      ],
+      "reason_refs": [
+        "reason.alternating_material_quanta_license_bounded_graph_compression"
+      ]
+    },
+    {
+      "id": "principle.action_conditioned_multimaterial_support",
+      "kind": "principle",
+      "premises": [
+        "a_bounded_multimaterial_spatial_description_exists",
+        "one_declared_directional_probe_matches_a_supported_adjacent_transition",
+        "the_same_mobile_identity_settles_at_the_predicted_next_stable_position"
+      ],
+      "applicability": [
+        "confirming_or_revising_spatial_support_material_membership"
+      ],
+      "invariants": [
+        "morphology_opens_only_a_revisable_support_supposition",
+        "motion_confirms_only_the_material_links_used_by_the_observed_transition",
+        "additional_material_classes_require_their_own_compatible_motion_evidence"
+      ],
+      "falsifiers": [
+        "the_mobile_identity_is_not_preserved",
+        "the_displacement_does_not_match_the_measured_stable_pitch",
+        "the_supported_connector_is_not_crossed_by_the_observed_transition"
+      ],
+      "general_principle_refs": [
+        "principle.action_conditioned_observation_updates_revisable_transition_knowledge",
+        "principle.contradiction_revises_only_falsified_scope"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_motion_confirms_shared_multimaterial_support"
+      ]
+    },
+    {
+      "id": "schema.relation_graph_dimension",
+      "kind": "schema",
+      "premises": ["node_identities", "typed_relation_edges"],
+      "applicability": ["one_relation_dimension_under_analysis"],
+      "invariants": ["other_relation_dimensions_are_not_merged"],
+      "falsifiers": ["edge_relation_type_unknown"],
+      "reason_refs": ["reason.relation_graphs_remain_typed_and_separate"]
+    },
+    {
+      "id": "schema.typed_relation_link",
+      "kind": "schema",
+      "premises": [
+        "declared_relation_dimension_ref",
+        "source_and_target_refs",
+        "explicit_grounds",
+        "individual_falsifier"
+      ],
+      "applicability": ["one_relation_between_persistent_references_is_proposed"],
+      "invariants": [
+        "the_same_reference_pair_may_have_links_in_several_dimensions",
+        "each_link_keeps_its_own_epistemic_status",
+        "contradiction_defeats_only_the_individual_typed_link"
+      ],
+      "falsifiers": ["dimension_ref_or_endpoint_lineage_is_missing"],
+      "reason_refs": ["reason.typed_links_remain_independently_revisable"]
+    },
+    {
+      "id": "schema.scoped_ontology_insufficiency",
+      "kind": "schema",
+      "premises": ["established_ontology_scope", "objective", "explicit_failure_witnesses"],
+      "applicability": ["established_models_cannot_derive_objective"],
+      "invariants": ["insufficiency_is_scoped", "intrinsic_impossibility_is_not_inferred"],
+      "falsifiers": ["objective_derivable_inside_current_scope"],
+      "reason_refs": ["reason.current_ontology_can_be_correct_but_insufficient"]
+    },
+    {
+      "id": "schema.explanatory_extension",
+      "kind": "schema",
+      "premises": ["ontology_gap", "grounds", "falsifiers"],
+      "applicability": ["scoped_insufficiency_established"],
+      "invariants": ["extension_is_proposed_not_established", "prior_knowledge_is_preserved"],
+      "falsifiers": ["contradicts_established_invariant"],
+      "reason_refs": ["reason.extension_must_explain_the_exact_gap"]
+    },
+    {
+      "id": "rule.scoped_ontology_insufficiency",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "epistemic",
+      "premises": ["objective_unreachable", "required_quantity_unavailable", "required_relation_missing"],
+      "applicability": ["witnesses_share_current_ontology_scope"],
+      "invariants": ["conclusion_is_insufficiency_not_impossibility"],
+      "falsifiers": ["any_required_witness_absent"],
+      "reason_refs": ["reason.insufficiency_requires_explicit_witnesses"]
+    },
+    {
+      "id": "rule.identity_preserving_dimension_transition",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["same_entity_before_after", "changed_dimension", "preserved_dimensions"],
+      "applicability": ["exact_dimension_transition_observed"],
+      "invariants": ["identity_is_preserved", "unchanged_dimensions_remain_explicit"],
+      "falsifiers": ["entity_correspondence_contradicted"],
+      "reason_refs": ["reason.transition_changes_state_without_recreating_entity"]
+    },
+    {
+      "id": "principle.extend_only_after_scoped_gap",
+      "kind": "principle",
+      "premises": ["scoped_ontology_insufficiency", "live_explanatory_alternatives"],
+      "applicability": ["current_ontology_cannot_explain_objective"],
+      "invariants": ["new_morphology_alone_does_not_trigger_extension", "established_knowledge_is_retained"],
+      "falsifiers": ["current_ontology_becomes_sufficient"],
+      "general_principle_refs": ["principle.grounded_epistemic_lifecycle"],
+      "reason_refs": ["reason.ontology_extension_follows_proven_gap"]
+    },
+    {
+      "id": "principle.threshold_activation_and_causal_confirmation_are_distinct",
+      "kind": "principle",
+      "premises": ["candidate_threshold_condition", "candidate_activation_event", "candidate_action_conditioned_effect"],
+      "applicability": ["a_mechanism_transition_is_being_explained"],
+      "invariants": [
+        "a_satisfied_threshold_does_not_by_itself_establish_activation",
+        "an_activation_event_does_not_by_itself_establish_the_candidate_cause",
+        "causal_confirmation_requires_action_conditioned_effect_lineage_or_an_explicit_passive_mechanism_alternative"
+      ],
+      "falsifiers": ["threshold_activation_and_effect_are_reported_as_one_undifferentiated_fact"],
+      "general_principle_refs": ["principle.grounded_epistemic_lifecycle"],
+      "reason_refs": ["reason.capacity_condition_activation_and_causal_effect_are_distinct"]
+    },
+    {
+      "id": "principle.explicit_activation_is_distinct_from_threshold",
+      "kind": "principle",
+      "premises": ["threshold_hypothesis", "activation_action"],
+      "applicability": ["mechanism_requires_observed_trigger"],
+      "invariants": ["morphology_does_not_replace_activation"],
+      "falsifiers": ["passive_transition_observed_without_action"],
+      "general_principle_refs": ["principle.threshold_activation_and_causal_confirmation_are_distinct"],
+      "reason_refs": ["reason.capacity_condition_and_activation_are_distinct"]
+    },
+    {
+      "id": "policy.declared_relation_graph_dimensions",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["schema.relation_graph_dimension", "run_ref"],
+      "applicability": ["a_new_runtime_timeline_requires_canonical_graph_dimensions"],
+      "invariants": [
+        "exactly_eight_generic_dimensions_are_declared",
+        "no_dimension_is_selected_as_more_important",
+        "all_dimensions_exist_before_empirical_links_are_added"
+      ],
+      "falsifiers": ["one_canonical_dimension_is_missing_or_duplicated"],
+      "declared_alternative_refs": ["relation_graph_dimensions.canonical_eight"],
+      "fact_projections": [
+        {
+          "id": "projection.relation_graph_dimensions.canonical",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "relation_graph_dimensions.canonical_eight"
+            }
+          ],
+          "static_facts": {
+            "relation_graph_dimension_declaration_kind": "canonical_eight",
+            "relation_graph_dimension_count": 8
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.relation_graph_dimensions.canonical",
+          "all_conditions": [
+            {
+              "field": "relation_graph_dimension_declaration_kind",
+              "operator": "equals",
+              "expected": "canonical_eight"
+            },
+            {
+              "field": "relation_graph_dimension_count",
+              "operator": "equals",
+              "expected": 8
+            }
+          ],
+          "reason_ref": "reason.eight_relation_dimensions_are_the_declared_complete_partition"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "relation_graph_dimension_declaration_kind",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "relation_graph_dimensions.canonical_eight": "rule.initialize_relation_graph_dimensions"
+      },
+      "reason_refs": ["reason.graph_dimensions_are_declared_before_links"]
+    },
+    {
+      "id": "rule.initialize_relation_graph_dimensions",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["run_ref", "relation_graph_dimension_count"],
+      "applicability": ["canonical_eight_relation_dimensions_selected"],
+      "invariants": [
+        "dimension_terms_are_generic_and_instance_free",
+        "each_empirical_link_must_name_exactly_one_dimension",
+        "dimension_terms_do_not_create_empirical_edges"
+      ],
+      "falsifiers": ["dimension_count_is_not_eight"],
+      "term_templates": [
+        {
+          "id_pattern": "graph.dimension.identity_composition",
+          "kind": "schema",
+          "label": "identity and composition relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "identity_composition"}
+        },
+        {
+          "id_pattern": "graph.dimension.material_topology",
+          "kind": "schema",
+          "label": "material traversability and topology relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "material_topology"}
+        },
+        {
+          "id_pattern": "graph.dimension.agency_control",
+          "kind": "schema",
+          "label": "agency selection and control relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "agency_control"}
+        },
+        {
+          "id_pattern": "graph.dimension.correspondence_location",
+          "kind": "schema",
+          "label": "correspondence reference and location relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "correspondence_location"}
+        },
+        {
+          "id_pattern": "graph.dimension.support_occupancy",
+          "kind": "schema",
+          "label": "support occupancy and terrain relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "support_occupancy"}
+        },
+        {
+          "id_pattern": "graph.dimension.transformation_invariant",
+          "kind": "schema",
+          "label": "transformation invariant and derived geometry relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "transformation_invariant"}
+        },
+        {
+          "id_pattern": "graph.dimension.temporal_timeline",
+          "kind": "schema",
+          "label": "time phase and timeline relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "temporal_timeline"}
+        },
+        {
+          "id_pattern": "graph.dimension.resource_recovery",
+          "kind": "schema",
+          "label": "resource life reset and irreversibility relation graph",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "resource_recovery"}
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.graph.dimension.identity_composition",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.identity_composition"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "identity_composition"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.material_topology",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.material_topology"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "material_topology"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.agency_control",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.agency_control"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "agency_control"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.correspondence_location",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.correspondence_location"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "correspondence_location"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.support_occupancy",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.support_occupancy"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "support_occupancy"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.transformation_invariant",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.transformation_invariant"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "transformation_invariant"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.temporal_timeline",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.temporal_timeline"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "temporal_timeline"}
+        },
+        {
+          "id_pattern": "claim.graph.dimension.resource_recovery",
+          "predicate": "declares_relation_graph_dimension",
+          "family": "structural",
+          "argument_patterns": ["graph.dimension.resource_recovery"],
+          "epistemic_status": "established",
+          "required_fields": ["run_ref"],
+          "static_attributes": {"relation_dimension": "resource_recovery"}
+        }
+      ],
+      "reason_refs": ["reason.canonical_graph_dimensions_precede_empirical_links"]
+    }
+  ]
+}

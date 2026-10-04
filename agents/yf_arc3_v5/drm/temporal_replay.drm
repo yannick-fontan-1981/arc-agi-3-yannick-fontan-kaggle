@@ -1,0 +1,512 @@
+{
+  "module_id": "temporal_replay",
+  "declarations": [
+    {
+      "id": "principle.recorded_pose_witnesses_do_not_require_constant_tracker_labels",
+      "kind": "principle",
+      "premises": ["observed_recording_positions", "unique_shape_color_pose_match_in_every_current_frame", "phase_conditioned_replay_observed_under_a_different_current_command", "source_authorized_reset_excluded"],
+      "applicability": ["tracker_labels_change_while_the_recorded_position_sequence_is_observed"],
+      "invariants": ["ambiguous_or_missing_matches_remain_unknown", "positional_replay_does_not_prove_hidden_physical_identity", "retain_stable_label_divergence_evidence", "retain_rewind_evidence_without_reclassifying_it_as_reset", "a_recorded_effect_does_not_imply_opposite_motion_coupling_to_the_current_command", "positional_replay_does_not_establish_an_unobserved_rendered_rewind"],
+      "falsifiers": ["observed_position_or_color_differs", "two_live_contributions_match_the_same_recorded_position"],
+      "reason_refs": ["reason.observed_service_schedule_is_supported_by_unique_position_witnesses_despite_tracker_alias_changes"]
+    },
+    {
+      "id": "principle.recorded_spans_survive_occlusion_as_conditional_predictions",
+      "kind": "principle",
+      "premises": ["measured_recording_spans", "current_return_discriminator", "inherited_return_law", "current_phase_capacity"],
+      "applicability": ["one_exact_current_cell_core_matches_the_recorded_original", "all_recorded_spans_are_current_scene_bound"],
+      "invariants": ["unobserved_replay_bindings_remain_unknown", "conditional_simulation_is_not_mechanism_proof", "one_primitive_then_reconcile"],
+      "falsifiers": ["recorded_prefix_does_not_emerge_as_predicted", "current_return_or_phase_capacity_contradicts_the_recordings"],
+      "reason_refs": ["reason.recorded_contributions_are_preserved_under_occlusion_but_current_replay_requires_validation"]
+    },
+    {
+      "id":"principle.counterfactual_witness_opens_one_measured_free_control_test",
+      "kind":"principle",
+      "premises":["a_current_bearer_is_uniquely_bound_directly_or_by_an_observed_sequence_complement", "the_available_directional_mapping_has_a_measured_current_free_neighbor", "a_bounded_joint_witness_preserves_every_recorded_service_alternative"],
+      "applicability":["the_next_witness_command_has_not_yet_produced_an_observed_scene_effect"],
+      "invariants":["the_witness_is_counterfactual_until_src_selects_and_commits_the_local_experiment", "release_one_primitive_only_then_reconcile_control_displacement_and_every_joint_next_state", "do_not_authorize_an_unknown_command_toward_a_current_blocked_or_unmeasured_neighbor", "reject_only_the_falsified_candidate_composition_and_preserve_its_siblings"],
+      "falsifiers":["the_current_bearer_does_not_take_the_measured_step", "a_recording_or_remote_mask_differs_from_the_joint_next_state"],
+      "reason_refs":["reason.one_free_witness_step_validates_the_current_control_mapping"]
+    },
+    {
+      "id": "principle.available_contributions_are_distributed_over_future_services_and_reception",
+      "kind": "principle",
+      "premises": ["an_observed_return_method_matches_the_current_marker_unit", "current_marker_count_equals_candidate_service_count_plus_unique_reception", "current_service_patterns_match_an_observed_causal_method"],
+      "applicability": ["a_current_scene_requires_functionally_distinct_contributions"],
+      "invariants": ["one_revisable_recorded_contribution_per_candidate_service_and_one_active_contribution_at_reception", "retain_currently_inaccessible_service_obligations", "choose_preparation_order_by_current_dependency_and_access_evidence", "preserve_a_new_observed_service_before_departing_when_an_available_slot_can_record_it", "morphology_does_not_prove_the_current_contact_law", "reconcile_each_primitive_and_revise_allocation_on_contradiction"],
+      "falsifiers": ["the_marker_domain_does_not_preserve_independent_contributions", "a_candidate_service_has_no_expected_remote_effect", "the_receiving_enclosure_is_not_terminal", "a_new_observation_changes_the_required_service_set"],
+      "reason_refs": ["reason.prepare_the_accessible_member_of_a_global_contribution_distribution"]
+    },
+    {
+      "id": "principle.observed_contact_source_morphology_supports_a_revisable_producer_role",
+      "kind": "principle",
+      "premises": ["an_observed_ordinary_entry_produced_a_remote_effect", "a_current_region_matches_the_observed_source_pattern_or_a_colour_preserving_rigid_variant"],
+      "applicability": ["a_terminal_route_requires_a_current_scene_contact_service"],
+      "invariants": ["transmit_pattern_and_causal_method_without_old_coordinates_or_routes", "current_pattern_match_is_only_a_candidate", "rigid_variants_preserve_actual_colours_and_cell_alignment_and_require_local_causal_validation", "unique_hollow_cell_body_is_a_control_candidate_until_its_action_conditioned_delta", "one_primitive_then_reconcile_before_recording", "every_primitive_preserves_ordered_physical_observations"],
+      "falsifiers": ["a_current_entry_produces_no_remote_effect", "the_approach_step_is_blocked", "the_proposed_body_does_not_respond_to_the_control_test"],
+      "reason_refs": ["reason.current_accessible_contact_producer_precedes_incidental_alignment"]
+    },
+    {
+      "id": "principle.remote_contact_alternatives_preserve_occupants_and_displaced_masks",
+      "kind": "principle",
+      "premises": ["one_observed_ordinary_translation_enters_a_nonembedded_region", "disjoint_cell_centers_and_patterns_change_in_the_same_transition"],
+      "applicability": ["bounded_remote_contact_candidates_are_measured"],
+      "invariants": ["a_phase_return_never_proves_ordinary_departure", "hold_and_entry_memory_remain_distinct_revisable_alternatives", "all_occupants_contribute_to_occupancy", "a_displaced_mask_remains_blocking_at_its_observed_other_location", "future_service_belongs_to_its_consumer_not_merely_to_a_recording_endpoint"],
+      "falsifiers": ["contact_and_remote_change_are_not_action_conditioned", "remote_pattern_changes_without_a_modeled_trigger", "another_occupant_or_mask_location_is_ignored"],
+      "reason_refs": ["reason.remote_contact_inventory_preserves_unknown_response_and_displaced_masks"]
+    },
+    {
+      "id": "rule.temporal_contact_inventory_meaning",
+      "kind": "rule", "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["contact_remote_cell_row_count", "contact_remote_cell_rows", "contact_inventory_observation_frame_ref"],
+      "applicability": ["current_bounded_contact_inventory_is_supported"],
+      "invariants": ["candidate_laws_are_not_committed_as_final_mechanisms"],
+      "falsifiers": ["a_bound_or_observation_binding_is_invalid"],
+      "term_templates": [{"id_pattern": "temporal.contact_inventory.{measurement_context_ref}", "kind": "schema", "label": "revisable remote contact inventory",
+        "required_fields": ["contact_remote_cell_rows", "contact_inventory_observation_frame_ref"],
+        "static_attributes": {"projection_contract": "yf_arc3_v5.temporal_contact_inventory.v1", "commitment": "candidate"},
+        "attribute_bindings": {"observation_frame_ref": "contact_inventory_observation_frame_ref", "contact_remote_cell_rows": "contact_remote_cell_rows", "current_observed_cell_facts": "current_observed_cell_facts", "boundary_slot_transition_rows": "boundary_slot_transition_rows", "return_recording_span_packs": "return_recording_span_packs"}},
+        {"id_pattern": "temporal.phase_slot_method.{measurement_context_ref}", "kind": "schema", "label": "observed return operator and palette marker displacement",
+         "required_fields": ["boundary_slot_transition_rows", "measured_return_action_refs"],
+         "static_attributes": {"projection_contract": "yf_arc3_v5.observed_phase_slot_method.v1", "commitment": "revisable"},
+         "attribute_bindings": {"boundary_slot_transition_rows": "boundary_slot_transition_rows", "measured_return_action_refs": "measured_return_action_refs"}},
+        {"id_pattern": "temporal.contact_source_pattern_method.{measurement_context_ref}", "kind": "schema", "label": "observed contact source pattern without scene coordinates",
+         "required_fields": ["contact_source_pattern_refs"], "static_attributes": {"commitment": "revisable"},
+         "attribute_bindings": {"contact_source_pattern_refs": "contact_source_pattern_refs", "contact_source_pattern_orbit_refs":"contact_source_pattern_orbit_refs"}}],
+      "claim_templates": [{"id_pattern": "claim.temporal_contact_inventory.{measurement_context_ref}", "predicate": "declares_revisable_remote_contact_inventory", "family": "dynamic",
+        "argument_patterns": ["temporal.contact_inventory.{measurement_context_ref}"], "epistemic_status": "supported",
+        "required_fields": ["contact_remote_cell_rows", "contact_inventory_observation_frame_ref"],
+        "attribute_bindings": {"observation_frame_ref": "contact_inventory_observation_frame_ref", "contact_remote_cell_rows": "contact_remote_cell_rows", "current_observed_cell_facts": "current_observed_cell_facts", "boundary_slot_transition_rows": "boundary_slot_transition_rows", "return_recording_span_packs": "return_recording_span_packs"}},
+        {"id_pattern": "claim.temporal_phase_slot_method.{measurement_context_ref}", "predicate": "declares_observed_phase_slot_return_method", "family": "dynamic",
+         "argument_patterns": ["temporal.phase_slot_method.{measurement_context_ref}"], "epistemic_status": "supported",
+         "required_fields": ["boundary_slot_transition_rows", "measured_return_action_refs"],
+         "attribute_bindings": {"boundary_slot_transition_rows": "boundary_slot_transition_rows", "measured_return_action_refs": "measured_return_action_refs"}},
+        {"id_pattern": "claim.temporal_contact_source_pattern_method.{measurement_context_ref}", "predicate": "declares_observed_contact_source_pattern_method", "family": "dynamic",
+         "argument_patterns": ["temporal.contact_source_pattern_method.{measurement_context_ref}"], "epistemic_status": "supported",
+         "required_fields": ["contact_source_pattern_refs"], "attribute_bindings": {"contact_source_pattern_refs": "contact_source_pattern_refs", "contact_source_pattern_orbit_refs":"contact_source_pattern_orbit_refs"}}],
+      "reason_refs": ["reason.remote_contact_inventory_preserves_unknown_response_and_displaced_masks"]
+    },
+    {
+      "id": "policy.declared_temporal_contact_inventory",
+      "kind": "selection_policy", "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["temporal_contact_inventory.current"],
+      "selection_eligibility_conditions": [
+        {"field": "contact_inventory_measurement_available", "operator": "equals", "expected": true},
+        {"field": "contact_cell_measurement_bound_reached", "operator": "equals", "expected": false},
+        {"field": "contact_remote_cell_row_count", "operator": "greater_than", "expected": 0}
+      ],
+      "selection_tiers": [{"id": "tier.temporal_contact.current_inventory", "all_conditions": [], "reason_ref": "reason.remote_contact_inventory_preserves_unknown_response_and_displaced_masks"}],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.temporal_contact_inventory_meaning"},
+      "reason_refs": ["reason.remote_contact_inventory_preserves_unknown_response_and_displaced_masks"]
+    },
+    {
+      "id": "principle.configuration_effects_are_typed_as_immediate_delayed_or_recurring",
+      "kind": "principle",
+      "premises": [
+        "one_configuration_or_execution_operator_has_action_conditioned_temporal_evidence"
+      ],
+      "applicability": [
+        "temporal_effect_model_construction_and_reconciliation"
+      ],
+      "invariants": [
+        "immediate_delayed_and_recurring_effects_are_distinct_temporal_classes",
+        "every_effect_names_trigger_latency_recurrence_condition_and_stop_condition_when_known",
+        "unknown_latency_or_recurrence_remains_explicit",
+        "ordered_multiframe_evidence_is_integrated_before_continuation"
+      ],
+      "falsifiers": [
+        "the_observed_effect_time_or_recurrence_violates_the_declared_class",
+        "the_trigger_or_frame_order_is_unresolved"
+      ],
+      "temporal_parameters": [
+        "temporal.effect.immediate",
+        "temporal.effect.delayed",
+        "temporal.effect.recurring",
+        "temporal.effect.stop_condition",
+        "temporal.effect.unknown"
+      ],
+      "reason_refs": [
+        "reason.temporal_effect_class_requires_explicit_action_conditioned_evidence"
+      ]
+    },
+    {
+      "id": "principle.replay_endpoint_preserves_last_observed_state_until_falsified",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_effects_are_typed_as_immediate_delayed_or_recurring"
+      ],
+      "premises": [
+        "a_bounded_replay_sequence_has_an_observed_final_transition",
+        "the_recorded_sequence_is_exhausted"
+      ],
+      "applicability": [
+        "post_exhaustion_replay_reconciliation"
+      ],
+      "invariants": [
+        "the_endpoint_is_the_complete_state_after_the_last_observed_stored_transition",
+        "the_endpoint_is_preserved_without_inventing_an_unobserved_reset_or_loop",
+        "later observations may establish persistence reset recurrence or divergence",
+        "persistence_is_scoped_to_the_observed_context_and_revision"
+      ],
+      "falsifiers": [
+        "a_post_exhaustion_observation_differs_from_the_endpoint",
+        "an_observed_reset_or_recurrence_revises_the_temporal_class"
+      ],
+      "temporal_parameters": [
+        "temporal.replay.endpoint",
+        "temporal.replay.exhausted",
+        "temporal.effect.recurring",
+        "temporal.effect.stop_condition"
+      ],
+      "reason_refs": [
+        "reason.exhausted_replay_keeps_its_last_observed_state_until_evidence_revises_it"
+      ]
+    },
+    {
+      "id": "principle.repeated_hud_slots_open_revisable_phase_suppositions",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.phase_cursor_slot_and_world_state_are_distinct",
+        "principle.configuration_effects_are_typed_as_immediate_delayed_or_recurring"
+      ],
+      "configuration_parameters": [
+        "configuration.phase",
+        "configuration.slot",
+        "configuration.world_state"
+      ],
+      "temporal_parameters": [
+        "temporal.effect.immediate",
+        "temporal.effect.unknown"
+      ],
+      "premises": ["repeated_hud_like_slots", "action_conditioned_active_marker_change"],
+      "applicability": ["temporal_control_meaning_is_unresolved"],
+      "invariants": ["hud_morphology_opens_suppositions_not_roles", "active_and_stored_timeline_remain_alternatives", "phase_action_requires_a_separate_effect_probe"],
+      "falsifiers": ["slot_changes_do_not_correlate_with_action_or_entity_state"],
+      "reason_refs": ["reason.repeated_status_slots_can_express_distinct_revisable_timelines"]
+    },
+    {
+      "id": "principle.unexplained_visible_control_and_status_asymmetry_license_one_utility_probe",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.repeated_hud_slots_open_revisable_phase_suppositions"
+      ],
+      "premises": [
+        "one_available_control_remains_unused_in_the_current_context",
+        "one_persistent_status_slot_asymmetry_remains_causally_unexplained",
+        "the_control_is_a_reversible_plausible_cause_of_that_asymmetry"
+      ],
+      "applicability": ["named_causal_gap_has_one_bounded_utility_probe"],
+      "invariants": [
+        "the_probe_is_selected_for_information_gain_not_because_every_visible_control_must_be_used",
+        "the_exact_probe_is_released_at_most_once_without_new_evidence",
+        "retrospection_must_bind_the_effect_to_the_gap_or_falsify_the_supposition",
+        "an_apparently_open_spatial_route_does_not_close_an_independent_visible_causal_gap"
+      ],
+      "falsifiers": [
+        "the_control_or_status_asymmetry_is_not_visible",
+        "the_exact_probe_already_failed_in_the_unchanged_context",
+        "the_probe_is_irreversible_or_exceeds_its_declared_bound",
+        "the_observed_effect_does_not_discriminate_the_named_gap"
+      ],
+      "reason_refs": [
+        "reason.unused_control_and_unexplained_status_asymmetry_support_one_reversible_utility_supposition"
+      ]
+    },
+    {
+      "id": "principle.remote_dependency_is_supported_by_reversible_occupancy_effect",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_effects_are_typed_as_immediate_delayed_or_recurring"
+      ],
+      "temporal_parameters": [
+        "temporal.effect.immediate",
+        "temporal.effect.delayed",
+        "temporal.effect.stop_condition"
+      ],
+      "premises": ["one_entity_enters_and_leaves_a_location", "a_distant_barrier_changes_reversibly", "visible_relation_link_is_compatible"],
+      "applicability": ["action_conditioned_remote_effect_observed"],
+      "invariants": ["entry_and_exit_effects_are_both_required", "the_relation_link_is_not_traversable_terrain_by_default", "any_effect-equivalent_entity_may_satisfy_the_occupancy_condition"],
+      "falsifiers": ["barrier_state_persists_after_all_occupants_leave", "the_distant_change_is_not_action_conditioned"],
+      "reason_refs": ["reason.reversible_remote_change_supports_a_hold_dependency_not_a_toggle"]
+    },
+    {
+      "id": "principle.concurrent_support_plan_requires_divergent_timeline_routes",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.each_configuration_phase_requires_src_checkpoint",
+        "principle.route_witnesses_are_globally_bounded_by_declared_order"
+      ],
+      "configuration_parameters": [
+        "configuration.phase",
+        "configuration.phase_checkpoint",
+        "configuration.world_state"
+      ],
+      "temporal_parameters": [
+        "temporal.effect.delayed",
+        "temporal.effect.stop_condition"
+      ],
+      "premises": ["one_occupancy_condition_must_persist", "a_distinct_goal_location_must_be_reached", "physical_replay_relation"],
+      "applicability": ["single_instance_route_cannot_satisfy_both_locations"],
+      "invariants": ["recorded_route_ends_at_the_support_location", "active_route_reaches_the_goal_through_the_supported_dependency", "replay_support_is_active_before_dependency_crossing", "at_most_three_joint_route_witnesses_exist", "only_the_committed_witness_remains_executable"],
+      "falsifiers": ["one_instance_satisfies_both_conditions", "support_ends_before_dependency_crossing", "bounded_joint_simulation_finds_no_valid_witness"],
+      "reason_refs": ["reason.concurrent_presence_requires_functionally_divergent_routes"]
+    },
+    {
+      "id": "principle.phase_conditioned_sequence_recurrence_supports_physical_replay",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_effects_are_typed_as_immediate_delayed_or_recurring",
+        "principle.each_configuration_phase_requires_src_checkpoint"
+      ],
+      "configuration_parameters": [
+        "configuration.phase",
+        "configuration.phase_checkpoint"
+      ],
+      "temporal_parameters": [
+        "temporal.effect.recurring",
+        "temporal.replay.endpoint"
+      ],
+      "premises": ["phase_action_conditioned_state_return", "instance_duplication", "exact_ordered_effect_recurrence"],
+      "applicability": ["bounded_temporal_replay_sequence_measurement_available"],
+      "invariants": [
+        "return_duplication_and_sequence_recurrence_are_jointly_required",
+        "stored_and_replayed_effects_are_compared_in_order",
+        "replay_meaning_remains_revisable",
+        "phase_action_semantics_are_contextual_not_universal"
+      ],
+      "falsifiers": ["first_ordered_effect_divergence", "phase_action_does_not_return_or_duplicate"],
+      "reason_refs": ["reason.causal_sequence_identity_distinguishes_replay_from_undo_or_visual_duplication"]
+    },
+    {
+      "id": "principle.exhausted_replay_preserves_its_last_observed_state",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.replay_endpoint_preserves_last_observed_state_until_falsified"
+      ],
+      "temporal_parameters": [
+        "temporal.replay.endpoint",
+        "temporal.replay.exhausted",
+        "temporal.effect.stop_condition"
+      ],
+      "premises": ["physical_replay_relation", "recorded_sequence_exhausted", "post_exhaustion_observations"],
+      "applicability": ["active_timeline_continues_after_recorded_sequence"],
+      "invariants": [
+        "the_replay_endpoint_is_the_state_after_the_last_stored_transition",
+        "each_later_active_tick_preserves_that_replay_state",
+        "persistence_is_supported_only_for_the_observed_context"
+      ],
+      "falsifiers": ["any_post_exhaustion_replay_state_differs_from_the_endpoint"],
+      "reason_refs": ["reason.a_longer_active_timeline_requires_explicit_endpoint_persistence"]
+    },
+    {
+      "id": "policy.declared_temporal_concurrency_plan",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_joint_timeline_route_witnesses"],
+      "applicability": ["physical_replay_and_remote_hold_dependency_are_committed"],
+      "invariants": ["at_most_three_witnesses", "support_precedes_dependency_crossing", "recorded_endpoint_persists", "only_committed_route_payload_remains_executable"],
+      "falsifiers": ["candidate_count_exceeds_three", "candidate_lacks_exact_timing_or_endpoint_evidence"],
+      "declared_alternative_refs": [],
+      "fact_projections": [
+        {
+          "id": "projection.temporal_concurrency.measured_joint_witness",
+          "bound_facts": {
+            "recording_endpoint_supports_required_occupancy": "recorded_endpoint_inside_occupancy",
+            "active_route_reaches_goal": "all_model_terminal_cells_match",
+            "replay_endpoint_persists": "all_models_retain_endpoint"
+          }
+        },
+        {
+          "id": "projection.temporal_concurrency.causally_valid_joint_witness",
+          "all_conditions": [
+            {"field": "all_model_terminal_cells_match", "operator": "equals", "expected": true},
+            {"field": "all_model_routes_unblocked", "operator": "equals", "expected": true},
+            {"field": "all_model_endpoint_states_known", "operator": "equals", "expected": true},
+            {"field": "all_models_cross_changed_cells", "operator": "equals", "expected": true},
+            {"field": "simulation_premises_committed", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "valid_joint_witness": true,
+            "support_active_before_dependency_crossing": true
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "simulation_premises_committed", "operator": "equals", "expected": true},
+        {"field": "recording_endpoint_supports_required_occupancy", "operator": "equals", "expected": true},
+        {"field": "active_route_reaches_goal", "operator": "equals", "expected": true},
+        {"field": "support_active_before_dependency_crossing", "operator": "equals", "expected": true},
+        {"field": "replay_endpoint_persists", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {"id": "tier.temporal_concurrency.shortest_valid_joint_witness", "all_conditions": [{"field": "valid_joint_witness", "operator": "equals", "expected": true}], "reason_ref": "reason.first_deterministic_shortest_valid_joint_witness_is_committed"}
+      ],
+      "selection_tie_breakers": [{"field": "primitive_action_count", "preferred_order": "minimize"}, {"field": "alternative_ref", "preferred_order": "minimize"}],
+      "reason_refs": ["reason.temporal_concurrency_plan_is_selected_declaratively"]
+    },
+    {
+      "id": "rule.temporal_replay_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["measurement_context_ref", "temporal_replay_status"],
+      "applicability": ["temporal_replay_interpretation_selected"],
+      "invariants": ["causal_evidence_is_preserved", "alternatives_remain_revisable"],
+      "falsifiers": ["later_ordered_effect_or_endpoint_evidence_diverges"],
+      "term_templates": [
+        {
+          "id_pattern": "temporal_replay.assessment.{measurement_context_ref}",
+          "kind": "schema",
+          "label": "phase-conditioned ordered replay assessment",
+          "required_fields": ["measurement_context_ref", "temporal_replay_status"],
+          "attribute_bindings": {"status": "temporal_replay_status", "endpoint_status": "endpoint_status", "rewind_status": "rewind_status", "independent_command_replay_test_required": "independent_command_replay_test_required", "recorded_rendered_frame_count": "recorded_rendered_frame_count", "candidate_reverse_rendered_frame_count": "candidate_reverse_rendered_frame_count", "sequence_measurement_kind": "sequence_measurement_kind", "recorded_entity_ref": "recorded_entity_ref", "candidate_entity_ref": "candidate_entity_ref", "candidate_identifier_change_count": "candidate_identifier_change_count", "recorded_observed_state_count": "recorded_observed_state_count", "candidate_observed_state_count": "candidate_observed_state_count", "measurement_context_ref": "measurement_context_ref", "observation_frame_ref": "observation_frame_ref", "remaining_recorded_state_count": "remaining_recorded_state_count", "matching_prefix_count": "matching_prefix_count", "has_divergence": "has_divergence", "independent_command_observed": "independent_command_observed", "phase_action_conditioned": "phase_action_conditioned", "source_authorized_reset_observed": "source_authorized_reset_observed", "recorded_instance_bounds": "recorded_instance_bounds", "candidate_instance_bounds": "candidate_instance_bounds", "recorded_action_refs": "recorded_action_refs", "recording_frame_index": "recording_frame_index", "replay_phase_frame_index": "replay_phase_frame_index", "post_exhaustion_observation_count": "post_exhaustion_observation_count", "persistent_post_exhaustion_count": "persistent_post_exhaustion_count", "phase_action_ref": "phase_action_ref"}
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.temporal_replay.{measurement_context_ref}",
+          "predicate": "declares_phase_conditioned_ordered_replay_status",
+          "family": "dynamic",
+          "argument_patterns": ["temporal_replay.assessment.{measurement_context_ref}", "{temporal_replay_status}"],
+          "epistemic_status": "supported",
+          "required_fields": ["measurement_context_ref", "temporal_replay_status", "endpoint_status"],
+          "static_attributes": {"commitment": "revisable", "falsifier": "later_ordered_effect_or_endpoint_evidence_diverges"},
+          "attribute_bindings": {"endpoint_status": "endpoint_status", "rewind_status": "rewind_status", "independent_command_replay_test_required": "independent_command_replay_test_required", "recorded_rendered_frame_count": "recorded_rendered_frame_count", "candidate_reverse_rendered_frame_count": "candidate_reverse_rendered_frame_count", "sequence_measurement_kind": "sequence_measurement_kind", "recorded_entity_ref": "recorded_entity_ref", "candidate_entity_ref": "candidate_entity_ref", "candidate_identifier_change_count": "candidate_identifier_change_count", "recorded_observed_state_count": "recorded_observed_state_count", "candidate_observed_state_count": "candidate_observed_state_count", "measurement_context_ref": "measurement_context_ref", "observation_frame_ref": "observation_frame_ref", "remaining_recorded_state_count": "remaining_recorded_state_count", "matching_prefix_count": "matching_prefix_count", "has_divergence": "has_divergence", "independent_command_observed": "independent_command_observed", "phase_action_conditioned": "phase_action_conditioned", "source_authorized_reset_observed": "source_authorized_reset_observed", "recorded_instance_bounds": "recorded_instance_bounds", "candidate_instance_bounds": "candidate_instance_bounds", "recorded_action_refs": "recorded_action_refs", "recording_frame_index": "recording_frame_index", "replay_phase_frame_index": "replay_phase_frame_index", "post_exhaustion_observation_count": "post_exhaustion_observation_count", "persistent_post_exhaustion_count": "persistent_post_exhaustion_count", "phase_action_ref": "phase_action_ref"}
+        }
+      ],
+      "reason_refs": ["reason.temporal_replay_meaning_is_declared_from_exact_sequence_evidence"]
+    },
+    {
+      "id": "policy.declared_temporal_replay_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_temporal_replay_sequence_measurements"],
+      "applicability": ["source_declared_recorded_and_candidate_sequences_available"],
+      "invariants": ["exact_prefix_match_precedes_replay_support", "endpoint_persistence_requires_later_observations", "python_does_not_name_phases_or_replay"],
+      "falsifiers": ["sequence_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "temporal_replay.physical_with_persistent_endpoint",
+        "temporal_replay.physical_endpoint_untested",
+        "temporal_replay.rewind_observed_forward_replay_unverified",
+        "temporal_replay.sequence_divergent",
+        "temporal_replay.insufficient_evidence"
+      ],
+      "fact_projections": [
+        {"id": "projection.temporal_replay.persistent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_with_persistent_endpoint"}], "static_facts": {"temporal_replay_status": "physical_replay_supported", "endpoint_status": "persistent_supported"}},
+        {"id": "projection.temporal_replay.endpoint_untested", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_endpoint_untested"}], "static_facts": {"temporal_replay_status": "physical_replay_supported", "endpoint_status": "untested"}},
+        {"id": "projection.temporal_replay.rewind_only", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.rewind_observed_forward_replay_unverified"}], "static_facts": {"temporal_replay_status": "forward_replay_unverified", "rewind_status": "exact_rendered_history_reversal_supported", "endpoint_status": "unknown", "independent_command_replay_test_required": true}},
+        {"id": "projection.temporal_replay.divergent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.sequence_divergent"}], "static_facts": {"temporal_replay_status": "divergent", "endpoint_status": "not_applicable"}},
+        {"id": "projection.temporal_replay.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "static_facts": {"temporal_replay_status": "insufficient_evidence", "endpoint_status": "unknown"}}
+      ],
+      "selection_tiers": [
+        {"id": "tier.temporal_replay.persistent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_with_persistent_endpoint"}, {"field": "phase_action_conditioned", "operator": "equals", "expected": true}, {"field": "state_return_observed", "operator": "equals", "expected": true}, {"field": "duplicate_instance_observed", "operator": "equals", "expected": true}, {"field": "prefix_exact", "operator": "equals", "expected": true}, {"field": "endpoint_persistence_exact", "operator": "equals", "expected": true}], "reason_ref": "reason.exact_recurrence_and_persistence_support_physical_replay"},
+        {"id": "tier.temporal_replay.endpoint_untested", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_endpoint_untested"}, {"field": "phase_action_conditioned", "operator": "equals", "expected": true}, {"field": "state_return_observed", "operator": "equals", "expected": true}, {"field": "duplicate_instance_observed", "operator": "equals", "expected": true}, {"field": "prefix_exact", "operator": "equals", "expected": true}, {"field": "post_exhaustion_observation_count", "operator": "equals", "expected": 0}], "reason_ref": "reason.sequence_identity_supports_replay_but_endpoint_needs_later_observation"},
+        {"id": "tier.temporal_replay.rewind_only", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.rewind_observed_forward_replay_unverified"}, {"field": "rendered_history_comparison_available", "operator": "equals", "expected": true}, {"field": "same_rendered_frame_count", "operator": "equals", "expected": true}, {"field": "reverse_rendered_frame_order_exact", "operator": "equals", "expected": true}, {"field": "source_authorized_reset_observed", "operator": "equals", "expected": false}, {"field": "replay_transition_count", "operator": "equals", "expected": 0}], "reason_ref": "reason.exact_reverse_frame_history_supports_rewind_but_not_forward_replay"},
+        {"id": "tier.temporal_replay.divergent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.sequence_divergent"}, {"field": "has_divergence", "operator": "equals", "expected": true}], "reason_ref": "reason.first_sequence_divergence_falsifies_replay_identity"},
+        {"id": "tier.temporal_replay.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "reason_ref": "reason.joint_causal_evidence_is_incomplete"}
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.temporal_replay_meaning"},
+      "reason_refs": ["reason.temporal_replay_interpretation_is_declarative"]
+    },
+    {
+      "id": "policy.declared_observed_state_sequence_recurrence",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_observed_state_sequences", "independent_command_observed", "phase_return_and_duplicate_observed"],
+      "applicability": ["an_independent_control_experiment_supplies_observed_instance_states"],
+      "invariants": ["no_hidden_origin_or_transition_is_invented", "all_recorded_observed_states_must_match_in_order", "repeated_states_are_preserved", "recurrence_does_not_establish_rewind", "endpoint_persistence_requires_later_observations", "no_action_is_released_by_this_assessment"],
+      "falsifiers": ["a_later_observed_state_diverges", "source_authorized_reset_or_unknown_reset_scope"],
+      "declared_alternative_refs": ["temporal_replay.physical_with_persistent_endpoint", "temporal_replay.physical_endpoint_untested", "temporal_replay.sequence_divergent", "temporal_replay.insufficient_evidence"],
+      "fact_projections": [
+        {"id": "projection.observed_recurrence.persistent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_with_persistent_endpoint"}], "static_facts": {"temporal_replay_status": "physical_replay_supported", "endpoint_status": "persistent_supported"}},
+        {"id": "projection.observed_recurrence.endpoint_untested", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_endpoint_untested"}], "static_facts": {"temporal_replay_status": "physical_replay_supported", "endpoint_status": "unknown"}},
+        {"id": "projection.observed_recurrence.divergent", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.sequence_divergent"}], "static_facts": {"temporal_replay_status": "divergent", "endpoint_status": "not_applicable"}},
+        {"id": "projection.observed_recurrence.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "static_facts": {"temporal_replay_status": "insufficient_evidence", "endpoint_status": "unknown"}}
+      ],
+      "selection_tiers": [
+        {"id": "tier.observed_recurrence.persistent", "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_with_persistent_endpoint"},
+          {"field": "sequence_measurement_kind", "operator": "equals", "expected": "ordered_observed_states"},
+          {"field": "source_authorized_reset_observed", "operator": "equals", "expected": false},
+          {"field": "independent_command_observed", "operator": "equals", "expected": true},
+          {"field": "phase_action_conditioned", "operator": "equals", "expected": true},
+          {"field": "state_return_observed", "operator": "equals", "expected": true},
+          {"field": "duplicate_instance_observed", "operator": "equals", "expected": true},
+          {"field": "prefix_exact", "operator": "equals", "expected": true},
+          {"field": "endpoint_persistence_exact", "operator": "equals", "expected": true}
+        ], "reason_ref": "reason.exact_recurrence_and_persistence_support_physical_replay"},
+        {"id": "tier.observed_recurrence.endpoint_untested", "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.physical_endpoint_untested"},
+          {"field": "sequence_measurement_kind", "operator": "equals", "expected": "ordered_observed_states"},
+          {"field": "source_authorized_reset_observed", "operator": "equals", "expected": false},
+          {"field": "independent_command_observed", "operator": "equals", "expected": true},
+          {"field": "phase_action_conditioned", "operator": "equals", "expected": true},
+          {"field": "state_return_observed", "operator": "equals", "expected": true},
+          {"field": "duplicate_instance_observed", "operator": "equals", "expected": true},
+          {"field": "prefix_exact", "operator": "equals", "expected": true},
+          {"field": "post_exhaustion_observation_count", "operator": "equals", "expected": 0}
+        ], "reason_ref": "reason.sequence_identity_supports_replay_but_endpoint_needs_later_observation"},
+        {"id": "tier.observed_recurrence.divergent", "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.sequence_divergent"},
+          {"field": "source_authorized_reset_observed", "operator": "equals", "expected": false},
+          {"field": "independent_command_observed", "operator": "equals", "expected": true},
+          {"field": "has_divergence", "operator": "equals", "expected": true}
+        ], "reason_ref": "reason.first_sequence_divergence_falsifies_replay_identity"},
+        {"id": "tier.observed_recurrence.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "reason_ref": "reason.joint_causal_evidence_is_incomplete"}
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.temporal_replay_meaning"},
+      "reason_refs": ["reason.temporal_replay_interpretation_is_declarative"]
+    },
+    {
+      "id": "policy.declared_temporal_reversal_observation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_temporal_replay_sequence_measurements"],
+      "applicability": ["a_discriminating_experiment_has_observations_but_replay_is_not_committed"],
+      "invariants": ["reversal_observation_never_commits_forward_replay", "reset_or_unknown_reset_status_cannot_establish_rewind", "no_action_is_released_by_an_observation_assessment"],
+      "falsifiers": ["a_physical_replay_alternative_is_in_this_observation_scope"],
+      "declared_alternative_refs": ["temporal_replay.rewind_observed_forward_replay_unverified", "temporal_replay.insufficient_evidence"],
+      "fact_projections": [
+        {"id": "projection.reversal_observation.rewind_only", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.rewind_observed_forward_replay_unverified"}], "static_facts": {"temporal_replay_status": "forward_replay_unverified", "rewind_status": "exact_rendered_history_reversal_supported", "endpoint_status": "unknown", "independent_command_replay_test_required": true}},
+        {"id": "projection.reversal_observation.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "static_facts": {"temporal_replay_status": "insufficient_evidence", "endpoint_status": "unknown"}}
+      ],
+      "selection_tiers": [
+        {"id": "tier.reversal_observation.exact_history", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.rewind_observed_forward_replay_unverified"}, {"field": "rendered_history_comparison_available", "operator": "equals", "expected": true}, {"field": "same_rendered_frame_count", "operator": "equals", "expected": true}, {"field": "reverse_rendered_frame_order_exact", "operator": "equals", "expected": true}, {"field": "source_authorized_reset_observed", "operator": "equals", "expected": false}, {"field": "replay_transition_count", "operator": "equals", "expected": 0}], "reason_ref": "reason.exact_reverse_frame_history_supports_rewind_but_not_forward_replay"},
+        {"id": "tier.reversal_observation.insufficient", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "temporal_replay.insufficient_evidence"}], "reason_ref": "reason.joint_causal_evidence_is_incomplete"}
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.temporal_replay_meaning"},
+      "reason_refs": ["reason.temporal_replay_interpretation_is_declarative"]
+    }
+  ]
+}

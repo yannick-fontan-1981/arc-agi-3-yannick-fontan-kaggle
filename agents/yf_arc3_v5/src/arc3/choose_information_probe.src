@@ -1,0 +1,1789 @@
+# A first live experiment is selected from neutral geometry and explicit actions.
+# The DRM supplies reusable static knowledge and the currently active priority
+# context; this SRC workflow only activates/reconciles the dynamic scene
+# frontier.  It never turns a static principle or an outcome envelope into a
+# scene goal.  The complete bounded agenda is projected before SELECT and every
+# non-selected candidate stays preserved.  Before the first primitive, DRM's
+# complete eligible click order is materialized once.  Its remaining cursor is
+# reused unchanged after a mode transition or after a nonterminal causal plan.
+MODULE arc3.choose_information_probe
+
+WORKFLOW choose_information_probe(
+    agenda: InteractionProbeAgenda,
+    measured_agenda: InteractionProbeAgenda,
+    scene: Any,
+    reference_scene: Any,
+    reference_tracking: Any,
+    reference_frame_ref: Ref,
+    reasoning_strategy_ref: Ref?,
+    committed_pre_reaction_click_frontier: InteractionProbeAgenda,
+    committed_pre_reaction_click_frontier_present: Boolean,
+    frozen_pre_reaction_click_frontier_exhausted: Boolean,
+    point_loci_reopen_requested: Boolean,
+    context: WorldContext,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        source_receiver_scope_projected: DeclaredAlternativeFacts
+        source_receiver_scope: Assessment
+        projected_agenda: Any
+        projected_committed_frontier: Any
+        committed_frontier: InteractionProbeAgenda
+        priority_projected: DeclaredAlternativeFacts
+        priority: Assessment?
+        priority_meaning: DeclaredMeaningInstantiation?
+        priority_derived: Any?
+        priority_prepared: PreparedMeaningUpdates?
+        priority_revision: Any?
+        priority_needs_commit: Boolean
+        priority_before_revision: Integer
+        capacity_memory_projection: DeclaredAlternativeFacts
+        capacity_memory_selection: Assessment
+        capacity_memory_meaning: DeclaredMeaningInstantiation
+        capacity_memory_derived: Any
+        capacity_memory_prepared: PreparedMeaningUpdates
+        capacity_memory_before_revision: Integer
+        capacity_memory_revision: Any
+        dynamic_goal_projected: DeclaredAlternativeFacts?
+        active_dynamic_goal: Assessment?
+        selected: Assessment?
+        scope_selection: Assessment?
+        scope_selection_present: Boolean
+        scope_is_general: Boolean
+        scope_projection: Any
+        selected_point_action: Boolean?
+        service_candidate_measured: Boolean?
+        declared_open_segment_point_locus: Boolean?
+        declared_ballistic_variation_point_locus: Boolean?
+        declared_oriented_network_point_locus: Boolean?
+        extension: Assessment
+        extension_before_revision: Integer
+        reconciled_context: WorldContext
+        prepared: Any?
+        selected_frontier_payload_present: Boolean
+        selected_frontier_activation: DynamicGoalFrontierActivation
+        selected_frontier_before_revision: Integer
+        selected_frontier_prepared: PreparedMeaningUpdates
+        grounding: ActionGroundingContract?
+        grounding_valid: Boolean
+        selection_source_agenda: InteractionProbeAgenda
+        grounding_fallback_agenda: InteractionProbeAgenda
+        reprojected_grounding_fallback: DeclaredAlternativeFacts
+        wisdom: CommitmentDecision
+        action_event: ActionEvent?
+        after_frame: Frame?
+        rigid_scope_projected: DeclaredAlternativeFacts
+        rigid_scope_selected: Assessment
+        rigid_geometry_projected: DeclaredAlternativeFacts
+        rigid_geometry_meaning: DeclaredMeaningInstantiation
+        rigid_geometry_derived: Any
+        rigid_geometry_prepared: PreparedMeaningUpdates
+        rigid_geometry_before_revision: Integer
+        rigid_geometry_revision: Any
+        local_inventory: Any
+        local_projected: DeclaredAlternativeFacts
+        local_scope: Assessment
+        local_meaning: DeclaredMeaningInstantiation
+        local_derived: Any
+        local_prepared: PreparedMeaningUpdates
+        local_revision: Any
+        local_dependency_measurements: Any
+        local_dependency_projected: DeclaredAlternativeFacts
+        local_dependency_selected: Assessment
+        local_pair_measurements: Any
+        local_pair_projected: DeclaredAlternativeFacts
+        local_pair_selected: Assessment
+        local_pair_meaning: DeclaredMeaningInstantiation
+        local_pair_derived: Any
+        local_pair_prepared: PreparedMeaningUpdates
+        local_pair_revision_before: Integer
+        local_pair_revision: Any
+        local_stock_change: Any
+        local_stock_projected: DeclaredAlternativeFacts
+        local_stock_selected: Assessment
+        local_stock_meaning: DeclaredMeaningInstantiation
+        local_stock_derived: Any
+        local_stock_prepared: PreparedMeaningUpdates
+        local_stock_revision: Any
+        local_inventory_revision_before: Integer
+        axis_frontier_measurement: Any
+        axis_frontier_agenda: InteractionProbeAgenda
+        axis_frontier_projected: DeclaredAlternativeFacts
+        axis_frontier_selected: Assessment
+        axis_frontier_applicable: Boolean
+        oriented_graph_scope_projected: DeclaredAlternativeFacts
+        oriented_graph_scope: Assessment
+        local_bound_inventory: Any
+        local_delivery_measurements: Any
+        local_delivery_projected: DeclaredAlternativeFacts
+        local_delivery_selected: Assessment
+        local_delivery_meaning: DeclaredMeaningInstantiation
+        local_delivery_derived: Any
+        local_delivery_prepared: PreparedMeaningUpdates
+        local_delivery_revision_before: Integer
+        local_delivery_revision: Any
+    STEP declare_zone_state_or_exploration_plan
+        REQUIRE measured_agenda.has_candidates
+        NEXT inspect_current_source_receiver_inquiry
+    STEP inspect_current_source_receiver_inquiry
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_source_receiver_inquiry",
+            alternative_refs=[], descriptive_facts=measured_agenda.context_facts
+        ) -> source_receiver_scope_projected
+        SELECT source_receiver_scope
+            FOR "goal.rebind_current_source_before_motion"
+            FROM source_receiver_scope_projected.alternative_refs
+            UNDER policy.declared_source_receiver_inquiry
+            REQUIRE ["requirement.current_observation_has_complete_bounded_geometry"]
+            PRESERVE source_receiver_scope_projected.alternative_refs
+            FACTS source_receiver_scope_projected.alternative_facts
+        MATCH source_receiver_scope.alternatives.selected
+            "source_receiver.inquiry_required" -> NEXT project_current_source_receiver_test
+            "source_receiver.no_inquiry" -> NEXT inspect_current_oriented_graph_dependency
+    STEP inspect_current_oriented_graph_dependency
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_current_oriented_graph_dependency",
+            alternative_refs=[], descriptive_facts=measured_agenda.context_facts
+        ) -> oriented_graph_scope_projected
+        SELECT oriented_graph_scope
+            FOR "goal.reach_revisable_same_footprint_terminal_overlay"
+            FROM oriented_graph_scope_projected.alternative_refs
+            UNDER policy.declared_current_oriented_graph_dependency
+            REQUIRE ["requirement.current_observation_has_complete_bounded_geometry"]
+            PRESERVE oriented_graph_scope_projected.alternative_refs
+            FACTS oriented_graph_scope_projected.alternative_facts
+        MATCH oriented_graph_scope.alternatives.selected
+            "oriented_graph.current_dependency" -> NEXT project_current_oriented_graph_dependency
+            "oriented_graph.no_dependency" -> NEXT measure_current_observed_axis_frontier
+    STEP project_current_oriented_graph_dependency
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda, reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP project_current_source_receiver_test
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda, reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        SELECT selected
+            FOR "goal.rebind_current_source_before_motion"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_unbound_source_control_test
+            REQUIRE ["requirement.current_observation_has_complete_bounded_geometry"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda, projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected, context=reconciled_context,
+            selection_policy_ref="policy.declared_unbound_source_control_test",
+            selection_source_ref="selection_source.current_source_receiver_inquiry",
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        CALL control.validate_action_grounding(intent=prepared.intent) -> grounding
+        CALL workflow.operational_wisdom(viability=prepared.viability) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent, viability=prepared.viability, wisdom=wisdom,
+            context=prepared.context, declared_series=true, full_route_authorized=false,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared
+    STEP measure_current_observed_axis_frontier
+        CALL control.measure_observed_axis_frontier(
+            selection_policy_ref="policy.declared_observed_axis_configuration_frontier",
+            agenda=measured_agenda, tracking=reference_tracking, scene=reference_scene
+        ) -> axis_frontier_measurement
+        MATCH axis_frontier_measurement.available
+            true -> NEXT project_current_observed_axis_frontier
+            false -> NEXT inspect_current_conditional_receiving_dependency
+    STEP project_current_observed_axis_frontier
+        CALL control.bind_interaction_agenda(
+            agenda=axis_frontier_measurement.agenda,
+            projected_agenda=axis_frontier_measurement.agenda
+        ) -> axis_frontier_agenda
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_axis_configuration_frontier",
+            alternative_refs=axis_frontier_agenda.alternative_refs,
+            descriptive_facts=axis_frontier_agenda.alternative_facts
+        ) -> axis_frontier_projected
+        CALL control.declared_selection_has_eligible_alternative(
+            selection_policy_ref="policy.declared_observed_axis_configuration_frontier",
+            goal_ref="goal.align_carried_marker_to_reference_center",
+            alternative_refs=axis_frontier_projected.alternative_refs,
+            alternative_facts=axis_frontier_projected.alternative_facts
+        ) -> axis_frontier_applicable
+        MATCH axis_frontier_applicable
+            true -> NEXT select_current_observed_axis_frontier
+            false -> NEXT inspect_current_conditional_receiving_dependency
+    STEP select_current_observed_axis_frontier
+        SELECT axis_frontier_selected
+            FOR "goal.align_carried_marker_to_reference_center"
+            FROM axis_frontier_projected.alternative_refs
+            UNDER policy.declared_observed_axis_configuration_frontier
+            REQUIRE ["requirement.scoped_observed_commands_and_whole_chain_clearance"]
+            PRESERVE axis_frontier_projected.alternative_refs
+            FACTS axis_frontier_projected.alternative_facts
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=axis_frontier_agenda, projected_agenda=axis_frontier_projected,
+            selected_ref=axis_frontier_selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_observed_axis_configuration_frontier",
+            selection_source_ref="selection_source.observed_axis_configuration_frontier",
+            candidate_local_goal_context_required=true, point_locus_authorized=true
+        ) -> prepared
+        CALL control.validate_action_grounding(intent=prepared.intent) -> grounding
+        CALL workflow.operational_wisdom(viability=prepared.viability) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent, viability=prepared.viability, wisdom=wisdom,
+            context=prepared.context, declared_series=true, full_route_authorized=false,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared
+    STEP inspect_current_conditional_receiving_dependency
+        # A pending receiving service must be reprojected at every pose before
+        # an unrelated saved alignment or click frontier can replace its why.
+        MATCH measured_agenda.context_facts.relational_reception_action_present
+            true -> NEXT project_current_conditional_receiving_dependency
+            false -> NEXT inspect_current_receiving_endpoint
+    STEP inspect_current_receiving_endpoint
+        MATCH measured_agenda.context_facts.relational_reception_zero_step_witness_present
+            true -> NEXT inspect_receiving_point_scope
+            false -> NEXT measure_current_local_field_inventory
+    STEP inspect_receiving_point_scope
+        # The conditional body is at the required endpoint. Reopen current
+        # click loci before an unrelated directional probe replaces this goal.
+        MATCH measured_agenda.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.access_witness_only" -> STOP "perception.reopen_point_loci"
+            "probe_scope.retained_grid_informative_cells" -> NEXT measure_current_local_field_inventory
+            "probe_scope.full_point_loci" -> NEXT measure_current_local_field_inventory
+    STEP project_current_conditional_receiving_dependency
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP measure_current_local_field_inventory
+        CALL control.measure_local_field_type_inventory(
+            scene=scene, tracking=reference_tracking, context=context,
+            measurement_policy_ref="policy.measure_array_adjacent_inventory"
+        ) -> local_inventory
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.classify_local_field_inventory",
+            alternative_refs=[], descriptive_facts=local_inventory.descriptive_facts
+        ) -> local_projected
+        SELECT local_scope
+            FOR "goal.bind_current_displayed_request_and_distinct_world_stock"
+            FROM local_projected.alternative_refs
+            UNDER policy.classify_local_field_inventory
+            REQUIRE ["requirement.current_observation_has_complete_bounded_geometry"]
+            PRESERVE local_projected.alternative_refs
+            FACTS local_projected.alternative_facts
+        MATCH local_scope.alternatives.selected
+            "local_field_inventory.present" -> NEXT reconcile_current_local_field_stock
+            "local_field_inventory.absent" -> NEXT classify_rigid_marker_scope
+    STEP reconcile_current_local_field_stock
+        CALL control.measure_current_pair_stock_change(
+            inventory_facts=local_inventory.descriptive_facts,
+            measurement_policy_ref="policy.measure_current_pair_stock_change"
+        ) -> local_stock_change
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.reconcile_current_pair_stock_change",
+            alternative_refs=[], descriptive_facts=local_stock_change.descriptive_facts
+        ) -> local_stock_projected
+        SELECT local_stock_selected
+            FOR "goal.reconcile_current_stock_before_consumptive_continuation"
+            FROM local_stock_projected.alternative_refs
+            UNDER policy.reconcile_current_pair_stock_change
+            REQUIRE ["requirement.current_stock_evidence_is_action_conditioned"]
+            PRESERVE local_stock_projected.alternative_refs
+            FACTS local_stock_projected.alternative_facts
+        MATCH local_stock_selected.alternatives.selected
+            "stock_change.unconditioned" -> NEXT declare_current_local_field_inventory
+            "stock_change.rewrite" -> NEXT declare_current_stock_rewrite
+            "stock_change.approach" -> NEXT declare_current_stock_approach
+            "stock_change.other" -> STOP "local_field_current_stock_change_requires_dependency_repair"
+    STEP declare_current_stock_rewrite
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.reconcile_current_pair_stock_change",
+            selected_ref=local_stock_selected.alternatives.selected,
+            alternative_facts=local_stock_projected.alternative_facts,
+            evidence_refs=local_stock_change.evidence_refs
+        ) -> local_stock_meaning
+        DERIVE local_stock_derived
+            FROM local_stock_meaning.evidence_refs
+            USING rule.observed_selective_stock_rewrite
+            CONTEXT local_stock_meaning
+        NEXT commit_current_stock_reconciliation
+    STEP declare_current_stock_approach
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.reconcile_current_pair_stock_change",
+            selected_ref=local_stock_selected.alternatives.selected,
+            alternative_facts=local_stock_projected.alternative_facts,
+            evidence_refs=local_stock_change.evidence_refs
+        ) -> local_stock_meaning
+        DERIVE local_stock_derived
+            FROM local_stock_meaning.evidence_refs
+            USING rule.observed_selective_stock_approach
+            CONTEXT local_stock_meaning
+        NEXT commit_current_stock_reconciliation
+    STEP commit_current_stock_reconciliation
+        CALL control.prepare_revisable_meaning_updates(
+            terms=local_stock_meaning.terms, claims=local_stock_derived.claims
+        ) -> local_stock_prepared
+        TRANSACTION reconcile_current_local_field_stock
+            UPDATE local_stock_revision
+                TARGET local_stock_prepared.update_items
+                FROM local_stock_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE local_stock_change.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE local_stock_meaning.evidence_refs
+        NEXT declare_current_local_field_inventory
+    STEP declare_current_local_field_inventory
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.classify_local_field_inventory",
+            selected_ref=local_scope.alternatives.selected,
+            alternative_facts=local_projected.alternative_facts,
+            evidence_refs=local_inventory.evidence_refs
+        ) -> local_meaning
+        DERIVE local_derived
+            FROM local_meaning.evidence_refs
+            USING rule.current_local_field_inventory
+            CONTEXT local_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=local_meaning.terms, claims=local_derived.claims
+        ) -> local_prepared
+        CALL control.current_state_revision() -> local_inventory_revision_before
+        TRANSACTION declare_current_local_field_inventory
+            UPDATE local_revision
+                TARGET local_prepared.update_items
+                FROM local_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE local_inventory_revision_before
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE local_meaning.evidence_refs
+        CALL control.bind_current_stock_lineage(inventory_facts=local_meaning.facts) -> local_bound_inventory
+        MATCH local_bound_inventory.lineage_bindings_complete
+            true -> NEXT measure_current_disjoint_stock_dependency
+            false -> STOP "local_field_current_stock_lineage_unresolved_or_overlapping"
+    STEP measure_current_disjoint_stock_dependency
+        CALL control.measure_declared_stock_dependency(inventory_facts=local_bound_inventory) -> local_dependency_measurements
+        MATCH local_dependency_measurements.witness_present
+            true -> NEXT inspect_current_requested_signature
+            false -> STOP "local_field_dependency_witness_absent_or_incomplete"
+    STEP inspect_current_requested_signature
+        MATCH local_dependency_measurements.required_signature_present
+            false -> NEXT distinguish_current_type_dependency
+            true -> NEXT measure_current_required_type_delivery
+    STEP measure_current_required_type_delivery
+        CALL control.measure_current_local_field_delivery(
+            inventory_facts=local_bound_inventory, scene=scene,
+            measurement_policy_ref="policy.measure_current_local_field_delivery"
+        ) -> local_delivery_measurements
+        MATCH local_delivery_measurements.has_candidates
+            true -> NEXT select_current_required_type_delivery
+            false -> STOP "local_field_delivery_recipient_or_progress_domain_unresolved"
+    STEP select_current_required_type_delivery
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_local_field_delivery",
+            alternative_refs=local_delivery_measurements.alternative_refs,
+            descriptive_facts=local_delivery_measurements.descriptive_facts
+        ) -> local_delivery_projected
+        SELECT local_delivery_selected
+            FOR "goal.deliver_current_required_type_to_revalidated_recipient"
+            FROM local_delivery_projected.alternative_refs
+            UNDER policy.current_local_field_delivery
+            REQUIRE ["requirement.current_required_type_and_recalled_recipient_are_rebound"]
+            PRESERVE local_delivery_projected.alternative_refs
+            FACTS local_delivery_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.current_local_field_delivery",
+            selected_ref=local_delivery_selected.alternatives.selected,
+            alternative_facts=local_delivery_projected.alternative_facts,
+            evidence_refs=local_delivery_measurements.evidence_refs
+        ) -> local_delivery_meaning
+        DERIVE local_delivery_derived
+            FROM local_delivery_meaning.evidence_refs
+            USING rule.current_local_field_delivery
+            CONTEXT local_delivery_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=local_delivery_meaning.terms, claims=local_delivery_derived.claims
+        ) -> local_delivery_prepared
+        CALL control.current_state_revision() -> local_delivery_revision_before
+        TRANSACTION declare_current_local_field_delivery
+            UPDATE local_delivery_revision
+                TARGET local_delivery_prepared.update_items
+                FROM local_delivery_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE local_delivery_revision_before
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE local_delivery_meaning.evidence_refs
+        CALL control.bind_declared_pair_point_agenda(projected=local_delivery_projected) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda, projected_agenda=selection_source_agenda,
+            selected_ref=local_delivery_selected.alternatives.selected, context=reconciled_context,
+            selection_policy_ref="policy.current_local_field_delivery",
+            selection_source_ref="selection_source.current_local_field_delivery",
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        NEXT validate_selected_probe_grounding
+    STEP distinguish_current_type_dependency
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_consumptive_type_dependency",
+            alternative_refs=[], descriptive_facts=local_dependency_measurements
+        ) -> local_dependency_projected
+        SELECT local_dependency_selected
+            FOR "goal.advance_current_required_type_dependency"
+            FROM local_dependency_projected.alternative_refs
+            UNDER policy.declared_consumptive_type_dependency
+            REQUIRE ["requirement.current_type_dependency_has_disjoint_stock_and_rebound_inputs"]
+            PRESERVE local_dependency_projected.alternative_refs
+            FACTS local_dependency_projected.alternative_facts
+        CALL control.measure_declared_pair_point_geometry(
+            dependency_measurements=local_dependency_measurements,
+            measurement_policy_ref="policy.measure_current_pair_point_geometry"
+        ) -> local_pair_measurements
+        MATCH local_pair_measurements.has_candidates
+            true -> NEXT select_current_local_field_participants
+            false -> STOP "local_field_current_pair_domain_absent_or_incomplete"
+    STEP select_current_local_field_participants
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.current_local_field_pair_experiment",
+            alternative_refs=local_pair_measurements.alternative_refs,
+            descriptive_facts=local_pair_measurements.descriptive_facts
+        ) -> local_pair_projected
+        SELECT local_pair_selected
+            FOR "goal.test_required_type_transformation_with_current_participants"
+            FROM local_pair_projected.alternative_refs
+            UNDER policy.current_local_field_pair_experiment
+            REQUIRE ["requirement.current_pair_binding_excludes_all_other_world_stock"]
+            PRESERVE local_pair_projected.alternative_refs
+            FACTS local_pair_projected.alternative_facts
+        NEXT declare_current_pair_experiment
+    STEP declare_current_pair_experiment
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.current_local_field_pair_experiment",
+            selected_ref=local_pair_selected.alternatives.selected,
+            alternative_facts=local_pair_projected.alternative_facts,
+            evidence_refs=local_inventory.evidence_refs
+        ) -> local_pair_meaning
+        DERIVE local_pair_derived
+            FROM local_pair_meaning.evidence_refs
+            USING rule.current_local_field_pair_experiment
+            CONTEXT local_pair_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=local_pair_meaning.terms, claims=local_pair_derived.claims
+        ) -> local_pair_prepared
+        CALL control.current_state_revision() -> local_pair_revision_before
+        TRANSACTION declare_current_pair_experiment
+            UPDATE local_pair_revision
+                TARGET local_pair_prepared.update_items
+                FROM local_pair_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE local_pair_revision_before
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE local_pair_meaning.evidence_refs
+        CALL control.bind_declared_pair_point_agenda(projected=local_pair_projected) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda,
+            projected_agenda=selection_source_agenda,
+            selected_ref=local_pair_selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.current_local_field_pair_experiment",
+            selection_source_ref="selection_source.current_local_field_pair",
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        NEXT validate_selected_probe_grounding
+    STEP classify_rigid_marker_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.classify_rigid_marker_scope",
+            alternative_refs=[], descriptive_facts=measured_agenda.context_facts
+        ) -> rigid_scope_projected
+        SELECT rigid_scope_selected
+            FOR "goal.choose_current_reasoning_scope"
+            FROM rigid_scope_projected.alternative_refs
+            UNDER policy.classify_rigid_marker_scope
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE rigid_scope_projected.alternative_refs
+            FACTS rigid_scope_projected.alternative_facts
+        MATCH rigid_scope_selected.alternatives.selected
+            "rigid_marker_scope.present" -> NEXT project_rigid_marker_agenda
+            "rigid_marker_scope.absent" -> NEXT route_measured_point_scope
+    STEP project_rigid_marker_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_rigid_marker_cover",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        SELECT selected
+            FOR "goal.cover_marker_constellations_with_rigid_masks"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_rigid_marker_cover
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda, projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda, projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected, context=reconciled_context,
+            selection_policy_ref="policy.declared_rigid_marker_cover",
+            selection_source_ref="selection_source.declared_rigid_marker_geometry"
+        ) -> prepared
+        NEXT remember_scoped_rigid_marker_geometry
+    STEP remember_scoped_rigid_marker_geometry
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_scoped_rigid_marker_geometry",
+            alternative_refs=projected_agenda.alternative_refs,
+            descriptive_facts=projected_agenda.alternative_facts
+        ) -> rigid_geometry_projected
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_scoped_rigid_marker_geometry",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=rigid_geometry_projected.alternative_facts,
+            evidence_refs=[context.id]
+        ) -> rigid_geometry_meaning
+        REQUIRE rigid_geometry_meaning.template_iteration_complete
+        DERIVE rigid_geometry_derived
+            FROM rigid_geometry_meaning.evidence_refs
+            USING rule.scoped_rigid_marker_geometry
+            CONTEXT rigid_geometry_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=rigid_geometry_meaning.terms, claims=rigid_geometry_derived.claims
+        ) -> rigid_geometry_prepared
+        CALL control.current_state_revision() -> rigid_geometry_before_revision
+        TRANSACTION remember_scoped_rigid_marker_geometry
+            UPDATE rigid_geometry_revision
+                TARGET rigid_geometry_prepared.update_items
+                FROM rigid_geometry_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE rigid_geometry_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE rigid_geometry_meaning.evidence_refs
+        CALL control.refresh_world_context_snapshot(context=context) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda, projected_agenda=selection_source_agenda,
+            selected_ref=selected.alternatives.selected, context=reconciled_context,
+            selection_policy_ref="policy.declared_rigid_marker_cover",
+            selection_source_ref="selection_source.declared_rigid_marker_geometry"
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP route_measured_point_scope
+        MATCH measured_agenda.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.retained_grid_informative_cells" -> NEXT project_compact_retained_grid_agenda
+            "probe_scope.access_witness_only" -> NEXT inspect_point_loci_reopen_request
+            "probe_scope.full_point_loci" -> NEXT inspect_reopened_retained_grid_point_agenda
+    STEP inspect_point_loci_reopen_request
+        MATCH point_loci_reopen_requested
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT inspect_lightweight_access_witness_agenda
+    STEP inspect_lightweight_access_witness_agenda
+        # DRM already selected the directional access-witness leaf.  Its delta
+        # deliberately omits every field owned by sibling interaction families.
+        MATCH measured_agenda.context_facts.lightweight_access_witness_agenda
+            true -> NEXT project_compact_retained_grid_agenda
+            false -> NEXT inspect_committed_frontier_presence
+    STEP inspect_reopened_retained_grid_point_agenda
+        # The retained-grid leaf already reduced the reopened scene to at most
+        # three exact point loci.  Project that agenda directly; sibling
+        # morphology, route and display families remain unknown and dormant.
+        MATCH measured_agenda.context_facts.retained_grid_bounded_point_reopen
+            true -> NEXT project_compact_retained_grid_agenda
+            false -> NEXT choose_initial_projection_mode
+    STEP project_compact_retained_grid_agenda
+        # The active root leaf already demanded these one-to-three exact cells.
+        # Project them directly; unrelated scene families are unknown and must
+        # not be represented as false merely to traverse the general router.
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_compact_retained_grid_projection
+    STEP inspect_compact_retained_grid_projection
+        REQUIRE projected_agenda.has_candidates
+        NEXT select_non_frontier_probe_by_mode
+    STEP inspect_committed_frontier_presence
+        MATCH committed_pre_reaction_click_frontier_present
+            true -> NEXT route_committed_frontier_after_sterile_point_yield
+            false -> NEXT choose_initial_projection_mode
+    STEP route_committed_frontier_after_sterile_point_yield
+        # A saved point order cannot outlive a reconciled family-level yield.
+        # A prior effectful discrete action alone does not establish that yield.
+        MATCH measured_agenda.context_facts.point_probe_no_effect_observed
+            true -> NEXT inspect_effectful_point_locus_after_sterile_attention
+            false -> NEXT reconcile_periodic_point_before_saved_frontier
+    STEP inspect_effectful_point_locus_after_sterile_attention
+        # A sterile attention step does not erase the most recent observed
+        # effectful point locus. Let DRM decide whether it continues the open
+        # point-conditioned relation before yielding to another action family.
+        MATCH measured_agenda.context_facts.most_recent_effectful_point_locus_available
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT confirm_non_point_preference_after_sterile_point
+    STEP confirm_non_point_preference_after_sterile_point
+        # Use the current measured agenda only when a non-point alternative is
+        # genuinely preferred after the measured sterile point result.
+        MATCH measured_agenda.context_facts.prefer_discrete_over_point
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT reconcile_periodic_point_before_saved_frontier
+    STEP reconcile_periodic_point_before_saved_frontier
+        # Reproject the current local value and quantity delta under DRM before
+        # a saved pre-reaction order can release another point.
+        MATCH measured_agenda.context_facts.periodic_transition_present
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT route_committed_frontier_after_effectful_point
+    STEP route_committed_frontier_after_effectful_point
+        MATCH measured_agenda.context_facts.point_action_effectful_available
+            true -> NEXT inspect_terminal_supply_after_open_derivation_isolation
+            false -> NEXT inspect_reflection_workflow_before_committed_frontier
+    STEP inspect_terminal_supply_after_open_derivation_isolation
+        # Once the open-member control has changed its connector, reproject the
+        # current agenda so DRM can bind the already observed supply actuator to
+        # terminal progress before the saved control-map frontier is resumed.
+        MATCH measured_agenda.context_facts.open_member_aligned_effectful_control_state_present
+            true -> NEXT project_terminal_supply_after_open_derivation_isolation
+            false -> NEXT inspect_terminal_supply_progress_continuation
+    STEP inspect_terminal_supply_progress_continuation
+        # Productive supply can change the very open/closed morphology that
+        # grounded isolation.  Preserve the observed causal progress long
+        # enough for DRM to decide one bounded continuation before unrelated
+        # controls regain the frontier.
+        MATCH measured_agenda.context_facts.stationary_pattern_change_present
+            true -> NEXT project_terminal_supply_after_open_derivation_isolation
+            false -> NEXT inspect_goal_bearing_route_before_current_reprojection
+    STEP project_terminal_supply_after_open_derivation_isolation
+        # This branch bypasses priority reselection, not agenda projection.  The
+        # current measured alternatives still need one explicit DRM projection
+        # before SELECT can consume their selection context.
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP inspect_goal_bearing_route_before_current_reprojection
+        # A point-conditioned world change can make a bounded route executable.
+        # Reproject the current agenda before resuming a saved click frontier;
+        # DRM still requires explicit residual reduction before selecting it.
+        MATCH measured_agenda.context_facts.bounded_zone_state_route_present
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT inspect_connector_state_before_current_reprojection
+    STEP inspect_connector_state_before_current_reprojection
+        # A connector-state change explains newly appeared path fragments as
+        # consequences. Continue the already declared external-control map
+        # before reopening generic candidates from the transformed frame.
+        MATCH measured_agenda.context_facts.current_context_observed_connector_state_transition_supported
+            true -> NEXT project_committed_frontier_current_identity
+            false -> NEXT inspect_effectful_locus_before_morphology_priority
+    STEP inspect_effectful_locus_before_morphology_priority
+        # A reconciled effect is causal evidence; an untested visual relation is
+        # only a role supposition. Let DRM test/use the most recent effective
+        # locus before a morphology-only goal can replace it.
+        MATCH measured_agenda.context_facts.most_recent_effectful_point_locus_available
+            true -> NEXT project_effectful_locus_continuation
+            false -> NEXT choose_initial_projection_mode
+    STEP project_effectful_locus_continuation
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP inspect_reflection_workflow_before_committed_frontier
+        MATCH measured_agenda.context_facts.open_orthogonal_reflection_action_frontier_present
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT inspect_structural_route_before_committed_frontier
+    STEP inspect_structural_route_before_committed_frontier
+        MATCH measured_agenda.context_facts.fresh_focus_bound_structural_route_present
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT project_committed_frontier_current_identity
+    STEP choose_initial_projection_mode
+        MATCH measured_agenda.context_facts.bounded_resource_preservation_context_present
+            true -> NEXT select_priority_context
+            false -> NEXT inspect_degraded_action_selection_mode
+    STEP inspect_degraded_action_selection_mode
+        MATCH context.degraded_action_selection_mode
+            true -> NEXT inspect_grounded_dynamic_goal_before_degraded_recovery
+            false -> NEXT inspect_action_conditioned_reflection_before_priority_context
+    STEP inspect_grounded_dynamic_goal_before_degraded_recovery
+        # Recovery may change the mechanical candidate set, but it may not
+        # erase a DRM-grounded semantic objective that has not yet obtained an
+        # action witness.  Re-enter the ordinary priority projection first.
+        MATCH measured_agenda.context_facts.dynamic_goal_without_action_witness_measurement_grounding_present
+            true -> NEXT select_priority_context
+            false -> NEXT inspect_current_reflection_before_degraded_recovery
+    STEP inspect_current_reflection_before_degraded_recovery
+        # An unrelated sterile point does not falsify the preserved field
+        # relation. Reproject it before reset; DRM still checks each candidate.
+        MATCH measured_agenda.context_facts.reflection_transition_present
+            true -> NEXT project_action_conditioned_reflection_agenda
+            false -> NEXT inspect_bounded_marker_pair_pose_before_degraded_recovery
+    STEP inspect_bounded_marker_pair_pose_before_degraded_recovery
+        # A live assembly process remains authoritative even when its previous
+        # one-primitive child has completed and no workflow is suspended.
+        MATCH measured_agenda.context_facts.bounded_marker_pair_pose_frontier_present
+            true -> NEXT select_priority_context
+            false -> NEXT inspect_bounded_marker_pair_transfer_before_degraded_recovery
+    STEP inspect_bounded_marker_pair_transfer_before_degraded_recovery
+        MATCH measured_agenda.context_facts.marker_pair_cover_focus_transfer_required
+            true -> NEXT select_priority_context
+            false -> NEXT project_degraded_interaction_agenda
+    STEP inspect_action_conditioned_reflection_before_priority_context
+        # A reconciled point repair keeps its finite-relation objective open.
+        # Reproject the current exceptions before selecting an unrelated goal.
+        MATCH measured_agenda.context_facts.reflection_transition_present
+            true -> NEXT project_action_conditioned_reflection_agenda
+            false -> NEXT select_priority_context
+    STEP project_action_conditioned_reflection_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP project_degraded_interaction_agenda
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_degraded_interaction_recovery",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_degraded_projected_interaction_agenda
+    STEP inspect_degraded_projected_interaction_agenda
+        REQUIRE projected_agenda.has_candidates
+        NEXT select_degraded_probe
+    STEP select_priority_context
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_goal_priority_context",
+            alternative_refs=[],
+            descriptive_facts=measured_agenda.context_facts
+        ) -> priority_projected
+        SELECT priority
+            FOR "goal.select_configuration_priority_node"
+            FROM priority_projected.alternative_refs
+            UNDER policy.declared_goal_priority_context
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE priority_projected.alternative_refs
+            FACTS priority_projected.alternative_facts
+        MATCH priority.alternatives.selected
+            "G1_oriented_relation_capacity_packing" -> NEXT conserve_selected_capacity_extent
+            "G0_EXACT_BIJECTIVE_CONTAINMENT", "G0_BOUNDED_RESOURCE_PRESERVATION", "G0_collective_configuration_alignment", "G1_REFERENCE_GUIDED_PATTERN_APPLICATION", "N_DEFAULT_EXPLORATION", "N_NEW_ELEMENT_ACCESS_PROGRESS", "N_DISTINCTIVE_ELEMENT_INTEREST", "N_FRONTIER_ACCESS_EXPANSION", "N_LOCAL_MOBILITY_EXPANSION", "G1_marker_axis_controlled_peer_placement", "G1_ordered_aspect_typed_construction", "G1_cross_axis_ordered_oriented_boundary_relation", "G1_repeated_embedded_component_group_alignment", "G1_same_shape_singleton_position_alignment", "G1_same_shape_multicell_position_alignment" -> NEXT inspect_priority_context_commit
+    STEP conserve_selected_capacity_extent
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.conserve_measured_oriented_capacity_extent",
+            alternative_refs=[], descriptive_facts=measured_agenda.context_facts
+        ) -> capacity_memory_projection
+        SELECT capacity_memory_selection
+            FOR "goal.conserve_observed_capacity_extent"
+            FROM capacity_memory_projection.alternative_refs
+            UNDER policy.conserve_measured_oriented_capacity_extent
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE capacity_memory_projection.alternative_refs
+            FACTS capacity_memory_projection.alternative_facts
+        MATCH capacity_memory_selection.alternatives.selected
+            "capacity_extent.record" -> NEXT record_selected_capacity_extent
+            "capacity_extent.reuse", "capacity_extent.unresolved" -> NEXT inspect_priority_context_commit
+    STEP record_selected_capacity_extent
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.conserve_measured_oriented_capacity_extent",
+            selected_ref=capacity_memory_selection.alternatives.selected,
+            alternative_facts=capacity_memory_projection.alternative_facts,
+            evidence_refs=[context.id]
+        ) -> capacity_memory_meaning
+        DERIVE capacity_memory_derived
+            FROM capacity_memory_meaning.evidence_refs
+            USING rule.observed_oriented_capacity_extent
+            CONTEXT capacity_memory_meaning
+        CALL control.prepare_meaning_updates(
+            terms=capacity_memory_meaning.terms, claims=capacity_memory_derived.claims
+        ) -> capacity_memory_prepared
+        CALL control.current_state_revision() -> capacity_memory_before_revision
+        TRANSACTION conserve_selected_capacity_extent
+            UPDATE capacity_memory_revision
+                TARGET capacity_memory_prepared.update_items
+                FROM capacity_memory_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE capacity_memory_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE capacity_memory_meaning.evidence_refs
+        NEXT inspect_priority_context_commit
+    STEP inspect_priority_context_commit
+        CALL control.goal_priority_context_needs_commit(
+            selected_ref=priority.alternatives.selected,
+            active_ref=context.active_priority_node_ref
+        ) -> priority_needs_commit
+        MATCH priority_needs_commit
+            true -> NEXT commit_priority_context
+            false -> NEXT inspect_exact_containment_before_dynamic_goal
+    STEP commit_priority_context
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_goal_priority_context",
+            selected_ref=priority.alternatives.selected,
+            alternative_facts=priority_projected.alternative_facts,
+            evidence_refs=[context.id]
+        ) -> priority_meaning
+        DERIVE priority_derived
+            FROM priority_meaning.evidence_refs
+            USING rule.goal_priority_context_selected_meaning
+            CONTEXT priority_meaning
+        CALL control.prepare_goal_priority_context_updates(
+            terms=priority_meaning.terms,
+            claims=priority_derived.claims,
+            selected_ref=priority.alternatives.selected,
+            disabled_reason_ref="reason.goal_priority_context_superseded_by_configuration"
+        ) -> priority_prepared
+        CALL control.current_state_revision() -> priority_before_revision
+        TRANSACTION commit_priority_context
+            UPDATE priority_revision
+                TARGET priority_prepared.update_items
+                FROM priority_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE priority_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE priority_projected.alternative_refs
+        NEXT inspect_exact_containment_before_dynamic_goal
+    STEP inspect_exact_containment_before_dynamic_goal
+        # The selected assignment priority requires its control bearers. A
+        # one-access-witness agenda has not enumerated those point candidates;
+        # absence in that agenda is not evidence that selection is unnecessary.
+        MATCH priority.alternatives.selected
+            "G0_EXACT_BIJECTIVE_CONTAINMENT" -> NEXT inspect_assignment_point_measurement_scope
+            "G0_BOUNDED_RESOURCE_PRESERVATION", "G0_collective_configuration_alignment", "G1_REFERENCE_GUIDED_PATTERN_APPLICATION", "N_DEFAULT_EXPLORATION", "N_NEW_ELEMENT_ACCESS_PROGRESS", "N_DISTINCTIVE_ELEMENT_INTEREST", "N_FRONTIER_ACCESS_EXPANSION", "N_LOCAL_MOBILITY_EXPANSION", "G1_oriented_relation_capacity_packing", "G1_marker_axis_controlled_peer_placement", "G1_ordered_aspect_typed_construction", "G1_cross_axis_ordered_oriented_boundary_relation", "G1_repeated_embedded_component_group_alignment", "G1_same_shape_singleton_position_alignment", "G1_same_shape_multicell_position_alignment" -> NEXT inspect_measured_point_structure_before_dynamic_goal
+    STEP inspect_assignment_point_measurement_scope
+        # Once those measurements exist, keep the declared assignment rather
+        # than rebinding its command to an unrelated dynamic visual goal.
+        MATCH measured_agenda.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.access_witness_only" -> NEXT inspect_assignment_contact_service_candidates
+            "probe_scope.full_point_loci", "probe_scope.retained_grid_informative_cells" -> NEXT project_interaction_agenda_without_dynamic_goal
+    STEP inspect_assignment_contact_service_candidates
+        # A bounded measured service already contains its required action loci.
+        # Project that frontier without replacing its bound control identity.
+        MATCH measured_agenda.context_facts.contact_service_action_candidate_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> STOP "perception.reopen_point_loci"
+    STEP inspect_measured_point_structure_before_dynamic_goal
+        # A complete exact body-to-enclosure assignment with one maximally
+        # obstructed branch already supplies the backward dependency frontier.
+        # Project its action grounding before an unrelated unwitnessed dynamic
+        # goal can flatten every point alternative to the same rank.
+        MATCH measured_agenda.context_facts.point_structural_support_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT route_dynamic_goal_frontier
+    STEP route_dynamic_goal_frontier
+        # A DRM-grounded goal without an action witness is the declared
+        # semantic frontier.  It must be selected before generic exploration
+        # or recovery branches can relabel the action.
+        MATCH measured_agenda.context_facts.dynamic_goal_without_action_witness_measurement_grounding_present
+            true -> NEXT inspect_dynamic_goal_frontier
+            false -> NEXT route_specialized_frontier_before_dynamic_goal
+    STEP route_specialized_frontier_before_dynamic_goal
+        MATCH measured_agenda.context_facts.bounded_resource_preservation_context_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_orthogonal_reflection_before_dynamic_goal
+    STEP inspect_orthogonal_reflection_before_dynamic_goal
+        MATCH measured_agenda.context_facts.open_orthogonal_reflection_action_frontier_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_structural_route_before_dynamic_goal
+    STEP inspect_structural_route_before_dynamic_goal
+        MATCH measured_agenda.context_facts.fresh_focus_bound_structural_route_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_cross_axis_dynamic_goal_suppression
+    STEP inspect_cross_axis_dynamic_goal_suppression
+        MATCH measured_agenda.context_facts.cross_axis_compact_correspondence_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_bounded_marker_pair_pose_before_dynamic_goal
+    STEP inspect_bounded_marker_pair_pose_before_dynamic_goal
+        # A fresh exact global cover is current-scene evidence. Project its
+        # declared action grounding before an older dynamic objective can replace it.
+        MATCH measured_agenda.context_facts.bounded_marker_pair_pose_frontier_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_bounded_marker_pair_transfer_before_dynamic_goal
+    STEP inspect_bounded_marker_pair_transfer_before_dynamic_goal
+        # The same precedence applies at an edge boundary: preserve the cover
+        # while testing its revisable unique outside-body focus transfer.
+        MATCH measured_agenda.context_facts.marker_pair_cover_focus_transfer_required
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_structural_point_frontier_before_dynamic_goal
+    STEP inspect_structural_point_frontier_before_dynamic_goal
+        MATCH measured_agenda.context_facts.point_structural_support_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT inspect_dynamic_goal_frontier
+    STEP inspect_dynamic_goal_frontier
+        MATCH measured_agenda.context_facts.dynamic_goal_frontier_present
+            true -> NEXT inspect_dynamic_goal_witness_frontier
+            false -> NEXT project_interaction_agenda_without_dynamic_goal
+    STEP inspect_dynamic_goal_witness_frontier
+        MATCH measured_agenda.context_facts.dynamic_goal_with_untried_action_witness_present
+            true -> NEXT project_dynamic_goal_frontier
+            false -> NEXT inspect_unmeasured_dynamic_goal_frontier
+    STEP inspect_unmeasured_dynamic_goal_frontier
+        MATCH measured_agenda.context_facts.dynamic_goal_without_action_witness_measurement_grounding_present
+            true -> NEXT inspect_unmeasured_action_bearing_dynamic_goal
+            false -> NEXT project_interaction_agenda_without_dynamic_goal
+    STEP inspect_unmeasured_action_bearing_dynamic_goal
+        MATCH measured_agenda.context_facts.dynamic_goal_without_action_witness_action_bearing_present
+            true -> NEXT project_dynamic_goal_frontier
+            false -> NEXT inspect_unmeasured_goal_after_prior_action
+    STEP inspect_unmeasured_goal_after_prior_action
+        MATCH measured_agenda.context_facts.last_action_ref_present
+            true -> NEXT inspect_post_action_dynamic_scope
+            false -> NEXT project_dynamic_goal_frontier
+    STEP inspect_post_action_dynamic_scope
+        MATCH measured_agenda.context_facts.terminally_exhausted_control_context_present
+            true -> NEXT project_interaction_agenda_without_dynamic_goal
+            false -> NEXT project_dynamic_goal_frontier
+    STEP project_dynamic_goal_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_active_dynamic_goal_frontier",
+            alternative_refs=measured_agenda.context_facts.dynamic_goal_refs,
+            descriptive_facts=measured_agenda.context_facts.dynamic_goal_facts
+        ) -> dynamic_goal_projected
+        MATCH dynamic_goal_projected.has_declared_eligibility_matches
+            true -> NEXT select_dynamic_goal
+            false -> NEXT project_interaction_agenda_without_dynamic_goal
+    STEP select_dynamic_goal
+        SELECT active_dynamic_goal
+            FOR "goal.select_first_active_dynamic_goal"
+            FROM dynamic_goal_projected.alternative_refs
+            UNDER policy.declared_active_dynamic_goal_frontier
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE dynamic_goal_projected.alternative_refs
+            FACTS dynamic_goal_projected.alternative_facts
+        NEXT project_interaction_agenda_with_dynamic_goal
+    STEP project_interaction_agenda_with_dynamic_goal
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=priority.alternatives.selected,
+            dynamic_goal_selection_present=true,
+            selected_dynamic_goal_ref=active_dynamic_goal.alternatives.selected,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP project_interaction_agenda_without_dynamic_goal
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=priority.alternatives.selected,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_agenda
+        NEXT inspect_projected_interaction_agenda
+    STEP inspect_projected_interaction_agenda
+        MATCH projected_agenda.requires_ontology_extension
+            true -> NEXT prove_scoped_ontology_gap
+            false -> NEXT inspect_primary_projected_candidate_availability
+    STEP inspect_primary_projected_candidate_availability
+        MATCH projected_agenda.has_candidates
+            true -> NEXT inspect_layer_primitive_before_generic_frontier
+            false -> NEXT inspect_layer_unresolved_before_degraded_probe
+    STEP inspect_layer_primitive_before_generic_frontier
+        MATCH measured_agenda.context_facts.opposite_or_replaced_contour_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT inspect_layer_primitive_after_contour_relation
+    STEP inspect_layer_primitive_after_contour_relation
+        MATCH measured_agenda.context_facts.layer_pair_unique
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_measured_toward_direction_before_point_frontier
+    STEP route_measured_toward_direction_before_point_frontier
+        # A measured directional relation toward an open residual is an
+        # actionable spatial frontier.  Let the initial exploration policy
+        # compare it with other feasible candidates before the speculative
+        # point/cell frontier is materialized.
+        MATCH measured_agenda.context_facts.prefer_discrete_over_point
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_oriented_transport_action_before_generic_frontier
+    STEP inspect_layer_unresolved_before_degraded_probe
+        MATCH measured_agenda.context_facts.layer_pair_unique
+            true -> NEXT stop_at_unresolved_layer_correspondence
+            false -> NEXT project_degraded_interaction_agenda
+    STEP stop_at_unresolved_layer_correspondence
+        STOP projected_agenda
+    STEP route_oriented_transport_action_before_generic_frontier
+        MATCH measured_agenda.context_facts.ordered_tip_unique_ring_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT inspect_oriented_transport_route
+    STEP inspect_oriented_transport_route
+        MATCH measured_agenda.context_facts.oriented_square_transport_route_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_rebound_midpoint_action_before_generic_frontier
+    STEP route_rebound_midpoint_action_before_generic_frontier
+        MATCH measured_agenda.context_facts.rebound_midpoint_route_agenda_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_cross_axis_compact_correspondence_before_generic_frontier
+    STEP route_cross_axis_compact_correspondence_before_generic_frontier
+        MATCH measured_agenda.context_facts.cross_axis_compact_correspondence_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_structural_probe_before_generic_frontier
+    STEP route_structural_probe_before_generic_frontier
+        MATCH measured_agenda.context_facts.ordered_aspect_relation_unique
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_orthogonal_reflection_before_generic_frontier
+    STEP route_orthogonal_reflection_before_generic_frontier
+        MATCH measured_agenda.context_facts.unique_orthogonal_reflection_completion
+            true -> NEXT inspect_orthogonal_reflection_carriers
+            false -> NEXT inspect_unique_static_reflection_axis_candidate
+    STEP inspect_orthogonal_reflection_carriers
+        MATCH measured_agenda.context_facts.orthogonal_reflection_carrier_measurement_pair_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT inspect_unique_static_reflection_axis_candidate
+    STEP inspect_unique_static_reflection_axis_candidate
+        MATCH measured_agenda.context_facts.unique_static_reflection_axis_reducing_candidate_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_compact_empty_center_probe_before_generic_frontier
+    STEP route_compact_empty_center_probe_before_generic_frontier
+        MATCH measured_agenda.context_facts.compact_empty_center_useful_probe_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_parallel_cell_field_before_generic_frontier
+    STEP route_parallel_cell_field_before_generic_frontier
+        # A bounded structured field already grounds a causal point experiment.
+        # Select from its DRM-projected candidates without materializing every
+        # raw cell into the generic pre-reaction click frontier.
+        MATCH measured_agenda.context_facts.parallel_field_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_dominant_component_center_probe_before_generic_frontier
+    STEP route_dominant_component_center_probe_before_generic_frontier
+        MATCH measured_agenda.context_facts.dominant_component_center_useful_probe_present
+            true -> NEXT materialize_pre_reaction_click_frontier
+            false -> NEXT route_transient_parametric_path_before_generic_frontier
+    STEP route_transient_parametric_path_before_generic_frontier
+        MATCH measured_agenda.context_facts.transient_equal_axis_point_candidate_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT route_open_member_derivation_control_before_generic_frontier
+    STEP route_open_member_derivation_control_before_generic_frontier
+        # A unique open/closed container pair plus prior supplied state licenses
+        # DRM's terminal-propagation subgoal before the frozen morphology cursor.
+        MATCH measured_agenda.context_facts.open_member_aligned_control_frontier_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT suppress_pre_reaction_frontier_after_goal_activation
+    STEP suppress_pre_reaction_frontier_after_goal_activation
+        MATCH projected_agenda.context_facts.dynamic_goal_selection_present
+            true -> NEXT select_non_frontier_probe_by_mode
+            false -> NEXT materialize_pre_reaction_click_frontier
+    STEP prove_scoped_ontology_gap
+        CALL control.current_state_revision() -> extension_before_revision
+        CALL workflow.extend_insufficient_ontology(
+            insufficiency_premises=projected_agenda.ontology_extension_context.insufficiency_premises,
+            insufficiency_context=projected_agenda.ontology_extension_context.insufficiency_context,
+            extension_seeds=projected_agenda.ontology_extension_context.extension_seeds,
+            extension_basis=projected_agenda.ontology_extension_context.extension_basis,
+            extension_scope=projected_agenda.ontology_extension_context.extension_scope,
+            alternatives=projected_agenda.ontology_extension_context.alternatives,
+            missing_evidence=projected_agenda.ontology_extension_context.missing_evidence,
+            falsifiers=projected_agenda.ontology_extension_context.falsifiers,
+            selection_goal=projected_agenda.ontology_extension_context.selection_goal,
+            selection_requirements=projected_agenda.ontology_extension_context.selection_requirements,
+            preservation_rules=projected_agenda.ontology_extension_context.preservation_rules,
+            dominance_witnesses=projected_agenda.ontology_extension_context.dominance_witnesses,
+            before_revision=extension_before_revision
+        ) -> extension
+        NEXT inspect_layer_primitive_before_generic_frontier
+    STEP materialize_pre_reaction_click_frontier
+        SELECT scope_selection
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_initial_interaction_exploration
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        CALL control.assessment_selection_present(assessment=scope_selection) -> scope_selection_present
+        MATCH scope_selection_present
+            true -> NEXT inspect_new_frontier_candidate_scope
+            false -> NEXT materialize_general_pre_reaction_click_frontier
+    STEP inspect_new_frontier_candidate_scope
+        CALL control.projected_alternative_boolean(
+            projection=projected_agenda,
+            alternative_ref=scope_selection.alternatives.selected,
+            field="candidate_is_general_unscoped_probe"
+        ) -> scope_is_general
+        MATCH scope_is_general
+            true -> NEXT materialize_general_pre_reaction_click_frontier
+            false -> NEXT select_probe
+    STEP materialize_general_pre_reaction_click_frontier
+        CALL control.materialize_declared_agenda_frontier(
+            selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+            goal_ref="goal.reveal_action_conditioned_structure",
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            maximum_candidate_count=64
+        ) -> committed_frontier
+        MATCH committed_frontier.has_candidates
+            true -> NEXT select_materialized_frontier_probe
+            false -> NEXT select_non_frontier_probe_by_mode
+    STEP select_non_frontier_probe_by_mode
+        MATCH context.degraded_action_selection_mode
+            true -> NEXT select_degraded_probe
+            false -> NEXT select_probe
+    STEP select_materialized_frontier_probe
+        SELECT selected
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM committed_frontier.alternative_refs
+            UNDER policy.declared_pre_reaction_click_frontier
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE committed_frontier.alternative_refs
+            FACTS committed_frontier.alternative_facts
+            CONTEXT committed_frontier.context_facts
+        NEXT prepare_committed_frontier_probe
+    STEP project_committed_frontier_current_identity
+        # A saved general queue is consultative: current targeted work may preempt it.
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> scope_projection
+        MATCH scope_projection.requires_ontology_extension
+            true -> NEXT choose_initial_projection_mode
+            false -> NEXT select_current_scope_before_saved_frontier
+    STEP select_current_scope_before_saved_frontier
+        SELECT scope_selection
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM scope_projection.alternative_refs
+            UNDER policy.declared_initial_interaction_exploration
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE scope_projection.alternative_refs
+            FACTS scope_projection.alternative_facts
+            CONTEXT scope_projection.selection_context_facts
+        CALL control.assessment_selection_present(assessment=scope_selection) -> scope_selection_present
+        MATCH scope_selection_present
+            true -> NEXT inspect_saved_frontier_candidate_scope
+            false -> NEXT project_general_committed_frontier_current_identity
+    STEP inspect_saved_frontier_candidate_scope
+        CALL control.projected_alternative_boolean(
+            projection=scope_projection,
+            alternative_ref=scope_selection.alternatives.selected,
+            field="candidate_is_general_unscoped_probe"
+        ) -> scope_is_general
+        MATCH scope_is_general
+            true -> NEXT project_general_committed_frontier_current_identity
+            false -> NEXT choose_initial_projection_mode
+    STEP project_general_committed_frontier_current_identity
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+            agenda=committed_pre_reaction_click_frontier,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false,
+            frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+        ) -> projected_committed_frontier
+        NEXT select_committed_frontier_probe
+    STEP select_committed_frontier_probe
+        REQUIRE committed_pre_reaction_click_frontier.has_candidates
+        SELECT selected
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM projected_committed_frontier.alternative_refs
+            UNDER policy.declared_pre_reaction_click_frontier
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_committed_frontier.alternative_refs
+            FACTS projected_committed_frontier.alternative_facts
+            CONTEXT projected_committed_frontier.selection_context_facts
+        NEXT prepare_resumed_frontier_probe
+    STEP select_probe
+        SELECT selected
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_initial_interaction_exploration
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        NEXT prepare_selected_probe
+    STEP select_degraded_probe
+        SELECT selected
+            FOR "goal.restore_action_selection_continuity"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_degraded_interaction_recovery
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        NEXT prepare_degraded_selected_probe
+    STEP prepare_committed_frontier_probe
+        CALL control.probe_action_is_point(
+            agenda=committed_frontier,
+            selected_ref=selected.alternatives.selected
+        ) -> selected_point_action
+        MATCH selected_point_action
+            true -> NEXT inspect_committed_point_scope
+            false -> NEXT execute_prepare_committed_frontier_probe
+    STEP inspect_committed_point_scope
+        MATCH committed_frontier.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.access_witness_only" -> NEXT inspect_committed_service_candidate
+            "probe_scope.retained_grid_informative_cells" -> NEXT execute_prepare_committed_frontier_probe
+            "probe_scope.full_point_loci" -> NEXT execute_prepare_committed_frontier_probe
+    STEP inspect_committed_service_candidate
+        CALL control.probe_fact_is_true(
+            agenda=committed_frontier,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_matches_contact_service"
+        ) -> service_candidate_measured
+        MATCH service_candidate_measured
+            true -> NEXT execute_prepare_committed_frontier_probe
+            false -> STOP "perception.reopen_point_loci"
+    STEP execute_prepare_committed_frontier_probe
+        CALL control.bind_interaction_agenda(
+            agenda=committed_frontier,
+            projected_agenda=committed_frontier
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=committed_frontier,
+            projected_agenda=committed_frontier,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+            selection_source_ref="selection_source.materialized_frontier",
+            point_locus_authorized=service_candidate_measured
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP prepare_resumed_frontier_probe
+        CALL control.probe_action_is_point(
+            agenda=committed_pre_reaction_click_frontier,
+            selected_ref=selected.alternatives.selected
+        ) -> selected_point_action
+        MATCH selected_point_action
+            true -> NEXT inspect_resumed_point_scope
+            false -> NEXT execute_prepare_resumed_frontier_probe
+    STEP inspect_resumed_point_scope
+        MATCH committed_pre_reaction_click_frontier.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.access_witness_only" -> NEXT inspect_resumed_service_candidate
+            "probe_scope.retained_grid_informative_cells" -> NEXT execute_prepare_resumed_frontier_probe
+            "probe_scope.full_point_loci" -> NEXT execute_prepare_resumed_frontier_probe
+    STEP inspect_resumed_service_candidate
+        CALL control.probe_fact_is_true(
+            agenda=committed_pre_reaction_click_frontier,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_matches_contact_service"
+        ) -> service_candidate_measured
+        MATCH service_candidate_measured
+            true -> NEXT execute_prepare_resumed_frontier_probe
+            false -> STOP "perception.reopen_point_loci"
+    STEP execute_prepare_resumed_frontier_probe
+        CALL control.bind_interaction_agenda(
+            agenda=committed_pre_reaction_click_frontier,
+            projected_agenda=projected_committed_frontier
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=committed_pre_reaction_click_frontier,
+            projected_agenda=projected_committed_frontier,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+            selection_source_ref="selection_source.resumed_frontier",
+            point_locus_authorized=service_candidate_measured
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP prepare_selected_probe
+        CALL control.probe_action_is_point(
+            agenda=measured_agenda,
+            selected_ref=selected.alternatives.selected
+        ) -> selected_point_action
+        MATCH selected_point_action
+            true -> NEXT inspect_selected_point_scope
+            false -> NEXT execute_prepare_selected_probe
+    STEP inspect_selected_point_scope
+        MATCH measured_agenda.context_facts.declared_point_candidate_scope_ref
+            "probe_scope.access_witness_only" -> NEXT inspect_selected_service_candidate
+            "probe_scope.retained_grid_informative_cells" -> NEXT execute_prepare_selected_probe
+            "probe_scope.full_point_loci" -> NEXT execute_prepare_selected_probe
+    STEP inspect_selected_service_candidate
+        CALL control.probe_fact_is_true(
+            agenda=measured_agenda,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_matches_contact_service"
+        ) -> service_candidate_measured
+        MATCH service_candidate_measured
+            true -> NEXT execute_prepare_selected_probe
+            false -> NEXT inspect_selected_open_segment_point_locus
+    STEP inspect_selected_open_segment_point_locus
+        # The selected cell is one measured open-segment locus. Reopening the
+        # census would drop it: it is not a contact service and not a retained
+        # grid cell. Authorize this exact selected point, or reopen otherwise.
+        CALL control.probe_fact_is_true(
+            agenda=measured_agenda,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_is_open_segment_between_separated_same_shape_bodies"
+        ) -> declared_open_segment_point_locus
+        MATCH declared_open_segment_point_locus
+            true -> NEXT execute_prepare_selected_open_segment_point
+            false -> NEXT inspect_selected_ballistic_variation_point_locus
+    STEP inspect_selected_ballistic_variation_point_locus
+        # A curved path's unused direction trial is not a contact service.
+        # Reopening the census would drop the selected cell. Authorize this
+        # exact point, or reopen otherwise.
+        CALL control.probe_fact_is_true(
+            agenda=measured_agenda,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_is_ballistic_direction_variation_point"
+        ) -> declared_ballistic_variation_point_locus
+        MATCH declared_ballistic_variation_point_locus
+            true -> NEXT execute_prepare_selected_ballistic_variation_point
+            false -> NEXT inspect_selected_oriented_network_point_locus
+    STEP inspect_selected_oriented_network_point_locus
+        # Keep the exact measured contributor selected by the DRM network
+        # contract. A fresh generic census does not preserve this local goal.
+        CALL control.probe_fact_is_true(
+            agenda=measured_agenda,
+            candidate_ref=selected.alternatives.selected,
+            field_name="candidate_oriented_network_focus_present"
+        ) -> declared_oriented_network_point_locus
+        MATCH declared_oriented_network_point_locus
+            true -> NEXT execute_prepare_selected_oriented_network_point
+            false -> STOP "perception.reopen_point_loci"
+    STEP execute_prepare_selected_oriented_network_point
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            selection_source_ref="selection_source.projected_agenda",
+            point_locus_authorized=declared_oriented_network_point_locus
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP execute_prepare_selected_ballistic_variation_point
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            selection_source_ref="selection_source.projected_agenda",
+            point_locus_authorized=declared_ballistic_variation_point_locus
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP execute_prepare_selected_open_segment_point
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            selection_source_ref="selection_source.projected_agenda",
+            point_locus_authorized=declared_open_segment_point_locus
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP execute_prepare_selected_probe
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_initial_interaction_exploration",
+            selection_source_ref="selection_source.projected_agenda",
+            point_locus_authorized=service_candidate_measured
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP prepare_degraded_selected_probe
+        CALL control.bind_interaction_agenda(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda
+        ) -> selection_source_agenda
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_degraded_interaction_recovery",
+            selection_source_ref="selection_source.degraded_projected_agenda"
+        ) -> prepared
+        NEXT inspect_selected_dynamic_goal_payload
+    STEP inspect_selected_dynamic_goal_payload
+        MATCH prepared.context.candidate_local_goal_context_declared
+            true -> NEXT inspect_candidate_local_goal_context
+            false -> NEXT inspect_optional_dynamic_goal_payload
+    STEP inspect_optional_dynamic_goal_payload
+        CALL control.dynamic_goal_frontier_payload_present(
+            facts=prepared.context
+        ) -> selected_frontier_payload_present
+        MATCH selected_frontier_payload_present
+            true -> NEXT inspect_selected_dynamic_goal_conservation
+            false -> NEXT release_selected_probe
+    STEP inspect_selected_dynamic_goal_conservation
+        CALL control.activation_preserves_selected_action_goal(
+            facts=prepared.context,
+            intent=prepared.intent
+        ) -> selected_frontier_preserves_action_goal
+        MATCH selected_frontier_preserves_action_goal
+            true -> NEXT inspect_selected_dynamic_goal_frontier_commit
+            false -> NEXT inspect_candidate_local_goal_context
+    STEP inspect_candidate_local_goal_context
+        MATCH prepared.context.candidate_local_goal_context_required
+            true -> NEXT release_selected_probe
+            false -> NEXT reprepare_selected_probe_with_candidate_local_goal
+    STEP reprepare_selected_probe_with_candidate_local_goal
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda,
+            projected_agenda=selection_source_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref=prepared.selection_policy_ref,
+            selection_source_ref=prepared.selection_source_ref,
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        NEXT inspect_reprepared_candidate_goal_conservation
+    STEP inspect_reprepared_candidate_goal_conservation
+        CALL control.activation_preserves_selected_action_goal(
+            facts=prepared.context,
+            intent=prepared.intent
+        ) -> reparsed_frontier_preserves_action_goal
+        MATCH reparsed_frontier_preserves_action_goal
+            true -> NEXT inspect_selected_dynamic_goal_frontier_commit
+            false -> NEXT release_selected_probe
+    STEP inspect_selected_dynamic_goal_frontier_commit
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=prepared.context
+        ) -> selected_frontier_activation
+        CALL control.dynamic_goal_frontier_activation_needs_commit(
+            activation=selected_frontier_activation
+        ) -> selected_frontier_activation_needs_commit
+        MATCH selected_frontier_activation_needs_commit
+            true -> NEXT activate_selected_dynamic_goal_frontier
+            false -> NEXT release_selected_probe
+    STEP activate_selected_dynamic_goal_frontier
+        CALL control.current_state_revision() -> selected_frontier_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=selected_frontier_activation,
+            before_revision=selected_frontier_before_revision
+        ) -> selected_frontier_prepared
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda,
+            projected_agenda=selection_source_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref=prepared.selection_policy_ref,
+            selection_source_ref=prepared.selection_source_ref,
+            candidate_local_goal_context_required=prepared.context.candidate_local_goal_context_required
+        ) -> prepared
+        NEXT release_selected_probe
+    STEP release_selected_probe
+        CALL control.action_grounding_is_valid(
+            intent=prepared.intent
+        ) -> grounding_valid
+        MATCH grounding_valid
+            true -> NEXT validate_selected_probe_grounding
+            false -> NEXT inspect_rejected_candidate_local_goal_context
+    STEP inspect_rejected_candidate_local_goal_context
+        MATCH prepared.context.candidate_local_goal_context_required
+            true -> NEXT exclude_rejected_grounding_candidate
+            false -> NEXT reprepare_rejected_probe_with_candidate_local_goal
+    STEP reprepare_rejected_probe_with_candidate_local_goal
+        CALL control.prepare_interaction_probe(
+            agenda=selection_source_agenda,
+            projected_agenda=selection_source_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref=prepared.selection_policy_ref,
+            selection_source_ref=prepared.selection_source_ref,
+            candidate_local_goal_context_required=true
+        ) -> prepared
+        NEXT validate_reprepared_probe_grounding
+    STEP validate_reprepared_probe_grounding
+        CALL control.action_grounding_is_valid(
+            intent=prepared.intent
+        ) -> reparsed_grounding_valid
+        MATCH reparsed_grounding_valid
+            true -> NEXT validate_selected_probe_grounding
+            false -> NEXT exclude_rejected_grounding_candidate
+    STEP validate_selected_probe_grounding
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        MATCH prepared.context.expected_effect_class
+            "effectful_known" -> NEXT inspect_verified_probe_route
+            "effectful_novel" -> NEXT release_single_probe
+            "interface_only" -> NEXT release_single_probe
+            "contextual_no_effect" -> NEXT release_single_probe
+    STEP exclude_rejected_grounding_candidate
+        CALL control.exclude_interaction_candidate_after_grounding_rejection(
+            agenda=selection_source_agenda,
+            selected_ref=prepared.selected_candidate_ref,
+            failure_kind="validation.action_grounding_rejected"
+        ) -> grounding_fallback_agenda
+        MATCH grounding_fallback_agenda.has_candidates
+            true -> NEXT route_grounding_fallback_policy
+            false -> STOP "grounding_frontier_exhausted"
+    STEP route_grounding_fallback_policy
+        MATCH prepared.selection_policy_ref
+            "policy.declared_initial_interaction_exploration" -> NEXT retry_initial_grounding_fallback
+            "policy.declared_degraded_interaction_recovery" -> NEXT retry_degraded_grounding_fallback
+            "policy.declared_pre_reaction_click_frontier" -> NEXT retry_frontier_grounding_fallback
+    STEP retry_initial_grounding_fallback
+        WHILE grounding_fallback_agenda.has_candidates
+            PROGRESS prepared.selected_candidate_ref
+            STOP WHEN grounding_valid
+            MAX DEPTH 64
+            ON LIMIT DEFER unresolved
+            DO
+                # The rejected anchor's dynamic goal no longer owns its
+                # preserved siblings.  Reproject them through DRM so their
+                # own still-open objectives can compete before reselection.
+                CALL control.project_declared_agenda_delta(
+                    selection_policy_ref="policy.declared_initial_interaction_exploration",
+                    agenda=grounding_fallback_agenda,
+                    reasoning_strategy_ref=reasoning_strategy_ref,
+                    active_priority_node_ref=reconciled_context.active_priority_node_ref,
+                    dynamic_goal_selection_present=false,
+                    frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+                ) -> reprojected_grounding_fallback
+                CALL control.bind_interaction_agenda(
+                    agenda=grounding_fallback_agenda,
+                    projected_agenda=reprojected_grounding_fallback
+                ) -> selection_source_agenda
+                SELECT selected
+                    FOR "goal.reveal_action_conditioned_structure"
+                    FROM selection_source_agenda.alternative_refs
+                    UNDER policy.declared_initial_interaction_exploration
+                    REQUIRE ["requirement.current_action_is_available"]
+                    PRESERVE selection_source_agenda.alternative_refs
+                    FACTS selection_source_agenda.alternative_facts
+                    CONTEXT selection_source_agenda.context_facts
+                CALL control.prepare_interaction_probe(
+                    agenda=selection_source_agenda,
+                    projected_agenda=selection_source_agenda,
+                    selected_ref=selected.alternatives.selected,
+                    context=reconciled_context,
+                    selection_policy_ref="policy.declared_initial_interaction_exploration",
+                    selection_source_ref="selection_source.grounding_fallback"
+                ) -> prepared
+                CALL control.action_grounding_is_valid(
+                    intent=prepared.intent
+                ) -> grounding_valid
+                IF grounding_valid
+                    REQUIRE grounding_valid
+                ELSE
+                    CALL control.exclude_interaction_candidate_after_grounding_rejection(
+                        agenda=selection_source_agenda,
+                        selected_ref=prepared.selected_candidate_ref,
+                        failure_kind="validation.action_grounding_rejected"
+                    ) -> grounding_fallback_agenda
+        IF grounding_valid
+            NEXT validate_selected_probe_grounding
+        ELSE
+            STOP "grounding_frontier_exhausted"
+    STEP retry_degraded_grounding_fallback
+        WHILE grounding_fallback_agenda.has_candidates
+            PROGRESS prepared.selected_candidate_ref
+            STOP WHEN grounding_valid
+            MAX DEPTH 64
+            ON LIMIT DEFER unresolved
+            DO
+                CALL control.project_declared_agenda_delta(
+                    selection_policy_ref="policy.declared_degraded_interaction_recovery",
+                    agenda=grounding_fallback_agenda,
+                    reasoning_strategy_ref=reasoning_strategy_ref,
+                    active_priority_node_ref=reconciled_context.active_priority_node_ref,
+                    dynamic_goal_selection_present=false,
+                    frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+                ) -> reprojected_grounding_fallback
+                CALL control.bind_interaction_agenda(
+                    agenda=grounding_fallback_agenda,
+                    projected_agenda=reprojected_grounding_fallback
+                ) -> selection_source_agenda
+                SELECT selected
+                    FOR "goal.restore_action_selection_continuity"
+                    FROM selection_source_agenda.alternative_refs
+                    UNDER policy.declared_degraded_interaction_recovery
+                    REQUIRE ["requirement.current_action_is_available"]
+                    PRESERVE selection_source_agenda.alternative_refs
+                    FACTS selection_source_agenda.alternative_facts
+                    CONTEXT selection_source_agenda.context_facts
+                CALL control.prepare_interaction_probe(
+                    agenda=selection_source_agenda,
+                    projected_agenda=selection_source_agenda,
+                    selected_ref=selected.alternatives.selected,
+                    context=reconciled_context,
+                    selection_policy_ref="policy.declared_degraded_interaction_recovery",
+                    selection_source_ref="selection_source.grounding_fallback"
+                ) -> prepared
+                CALL control.action_grounding_is_valid(
+                    intent=prepared.intent
+                ) -> grounding_valid
+                IF grounding_valid
+                    REQUIRE grounding_valid
+                ELSE
+                    CALL control.exclude_interaction_candidate_after_grounding_rejection(
+                        agenda=selection_source_agenda,
+                        selected_ref=prepared.selected_candidate_ref,
+                        failure_kind="validation.action_grounding_rejected"
+                    ) -> grounding_fallback_agenda
+        IF grounding_valid
+            NEXT validate_selected_probe_grounding
+        ELSE
+            STOP "grounding_frontier_exhausted"
+    STEP retry_frontier_grounding_fallback
+        WHILE grounding_fallback_agenda.has_candidates
+            PROGRESS prepared.selected_candidate_ref
+            STOP WHEN grounding_valid
+            MAX DEPTH 64
+            ON LIMIT DEFER unresolved
+            DO
+                CALL control.project_declared_agenda_delta(
+                    selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+                    agenda=grounding_fallback_agenda,
+                    reasoning_strategy_ref=reasoning_strategy_ref,
+                    active_priority_node_ref=reconciled_context.active_priority_node_ref,
+                    dynamic_goal_selection_present=false,
+                    frozen_pre_reaction_click_frontier_exhausted=frozen_pre_reaction_click_frontier_exhausted
+                ) -> reprojected_grounding_fallback
+                CALL control.bind_interaction_agenda(
+                    agenda=grounding_fallback_agenda,
+                    projected_agenda=reprojected_grounding_fallback
+                ) -> selection_source_agenda
+                SELECT selected
+                    FOR "goal.reveal_action_conditioned_structure"
+                    FROM selection_source_agenda.alternative_refs
+                    UNDER policy.declared_pre_reaction_click_frontier
+                    REQUIRE ["requirement.current_action_is_available"]
+                    PRESERVE selection_source_agenda.alternative_refs
+                    FACTS selection_source_agenda.alternative_facts
+                    CONTEXT selection_source_agenda.context_facts
+                CALL control.prepare_interaction_probe(
+                    agenda=selection_source_agenda,
+                    projected_agenda=selection_source_agenda,
+                    selected_ref=selected.alternatives.selected,
+                    context=reconciled_context,
+                    selection_policy_ref="policy.declared_pre_reaction_click_frontier",
+                    selection_source_ref="selection_source.grounding_fallback"
+                ) -> prepared
+                CALL control.action_grounding_is_valid(
+                    intent=prepared.intent
+                ) -> grounding_valid
+                IF grounding_valid
+                    REQUIRE grounding_valid
+                ELSE
+                    CALL control.exclude_interaction_candidate_after_grounding_rejection(
+                        agenda=selection_source_agenda,
+                        selected_ref=prepared.selected_candidate_ref,
+                        failure_kind="validation.action_grounding_rejected"
+                    ) -> grounding_fallback_agenda
+        IF grounding_valid
+            NEXT validate_selected_probe_grounding
+        ELSE
+            STOP "grounding_frontier_exhausted"
+    STEP inspect_verified_probe_route
+        MATCH prepared.context.committed_verified_repetition
+            true -> NEXT inspect_verified_probe_terminal
+            false -> NEXT release_single_probe
+    STEP inspect_verified_probe_terminal
+        # A useful frontier may contain a longer mechanically measured route,
+        # but its next actionable derivation is still conditional on the
+        # observation after the current primitive.  DRM therefore keeps the
+        # route and its parent terminal goal in the plan while explicitly
+        # disabling sealed-series release for this family.  The next pass
+        # remeasures the frontier and either continues spatially or opens the
+        # next actionable mechanism; it never guesses the later suffix.
+        MATCH prepared.context.declared_complete_series_authorized
+            true -> NEXT release_verified_probe_series
+            false -> NEXT release_single_probe
+    STEP release_verified_probe_series
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=true,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared
+    STEP release_single_probe
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=false,
+            defer_concentration_acquisition=true
+        ) -> release
+        # Candidate selection and release are complete; the global SRC series
+        # kernel owns the environment trigger and terminal observation.
+        STOP prepared

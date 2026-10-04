@@ -1,0 +1,1623 @@
+{
+  "contracts": [
+    {
+      "workflow_id": "arc3.perceptual_memory.consult_current_relational_elimination",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "MATCH", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "UPDATE", "CALL:workflow.assess_mechanism_commitment_readiness", "MATCH", "CALL:capability.relational_elimination_graph_measurement", "CALL:workflow.assess_elimination_viability", "STOP"],
+      "governing_principle_refs": ["principle.observed_atomic_relational_elimination_is_revisable", "principle.relational_elimination_preserves_terminal_alternatives"],
+      "reason_refs": ["reason.measured_operator_is_consulted_before_conditional_viability"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.retain_measured_relational_elimination",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "MATCH", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_meaning_updates", "UPDATE", "STOP"],
+      "governing_principle_refs": ["principle.observed_atomic_relational_elimination_is_revisable", "principle.relational_elimination_preserves_terminal_alternatives"],
+      "reason_refs": ["reason.exact_relational_delta_is_retained_without_a_route"]
+    },
+    {"workflow_id": "arc3.perceptual_memory.recall_navigation_cell_lattice", "required_sequence": ["CALL:control.measure_recalled_navigation_lattices", "MATCH", "CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "STOP"], "governing_principle_refs": ["principle.game_shared_perceptual_memory"], "reason_refs": ["reason.reuse_observed_grid_until_current_contradiction"]},
+    {
+      "workflow_id": "arc3.perceptual_memory.bind_typed_cell_lattices",
+      "required_sequence": ["CALL:control.measure_typed_cell_lattices", "MATCH", "SELECT", "DERIVE", "UPDATE", "STOP"],
+      "governing_principle_refs": ["principle.preserve_live_alternatives"],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.prepare_observed_scene",
+      "required_sequence": ["CALL:workflow.assimilate_frame", "CALL:workflow.track_scene", "CALL:control.current_state_revision", "CALL:workflow.refresh_tracked_roles", "STOP"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.refresh_tracked_roles",
+      "required_sequence": ["CALL:control.read_perceptual_memory_matches", "MATCH", "CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "CALL:workflow.recall_navigation_cell_lattice", "CALL:workflow.bind_typed_cell_lattices", "CALL:workflow.retain_observed_logical_command_steps", "CALL:control.measure_current_terminal_inventory", "STOP"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.retain_observed_logical_command_steps",
+      "required_sequence": ["CALL:control.measure_logical_command_steps", "MATCH", "CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_meaning_updates", "UPDATE", "STOP"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.consult_current_shared_effects",
+      "required_sequence": ["CALL:control.measure_current_shared_effect_inventory", "MATCH", "CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "STOP"],
+      "reason_refs": ["reason.observation_coupling_is_revisable_and_condition_scoped"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.prepare_current_method_consultation",
+      "required_sequence": ["MATCH", "CALL:workflow.assess_orthogonal_perimeter_assembly", "CALL:workflow.consult_current_shared_method", "STOP"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"],
+      "reason_refs": ["reason.reuse_learned_method_without_suppressing_useful_discovery"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.consult_current_shared_method",
+      "required_sequence": ["CALL:control.measure_current_shared_method_inventory", "MATCH", "CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "STOP"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"],
+      "reason_refs": ["reason.reuse_learned_method_without_suppressing_useful_discovery"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.record_learned_association",
+      "required_sequence": ["CALL:control.project_declared_delta", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_meaning_updates", "UPDATE", "STOP"],
+      "reason_refs": ["reason.remember_causally_learned_role_appearance"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"]
+    },
+    {
+      "workflow_id": "arc3.perceptual_memory.recognize_current_bearers",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "CALL:control.instantiate_declared_meaning", "REQUIRE", "DERIVE", "CALL:control.prepare_meaning_updates", "UPDATE", "STOP"],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"]
+    },
+    {
+      "workflow_id": "arc3.reasoning_tree_v11_todo_projection.visit_reasoning_tree_v11_todos",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "STOP"
+      ],
+      "reason_refs": ["reason.conditional_tree_is_source_declared"]
+    },
+    {
+      "workflow_id": "arc3.interpret_display_correspondence.interpret_display_correspondence",
+      "required_sequence": ["CALL:control.current_term_attribute_rows", "CALL:capability.display_correspondence_measurements", "CALL:control.project_declared_alternatives", "SELECT", "MATCH", "CALL:control.instantiate_declared_meaning", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "CALL:control.instantiate_declared_meaning", "DERIVE", "CALL:control.prepare_revisable_meaning_updates", "UPDATE", "STOP"],
+      "reason_refs": ["reason.exact_bounded_display_relations_have_inspectable_evidence"],
+      "governing_principle_refs": ["principle.repeated_boundary_cardinality_supports_level_counter", "principle.enclosure_and_exact_inner_motif_support_display_correspondence", "principle.observed_nonlocal_entry_supports_paired_endpoint_and_egress_marker"]
+    },
+    {
+      "workflow_id": "arc3.initialize_relation_graph_dimensions.initialize_relation_graph_dimensions",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.graph_dimensions_are_declared_before_links"]
+    },
+    {
+      "workflow_id": "arc3.assimilate_frame.assimilate_frame",
+      "required_sequence": [
+        "CALL:capability.frame_normalization",
+        "CALL:capability.visual_scene_decomposition",
+        "CALL:capability.multi_resolution_view_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.frame_measurement_precedes_declared_morphological_supposition"]
+    },
+    {
+      "workflow_id": "arc3.assimilate_frame.assimilate_block_grid_frame",
+      "required_sequence": [
+        "CALL:capability.frame_normalization",
+        "CALL:capability.block_grid_scene_decomposition",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.activate_dynamic_goal_frontier.activate_dynamic_goal_frontier",
+      "required_sequence": [
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.static_knowledge_is_not_the_current_goal_graph"]
+    },
+    {
+      "workflow_id": "arc3.choose_information_probe.choose_information_probe",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:workflow.extend_insufficient_ontology",
+        "SELECT",
+        "CALL:control.probe_action_is_point",
+        "MATCH",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.first_probe_is_source_selected_from_explicit_evidence"]
+    },
+    {
+      "workflow_id": "arc3.choose_repeated_pair_program_action.choose_repeated_pair_program_action",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.project_declared_agenda_delta",
+        "SELECT",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:control.validate_action_grounding",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.effect_backed_repeated_pair_configuration_is_source_selected"]
+    },
+    {
+      "workflow_id": "arc3.choose_symbol_tile_action.choose_symbol_tile_action",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.project_declared_agenda_delta",
+        "SELECT",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:control.validate_action_grounding",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.connector_bound_symbol_projection_is_source_selected"]
+    },
+    {
+      "workflow_id": "arc3.choose_homologous_repair_action.choose_homologous_repair_action",
+      "required_sequence": [
+        "CALL:capability.homologous_repair_analysis",
+        "REQUIRE",
+        "SELECT",
+        "CALL:capability.homologous_repair_action_enumeration",
+        "REQUIRE",
+        "CALL:control.project_declared_agenda",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.predicted_exception_precedes_generic_exploration"]
+    },
+    {
+      "workflow_id": "arc3.continue_homologous_repair.continue_homologous_repair",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.committed_homologous_plan_reaches_one_component_action"]
+    },
+    {
+      "workflow_id": "arc3.choose_composed_constraint_repair_action.choose_composed_constraint_repair_action",
+      "required_sequence": [
+        "CALL:capability.local_constraint_composition_analysis",
+        "REQUIRE",
+        "SELECT",
+        "CALL:capability.local_constraint_repair_action_enumeration",
+        "REQUIRE",
+        "CALL:control.project_declared_agenda",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.compatible_constraints_are_composed_before_action"]
+    },
+    {
+      "workflow_id": "arc3.continue_composed_constraint_repair.continue_composed_constraint_repair",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.one_committed_composed_mismatch_reaches_the_action_boundary"]
+    },
+    {
+      "workflow_id": "arc3.reconcile_composed_constraint_repair.reconcile_composed_constraint_repair",
+      "required_sequence": [
+        "CALL:capability.local_constraint_repair_reconciliation",
+        "CALL:control.project_declared_delta",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "MATCH",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.every_composed_repair_is_reconciled"]
+    },
+    {
+      "workflow_id": "arc3.record_local_constraint_conflict.record_local_constraint_conflict",
+      "required_sequence": [
+        "CALL:capability.local_constraint_composition_analysis",
+        "REQUIRE",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.conflict_is_committed_without_a_world_action"]
+    },
+    {
+      "workflow_id": "arc3.classify_interaction_effect.classify_interaction_effect",
+      "required_sequence": [
+        "CALL:capability.frame_normalization",
+        "CALL:capability.frame_normalization",
+        "CALL:capability.scene_transition_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "NEXT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.fast_transient_pixel_evidence_reaches_single_reducer"]
+    },
+    {
+      "workflow_id": "arc3.verify_intermediate_continue.verify_intermediate_continue",
+      "required_sequence": [
+        "CALL:capability.intermediate_scene_change_measurement",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.intermediate_continue_uses_only_grounded_scene_delta"]
+    },
+    {
+      "workflow_id": "arc3.verify_reconciled_state_reuse.verify_reconciled_state_reuse",
+      "required_sequence": [
+        "CALL:capability.intermediate_scene_change_measurement",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.reconciled_state_is_reused_until_exact_falsifier"]
+    },
+    {
+      "workflow_id": "arc3.track_scene.track_scene",
+      "required_sequence": [
+        "CALL:capability.temporal_component_tracking",
+        "STOP"
+      ],
+      "reason_refs": ["reason.temporal_identity_is_source_visible"]
+    },
+    {
+      "workflow_id": "arc3.assess_exact_multicell_peer_goals.assess_exact_multicell_peer_goals",
+      "required_sequence": [
+        "CALL:capability.exact_multicell_peer_relation_measurement",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_revisable_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.every_exact_multicell_peer_relation_remains_a_durable_open_goal",
+        "reason.goal_priority_suspension_preserves_lower_priority_obligations",
+        "reason.only_explicit_terminal_evidence_closes_an_alignment_goal"
+      ],
+      "governing_principle_refs": [
+        "principle.exact_multicell_peer_goals_are_durable",
+        "principle.persistent_goal_collection_is_a_revisable_agenda"
+      ]
+    },
+    {
+      "workflow_id": "arc3.interpret_controlled_transition.interpret_controlled_transition",
+      "instruction_quantum": 1000,
+      "maximum_instructions": 8192,
+      "required_sequence": [
+        "CALL:capability.controlled_transition_analysis",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.mechanism_meaning_is_selected_from_tracked_exact_facts"]
+    },
+    {
+      "workflow_id": "arc3.interpret_controlled_transition.prepare_requested_coupling_tests",
+      "instruction_quantum": 1000,
+      "maximum_instructions": 8192,
+      "required_sequence": [
+        "CALL:control.current_context_term_attribute_rows",
+        "CALL:control.measure_current_coupling_context",
+        "SELECT",
+        "DERIVE",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.explicit_coupling_test_request_scopes_prerequisite_measurements"]
+    },
+    {
+      "workflow_id": "arc3.construct_transition_meaning.construct_transition_meaning",
+      "required_sequence": [
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "CALL:control.dynamic_goal_frontier_payload_present",
+        "MATCH",
+        "CALL:control.instantiate_dynamic_goal_frontier_activation",
+        "CALL:control.current_state_revision",
+        "CALL:workflow.activate_dynamic_goal_frontier",
+        "STOP"
+      ],
+      "reason_refs": ["reason.selected_declarative_meaning_reaches_single_reducer"]
+    },
+    {
+      "workflow_id": "arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+      "required_sequence": [
+        "CALL:capability.verified_alignment_action_enumeration",
+        "MATCH",
+        "CALL:workflow.extend_insufficient_ontology",
+        "SELECT",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.only_observed_goal_reducing_mechanism_is_repeated"]
+    },
+    {
+      "workflow_id": "arc3.construct_transferred_quantized_plan.inspect_current_method_relocation_prerequisites",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"]
+    },
+    {
+      "workflow_id": "arc3.construct_transferred_quantized_plan.revalidate_memorial_control_identity",
+      "required_sequence": [
+        "MATCH", "CALL:control.project_declared_agenda", "MATCH",
+        "CALL:control.measure_current_method_activity_coverage", "MATCH",
+        "CALL:control.project_declared_alternatives", "SELECT", "STOP"
+      ],
+      "reason_refs": ["reason.same_game_learned_role_recognized_without_relearning"],
+      "governing_principle_refs": ["principle.game_shared_perceptual_memory"]
+    },
+    {
+      "workflow_id": "arc3.construct_transferred_quantized_plan.construct_transferred_quantized_plan",
+      "required_sequence": [
+        "CALL:capability.route_compatible_order_analysis",
+        "CALL:control.project_declared_agenda",
+        "SELECT",
+        "CALL:capability.route_compatible_graph_plan_enumeration",
+        "REQUIRE",
+        "CALL:control.project_declared_agenda",
+        "CALL:workflow.extend_insufficient_ontology",
+        "SELECT",
+        "CALL:control.current_state_revision",
+        "CALL:control.retain_selected_agenda",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.predicted_plan_step_is_committed_before_action"]
+    },
+    {
+      "workflow_id": "arc3.construct_reference_guided_regional_repair.construct_reference_guided_regional_repair",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.learned_selection_pose_and_mask_compose_a_reversible_minimal_repair"]
+    },
+    {
+      "workflow_id": "arc3.prepare_declared_action_series.prepare_declared_action_series",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:control.validate_action_grounding",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": ["reason.action_series_is_prepared_before_execution"]
+    },
+    {
+      "workflow_id": "arc3.continue_declared_action.continue_declared_action",
+      "required_sequence": [
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "CALL:control.verify_declared_continue_terminal",
+        "MATCH"
+      ],
+      "reason_refs": [
+        "reason.continue_series_has_one_terminal_verification",
+        "reason.continue_terminal_mismatch_enters_retrospection"
+      ]
+    },
+    {
+      "workflow_id": "arc3.continue_transferred_quantized_plan.continue_transferred_quantized_plan",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.transferred_structure_supports_exact_simulation"]
+    },
+    {
+      "workflow_id": "arc3.advance_committed_transferred_quantized_plan.advance_committed_transferred_quantized_plan",
+      "required_sequence": [
+        "CALL:capability.committed_quantized_plan_advance",
+        "REQUIRE",
+        "CALL:control.project_declared_agenda",
+        "SELECT",
+        "CALL:control.retain_selected_agenda",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.committed_simulation_advances_by_delta_without_resimulation"]
+    },
+    {
+      "workflow_id": "arc3.reconcile_transferred_quantized_plan.reconcile_transferred_quantized_plan",
+      "required_sequence": [
+        "CALL:capability.quantized_plan_reconciliation",
+        "CALL:control.project_declared_delta",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "MATCH",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.continuation_requires_exact_post_action_reconciliation"]
+    },
+    {
+      "workflow_id": "arc3.reconcile_homologous_repair.reconcile_homologous_repair",
+      "required_sequence": [
+        "CALL:capability.homologous_repair_reconciliation",
+        "CALL:control.project_declared_delta",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "MATCH",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.every_predicted_repair_is_reconciled"]
+    },
+    {
+      "workflow_id": "arc3.record_verified_goal_completion.record_verified_goal_completion",
+      "required_sequence": [
+        "CALL:capability.goal_completion_analysis",
+        "SELECT",
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.final_expected_quantum_and_score_increase_reach_single_reducer"]
+    },
+    {
+      "workflow_id": "arc3.recognize_action_resource_indicator.recognize_action_resource_indicator",
+      "required_sequence": [
+        "CALL:capability.repeated_boundary_decrease_analysis",
+        "SELECT",
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.repeated_boundary_decrease_reaches_single_reducer"]
+    },
+    {
+      "workflow_id": "arc3.resolve_role_by_probe.resolve_role_by_probe",
+      "required_sequence": [
+        "SELECT",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "COMPARE",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.role_probe_has_complete_causal_revision_lineage"]
+    },
+    {
+      "workflow_id": "arc3.test_mechanism.test_mechanism",
+      "required_sequence": [
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "COMPARE",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.mechanism_test_requires_observed_repeatable_effect"]
+    },
+    {
+      "workflow_id": "arc3.assess_mechanism_commitment_readiness.assess_mechanism_commitment_readiness",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.mechanism_gate_is_committed_before_goal_planning"]
+    },
+    {
+      "workflow_id": "arc3.plan_goal.plan_goal",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.declared_goal_gap_measurement",
+        "CALL:capability.declared_goal_plan_enumeration",
+        "REQUIRE",
+        "NEXT",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.goal_plan_preserves_non_selected_alternatives",
+        "reason.goal_plan_requires_complete_declared_gap_coverage_and_unique_admissibility"
+      ]
+    },
+    {
+      "workflow_id": "arc3.execute_verified_plan.execute_verified_plan",
+      "required_sequence": [
+        "COMPARE",
+        "MATCH",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.only_verified_plan_reaches_action"]
+    },
+    {
+      "workflow_id": "arc3.rebind_transformed_scene.rebind_transformed_scene",
+      "required_sequence": [
+        "CALL:capability.palette_canonicalization",
+        "CALL:capability.palette_canonicalization",
+        "CALL:capability.scene_rebinding_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.current_scene_roles_are_rebound_from_structure"]
+    },
+    {
+      "workflow_id": "arc3.evaluate_constrained_plan.evaluate_constrained_plan",
+      "required_sequence": [
+        "CALL:capability.quantity_simulation",
+        "MATCH",
+        "STOP",
+        "BLOCK"
+      ],
+      "reason_refs": ["reason.every_intermediate_quantity_state_is_checked"]
+    },
+    {
+      "workflow_id": "arc3.extend_insufficient_ontology.extend_insufficient_ontology",
+      "required_sequence": [
+        "DERIVE",
+        "CALL:control.prepare_committed_derivation",
+        "MATCH",
+        "TRANSACTION",
+        "UPDATE",
+        "CALL:control.bind_derivation_basis",
+        "PROPOSE",
+        "SELECT",
+        "CALL:control.prepare_committed_proposal",
+        "MATCH",
+        "CALL:control.current_state_revision",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.scoped_gap_precedes_minimal_extension"]
+    },
+    {
+      "workflow_id": "arc3.verify_independent_transition.verify_independent_transition",
+      "required_sequence": [
+        "CALL:capability.dimension_transition",
+        "REQUIRE",
+        "DERIVE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.identity_and_independent_dimensions_are_explicit"]
+    },
+    {
+      "workflow_id": "arc3.assess_derived_geometry_state.assess_derived_geometry_state",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.derived_geometry_state_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.measurement_precedes_geometric_or_state_law"]
+    },
+    {
+      "workflow_id": "arc3.assess_orthogonal_perimeter_assembly.assess_orthogonal_perimeter_assembly",
+      "required_sequence": [
+        "CALL:capability.orthogonal_perimeter_assembly_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_optional_meaning_updates",
+        "MATCH",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.user_confirmed_gap_marker_group_strongly_indicates_enclosed_target"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_viewport_support_terrain.assess_viewport_support_terrain",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.viewport_support_terrain_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.measurement_precedes_frame_support_or_terrain_meaning"]
+    },
+    {
+      "workflow_id": "arc3.screen_mobile_support_transform.screen_mobile_support_transform",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.mobile_support_fates_are_screened_before_transform_release"]
+    },
+    {
+      "workflow_id": "arc3.assess_interaction_topology.assess_interaction_topology",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.interaction_topology_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.measurement_precedes_interaction_topology_meaning"]
+    },
+    {
+      "workflow_id": "arc3.assess_elimination_viability.assess_elimination_viability",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.elimination_viability_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.operator_and_terminal_condition_precede_viability_search"]
+    },
+    {
+      "workflow_id": "arc3.assess_temporal_concurrency.assess_temporal_concurrency",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.temporal_concurrency_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.action_conditioned_evidence_precedes_temporal_mechanism"]
+    },
+    {
+      "workflow_id": "arc3.measure_temporal_observations.measure_temporal_observations",
+      "required_sequence": [
+        "CALL:capability.temporal_concurrency_measurement",
+        "STOP"
+      ],
+      "reason_refs": ["reason.neutral_timeline_measurement_precedes_temporal_meaning"]
+    },
+    {
+      "workflow_id": "arc3.form_temporal_concurrency_plan.form_temporal_concurrency_plan",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.concurrent_presence_requires_functionally_divergent_routes"]
+    },
+    {
+      "workflow_id": "arc3.assess_temporal_replay_sequence.assess_temporal_replay_sequence",
+      "required_sequence": [
+        "MATCH",
+        "CALL:capability.temporal_replay_sequence_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.exact_ordered_effect_match_precedes_replay_commitment"]
+    },
+    {
+      "workflow_id": "arc3.assess_transition_retrodiction.assess_transition_retrodiction",
+      "required_sequence": [
+        "CALL:capability.transition_retrodiction_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.a_transition_law_must_account_for_prior_compatible_evidence"]
+    },
+    {
+      "workflow_id": "arc3.assess_abductive_explanations.assess_abductive_explanations",
+      "required_sequence": [
+        "CALL:capability.abductive_version_space_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.abduction_filters_explanations_before_revisable_commitment"],
+      "governing_principle_refs": [
+        "principle.abduction_filters_explanations_against_effects_and_evidence"
+      ]
+    },
+    {
+      "workflow_id": "arc3.select_hot_symbolic_program.select_hot_symbolic_program",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.control_identity_is_rebound_and_residuals_recomputed_before_action"],
+      "governing_principle_refs": ["principle.observed_residual_reduction_commits_exact_bounded_repetition"]
+    },
+    {
+      "workflow_id": "arc3.synthesize_dynamic_workflow.synthesize_dynamic_workflow",
+      "required_sequence": [
+        "CALL:control.synthesize_declared_dynamic_workflow_candidates",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.declared_bounded_workflow_search_preserves_determinism_and_explanation"],
+      "governing_principle_refs": ["principle.bounded_declared_orders_yield_canonical_workflow_witnesses"]
+    },
+    {
+      "workflow_id": "arc3.select_reasoning_strategy.select_reasoning_strategy",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.next_strategy_is_selected_by_source_declared_metaplanning"]
+    },
+    {
+      "workflow_id": "arc3.project_priority_obligation_frontier.project_priority_obligation_frontier",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.ready_obligation_frontier_is_projected_before_legacy_dispatch"]
+    },
+    {
+      "workflow_id": "arc3.project_functional_usefulness_frontier.project_functional_usefulness_frontier",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.functional_obligations_are_observed_without_dispatch_authority"]
+    },
+    {
+      "workflow_id": "arc3.classify_action_contribution.classify_action_contribution",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["reason.action_contribution_is_classified_before_post_action_continuation"]
+    },
+    {
+      "workflow_id": "arc3.select_post_action_continuation.select_post_action_continuation",
+      "required_sequence": ["CALL:control.project_declared_delta", "SELECT", "STOP"],
+      "reason_refs": ["reason.post_action_continuation_order_is_source_declared"]
+    },
+    {
+      "workflow_id": "arc3.execute_staged_reconciled_strategy.execute_staged_reconciled_strategy",
+      "required_sequence": [
+        "MATCH",
+        "CALL:control.project_declared_agenda",
+        "SELECT",
+        "CALL:control.retain_selected_agenda",
+        "UPDATE",
+        "CALL:workflow.release_action",
+        "ACT",
+        "AWAIT_FRAME",
+        "OBSERVE",
+        "CALL:capability.quantized_plan_reconciliation",
+        "CALL:capability.dimension_transition",
+        "MATCH",
+        "CALL:control.project_declared_delta",
+        "SELECT",
+        "MATCH",
+        "UPDATE",
+        "BLOCK"
+      ],
+      "reason_refs": ["reason.staged_strategy_requires_exact_causal_reconciliation"]
+    },
+    {
+      "workflow_id": "arc3.revise_minimum_effective_depth.revise_minimum_effective_depth",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "CALL:control.prepare_meaning_updates",
+        "TRANSACTION",
+        "UPDATE",
+        "STOP"
+      ],
+      "reason_refs": ["reason.shorter_success_revises_expectation_without_blocking_completion"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_initial_singleton_cell_witness",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_point_probe_scope",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_interaction_measurement_scope",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_goal_continuation_measurement_scope",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_grid_perception",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_initial_repeated_cell_measurement_demand",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.inspect_repeated_cell_lattice_evidence",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_revisable_lattice_geometry",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_postaction_scene_scope",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.lazy_perception_follows_active_objective"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.reconcile_retained_grid_delta",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": ["reason.reconciliation_closes_each_action_boundary"]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_retained_grid_motion_branch",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.exploration_fills_remaining_causal_unknowns",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_retained_grid_interaction_scope",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.blocked_progress_opens_revisable_access_unlocking_subgoal",
+        "reason.exploration_fills_remaining_causal_unknowns"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.choose_retained_grid_interaction_action",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.project_declared_agenda_delta",
+        "SELECT",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:control.validate_action_grounding",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.lazy_perception_follows_active_objective",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.choose_retained_grid_motion_action",
+      "required_sequence": [
+        "REQUIRE",
+        "CALL:control.project_declared_agenda_delta",
+        "SELECT",
+        "CALL:control.refresh_world_context_snapshot",
+        "CALL:control.prepare_interaction_probe",
+        "CALL:control.validate_action_grounding",
+        "CALL:workflow.operational_wisdom",
+        "CALL:workflow.release_action",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.exploration_fills_remaining_causal_unknowns",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_ordered_root_dispatch",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reconciliation_closes_each_action_boundary",
+        "reason.continue_series_has_one_terminal_verification",
+        "reason.lazy_perception_follows_active_objective"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.interpret_official_failure",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.classify_official_failure_contact",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.remember_oriented_official_failure_contact",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.instantiate_declared_meaning",
+        "DERIVE",
+        "TRANSACTION",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.official_failure_five_cell_contact_or_exhausted_gauge"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.process_eligible_evidence_event",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_bounded_recovery_disposition",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.recover_uncertain_transport",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reconciliation_closes_each_action_boundary"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.run_conditional_reasoning_tree",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.lazy_perception_follows_active_objective"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_memory_disposition",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.reconciliation_closes_each_action_boundary",
+        "reason.compact_memory_preserves_only_declared_delta"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_reasoning_family",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.reasoning_family_preserves_strategy_why"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_named_information_fast_route",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.lazy_perception_follows_active_objective"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_objective_stage",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.lazy_perception_follows_active_objective"
+      ]
+    },
+    {
+      "workflow_id": "arc3.conditional_reasoning_tree.select_conditional_reasoning_strategy",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "MATCH",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "STOP"
+      ],
+      "reason_refs": [
+        "reason.conditional_tree_is_source_declared",
+        "reason.explicit_strategy_eligibility_precedes_declared_priority"
+      ]
+    },
+    {
+      "workflow_id": "arc3.measure_inverse_anchor_signature.measure_inverse_anchor_signature",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.rational_anchor_dependence_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.inverse_mean_anchor_domain_enumeration",
+        "STOP"
+      ],
+      "reason_refs": [
+        "mechanics.inverse_anchor_signature.forward_dependence",
+        "mechanics.inverse_anchor_signature.inverse_domains"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_inverse_anchor_signature_extensions.assess_inverse_anchor_signature_extensions",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.inverse_anchor_typed_clearance_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.inverse_anchor_successor_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.inverse_anchor_waypoint_candidate_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.inverse_anchor_signature.geometry",
+        "frontier.effect.inverse_anchor_signature.terrain",
+        "frontier.effect.inverse_anchor_signature.utility",
+        "solving.inverse_anchor_signature.two_legalities",
+        "solving.inverse_anchor_signature.configuration_waypoint",
+        "solving.inverse_anchor_signature.corridor",
+        "solving.inverse_anchor_signature.select_then_place",
+        "mechanics.inverse_anchor_signature.typed_clearance",
+        "mechanics.inverse_anchor_signature.successor",
+        "mechanics.inverse_anchor_signature.waypoint_candidates"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_articulated_channel_kinematics.assess_articulated_channel_kinematics",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.articulated_kinematics_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.articulated_shared_snapshot_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.articulated_successor_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.articulated_channel_kinematics.extent",
+        "frontier.effect.articulated_channel_kinematics.channel",
+        "frontier.effect.articulated_channel_kinematics.collision",
+        "solving.articulated_channel_kinematics.four_graphs",
+        "solving.articulated_channel_kinematics.root_frame",
+        "solving.articulated_channel_kinematics.operator_scope",
+        "mechanics.articulated_channel_kinematics.kinematics",
+        "mechanics.articulated_channel_kinematics.shared_snapshot",
+        "mechanics.articulated_channel_kinematics.successor"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_typed_recursive_program.assess_typed_recursive_program",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.typed_assignment_domains_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.typed_edit_successor_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.typed_interpreter_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.typed_recursive_program.edit",
+        "frontier.effect.typed_recursive_program.call_literal",
+        "frontier.effect.typed_recursive_program.return",
+        "frontier.effect.typed_recursive_program.prefix",
+        "frontier.effect.typed_recursive_program.repair",
+        "solving.typed_recursive_program.typing",
+        "solving.typed_recursive_program.inventory",
+        "solving.typed_recursive_program.interpreter",
+        "solving.typed_recursive_program.termination",
+        "solving.typed_recursive_program.progress_cycle",
+        "solving.typed_recursive_program.editing",
+        "solving.typed_recursive_program.validation",
+        "mechanics.typed_recursive_program.assignment_domains",
+        "mechanics.typed_recursive_program.edit_successor",
+        "mechanics.typed_recursive_program.literal",
+        "mechanics.typed_recursive_program.call",
+        "mechanics.typed_recursive_program.bounded_interpret",
+        "mechanics.typed_recursive_program.nonproductive_cycle",
+        "mechanics.typed_recursive_program.provenance",
+        "mechanics.typed_recursive_program.prefix_certificate"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_recipe_operator_compilation.assess_recipe_operator_compilation",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.recipe_pattern_difference_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.recipe_successor_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.recipe_resize_successor_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.recipe_resource_order_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.recipe_operator_compilation.request_measurement",
+        "frontier.effect.recipe_operator_compilation.recipe_edit",
+        "frontier.effect.recipe_operator_compilation.demo_restore",
+        "frontier.effect.recipe_operator_compilation.resize",
+        "solving.recipe_operator_compilation.two_scales",
+        "solving.recipe_operator_compilation.recipe_lifecycle",
+        "solving.recipe_operator_compilation.demonstration",
+        "solving.recipe_operator_compilation.size_route",
+        "solving.recipe_operator_compilation.resize_anchor",
+        "solving.recipe_operator_compilation.world_continue",
+        "mechanics.recipe_operator_compilation.input",
+        "mechanics.recipe_operator_compilation.pattern_difference",
+        "mechanics.recipe_operator_compilation.recipe_successor",
+        "mechanics.recipe_operator_compilation.resize_successor",
+        "mechanics.recipe_operator_compilation.resource_order"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_piercing_rooted_order.assess_piercing_rooted_order",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives", "SELECT",
+        "CALL:control.project_declared_alternatives", "SELECT", "CALL:capability.piercing_intersection_measurement",
+        "CALL:control.project_declared_alternatives", "SELECT", "CALL:capability.piercing_push_successor_measurement",
+        "CALL:control.project_declared_alternatives", "SELECT", "CALL:capability.piercing_pierce_successor_measurement",
+        "CALL:control.project_declared_alternatives", "SELECT", "CALL:capability.piercing_withdraw_successor_measurement",
+        "CALL:control.project_declared_alternatives", "SELECT", "CALL:capability.piercing_clearance_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.piercing_rooted_order.rod",
+        "frontier.effect.piercing_rooted_order.push_pierce",
+        "frontier.effect.piercing_rooted_order.sliding",
+        "frontier.effect.piercing_rooted_order.ownership",
+        "frontier.effect.piercing_rooted_order.order",
+        "solving.piercing_rooted_order.support_target",
+        "solving.piercing_rooted_order.three_relations",
+        "solving.piercing_rooted_order.ordered_stock",
+        "solving.piercing_rooted_order.immobilization",
+        "solving.piercing_rooted_order.withdrawal",
+        "solving.piercing_rooted_order.multi_support",
+        "solving.piercing_rooted_order.transport_clearance",
+        "mechanics.piercing_rooted_order.intersection",
+        "mechanics.piercing_rooted_order.push_successor",
+        "mechanics.piercing_rooted_order.pierce_successor",
+        "mechanics.piercing_rooted_order.withdraw_successor",
+        "mechanics.piercing_rooted_order.multi_rod_successor",
+        "mechanics.piercing_rooted_order.grasp_clearance"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_ordered_relief_writing.assess_ordered_relief_writing",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.ordered_relief_transition_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.ordered_relief_pose_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.ordered_relief_write_successor",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.ordered_relief_writing.separate",
+        "frontier.effect.ordered_relief_writing.measure",
+        "frontier.effect.ordered_relief_writing.confirm",
+        "solving.ordered_relief_writing.ports",
+        "solving.ordered_relief_writing.sequence",
+        "mechanics.ordered_relief_writing.successor",
+        "mechanics.ordered_relief_writing.pose_precondition"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_reconfigurable_support.assess_reconfigurable_support",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.reconfigurable_support_packet_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.reconfigurable_rigid_geometry_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.reconfigurable_connection_domain_enumeration",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.reconfigurable_support.support",
+        "frontier.effect.reconfigurable_support.restoration",
+        "frontier.effect.reconfigurable_support.utility",
+        "solving.reconfigurable_support.support_union",
+        "solving.reconfigurable_support.pivot",
+        "solving.reconfigurable_support.layer_space",
+        "mechanics.reconfigurable_support.support_report",
+        "mechanics.reconfigurable_support.rigid_geometry",
+        "mechanics.reconfigurable_support.inverse_connection"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_directed_accretive_flow_extensions.assess_directed_accretive_flow_extensions",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.directed_flow_collider_union_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.directed_flow_joint_tick_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.directed_flow_recovery_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.directed_accretive_flow.multisource",
+        "frontier.effect.directed_accretive_flow.recovery",
+        "solving.directed_accretive_flow.whole_collider",
+        "solving.directed_accretive_flow.trace_interaction",
+        "mechanics.directed_accretive_flow.multi_source_tick"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_local_field_type_production_extensions.assess_local_field_type_production_extensions",
+      "required_sequence": [
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.local_field_selective_domain_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.local_field_autonomous_successor_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.local_field_acceptance_window_measurement",
+        "CALL:control.project_declared_alternatives",
+        "SELECT",
+        "CALL:capability.local_field_transaction_measurement",
+        "STOP"
+      ],
+      "reason_refs": [
+        "frontier.effect.local_field_type_production.rewrite",
+        "frontier.effect.local_field_type_production.conjunction",
+        "solving.local_field_type_production.selective_field",
+        "solving.local_field_type_production.future_window",
+        "solving.local_field_type_production.auto_time",
+        "solving.local_field_type_production.terminal_scope",
+        "mechanics.local_field_type_production.selective_domains",
+        "mechanics.local_field_type_production.autonomous_successor",
+        "mechanics.local_field_type_production.acceptance_windows",
+        "mechanics.local_field_type_production.transaction"
+      ]
+    },
+    {
+      "workflow_id": "arc3.assess_mechanism_application_question.assess_mechanism_application_question",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["frontier.experiment.mechanism_or_usefulness", "frontier.experiment.learning_without_exhaustive_catalogue"]
+    },
+    {
+      "workflow_id": "arc3.assess_consumptive_type_dependency.assess_consumptive_type_dependency",
+      "required_sequence": ["CALL:control.project_declared_alternatives", "SELECT", "STOP"],
+      "reason_refs": ["solving.local_field_type_production.type_plan", "solving.local_field_type_production.stock", "continuation.simulation.unknown_effect_cut"]
+    },
+    {
+      "workflow_id": "core.dependency_propagation.dependency_propagation",
+      "required_sequence": ["COMPARE", "MATCH"],
+      "reason_refs": ["reason.propagation_reports_fixpoint_or_contradiction"]
+    },
+    {
+      "workflow_id": "core.operational_wisdom.operational_wisdom",
+      "required_sequence": ["MATCH"],
+      "governing_principle_refs": ["principle.action_requires_wisdom"],
+      "reason_refs": ["reason.wisdom_branches_on_explicit_viability"]
+    },
+    {
+      "workflow_id": "core.construct_applied_principle.construct_applied_principle",
+      "required_sequence": ["DERIVE", "STOP"],
+      "governing_principle_refs": ["principle.evidence_before_commitment"],
+      "reason_refs": ["reason.applied_principle_keeps_exact_premises"]
+    },
+    {
+      "workflow_id": "core.instantiate_general_principle.instantiate_general_principle",
+      "required_sequence": ["PROPOSE", "STOP"],
+      "governing_principle_refs": [
+        "principle.preserve_live_alternatives",
+        "principle.extend_only_after_scoped_gap"
+      ],
+      "reason_refs": ["reason.general_principle_requires_review_not_automatic_promotion"]
+    },
+    {
+      "workflow_id": "core.epistemic_principle_lifecycle.epistemic_principle_lifecycle",
+      "required_sequence": [
+        "CALL:workflow.construct_applied_principle",
+        "CALL:workflow.instantiate_general_principle",
+        "STOP"
+      ],
+      "governing_principle_refs": [
+        "principle.grounded_epistemic_lifecycle",
+        "principle.contradiction_revises_only_falsified_scope",
+        "principle.threshold_activation_and_causal_confirmation_are_distinct"
+      ],
+      "reason_refs": ["reason.epistemic_lifecycle_constructs_before_reviewable_generalization"]
+    }
+  ]
+}

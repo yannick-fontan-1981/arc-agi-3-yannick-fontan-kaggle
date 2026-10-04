@@ -1,0 +1,83 @@
+"""Public V5 DRM document, registry, and runtime authority surface."""
+
+from agents.yf_arc3_v5.drm.contracts import (
+    DrmClaimTemplate,
+    DrmDeclaration,
+    DrmDeclarationKind,
+    DrmDocument,
+    DrmEvaluationKind,
+    EffectivePrincipleContract,
+    DrmFactCondition,
+    DrmFactOperator,
+    DrmFactProjection,
+    DrmParameter,
+    DrmPreferredOrder,
+    DrmSelectionTier,
+    DrmTemplateIteration,
+    DrmTermTemplate,
+    DrmTieBreaker,
+    LoadedDrmDocument,
+)
+from agents.yf_arc3_v5.drm.loader import (
+    DrmLoadError,
+    load_drm_document,
+    load_production_drm,
+    production_drm_paths,
+)
+from agents.yf_arc3_v5.drm.meaning import (
+    DeclaredAlternativeFacts,
+    DeclaredMeaningInstantiation,
+    PreparedCommittedProposal,
+    PreparedMeaningUpdates,
+    instantiate_dynamic_goal_frontier_activation,
+    instantiate_declared_meaning,
+    prepare_meaning_updates,
+    project_declared_alternatives,
+    project_declared_delta,
+)
+from agents.yf_arc3_v5.drm.registry import (
+    DrmRegistry,
+    DrmRegistryError,
+    DrmResolutionError,
+    build_production_drm_registry,
+)
+from agents.yf_arc3_v5.drm.runtime import build_drm_authority_registry
+from agents.yf_arc3_v5.drm.knowledge import build_declared_static_knowledge_graph
+
+__all__ = [
+    "DrmDeclaration",
+    "DeclaredAlternativeFacts",
+    "DeclaredMeaningInstantiation",
+    "DrmDeclarationKind",
+    "DrmDocument",
+    "DrmEvaluationKind",
+    "EffectivePrincipleContract",
+    "DrmFactCondition",
+    "DrmFactOperator",
+    "DrmFactProjection",
+    "DrmLoadError",
+    "DrmParameter",
+    "DrmPreferredOrder",
+    "DrmRegistry",
+    "DrmRegistryError",
+    "DrmResolutionError",
+    "DrmSelectionTier",
+    "DrmTemplateIteration",
+    "DrmClaimTemplate",
+    "DrmTermTemplate",
+    "DrmTieBreaker",
+    "LoadedDrmDocument",
+    "PreparedCommittedProposal",
+    "PreparedMeaningUpdates",
+    "instantiate_dynamic_goal_frontier_activation",
+    "build_drm_authority_registry",
+    "build_declared_static_knowledge_graph",
+    "build_production_drm_registry",
+    "load_drm_document",
+    "load_production_drm",
+    "instantiate_declared_meaning",
+    "project_declared_alternatives",
+    "project_declared_delta",
+    "prepare_meaning_updates",
+    "production_drm_paths",
+]

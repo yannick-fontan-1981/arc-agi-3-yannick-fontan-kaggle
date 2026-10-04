@@ -1,0 +1,76 @@
+# DRM selects each provisional V0.9 operation before Python measures it.
+MODULE arc3.assess_ordered_relief_writing
+
+WORKFLOW assess_ordered_relief_writing(
+    descriptive_facts: Any,
+    transition_request: OrderedReliefTransitionInput,
+    pose_request: OrderedReliefPoseInput,
+    successor_request: OrderedReliefWriteInput
+) -> Any
+    STATE
+        transition_projected: DeclaredAlternativeFacts
+        transition_selected: Assessment
+        transition_result: OrderedReliefTransitionMeasurements?
+        pose_projected: DeclaredAlternativeFacts
+        pose_selected: Assessment
+        pose_result: OrderedReliefPoseMeasurements?
+        successor_projected: DeclaredAlternativeFacts
+        successor_selected: Assessment
+        successor_result: OrderedReliefWriteMeasurements?
+    STEP select_transition_measurement
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_relief_transition_measurement",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> transition_projected
+        SELECT transition_selected
+            FOR "goal.measure_declared_ordered_relief_transition"
+            FROM transition_projected.alternative_refs
+            UNDER policy.declared_ordered_relief_transition_measurement
+            REQUIRE ["requirement.sealed_packet_partitions_and_bound_are_supplied"]
+            PRESERVE transition_projected.alternative_refs
+            FACTS transition_projected.alternative_facts
+        NEXT measure_transition
+    STEP measure_transition
+        CALL capability.ordered_relief_transition_measurement(
+            request=transition_request
+        ) -> transition_result
+        NEXT select_pose_precondition
+    STEP select_pose_precondition
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_relief_pose_precondition",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> pose_projected
+        SELECT pose_selected
+            FOR "goal.measure_declared_ordered_relief_pose_precondition"
+            FROM pose_projected.alternative_refs
+            UNDER policy.declared_ordered_relief_pose_precondition
+            REQUIRE ["requirement.requested_pose_and_observed_graph_are_supplied"]
+            PRESERVE pose_projected.alternative_refs
+            FACTS pose_projected.alternative_facts
+        NEXT measure_pose_precondition
+    STEP measure_pose_precondition
+        CALL capability.ordered_relief_pose_measurement(
+            request=pose_request
+        ) -> pose_result
+        NEXT select_write_successor
+    STEP select_write_successor
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_relief_write_successor",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> successor_projected
+        SELECT successor_selected
+            FOR "goal.measure_declared_ordered_relief_write_successor"
+            FROM successor_projected.alternative_refs
+            UNDER policy.declared_ordered_relief_write_successor
+            REQUIRE ["requirement.canvas_footprint_and_value_are_supplied"]
+            PRESERVE successor_projected.alternative_refs
+            FACTS successor_projected.alternative_facts
+        NEXT measure_write_successor
+    STEP measure_write_successor
+        CALL capability.ordered_relief_write_successor(
+            request=successor_request
+        ) -> successor_result
+        STOP successor_result

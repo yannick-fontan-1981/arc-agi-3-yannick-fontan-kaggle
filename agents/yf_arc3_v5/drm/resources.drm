@@ -1,0 +1,1038 @@
+{
+  "module_id": "resources",
+  "declarations": [
+    {
+      "id":"principle.resource_render_models_distinguish_periodic_debits_and_weighted_sums",
+      "kind":"principle",
+      "premises":["a_source_selected_resource_indicator_has_measured_display_extent",
+                  "actual_command_ordinals_include_commands_without_visible_decrement"],
+      "applicability":["resource_quantity_calibration_and_planning_cost_comparison"],
+      "invariants":["a_display_quantum_is_not_assumed_to_equal_one_action",
+                    "periodic_debit_is_an_integer_period_hypothesis_not_a_guessed_constant",
+                    "proportional_rendering_retains_floor_ceil_and_nearest_even_alternatives",
+                    "weighted_sum_activation_requires_measured_costs_and_their_explicit_causal_links",
+                    "weighted_quantity_remainder_is_not_an_action_count_without_a_future_cost_model",
+                    "observationally_equivalent_descriptions_remain_separate",
+                    "missing_cost_evidence_is_unknown_not_a_falsified_weighted_model"],
+      "falsifiers":["a_new_observation_lies_outside_a_models_retained_quantity_domain",
+                    "a_receipt_or_variable_cost_contradicts_the_uniform_debit_premise"],
+      "configuration":{
+        "model_families":[
+          {"ref":"quantity.family.uniform_proportion","consumption_basis":"primitive_count","budget_domain":"positive_integer"},
+          {"ref":"quantity.family.periodic_debit","consumption_basis":"primitive_count","budget_domain":"extent_multiple"},
+          {"ref":"quantity.family.weighted_proportion","consumption_basis":"declared_cumulative_sum","budget_domain":"positive_integer",
+           "activation_requires":["measured_cumulative_cost_at_each_render_sample","future_cost_model_before_action_budget_conversion"]}
+        ],
+        "maximum_active_rendering_descriptions":6
+      },
+      "reason_refs":["reason.quantized_raster_requires_explicit_consumption_and_rounding_models"]
+    },
+    {
+      "id": "policy.declared_rendered_resource_quantity",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "reason_refs": ["reason.repeated_resource_role_and_complete_render_samples_preserve_compatible_quantities", "reason.unchanged_raster_still_refines_the_same_uniform_action_stock_model", "reason.missing_scale_role_or_compatible_render_model_keeps_quantity_unknown", "reason.complete_observation_falsifies_uniform_render_models_without_erasing_resource_role"],
+      "declared_alternative_refs": ["quantity.render_compatible", "quantity.render_contradicted", "quantity.render_unresolved"],
+      "selection_tiers": [
+        {
+          "id": "tier.render_quantity_current_resource_role",
+          "all_conditions": [
+            {"field":"alternative_ref","operator":"equals","expected":"quantity.render_compatible"},
+            {"field":"role_selection_ref","operator":"equals","expected":"boundary_decrease.repeated"},
+            {"field":"render_observation_complete","operator":"equals","expected":true},
+            {"field":"fitting_profile_count","operator":"greater_than","expected":0}
+          ],
+          "reason_ref":"reason.repeated_resource_role_and_complete_render_samples_preserve_compatible_quantities"
+        },
+        {
+          "id": "tier.render_quantity_prior_attested_resource_role",
+          "all_conditions": [
+            {"field":"alternative_ref","operator":"equals","expected":"quantity.render_compatible"},
+            {"field":"prior_role_selection_ref","operator":"equals","expected":"boundary_decrease.repeated"},
+            {"field":"render_observation_complete","operator":"equals","expected":true},
+            {"field":"fitting_profile_count","operator":"greater_than","expected":0}
+          ],
+          "reason_ref":"reason.unchanged_raster_still_refines_the_same_uniform_action_stock_model"
+        },
+        {
+          "id":"tier.render_quantity_current_model_contradiction",
+          "all_conditions":[
+            {"field":"alternative_ref","operator":"equals","expected":"quantity.render_contradicted"},
+            {"field":"role_selection_ref","operator":"equals","expected":"boundary_decrease.repeated"},
+            {"field":"render_observation_complete","operator":"equals","expected":true},
+            {"field":"fitting_profile_count","operator":"equals","expected":0}
+          ],
+          "reason_ref":"reason.complete_observation_falsifies_uniform_render_models_without_erasing_resource_role"
+        },
+        {
+          "id":"tier.render_quantity_prior_model_contradiction",
+          "all_conditions":[
+            {"field":"alternative_ref","operator":"equals","expected":"quantity.render_contradicted"},
+            {"field":"prior_role_selection_ref","operator":"equals","expected":"boundary_decrease.repeated"},
+            {"field":"render_observation_complete","operator":"equals","expected":true},
+            {"field":"fitting_profile_count","operator":"equals","expected":0}
+          ],
+          "reason_ref":"reason.complete_observation_falsifies_uniform_render_models_without_erasing_resource_role"
+        },
+        {
+          "id":"tier.render_quantity_unresolved",
+          "all_conditions":[{"field":"alternative_ref","operator":"equals","expected":"quantity.render_unresolved"}],
+          "reason_ref":"reason.missing_scale_role_or_compatible_render_model_keeps_quantity_unknown"
+        }
+      ],
+      "meaning_template_ref_by_alternative":{"quantity.render_compatible":"rule.compatible_rendered_resource_quantities",
+                                           "quantity.render_contradicted":"rule.contradicted_rendered_resource_quantities"},
+      "selection_tie_breakers": [{"field":"fitting_profile_count","preferred_order":"maximize"}],
+      "invariants":["no_rendering_model_is_selected_by_palette_or_weight",
+                    "all_compatible_integer_budgets_and_unbounded_intervals_are_preserved",
+                    "rendered_pixels_and_primitive_action_units_remain_distinct",
+                    "one_uniform_initial_stock_model_is_conditional_and_revisable"],
+      "falsifiers":["next_render_sample_contradicts_every_compatible_interval",
+                    "resource_receipt_or_geometry_change_invalidates_the_uniform_initial_stock_model"]
+    },
+    {
+      "id":"rule.contradicted_rendered_resource_quantities",
+      "kind":"rule",
+      "evaluation":"project_requested_conclusions",
+      "supported_operators":["DERIVE"],
+      "input_contract":"yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract":"yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family":"dynamic",
+      "premises":["resource_role_remains_attested","complete_render_sample_fits_no_retained_model"],
+      "invariants":["a_falsified_model_set_never_restarts_without_source_authorized_model_revision",
+                    "model_contradiction_does_not_remove_the_resource_indicator_role"],
+      "falsifiers":["contradicting_sample_was_not_a_complete_measurement_of_the_same_indicator"],
+      "reason_refs":["reason.complete_observation_falsifies_uniform_render_models_without_erasing_resource_role"],
+      "term_templates":[{
+        "id_pattern":"measurement.resource-render.{indicator_entity_ref}.{evidence_scope_ref}",
+        "kind":"value","label":"contradicted rendered quantity models",
+        "required_fields":["indicator_entity_ref","evidence_scope_ref","transition_ref"],
+        "static_attributes":{
+          "measurement_kind":"rounded_finite_counter_intervals",
+          "resource_role_selection_ref":"boundary_decrease.repeated",
+          "model_status":"uniform_initial_stock_models_falsified",
+          "minimum_total_budget":null,"maximum_total_budget":null,
+          "minimum_remaining_action_units":null,"maximum_remaining_action_units":null,
+          "unique_total_budget":null,"unique_remaining_action_units":null
+        },
+        "attribute_bindings":{
+          "indicator_entity_ref":"indicator_entity_ref","evidence_scope_ref":"evidence_scope_ref",
+          "transition_ref":"transition_ref","primitive_count_after":"primitive_count_after",
+          "render_extent_bbox":"render_extent_bbox","render_extent_units":"render_extent_units",
+          "render_pixel_thickness":"render_pixel_thickness","displayed_extent_units":"displayed_extent_units",
+          "render_fit_intervals":"render_fit_intervals"
+        }
+      }],
+      "claim_templates":[{
+        "id_pattern":"claim.resource-render-intervals.{indicator_entity_ref}.{evidence_scope_ref}",
+        "predicate":"contradicts_declared_resource_quantity_models","family":"dynamic",
+        "argument_patterns":["{indicator_entity_ref}"],"epistemic_status":"supported",
+        "required_fields":["indicator_entity_ref","evidence_scope_ref","transition_ref"],
+        "attribute_bindings":{"evidence_scope_ref":"evidence_scope_ref","transition_ref":"transition_ref",
+                              "primitive_count_after":"primitive_count_after","render_fit_intervals":"render_fit_intervals"}
+      }]
+    },
+    {
+      "id":"rule.compatible_rendered_resource_quantities",
+      "kind":"rule",
+      "evaluation":"project_requested_conclusions",
+      "supported_operators":["DERIVE"],
+      "input_contract":"yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract":"yf_arc3_v5.authority_output.derivation.v1",
+      "reason_refs":["reason.complete_render_samples_bound_quantities_under_explicit_debit_and_render_models"],
+      "relation_family":"dynamic",
+      "premises":["resource_role_was_source_selected_by_repeated_action_conditioned_decrease",
+                  "full_scale_render_geometry_and_actual_primitive_ordinals_are_measured",
+                  "supplied_uniform_debit_render_models_fit_all_retained_observations"],
+      "invariants":["intervals_preserve_every_compatible_integer_quantity",
+                    "staging_resource_observation_never_creates_a_route_or_action_release",
+                    "a_unique_count_is_exact_only_under_the_recorded_render_and_debit_hypotheses"],
+      "falsifiers":["render_or_receipt_change_contradicts_the_recorded_hypotheses"],
+      "term_templates":[{
+        "id_pattern":"measurement.resource-render.{indicator_entity_ref}.{evidence_scope_ref}",
+        "kind":"value",
+        "label":"compatible rendered action-stock intervals",
+        "required_fields":["indicator_entity_ref","evidence_scope_ref","transition_ref"],
+        "static_attributes":{
+          "measurement_kind":"rounded_finite_counter_intervals",
+          "resource_role_selection_ref":"boundary_decrease.repeated",
+          "model_status":"supported_uniform_initial_stock_model",
+          "unit_debit_per_primitive":1,
+          "initial_full_stock_is_a_model_premise":true
+        },
+        "attribute_bindings":{
+          "indicator_entity_ref":"indicator_entity_ref",
+          "evidence_scope_ref":"evidence_scope_ref",
+          "transition_ref":"transition_ref",
+          "render_extent_bbox":"render_extent_bbox",
+          "render_extent_units":"render_extent_units",
+          "render_pixel_thickness":"render_pixel_thickness",
+          "primitive_count_after":"primitive_count_after",
+          "displayed_extent_units":"displayed_extent_units",
+          "render_fit_intervals":"render_fit_intervals",
+          "minimum_total_budget":"minimum_total_budget",
+          "maximum_total_budget":"maximum_total_budget",
+          "minimum_remaining_action_units":"minimum_remaining_action_units",
+          "maximum_remaining_action_units":"maximum_remaining_action_units",
+          "unique_total_budget":"unique_total_budget",
+          "unique_remaining_action_units":"unique_remaining_action_units"
+        }
+      }],
+      "claim_templates":[{
+        "id_pattern":"claim.resource-render-intervals.{indicator_entity_ref}.{evidence_scope_ref}",
+        "predicate":"describes_rendered_resource_quantity_intervals",
+        "family":"dynamic",
+        "argument_patterns":["{indicator_entity_ref}"],
+        "epistemic_status":"supported",
+        "required_fields":["indicator_entity_ref","evidence_scope_ref","transition_ref"],
+        "attribute_bindings":{
+          "evidence_scope_ref":"evidence_scope_ref",
+          "transition_ref":"transition_ref",
+          "primitive_count_after":"primitive_count_after",
+          "render_fit_intervals":"render_fit_intervals"
+        }
+      }]
+    },
+    {
+      "id": "principle.resource_model_separates_cost_capacity_stock_lock_occupancy_and_sharing",
+      "kind": "principle",
+      "premises": [
+        "one_or_more_resource_related_quantities_or_constraints_are_measured"
+      ],
+      "applicability": [
+        "resource_model_construction_and_revision"
+      ],
+      "invariants": [
+        "cost_capacity_stock_lock_occupancy_and_shared_constraint_are_distinct_dimensions",
+        "one_observation_may_support_multiple_dimensions_without_collapsing_them",
+        "each_dimension_keeps_its_own_identity_unit_revision_and_falsifier",
+        "a_displayed_value_does_not_assign_a_resource_dimension_without_action_conditioned_evidence"
+      ],
+      "falsifiers": [
+        "the_declared_resource_identity_or_unit_is_contradicted",
+        "the_observed_transition_cannot_be_expressed_in_the_declared_dimension"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.capacity",
+        "resource.stock",
+        "resource.lock",
+        "resource.occupancy",
+        "resource.shared_constraint"
+      ],
+      "reason_refs": [
+        "reason.resource_dimensions_are_typed_and_non_interchangeable"
+      ]
+    },
+    {
+      "id": "principle.resource_viability_is_parameterized_by_resource_and_revision",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_model_separates_cost_capacity_stock_lock_occupancy_and_sharing"
+      ],
+      "premises": [
+        "a_candidate_action_or_plan_has_an_explicit_resource_requirement",
+        "the_current_resource_state_revision_is_known_or_symbolically_bounded"
+      ],
+      "applicability": [
+        "resource_bearing_action_or_plan_eligibility"
+      ],
+      "invariants": [
+        "viability_is_scoped_to_one_resource_identity_unit_and_current_revision",
+        "exact_quantity_uses_an_exact_inequality_witness",
+        "unknown_quantity_preserves_a_symbolic_bound_and_fails_closed_when_safety_cannot_be_proved",
+        "one_resource_witness_never_licenses_expenditure_of_another_resource"
+      ],
+      "falsifiers": [
+        "the_resource_revision_changes",
+        "the_requirement_or_available_quantity_is_contradicted",
+        "the_resource_identity_or_unit_is_unresolved"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.capacity",
+        "resource.stock",
+        "resource.occupancy",
+        "resource.recovery_cost",
+        "resource.symbolic_bound"
+      ],
+      "reason_refs": [
+        "reason.resource_viability_requires_a_resource_scoped_current_witness"
+      ]
+    },
+    {
+      "id": "principle.resource_lock_requires_exact_resource_scoped_witness",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_viability_is_parameterized_by_resource_and_revision"
+      ],
+      "premises": [
+        "a_commitment_would_reserve_or_remove_a_resource_quantity",
+        "one_or_more_live_obligations_require_the_same_resource"
+      ],
+      "applicability": [
+        "resource_lock_and_precedence_reasoning"
+      ],
+      "invariants": [
+        "locked_free_and_required_quantities_are_distinct",
+        "a_lock_blocks_or_orders_an_action_only_through_an_exact_resource_scoped_witness",
+        "the_witness_names_resource_identity_unit_revision_requirement_and_remaining_quantity",
+        "unrelated_resources_and_obligations_are_not_ordered_by_the_lock"
+      ],
+      "falsifiers": [
+        "the_reserved_quantity_is_released",
+        "the_required_quantity_becomes_viable",
+        "the_resource_scope_or_revision_changes"
+      ],
+      "resource_parameters": [
+        "resource.lock",
+        "resource.stock",
+        "resource.shared_constraint"
+      ],
+      "reason_refs": [
+        "reason.resource_lock_requires_exact_scoped_infeasibility"
+      ]
+    },
+    {
+      "id": "principle.resource_cost_is_recomputed_after_every_reconciled_transition",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_viability_is_parameterized_by_resource_and_revision"
+      ],
+      "premises": [
+        "a_transition_has_been_observed_and_reconciled",
+        "a_live_candidate_depends_on_resource_cost_or_availability"
+      ],
+      "applicability": [
+        "post_transition_resource_bearing_candidate_reassessment"
+      ],
+      "invariants": [
+        "every_resource_bearing_candidate_is_evaluated_against_the_new_revision",
+        "prior_numeric_cost_capacity_stock_lock_and_occupancy_are_not_silently_reused",
+        "a_unique_fresh_visual_term_explicitly_mapped_to_the_same_resource_role_and_scope_may_reuse_the_established_unit_only_after_exact_current_extent_remeasurement",
+        "an_ambiguous_visual_term_refresh_does_not_transfer_the_established_unit",
+        "unchanged_values_require_current_observation_or_a_preserved_law_with_satisfied_validity_conditions",
+        "reassessment_occurs_before_the_next_resource_bearing_action_release"
+      ],
+      "falsifiers": [
+        "the_transition_is_not_yet_reconciled",
+        "the_candidate_has_no_resource_dependency"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.capacity",
+        "resource.stock",
+        "resource.lock",
+        "resource.occupancy",
+        "resource.shared_constraint"
+      ],
+      "prediction_domain_parameters": [
+        "domain.resource_revision",
+        "domain.action_context"
+      ],
+      "reason_refs": [
+        "reason.resource_cost_and_viability_are_current_transition_facts"
+      ]
+    },
+    {
+      "id": "rule.resource_conservation_transition",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["quantity_before", "observed_delta", "quantity_after"],
+      "applicability": ["same_resource_identity"],
+      "invariants": ["arithmetic_is_exact", "resource_identity_is_not_palette_bound"],
+      "falsifiers": ["unexplained_quantity_change"],
+      "reason_refs": ["reason.resource_transition_uses_exact_conservation"]
+    },
+    {
+      "id": "criterion.resource_transition_exact",
+      "kind": "criterion",
+      "evaluation": "exact_set_equality",
+      "supported_operators": ["COMPARE"],
+      "input_contract": "yf_arc3_v5.authority_input.comparison.v1",
+      "output_contract": "yf_arc3_v5.authority_output.comparison.v1",
+      "premises": ["expected_quantity_refs", "observed_quantity_refs"],
+      "applicability": ["resource_hypothesis_live"],
+      "invariants": ["comparison_is_read_only"],
+      "falsifiers": ["resource_identity_unresolved"],
+      "reason_refs": ["reason.resource_transition_compared_exactly"]
+    },
+    {
+      "id": "principle.scarce_resource_requires_viability",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_viability_is_parameterized_by_resource_and_revision"
+      ],
+      "resource_parameters": [
+        "resource.cost",
+        "resource.stock",
+        "resource.replenishment"
+      ],
+      "premises": ["resource_cost", "action_intent"],
+      "applicability": ["resource_may_be_scarce"],
+      "invariants": ["irreversible_cost_blocks_unjustified_probe"],
+      "falsifiers": ["resource_is_replenishable_or_cost_free"],
+      "reason_refs": ["reason.resource_cost_must_be_visible_to_wisdom"]
+    },
+    {
+      "id": "principle.scarce_resource_prefers_minimum_cost_observable_endpoint",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_viability_is_parameterized_by_resource_and_revision",
+        "principle.scarce_resource_requires_viability"
+      ],
+      "premises": [
+        "one_finite_remaining_resource_quantity_is_established",
+        "one_or_more_bounded_routes_terminate_at_observable_endpoints",
+        "each_route_cost_is_exactly_measured"
+      ],
+      "applicability": [
+        "an_unbounded_probe_competes_with_a_resource_covered_endpoint_route"
+      ],
+      "invariants": [
+        "a_route_cost_must_not_exceed_the_remaining_resource",
+        "before_any_observed_positive_replenishment_an_ordinary_currently_traversable_covered_endpoint_route_precedes_a_nontraversable_post_interaction_contact_exception",
+        "after_an_exact_positive_replenishment_bounded_endpoint_contacts_return_to_minimum_cost_ordering",
+        "the_minimum_cost_covered_endpoint_precedes_unbounded_exploration",
+        "only_the_first_primitive_is_released_before_reconciliation",
+        "endpoint_observability_does_not_assign_a_refill_or_goal_role"
+      ],
+      "falsifiers": [
+        "the_resource_bound_is_not_established",
+        "the_endpoint_is_not_observable",
+        "the_route_cost_exceeds_the_remaining_resource",
+        "a_harder_preservation_constraint_requires_another_covered_endpoint"
+      ],
+      "reason_refs": [
+        "reason.scarce_resource_prefers_currently_traversable_endpoint_before_speculative_contact",
+        "reason.scarce_resource_prefers_minimum_cost_observable_endpoint_before_unbounded_exploration"
+      ]
+    },
+    {
+      "id": "principle.indicator_palette_correspondence_licenses_replenishment_test",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.scarce_resource_prefers_minimum_cost_observable_endpoint"
+      ],
+      "premises": [
+        "one_finite_resource_indicator_is_established_by_action_conditioned_decrement",
+        "one_visible_object_endpoint_shares_an_exact_observed_palette_value_with_that_indicator",
+        "the_complete_route_to_that_endpoint_is_resource_covered"
+      ],
+      "applicability": [
+        "the_endpoint_resource_effect_has_not_yet_been_tested"
+      ],
+      "invariants": [
+        "palette_correspondence_is_only_a_revisable_resource_coupling_hypothesis",
+        "no_palette_value_has_an_intrinsic_role",
+        "only_the_first_route_primitive_is_released_before_reconciliation",
+        "observed_indicator_increase_is_required_to_establish_replenishment"
+      ],
+      "falsifiers": [
+        "the_endpoint_does_not_change_the_indicator_quantity",
+        "the_route_exceeds_the_current_resource",
+        "the_exact_first_action_is_contextually_without_effect"
+      ],
+      "reason_refs": [
+        "reason.indicator_palette_correspondence_prioritizes_bounded_replenishment_test"
+      ]
+    },
+    {
+      "id": "principle.exact_context_indicator_increase_licenses_replenishment_repeat",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.scarce_resource_prefers_minimum_cost_observable_endpoint"
+      ],
+      "premises": [
+        "one_finite_resource_indicator_is_established_by_action_conditioned_decrement",
+        "the_same_action_in_the_same_hashed_context_previously_increased_its_quantity"
+      ],
+      "applicability": [
+        "the_same_context_action_and_score_are_observed_again"
+      ],
+      "invariants": [
+        "the_positive_delta_is_bounded_creator_independent_causal_evidence",
+        "no_palette_symbol_coordinate_or_game_identity_is_retained",
+        "only_one_primitive_is_released_before_reconciliation"
+      ],
+      "falsifiers": [
+        "the_context_action_set_or_score_differs",
+        "the_repeated_action_does_not_increase_the_indicator"
+      ],
+      "reason_refs": [
+        "reason.prior_exact_context_indicator_increase_prioritizes_replenishment_repeat"
+      ]
+    },
+    {
+      "id": "rule.boundary_group_state_transfer_objective_progress",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": [
+        "one_action_changes_multiple_members_of_one_regular_boundary_indicator_family",
+        "the_members_preserve_their_distinct_internal_masks",
+        "all_changed_members_share_one_state_transfer"
+      ],
+      "applicability": ["homologous_multi_member_state_transfer_observed"],
+      "invariants": [
+        "the_action_conditioned_transfer_is_objective_progress_not_resource_consumption",
+        "activated_members_close_the_satisfied_experience",
+        "inactive_homologous_members_remain_open_subobjectives",
+        "indicator_identity_is_not_palette_coordinate_or_game_bound",
+        "boundary_indicator_is_not_click_eligible"
+      ],
+      "falsifiers": [
+        "internal_member_masks_change_with_the_state_field",
+        "the_member_family_is_not_regular_or_persistent",
+        "the_same_completed_interaction_is_selected_without_new_indicator_progress"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "{indicator_entity_ref}",
+          "kind": "entity",
+          "label": "tracked objective progress indicator family",
+          "required_fields": ["indicator_entity_ref"],
+          "static_attributes": {
+            "role": "objective_progress_indicator",
+            "status": "established",
+            "click_eligible": false
+          },
+          "attribute_bindings": {
+            "family_member_count": "regular_family_member_count",
+            "last_activated_member_count": "changed_family_member_count",
+            "remaining_inactive_member_count": "remaining_family_member_count",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "last_observed_transition": "transition_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.objective-progress.boundary-family.{transition_ref}",
+          "predicate": "observed_homologous_indicator_progress_after_action",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}", "{action_ref}"],
+          "epistemic_status": "established",
+          "required_fields": [
+            "indicator_entity_ref",
+            "action_ref",
+            "transition_ref",
+            "regular_family_member_count",
+            "changed_family_member_count",
+            "remaining_family_member_count"
+          ],
+          "attribute_bindings": {
+            "family_member_count": "regular_family_member_count",
+            "activated_member_count": "changed_family_member_count",
+            "remaining_inactive_member_count": "remaining_family_member_count",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.objective-progress.role.{indicator_entity_ref}",
+          "predicate": "maps_to_role",
+          "family": "structural",
+          "argument_patterns": [
+            "{indicator_entity_ref}",
+            "role.objective_progress_indicator"
+          ],
+          "epistemic_status": "established",
+          "required_fields": ["indicator_entity_ref", "evidence_scope_ref"],
+          "attribute_bindings": {
+            "evidence_scope_ref": "evidence_scope_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.objective-progress.open-members.{transition_ref}",
+          "predicate": "retains_open_homologous_indicator_subobjectives",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}"],
+          "epistemic_status": "established",
+          "required_fields": [
+            "indicator_entity_ref",
+            "transition_ref",
+            "remaining_family_member_count"
+          ],
+          "attribute_bindings": {
+            "remaining_inactive_member_count": "remaining_family_member_count",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "transition_ref": "transition_ref"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_homologous_indicator_transfer_is_objective_progress"
+      ]
+    },
+    {
+      "id": "rule.single_boundary_decrease_resource_supposition",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["one_action_conditioned_boundary_or_boundary_adjacent_strip_decrease", "stable_visual_identity"],
+      "applicability": ["single_exact_diminution_observed"],
+      "invariants": [
+        "one_decrease_creates_a_supposition_not_established_knowledge",
+        "resource_identity_is_not_palette_or_coordinate_bound",
+        "boundary_or_boundary_adjacent_indicator_is_not_click_eligible"
+      ],
+      "falsifiers": ["change_is_not_a_diminution", "component_identity_is_ambiguous"],
+      "term_templates": [
+        {
+          "id_pattern": "{indicator_entity_ref}",
+          "kind": "entity",
+          "label": "tracked action-conditioned boundary indicator",
+          "required_fields": ["indicator_entity_ref"],
+          "static_attributes": {
+            "role": "resource_indicator",
+            "status": "supposed",
+            "click_eligible": false
+          },
+          "attribute_bindings": {
+            "observation_count": "repeated_observation_count",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "last_observed_transition": "transition_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.boundary-decrease.observed.{transition_ref}",
+          "predicate": "decreased_after_action",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}", "{action_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["indicator_entity_ref", "action_ref", "transition_ref"],
+          "attribute_bindings": {
+            "changed_pixel_count": "changed_pixel_count",
+            "before_pixel_count": "before_pixel_count",
+            "after_pixel_count": "after_pixel_count",
+            "primitive_count_after": "primitive_count_after",
+            "render_extent_bbox": "render_extent_bbox",
+            "render_pixel_thickness": "render_pixel_thickness",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.resource_recovery.boundary_decrease.{transition_ref}",
+          "predicate": "proposes_typed_relation_link",
+          "family": "dynamic",
+          "argument_patterns": [
+            "graph.dimension.resource_recovery",
+            "{indicator_entity_ref}",
+            "{action_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": ["indicator_entity_ref", "action_ref", "transition_ref"],
+          "static_attributes": {
+            "relation_dimension": "resource_recovery",
+            "link_kind": "action_conditioned_boundary_decrease",
+            "commitment": "revisable",
+            "falsifier": "change_is_not_a_repeated_resource_correlated_decrease"
+          }
+        }
+      ],
+      "reason_refs": ["reason.first_action_conditioned_decrease_supports_resource_supposition"]
+    },
+    {
+      "id": "rule.repeated_boundary_decrease_resource_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["two_action_conditioned_boundary_or_boundary_adjacent_strip_decreases", "same_tracked_visual_identity"],
+      "applicability": ["repeated_exact_diminution_observed"],
+      "invariants": [
+        "second_same_trigger_decrease_establishes_resource_indicator",
+        "exact_budget_semantics_remain_unresolved",
+        "resource_identity_is_not_palette_or_coordinate_bound",
+        "boundary_or_boundary_adjacent_indicator_is_not_click_eligible"
+      ],
+      "falsifiers": ["decreases_do_not_share_visual_identity", "later_action_does_not_consume_indicator"],
+      "term_templates": [
+        {
+          "id_pattern": "{indicator_entity_ref}",
+          "kind": "entity",
+          "label": "tracked action resource indicator",
+          "required_fields": ["indicator_entity_ref"],
+          "static_attributes": {
+            "role": "resource_indicator",
+            "status": "established",
+            "quantity_semantics": "decrement_unit_established_total_budget_unresolved",
+            "click_eligible": false
+          },
+          "attribute_bindings": {
+            "observation_count": "repeated_observation_count",
+            "decrement_unit": "decrement_unit",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "last_observed_transition": "transition_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.boundary-decrease.observed.{transition_ref}",
+          "predicate": "decreased_after_action",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}", "{action_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["indicator_entity_ref", "action_ref", "transition_ref"],
+          "attribute_bindings": {
+            "changed_pixel_count": "changed_pixel_count",
+            "before_pixel_count": "before_pixel_count",
+            "after_pixel_count": "after_pixel_count",
+            "primitive_count_after": "primitive_count_after",
+            "render_extent_bbox": "render_extent_bbox",
+            "render_pixel_thickness": "render_pixel_thickness",
+            "evidence_scope_ref": "evidence_scope_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.resource-indicator.established.{indicator_entity_ref}",
+          "predicate": "maps_to_role",
+          "family": "structural",
+          "argument_patterns": ["{indicator_entity_ref}", "role.resource_indicator"],
+          "epistemic_status": "established",
+          "required_fields": ["indicator_entity_ref", "evidence_scope_ref"],
+          "attribute_bindings": {
+            "evidence_scope_ref": "evidence_scope_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.resource-consumption.repeated.{indicator_entity_ref}",
+          "predicate": "repeated_decrease_after_action",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}", "{action_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["indicator_entity_ref", "action_ref"],
+          "attribute_bindings": {
+            "observation_count": "repeated_observation_count",
+            "evidence_scope_ref": "evidence_scope_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.resource-consumption.unit.{indicator_entity_ref}",
+          "predicate": "establishes_exact_repeated_action_decrement_unit",
+          "family": "dynamic",
+          "argument_patterns": ["{indicator_entity_ref}", "{action_ref}"],
+          "epistemic_status": "established",
+          "required_fields": [
+            "indicator_entity_ref",
+            "action_ref",
+            "decrement_unit",
+            "evidence_scope_ref"
+          ],
+          "attribute_bindings": {
+            "decrement_unit": "decrement_unit",
+            "observed_decrements": "observed_decrements",
+            "evidence_scope_ref": "evidence_scope_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.relation.resource_recovery.repeated_decrease.{indicator_entity_ref}",
+          "predicate": "supports_typed_relation_link",
+          "family": "dynamic",
+          "argument_patterns": [
+            "graph.dimension.resource_recovery",
+            "{indicator_entity_ref}",
+            "{action_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": ["indicator_entity_ref", "action_ref"],
+          "static_attributes": {
+            "relation_dimension": "resource_recovery",
+            "link_kind": "repeated_action_decrement",
+            "commitment": "revisable",
+            "falsifier": "later_action_does_not_consume_the_same_indicator"
+          }
+        }
+      ],
+      "reason_refs": ["reason.second_same_trigger_decrease_establishes_resource_indicator"]
+    },
+    {
+      "id": "policy.declared_action_resource_indicator",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["neutral_boundary_change_measurements", "action_conditioned_observation"],
+      "applicability": ["boundary_change_may_express_action_resource_or_objective_progress"],
+      "invariants": [
+        "no_weighted_score",
+        "multi_member_progress_and_resource_decrease_are_distinct",
+        "single_and_repeated_evidence_are_distinct",
+        "all_alternatives_remain_attested"
+      ],
+      "falsifiers": ["no_exact_boundary_decrease", "tracked_identity_missing"],
+      "selection_tiers": [
+        {
+          "id": "tier.homologous_boundary_family_objective_progress",
+          "all_conditions": [
+            {"field": "boundary_decrease_candidate_kind", "operator": "equals", "expected": "progress_group"},
+            {"field": "exact_boundary_decrease_observed", "operator": "equals", "expected": true},
+            {"field": "homologous_multi_member_state_transfer", "operator": "equals", "expected": true},
+            {"field": "regular_family_member_count", "operator": "greater_than", "expected": 2},
+            {"field": "changed_family_member_count", "operator": "greater_than", "expected": 1}
+          ],
+          "reason_ref": "reason.action_conditioned_homologous_indicator_transfer_is_objective_progress"
+        },
+        {
+          "id": "tier.repeated_boundary_decrease",
+          "all_conditions": [
+            {"field": "boundary_decrease_candidate_kind", "operator": "equals", "expected": "repeated"},
+            {"field": "exact_boundary_decrease_observed", "operator": "equals", "expected": true},
+            {"field": "repeated_observation_count", "operator": "greater_than", "expected": 1}
+          ],
+          "reason_ref": "reason.second_same_trigger_decrease_establishes_resource_indicator"
+        },
+        {
+          "id": "tier.single_boundary_decrease",
+          "all_conditions": [
+            {"field": "boundary_decrease_candidate_kind", "operator": "equals", "expected": "single"},
+            {"field": "exact_boundary_decrease_observed", "operator": "equals", "expected": true},
+            {"field": "repeated_observation_count", "operator": "equals", "expected": 1}
+          ],
+          "reason_ref": "reason.first_action_conditioned_decrease_supports_resource_supposition"
+        },
+        {
+          "id": "tier.unresolved_boundary_change",
+          "all_conditions": [
+            {"field": "boundary_decrease_candidate_kind", "operator": "equals", "expected": "unresolved"}
+          ],
+          "reason_ref": "reason.boundary_change_does_not_yet_support_resource_meaning"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "boundary_decrease_candidate_kind", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {
+        "boundary_decrease.progress_group": "rule.boundary_group_state_transfer_objective_progress",
+        "boundary_decrease.single": "rule.single_boundary_decrease_resource_supposition",
+        "boundary_decrease.repeated": "rule.repeated_boundary_decrease_resource_meaning"
+      },
+      "reason_refs": ["reason.resource_indicator_status_follows_repeated_exact_evidence"]
+    },
+    {
+      "id": "principle.safe_recovery_requires_confirmed_control_effect_and_resource_bound",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_cost_is_recomputed_after_every_reconciled_transition"
+      ],
+      "resource_parameters": [
+        "resource.recovery_cost",
+        "resource.stock",
+        "resource.symbolic_bound"
+      ],
+      "premises": [
+        "a_visible_control_is_a_recovery_candidate",
+        "the_control_effect_was_confirmed_by_action_conditioned_evidence_or_an_explicit_environment_checkpoint_contract",
+        "the_recovery_resource_cost_is_explicitly_bounded"
+      ],
+      "applicability": [
+        "a_failed_or_blocked_plan_requests_reset_or_undo"
+      ],
+      "invariants": [
+        "reset_or_undo_is_never_inferred_from_action_name_or_position",
+        "one_step_undo_is_classified_only_by_restoration_of_the_immediately_preceding_viable_configuration",
+        "level_reset_is_classified_only_by_restoration_of_the_explicit_level_start_checkpoint",
+        "a_confirmed_sufficient_one_step_undo_precedes_level_reset",
+        "level_reset_requires_no_admissible_winning_continuation_in_the_current_attempt",
+        "one_recovery_primitive_is_released_before_reconciliation",
+        "reset_is_never_the_first_action_of_a_level",
+        "two_resets_are_never_consecutive",
+        "causal_knowledge_is_preserved_while_the_failed_instance_plan_is_discarded",
+        "level_reset_preserves_prior_level_terminal_objectives_roles_mechanisms_and_hot_workflow",
+        "level_reset_preserves_failure_retrospection_and_its_contextual_avoidance_constraint",
+        "level_reset_invalidates_only_scene_local_handles_routes_pending_actions_and_frame_bound_residuals",
+        "an_exact_failed_composition_is_not_repeated_after_recovery",
+        "recovery_is_not_released_before_effect_confirmation",
+        "recovery_is_not_released_when_its_resource_cost_is_unknown_or_unsafe",
+        "absence_of_a_safe_recovery_witness_fails_closed"
+      ],
+      "falsifiers": [
+        "the_control_is_not_visible",
+        "the_observed_effect_does_not_restore_a_prior_viable_state",
+        "an_ordinary_action_still_advances_an_open_objective",
+        "the_recovery_repeats_an_exact_failed_composition",
+        "the_resource_bound_is_violated_or_unknown"
+      ],
+      "reason_refs": [
+        "reason.recovery_requires_visible_causal_and_resource_evidence"
+      ]
+    },
+    {
+      "id": "principle.terminal_commitment_requires_resource_lock_proof",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_lock_requires_exact_resource_scoped_witness"
+      ],
+      "resource_parameters": [
+        "resource.lock",
+        "resource.stock",
+        "resource.shared_constraint"
+      ],
+      "premises": [
+        "conserved_resource_total_is_established",
+        "terminal_commitment_requires_a_maintained_quantity",
+        "unfinished_operation_has_an_exact_resource_lower_bound"
+      ],
+      "applicability": ["terminal_commitment_may_reduce_resources_available_to_unfinished_operations"],
+      "invariants": [
+        "locked_quantity_and_free_quantity_are_distinct",
+        "feasibility_is_decided_by_an_exact_inequality_witness",
+        "a_resource_warning_without_an_exact_witness_cannot_defeat_a_plan",
+        "the_witness_is_scoped_to_the_current_resource_model"
+      ],
+      "falsifiers": [
+        "resource_total_is_not_established",
+        "terminal_quantity_is_not_maintained",
+        "unfinished_operation_lower_bound_is_unknown"
+      ],
+      "reason_refs": ["reason.terminal_commitment_is_tested_as_a_conserved_resource_lock"]
+    },
+    {
+      "id": "principle.resource_lock_contradiction_creates_precedence",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_lock_requires_exact_resource_scoped_witness"
+      ],
+      "resource_parameters": [
+        "resource.lock",
+        "resource.stock",
+        "resource.shared_constraint"
+      ],
+      "premises": [
+        "terminal_resource_lock_has_an_exact_infeasibility_witness",
+        "unfinished_operation_is_required_by_a_live_route_obligation"
+      ],
+      "applicability": ["maintaining_terminal_commitment_would_block_required_transport"],
+      "invariants": [
+        "required_transport_precedes_the_blocking_terminal_commitment",
+        "precedence_retains_the_exact_witness_as_grounds",
+        "precedence_does_not_order_unrelated_operations",
+        "contradicted_terminal_order_is_defeated_without_erasing_other_strategies"
+      ],
+      "falsifiers": [
+        "unfinished_operation_is_not_required",
+        "resource_lower_bound_becomes_satisfiable",
+        "terminal_commitment_is_reversible_without_resource_lock"
+      ],
+      "reason_refs": ["reason.exact_resource_lock_contradiction_orders_transport_before_terminal_commitment"]
+    },
+    {
+      "id": "principle.finite_ordered_support_dependencies_close_transfer_sequence",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.terminal_commitment_requires_resource_lock_proof",
+        "principle.resource_lock_contradiction_creates_precedence"
+      ],
+      "resource_parameters": [
+        "resource.lock",
+        "resource.stock",
+        "resource.symbolic_bound"
+      ],
+      "premises": [
+        "a_pairwise_selection_then_transfer_operator_is_action_conditioned",
+        "repeated_supports_contain_globally_distinct_strictly_ordered_extents",
+        "one_structurally_distinct_endpoint_is_a_revisable_terminal_supposition",
+        "a_finite_legal_state_graph_reaches_the_complete_ordered_endpoint"
+      ],
+      "applicability": [
+        "a_complete_ordered_family_must_be_reconstructed_without_blocking_a_lower_extent"
+      ],
+      "invariants": [
+        "only_the_accessible_front_extent_moves",
+        "an_extent_moves_only_to_an_empty_support_or_above_a_larger_extent",
+        "every_extent_is_conserved_exactly_once",
+        "the_first_shortest_witness_per_declared_support_order_is_retained",
+        "at_most_three_global_witnesses_are_materialized",
+        "only_the_drm_declared_order_payload_is_executable_after_src_commitment",
+        "every_primitive_is_reconciled_before_the_cursor_advances",
+        "state_expansion_transfer_depth_and_action_count_are_hard_bounded"
+      ],
+      "falsifiers": [
+        "the_pairwise_operator_does_not_preserve_extent_identity",
+        "a measured support violates strict bottom_to_top_order",
+        "the structural endpoint supposition is contradicted",
+        "the next observed arrangement_differs_from_the_exact_graph_successor",
+        "a_declared_bound_is_reached_before_a_complete_witness"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_order_and_resource_locks_define_a_finite_transfer_graph"
+      ]
+    },
+    {
+      "id": "principle.persistent_occupants_reduce_usable_quantity_extent",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_model_separates_cost_capacity_stock_lock_occupancy_and_sharing",
+        "principle.resource_viability_is_parameterized_by_resource_and_revision"
+      ],
+      "resource_parameters": [
+        "resource.capacity",
+        "resource.occupancy",
+        "resource.symbolic_bound"
+      ],
+      "premises": [
+        "a_quantity_grows_from_a_measured_support_origin",
+        "a_stable_limiting_boundary_is_observed_or_preserved",
+        "a_persistent_component_must_coexist_between_quantity_surface_and_boundary"
+      ],
+      "applicability": ["usable_extent_depends_on_current_persistent_occupants"],
+      "invariants": [
+        "geometric_envelope_and_usable_quantity_extent_are_distinct",
+        "complete_composite_extent_is_used_instead_of_one_accent_part",
+        "the_bound_is_state_dependent_on_the_current_occupant_set",
+        "an_observed_safe_quantity_establishes_only_a_lower_bound"
+      ],
+      "falsifiers": [
+        "the_component_does_not_persist_in_the_region",
+        "action_conditioned_evidence_shows_overlap_or_boundary_crossing"
+      ],
+      "reason_refs": ["reason.usable_extent_reserves_stable_boundary_and_persistent_component_space"]
+    },
+    {
+      "id": "principle.missing_extent_measurements_preserve_symbolic_bounds",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.resource_viability_is_parameterized_by_resource_and_revision"
+      ],
+      "resource_parameters": [
+        "resource.capacity",
+        "resource.occupancy",
+        "resource.symbolic_bound"
+      ],
+      "premises": [
+        "a_quantity_bound_has_an_explicit_extent_expression",
+        "one_or_more_required_extent_measurements_are_unavailable"
+      ],
+      "applicability": ["exact_numeric_bound_cannot_be_mechanically_evaluated"],
+      "invariants": [
+        "the_symbolic_bound_remains_planning_active_and_falsifiable",
+        "no_numeric_maximum_is_invented",
+        "safe_observations_update_only_the_supported_lower_bound"
+      ],
+      "falsifiers": ["all_required_extents_become_exactly_measured"],
+      "reason_refs": ["reason.unknown_extent_preserves_symbolic_constraint_without_fabrication"]
+    }
+  ]
+}

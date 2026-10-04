@@ -1,0 +1,203 @@
+# A boundary display becomes a resource hypothesis after one action-linked
+# decrease and established meaning only after the same tracked display repeats.
+MODULE arc3.recognize_action_resource_indicator
+
+WORKFLOW recognize_action_resource_indicator(
+    before_frame: FrameGrid,
+    after_frame: FrameGrid,
+    before_tracking: TemporalTrackingResult,
+    prior_evidence: List<Any>,
+    action_ref: Ref,
+    transition_ref: Ref,
+    evidence_scope_ref: Ref,
+    primitive_count_after: Integer,
+    prior_render_records: List<Any>,
+    resource_measurement_policy: Any,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        analysis: RepeatedBoundaryDecreaseAnalysis?
+        interpretation: Assessment?
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        revision: Any?
+        quantity_analysis: ResourceGaugeQuantityAnalysis?
+        quantity_interpretation: Assessment?
+        quantity_before_revision: Integer?
+    STEP measure_repetition
+        CALL capability.repeated_boundary_decrease_analysis(
+            before=before_frame,
+            after=after_frame,
+            before_tracking=before_tracking,
+            prior_evidence=prior_evidence,
+            action_ref=action_ref,
+            transition_ref=transition_ref,
+            evidence_scope_ref=evidence_scope_ref,
+            primitive_count_after=primitive_count_after
+        ) -> analysis
+        SELECT interpretation
+            FOR "goal.interpret_action_conditioned_boundary_decrease"
+            FROM analysis.alternative_refs
+            UNDER policy.declared_action_resource_indicator
+            REQUIRE ["requirement.action_conditioned_transition_is_observed"]
+            PRESERVE analysis.alternative_refs
+            FACTS analysis.alternative_facts
+        MATCH interpretation.alternatives.selected
+            "boundary_decrease.progress_group" -> NEXT commit_progress_meaning
+            "boundary_decrease.single" -> NEXT commit_single_supposition
+            "boundary_decrease.repeated" -> NEXT commit_repeated_meaning
+            "boundary_decrease.unresolved" -> NEXT measure_rendered_quantity
+    STEP commit_progress_meaning
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_action_resource_indicator",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=analysis.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.boundary_group_state_transfer_objective_progress
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_objective_progress_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT measure_rendered_quantity
+    STEP commit_single_supposition
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_action_resource_indicator",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=analysis.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.single_boundary_decrease_resource_supposition
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_resource_supposition
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT measure_rendered_quantity
+    STEP commit_repeated_meaning
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_action_resource_indicator",
+            selected_ref=interpretation.alternatives.selected,
+            alternative_facts=analysis.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.repeated_boundary_decrease_resource_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_resource_meaning
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.evidence_refs
+        NEXT measure_rendered_quantity
+    STEP measure_rendered_quantity
+        CALL capability.resource_gauge_quantity_analysis(
+            before=before_frame,
+            after=after_frame,
+            before_tracking=before_tracking,
+            primitive_count_after=primitive_count_after,
+            prior_evidence=prior_evidence,
+            current_evidence=analysis.evidence,
+            prior_render_records=prior_render_records,
+            rendering_profiles=resource_measurement_policy.resource_render_profiles,
+            alternative_refs=resource_measurement_policy.resource_render_alternative_refs,
+            role_selection_ref=interpretation.alternatives.selected,
+            evidence_scope_ref=evidence_scope_ref,
+            transition_ref=transition_ref
+        ) -> quantity_analysis
+        SELECT quantity_interpretation
+            FOR "goal.interpret_rendered_action_resource_quantity"
+            FROM quantity_analysis.alternative_refs
+            UNDER policy.declared_rendered_resource_quantity
+            REQUIRE ["requirement.action_conditioned_transition_is_observed"]
+            PRESERVE quantity_analysis.alternative_refs
+            FACTS quantity_analysis.alternative_facts
+        MATCH quantity_interpretation.alternatives.selected
+            "quantity.render_compatible" -> NEXT commit_rendered_quantity
+            "quantity.render_contradicted" -> NEXT commit_contradicted_quantity
+            "quantity.render_unresolved" -> STOP interpretation
+    STEP commit_rendered_quantity
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_rendered_resource_quantity",
+            selected_ref=quantity_interpretation.alternatives.selected,
+            alternative_facts=quantity_analysis.alternative_facts,
+            evidence_refs=quantity_analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.compatible_rendered_resource_quantities
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> quantity_before_revision
+        TRANSACTION commit_resource_quantity_intervals
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE quantity_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE quantity_analysis.evidence_refs
+        STOP interpretation
+    STEP commit_contradicted_quantity
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_rendered_resource_quantity",
+            selected_ref=quantity_interpretation.alternatives.selected,
+            alternative_facts=quantity_analysis.alternative_facts,
+            evidence_refs=quantity_analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.contradicted_rendered_resource_quantities
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> quantity_before_revision
+        TRANSACTION commit_contradicted_quantity_models
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE quantity_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE quantity_analysis.evidence_refs
+        STOP interpretation

@@ -1,0 +1,20 @@
+# Entity identity and independent state dimensions are checked before derivation.
+MODULE arc3.verify_independent_transition
+
+WORKFLOW verify_independent_transition(
+    transition_request: Any,
+    transition_premises: List<Ref>,
+    transition_context: Map<Ref,Any>
+) -> Any
+    STATE
+        comparison: Any?
+    STEP compare_dimensions
+        CALL capability.dimension_transition(
+            request=transition_request
+        ) -> comparison
+        REQUIRE comparison.exact
+        DERIVE result
+            FROM transition_premises
+            USING rule.identity_preserving_dimension_transition
+            CONTEXT transition_context
+        STOP result

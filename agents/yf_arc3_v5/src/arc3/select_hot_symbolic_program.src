@@ -1,0 +1,41 @@
+# Select whether a current bound residual can run as a small hot program.
+MODULE arc3.select_hot_symbolic_program
+
+WORKFLOW select_hot_symbolic_program(
+    descriptive_program_evidence: Any
+) -> Assessment
+    STATE
+        root_programs: DeclaredAlternativeFacts
+        root_selected: Assessment
+        residual_programs: DeclaredAlternativeFacts?
+        residual_selected: Assessment?
+    STEP construct_root_program_agenda
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_hot_symbolic_program_root",
+            alternative_refs=[],
+            descriptive_facts=descriptive_program_evidence
+        ) -> root_programs
+        SELECT root_selected
+            FOR "goal.choose_current_hot_symbolic_program"
+            FROM root_programs.alternative_refs
+            UNDER policy.declared_hot_symbolic_program_root
+            REQUIRE ["requirement.program_has_current_causal_support"]
+            PRESERVE root_programs.alternative_refs
+            FACTS root_programs.alternative_facts
+        MATCH root_selected.alternatives.selected
+            "program.resume_bounded_marker_pair_process", "program.resume_declared_interaction_route" -> STOP root_selected
+            "program.scan_residual_or_full_metaplan" -> NEXT select_residual_or_full_metaplan
+    STEP select_residual_or_full_metaplan
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_hot_symbolic_program_residual",
+            alternative_refs=[],
+            descriptive_facts=descriptive_program_evidence
+        ) -> residual_programs
+        SELECT residual_selected
+            FOR "goal.choose_residual_program_or_full_metaplan"
+            FROM residual_programs.alternative_refs
+            UNDER policy.declared_hot_symbolic_program_residual
+            REQUIRE ["requirement.program_has_current_causal_support"]
+            PRESERVE residual_programs.alternative_refs
+            FACTS residual_programs.alternative_facts
+        STOP residual_selected

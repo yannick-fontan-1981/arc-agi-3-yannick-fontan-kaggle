@@ -1,0 +1,23 @@
+# Select one abstract reasoning strategy; Python may only dispatch the result.
+MODULE arc3.select_reasoning_strategy
+
+WORKFLOW select_reasoning_strategy(
+    descriptive_strategy_evidence: Any
+) -> Assessment
+    STATE
+        strategies: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP construct_strategy_agenda
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reasoning_metaplan",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> strategies
+        SELECT selected
+            FOR "goal.choose_next_reasoning_strategy"
+            FROM strategies.alternative_refs
+            UNDER policy.declared_reasoning_metaplan
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE strategies.alternative_refs
+            FACTS strategies.alternative_facts
+        STOP selected

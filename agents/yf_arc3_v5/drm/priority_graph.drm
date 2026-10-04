@@ -1,0 +1,663 @@
+{
+  "module_id": "priority_graph",
+  "declarations": [
+    {
+      "id": "schema.priority_obligation_graph_contract",
+      "kind": "schema",
+      "premises": [
+        "current_term_claim_revision_exists",
+        "one_or_more_current_objective_or_preservation_obligations_are_declared"
+      ],
+      "applicability": [
+        "priority_obligation_graph_projection"
+      ],
+      "invariants": [
+        "every_obligation_names_kind_status_premises_dependencies_evidence_falsifiers_and_producer_activities",
+        "every_dependency_names_a_reason_and_falsifier",
+        "requires_relations_are_acyclic_and_source_revision_bound",
+        "tags_never_create_eligibility_or_precedence",
+        "python_validates_structure_and_never_originates_an_obligation_or_dependency"
+      ],
+      "falsifiers": [
+        "an_obligation_or_edge_lacks_declared_semantic_provenance",
+        "a_requires_cycle_or_unknown_reference_is_present",
+        "the_graph_revision_is_stale"
+      ],
+      "reason_refs": [
+        "reason.explicit_partial_order_replaces_accidental_global_tier_precedence"
+      ]
+    },
+    {
+      "id": "principle.priority_obligation_readiness_requires_every_declared_gate",
+      "kind": "principle",
+      "premises": [
+        "a_current_priority_obligation_graph_is_declared",
+        "one_obligation_is_considered_for_the_ready_frontier"
+      ],
+      "applicability": [
+        "priority_obligation_ready_frontier_materialization"
+      ],
+      "invariants": [
+        "every_current_premise_is_satisfied",
+        "every_required_obligation_is_satisfied",
+        "every_preserved_invariant_remains_safe",
+        "no_open_contradiction_blocks_the_obligation",
+        "every_required_resource_bound_remains_available",
+        "at_least_one_declared_producer_activity_is_currently_applicable",
+        "a_ready_obligation_names_readiness_evidence_and_one_local_selection_policy"
+      ],
+      "falsifiers": [
+        "one_current_premise_or_required_obligation_is_unsatisfied",
+        "one_preserved_invariant_is_threatened",
+        "one_blocker_or_resource_exhaustion_is_open",
+        "no_declared_producer_activity_is_applicable"
+      ],
+      "reason_refs": [
+        "reason.only_a_fully_grounded_obligation_may_enter_the_ready_frontier"
+      ]
+    },
+    {
+      "id": "principle.priority_safety_gates_precede_local_objective_selection",
+      "kind": "principle",
+      "premises": [
+        "one_or_more_declared_activities_could_eventually_release_an_action"
+      ],
+      "applicability": [
+        "priority_obligation_metaplanning"
+      ],
+      "invariants": [
+        "fresh_observation_and_reconciliation_debt_is_closed_first",
+        "protection_and_resource_invariants_are_checked_second",
+        "a_valid_hot_commitment_is_continued_or_repaired_before_opening_an_unrelated_branch",
+        "only_ready_terminal_or_enabling_obligations_open_local_objective_selection",
+        "a_bounded_experiment_requires_one_named_causal_gap",
+        "fresh_exploration_is_bounded_and_fail_closed",
+        "the_safety_gates_do_not_rank_semantically_independent_ready_objectives"
+      ],
+      "falsifiers": [
+        "an_action_is_released_with_unclosed_observation_or_reconciliation_debt",
+        "an_instrumental_activity_is_treated_as_a_terminal_objective_by_list_position",
+        "a_tag_or_insertion_order_changes_precedence_without_a_dependency_edge"
+      ],
+      "reason_refs": [
+        "reason.small_global_safety_gates_prevent_causal_boundary_bypass"
+      ]
+    },
+    {
+      "id": "principle.instrumental_activity_requires_a_ready_beneficiary_obligation",
+      "kind": "principle",
+      "premises": [
+        "a_route_interaction_or_experiment_is_considered_as_an_instrumental_activity"
+      ],
+      "applicability": [
+        "instrumental_activity_eligibility"
+      ],
+      "invariants": [
+        "the_activity_names_at_least_one_current_beneficiary_goal",
+        "the_activity_produces_a_predicate_required_by_one_ready_or_pursuing_obligation",
+        "the_activity_preserves_every_current_invariant",
+        "the_same_mechanical_activity_may_be_eligible_in_one_context_and_blocked_in_another",
+        "mechanical_route_availability_never_establishes_objective_priority"
+      ],
+      "falsifiers": [
+        "no_current_obligation_requires_the_activity_output",
+        "a_required_control_mechanism_or_reconciliation_predicate_is_missing",
+        "the_activity_would_break_a_preserved_invariant"
+      ],
+      "reason_refs": [
+        "reason.instrumental_means_receive_authority_only_from_current_obligations"
+      ]
+    },
+    {
+      "id": "principle.current_committed_route_keeps_its_open_beneficiary_pursuing",
+      "kind": "principle",
+      "premises": [
+        "a_committed_route_names_one_current_open_beneficiary_goal",
+        "the_latest_observation_has_been_reconciled",
+        "no_reconciliation_has_invalidated_the_route_or_its_goal_link"
+      ],
+      "applicability": [
+        "priority_obligation_goal_lifecycle_projection"
+      ],
+      "invariants": [
+        "the_named_beneficiary_goal_remains_pursuing_while_the_route_commitment_is_current",
+        "the_route_may_continue_only_when_its_next_primitive_reduces_the_open_residual",
+        "a_justified_current_subgoal_primitive_precedes_unrelated_exploratory_repetition",
+        "a_shared_action_alias_cannot_transfer_priority_between_distinct_current_subgoals_or_stops",
+        "a_changed_beneficiary_requires_an_explicit_declared_and_justified_handoff",
+        "absence_of_a_competing_justified_current_subgoal_does_not_invalidate_an_effectful_continuation",
+        "an_invalidated_route_or_closed_goal_cannot_retain_pursuing_status"
+      ],
+      "falsifiers": [
+        "the_route_commitment_is_absent_or_stale",
+        "the_named_goal_is_closed_invalidated_or_no_longer_requires_the_route",
+        "the_next_primitive_fails_to_reduce_the_declared_residual"
+      ],
+      "reason_refs": [
+        "reason.current_route_commitment_is_evidence_of_active_goal_pursuit"
+      ]
+    },
+    {
+      "id": "principle.reconciled_engagement_closure_selects_next_ready_obligation",
+      "kind": "principle",
+      "premises": [
+        "the_previous_action_bearing_triplet_was_dispatched_and_reconciled",
+        "src_drm_selected_a_current_pending_intent_from_the_fresh_revision",
+        "the_current_triplet_differs_from_the_previous_triplet"
+      ],
+      "applicability": [
+        "goal_route_or_experiment_stop_lifecycle_handoff"
+      ],
+      "invariants": [
+        "the_previous_engagement_is_closed_before_the_current_intent_receives_authority",
+        "the_current_intent_was_selected_by_a_declared_source_policy",
+        "multiple_ready_successors_are_resolved_by_declared_lexicographic_metaplanning_not_python_order",
+        "absence_of_a_local_successor_reopens_the_global_unresolved_utility_frontier",
+        "global_utility_exhaustion_precedes_bounded_retry_hard",
+        "an_exact_failed_composition_is_never_replayed_without_new_evidence"
+      ],
+      "falsifiers": [
+        "the_previous_action_was_not_reconciled",
+        "the_current_pending_intent_lacks_source_selection_attestation",
+        "the_current_triplet_is_identical_to_the_previous_triplet"
+      ],
+      "reason_refs": [
+        "reason.reconciled_old_engagement_closes_before_selected_successor_opens"
+      ]
+    },
+    {
+      "id": "principle.obligation_mismatch_invalidates_only_dependent_descendants",
+      "kind": "principle",
+      "premises": [
+        "a_reconciled_effect_falsifies_one_declared_obligation_link_or_premise"
+      ],
+      "applicability": [
+        "priority_obligation_graph_revision"
+      ],
+      "invariants": [
+        "the_action_bearing_hot_branch_is_suspended",
+        "only_the_falsified_links_and_their_dependent_descendants_are_invalidated",
+        "independent_objectives_and_still_valid_alternatives_are_preserved",
+        "the_ready_frontier_is_rematerialized_before_any_parent_resumes"
+      ],
+      "falsifiers": [
+        "an_independent_obligation_is_erased_without_a_dependency_path",
+        "a_parent_resumes_before_child_outcome_reconciliation_and_revalidation"
+      ],
+      "reason_refs": [
+        "reason.local_dependency_invalidation_preserves_valid_symbolic_work"
+      ]
+    },
+    {
+      "id": "principle.control_translation_revalidates_open_relational_assignment",
+      "kind": "principle",
+      "premises": [
+        "an_open_terminal_objective_depends_on_a_bijective_body_to_slot_assignment",
+        "a_directional_action_translates_one_current_control_body"
+      ],
+      "applicability": [
+        "post_action_priority_frontier_revalidation"
+      ],
+      "invariants": [
+        "the_fresh_frame_is_resegmented_before_an_unrelated_route_or_alignment_is_committed",
+        "retained_exact_slot_geometry_survives_temporary_body_or_cursor_overlay_until_explicitly_contradicted",
+        "current_body_to_slot_accessibility_is_recomputed_from_the_fresh_floor_graph",
+        "compact_state_reuse_cannot_bypass_the_open_relational_assignment_obligation"
+      ],
+      "falsifiers": [
+        "no_open_relational_assignment_depends_on_the_translated_body",
+        "the_action_did_not_translate_a_relevant_control_body",
+        "a_level_or_score_boundary_supersedes_the_scene"
+      ],
+      "reason_refs": [
+        "reason.control_translation_can_change_relational_assignment_readiness_without_external_pixel_change"
+      ]
+    },
+    {
+      "id": "policy.declared_priority_obligation_frontier",
+      "kind": "selection_policy",
+      "static_knowledge_node_kind": "priority",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "current_term_claim_revision_exists",
+        "one_local_candidate_has_been_selected_but_not_dispatched"
+      ],
+      "applicability": ["priority_obligation_action_authority"],
+      "invariants": [
+        "the_frontier_may_veto_but_never_mechanically_rewrite_the_local_candidate",
+        "post_action_reconciliation_precedes_control_revalidation",
+        "control_revalidation_precedes_mechanism_or_route_commitment",
+        "a_reconciled_changed_triplet_hands_off_before_the_selected_successor_action",
+        "a_blocking_function_obligation_precedes_a_route_with_no_reachable_successor",
+        "an_active_understood_mechanism_use_becomes_an_explicit_obligation_without_replacing_its_source_selected_activity",
+        "an_instrumental_route_requires_a_ready_or_pursuing_beneficiary",
+        "the_projection_is_bound_to_the_current_term_claim_revision"
+      ],
+      "falsifiers": [
+        "the_projection_revision_differs_from_the_canonical_snapshot",
+        "the_pending_candidate_differs_from_the_declared_frontier_activity",
+        "an_instrumental_route_has_no_current_beneficiary"
+      ],
+      "declared_alternative_refs": [
+        "frontier.close_post_action_reconciliation",
+        "frontier.handoff_reconciled_successor",
+        "frontier.revalidate_current_control",
+        "frontier.establish_transport_mechanism",
+        "frontier.resolve_blocking_function_obligation",
+        "frontier.apply_planned_understood_mechanism",
+        "frontier.produce_required_route_predicate",
+        "frontier.advance_open_beneficiary_goal",
+        "frontier.resolve_named_causal_gap"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.priority_obligation.default_pending_activity",
+          "all_conditions": [],
+          "static_facts": {
+            "applicable": false,
+            "pending_obligation_ref": "obligation.resolve_named_causal_gap",
+            "pending_activity_ref": "activity.run_discriminating_experiment",
+            "divergence_reason_refs": ["reason.declared_frontier_differs_from_legacy_activity"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.bind_current_goal_route_stop",
+          "all_conditions": [
+            {"field": "current_active_goal_ref", "operator": "is_present"},
+            {"field": "current_plan_or_experiment_ref", "operator": "is_present"},
+            {"field": "current_stop_condition_ref", "operator": "is_present"}
+          ],
+          "bound_facts": {
+            "pursued_goal_ref": "current_active_goal_ref",
+            "engaged_plan_or_experiment_ref": "current_plan_or_experiment_ref",
+            "stop_condition_ref": "current_stop_condition_ref"
+          },
+          "templated_facts": {
+            "goal_route_stop_lifecycle_ref": "lifecycle.goal_route_stop::{current_active_goal_ref}::{current_plan_or_experiment_ref}::{current_stop_condition_ref}"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.preserve_goal_route_stop_after_reconciliation",
+          "all_conditions": [
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "previous_action_lifecycle_present", "operator": "equals", "expected": true},
+            {"field": "current_active_goal_ref", "operator": "equals_reference_field", "reference_field": "previous_action_lifecycle_goal_ref"},
+            {"field": "current_plan_or_experiment_ref", "operator": "equals_reference_field", "reference_field": "previous_action_lifecycle_engagement_ref"},
+            {"field": "current_stop_condition_ref", "operator": "equals_reference_field", "reference_field": "previous_action_lifecycle_stop_condition_ref"}
+          ],
+          "static_facts": {
+            "active_goal_status": "pursuing",
+            "goal_route_link_status": "engaged_current"
+          },
+          "templated_facts": {
+            "goal_route_stop_lifecycle_ref": "lifecycle.goal_route_stop::{current_active_goal_ref}::{current_plan_or_experiment_ref}::{current_stop_condition_ref}"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.current_committed_route_keeps_open_goal_pursuing",
+          "all_conditions": [
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": true},
+            {"field": "active_goal_ref", "operator": "is_present"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "advances_active_goal_chain": true,
+            "active_goal_status": "pursuing",
+            "goal_route_link_status": "engaged_current",
+            "goal_pursuit_reason_ref": "reason.current_route_commitment_is_evidence_of_active_goal_pursuit"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.pending_bounded_route",
+          "all_conditions": [
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": true},
+            {"field": "advances_active_goal_chain", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "pending_obligation_ref": "obligation.produce_required_route_predicate",
+            "pending_activity_ref": "activity.construct_bounded_route"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.pending_committed_route_continuation",
+          "all_conditions": [
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "pending_obligation_ref": "obligation.produce_required_route_predicate",
+            "pending_activity_ref": "activity.continue_committed_route"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.close_post_action_reconciliation",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.close_post_action_reconciliation"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "causal_debt",
+            "active_safety_gate": "causal_debt",
+            "active_obligation_ref": "obligation.close_post_action_reconciliation",
+            "ready_frontier_refs": ["obligation.close_post_action_reconciliation"],
+            "blocked_obligation_refs": [
+              "obligation.revalidate_current_control",
+              "obligation.produce_required_route_predicate"
+            ],
+            "blocking_predicate_refs": ["predicate.fresh_observation_reconciliation_missing"],
+            "activity_ref": "activity.reconcile_fresh_observation",
+            "local_selection_policy_ref": "policy.post_action_reconciliation.local",
+            "first_discriminating_criterion_ref": "criterion.causal_debt_is_closed_before_dispatch",
+            "preserved_invariant_refs": ["invariant.no_action_before_reconciliation"],
+            "expected_effect_ref": "effect.canonical_post_action_debt_closed",
+            "falsifier_refs": ["falsifier.reconciliation_revision_or_frame_is_stale"],
+            "divergence_reason_refs": ["reason.legacy_activity_bypasses_post_action_reconciliation"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.revalidate_current_control",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.revalidate_current_control"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "control_identity_rebinding_required", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "control_revalidation",
+            "active_safety_gate": "commitment",
+            "active_obligation_ref": "obligation.revalidate_current_control",
+            "ready_frontier_refs": ["obligation.revalidate_current_control"],
+            "blocked_obligation_refs": ["obligation.produce_required_route_predicate"],
+            "blocking_predicate_refs": ["predicate.current_control_identity_unreconciled"],
+            "activity_ref": "activity.revalidate_control_identity",
+            "local_selection_policy_ref": "policy.control_revalidation.local",
+            "first_discriminating_criterion_ref": "criterion.current_control_precedes_route",
+            "preserved_invariant_refs": ["invariant.current_control_identity"],
+            "expected_effect_ref": "effect.current_control_identity_revalidated",
+            "falsifier_refs": ["falsifier.control_identity_changed_or_remains_ambiguous"],
+            "divergence_reason_refs": ["reason.legacy_route_requires_current_control_revalidation"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.establish_transport_mechanism",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.establish_transport_mechanism"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "current_intent_is_discriminating_experiment", "operator": "not_equals", "expected": true},
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": true},
+            {"field": "advances_active_goal_chain", "operator": "equals", "expected": true},
+            {"field": "compatible_control_zone_cell_requires_relational_mechanism", "operator": "equals", "expected": true},
+            {"field": "verified_mechanism_evidence_count", "operator": "equals", "expected": 0}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "mechanism_commitment",
+            "active_safety_gate": "commitment",
+            "active_obligation_ref": "obligation.establish_transport_mechanism",
+            "ready_frontier_refs": ["obligation.establish_transport_mechanism"],
+            "blocked_obligation_refs": ["obligation.produce_required_route_predicate"],
+            "blocking_predicate_refs": ["predicate.transport_mechanism_not_engaged"],
+            "activity_ref": "activity.discriminate_transport_mechanism",
+            "local_selection_policy_ref": "policy.transport_mechanism.local",
+            "first_discriminating_criterion_ref": "criterion.mechanism_commitment_precedes_route",
+            "preserved_invariant_refs": ["invariant.current_control_identity"],
+            "expected_effect_ref": "effect.transport_mechanism_committed_or_falsified",
+            "falsifier_refs": ["falsifier.transport_effect_not_observed"],
+            "divergence_reason_refs": ["reason.instrumental_route_requires_engaged_mechanism"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.resolve_blocking_function_obligation",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.resolve_blocking_function_obligation"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "last_action_no_effect_in_current_context", "operator": "equals", "expected": true},
+            {"field": "bounded_zone_state_graph_present", "operator": "equals", "expected": true},
+            {"field": "bounded_zone_state_graph_bound_reached", "operator": "equals", "expected": false},
+            {"field": "bounded_zone_state_peer_reachable", "operator": "equals", "expected": false},
+            {"field": "alternate_effectful_point_locus_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "unique_alternate_effectful_point_locus_candidate_ref", "operator": "is_present"},
+            {"field": "current_candidate_ref", "operator": "equals_reference_field", "reference_field": "unique_alternate_effectful_point_locus_candidate_ref"},
+            {"field": "current_active_goal_ref", "operator": "is_present"},
+            {"field": "current_plan_or_experiment_ref", "operator": "is_present"},
+            {"field": "current_stop_condition_ref", "operator": "is_present"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "mechanism_commitment",
+            "active_safety_gate": "commitment",
+            "active_obligation_ref": "obligation.resolve_blocking_function_obligation",
+            "ready_frontier_refs": ["obligation.resolve_blocking_function_obligation"],
+            "blocked_obligation_refs": ["obligation.produce_required_route_predicate"],
+            "blocking_predicate_refs": ["predicate.current_directional_route_has_no_reachable_successor"],
+            "activity_ref": "activity.resolve_blocking_function_obligation",
+            "pending_activity_ref": "activity.resolve_blocking_function_obligation",
+            "local_selection_policy_ref": "policy.blocking_function_obligation.local",
+            "first_discriminating_criterion_ref": "criterion.unique_effectful_control_can_restore_blocked_route_support",
+            "preserved_invariant_refs": ["invariant.current_control_identity", "invariant.valid_alternatives_remain_live"],
+            "expected_effect_ref": "effect.known_control_reopens_a_successor_for_the_pursued_goal",
+            "falsifier_refs": ["falsifier.known_control_does_not_change_route_reachability_in_current_context"],
+            "divergence_reason_refs": ["reason.blocking_known_control_precedes_unrelated_visual_novelty"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.apply_planned_understood_mechanism",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.apply_planned_understood_mechanism"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "current_candidate_active_mechanism_use_count", "operator": "greater_than", "expected": 0},
+            {"field": "current_candidate_mechanism_utility_success_evidence_refs", "operator": "is_present"},
+            {"field": "current_candidate_mechanism_utility_failure_evidence_refs", "operator": "is_present"},
+            {"field": "current_candidate_mechanism_utility_stop_condition_refs", "operator": "is_present"},
+            {"field": "current_candidate_mechanism_utility_reconciliation_refs", "operator": "is_present"},
+            {"field": "current_active_goal_ref", "operator": "is_present"},
+            {"field": "current_plan_or_experiment_ref", "operator": "is_present"},
+            {"field": "current_stop_condition_ref", "operator": "is_present"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "mechanism_application",
+            "active_safety_gate": "objective_frontier",
+            "active_obligation_ref": "obligation.apply_planned_understood_mechanism",
+            "ready_frontier_refs": ["obligation.apply_planned_understood_mechanism"],
+            "blocked_obligation_refs": [],
+            "blocking_predicate_refs": [],
+            "local_selection_policy_ref": "policy.planned_understood_mechanism_use.local",
+            "first_discriminating_criterion_ref": "criterion.current_candidate_matches_declared_mechanism_goal_action_and_plan",
+            "preserved_invariant_refs": [
+              "invariant.current_source_selected_activity_is_unchanged",
+              "invariant.deferred_mechanism_uses_do_not_interrupt_progressing_parent",
+              "invariant.valid_mechanism_use_alternatives_remain_live"
+            ],
+            "expected_effect_ref": "effect.declared_mechanism_use_advances_goal_or_is_falsified_at_checkpoint",
+            "falsifier_refs": ["falsifier.current_candidate_no_longer_matches_declared_mechanism_use"],
+            "divergence_reason_refs": ["reason.understood_mechanism_use_requires_explicit_priority_obligation"]
+          },
+          "bound_facts": {
+            "active_mechanism_use_refs": "current_candidate_active_mechanism_use_refs",
+            "mechanism_application_test_refs": "current_candidate_mechanism_application_test_refs",
+            "mechanism_utility_success_evidence_refs": "current_candidate_mechanism_utility_success_evidence_refs",
+            "mechanism_utility_failure_evidence_refs": "current_candidate_mechanism_utility_failure_evidence_refs",
+            "mechanism_utility_stop_condition_refs": "current_candidate_mechanism_utility_stop_condition_refs",
+            "mechanism_utility_reconciliation_refs": "current_candidate_mechanism_utility_reconciliation_refs",
+            "mechanism_expected_effect_refs": "current_candidate_mechanism_expected_effect_refs",
+            "mechanism_falsifier_refs": "current_candidate_mechanism_falsifier_refs"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.pending_source_selected_experiment",
+          "all_conditions": [
+            {"field": "current_intent_is_discriminating_experiment", "operator": "equals", "expected": true},
+            {"field": "alternative_ref", "operator": "not_equals", "expected": "frontier.resolve_blocking_function_obligation"}
+          ],
+          "static_facts": {
+            "pending_obligation_ref": "obligation.resolve_named_causal_gap",
+            "pending_activity_ref": "activity.run_discriminating_experiment"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.pending_source_selected_nonroute_plan",
+          "all_conditions": [
+            {"field": "current_intent_is_committed_plan", "operator": "equals", "expected": true},
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": false},
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "pending_obligation_ref": "obligation.advance_open_beneficiary_goal",
+            "pending_activity_ref": "activity.execute_committed_plan"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.bind_planned_understood_mechanism_activity",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.apply_planned_understood_mechanism"},
+            {"field": "current_candidate_active_mechanism_use_count", "operator": "greater_than", "expected": 0}
+          ],
+          "bound_facts": {
+            "activity_ref": "pending_activity_ref"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.handoff_reconciled_successor",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.handoff_reconciled_successor"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "previous_action_lifecycle_present", "operator": "equals", "expected": true},
+            {"field": "previous_action_lifecycle_transition_reconciled", "operator": "equals", "expected": true},
+            {"field": "current_pending_intent_source_selected", "operator": "equals", "expected": true},
+            {"field": "current_triplet_differs_from_previous", "operator": "equals", "expected": true},
+            {"field": "current_active_goal_ref", "operator": "is_present"},
+            {"field": "current_plan_or_experiment_ref", "operator": "is_present"},
+            {"field": "current_stop_condition_ref", "operator": "is_present"}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "lifecycle_handoff",
+            "active_safety_gate": "commitment",
+            "active_obligation_ref": "obligation.handoff_reconciled_successor",
+            "ready_frontier_refs": ["obligation.handoff_reconciled_successor"],
+            "blocked_obligation_refs": [],
+            "blocking_predicate_refs": [],
+            "activity_ref": "activity.handoff_reconciled_successor",
+            "local_selection_policy_ref": "policy.reconciled_lifecycle_handoff.local",
+            "first_discriminating_criterion_ref": "criterion.current_src_selected_successor_after_reconciliation",
+            "preserved_invariant_refs": ["invariant.valid_alternatives_remain_live", "invariant.no_exact_failed_composition_retry"],
+            "expected_effect_ref": "effect.previous_engagement_closed_and_selected_successor_opened",
+            "falsifier_refs": ["falsifier.current_pending_intent_is_not_source_selected_or_fresh"],
+            "divergence_reason_refs": ["reason.reconciled_old_engagement_closes_before_selected_successor_opens"]
+          },
+          "bound_facts": {
+            "activity_ref": "pending_activity_ref"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.produce_required_route_predicate",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.produce_required_route_predicate"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "current_intent_is_discriminating_experiment", "operator": "not_equals", "expected": true},
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": true},
+            {"field": "advances_active_goal_chain", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "objective_frontier",
+            "active_safety_gate": "objective_frontier",
+            "active_obligation_ref": "obligation.produce_required_route_predicate",
+            "ready_frontier_refs": ["obligation.produce_required_route_predicate"],
+            "blocked_obligation_refs": [],
+            "blocking_predicate_refs": [],
+            "activity_ref": "activity.construct_bounded_route",
+            "local_selection_policy_ref": "policy.current_beneficiary_route.local",
+            "first_discriminating_criterion_ref": "criterion.route_reduces_open_beneficiary_residual",
+            "preserved_invariant_refs": ["invariant.current_control_identity"],
+            "expected_effect_ref": "effect.required_route_predicate_produced",
+            "falsifier_refs": ["falsifier.route_revision_or_expected_edge_mismatch"],
+            "divergence_reason_refs": ["reason.declared_route_producer_differs_from_legacy_continuation"]
+          }
+        },
+        {
+          "id": "projection.priority_obligation.continue_committed_required_route",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.produce_required_route_predicate"},
+            {"field": "committed_verified_repetition", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "activity_ref": "activity.continue_committed_route"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.advance_open_beneficiary_goal",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.advance_open_beneficiary_goal"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true},
+            {"field": "advances_active_goal_chain", "operator": "equals", "expected": true},
+            {"field": "provisional_object_terminating_route_present", "operator": "equals", "expected": false}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "objective_frontier",
+            "active_safety_gate": "objective_frontier",
+            "active_obligation_ref": "obligation.advance_open_beneficiary_goal",
+            "ready_frontier_refs": ["obligation.advance_open_beneficiary_goal"],
+            "blocked_obligation_refs": [],
+            "blocking_predicate_refs": [],
+            "local_selection_policy_ref": "policy.current_goal_progress.local",
+            "first_discriminating_criterion_ref": "criterion.primitive_reduces_open_goal_residual",
+            "preserved_invariant_refs": ["invariant.previously_satisfied_objectives_remain_closed"],
+            "expected_effect_ref": "effect.open_goal_residual_reduced",
+            "falsifier_refs": ["falsifier.goal_residual_not_reduced_or_invariant_reopened"],
+            "divergence_reason_refs": ["reason.goal_progress_replaces_accidental_legacy_activity_order"]
+          },
+          "bound_facts": {
+            "activity_ref": "pending_activity_ref"
+          }
+        },
+        {
+          "id": "projection.priority_obligation.resolve_named_causal_gap",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.resolve_named_causal_gap"},
+            {"field": "fresh_observation_reconciled", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "frontier_eligibility_class": "information",
+            "active_safety_gate": "information",
+            "active_obligation_ref": "obligation.resolve_named_causal_gap",
+            "ready_frontier_refs": ["obligation.resolve_named_causal_gap"],
+            "blocked_obligation_refs": [],
+            "blocking_predicate_refs": [],
+            "local_selection_policy_ref": "policy.named_causal_gap.local",
+            "first_discriminating_criterion_ref": "criterion.named_gap_information_gain",
+            "preserved_invariant_refs": ["invariant.valid_alternatives_remain_live"],
+            "expected_effect_ref": "effect.named_causal_gap_reduced",
+            "falsifier_refs": ["falsifier.experiment_does_not_discriminate_named_gap"]
+          },
+          "bound_facts": {
+            "activity_ref": "pending_activity_ref"
+          }
+        }
+      ],
+      "selection_tiers": [
+        {"id": "gate.priority_obligation.causal_debt", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "causal_debt"}], "reason_ref": "reason.post_action_reconciliation_precedes_every_dispatch"},
+        {"id": "gate.priority_obligation.control_revalidation", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "control_revalidation"}], "reason_ref": "reason.current_control_identity_precedes_mechanism_and_route"},
+        {"id": "gate.priority_obligation.lifecycle_handoff", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "lifecycle_handoff"}], "reason_ref": "reason.reconciled_old_engagement_closes_before_selected_successor_opens"},
+        {"id": "gate.priority_obligation.mechanism_commitment", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "mechanism_commitment"}], "reason_ref": "reason.engaged_mechanism_precedes_instrumental_route"},
+        {"id": "gate.priority_obligation.mechanism_application", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "mechanism_application"}], "reason_ref": "reason.current_source_selected_activity_is_explained_by_its_declared_mechanism_use"},
+        {"id": "gate.priority_obligation.objective_frontier", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "objective_frontier"}], "reason_ref": "reason.ready_objective_authorizes_its_local_activity"},
+        {"id": "gate.priority_obligation.information", "all_conditions": [{"field": "frontier_eligibility_class", "operator": "equals", "expected": "information"}], "reason_ref": "reason.named_causal_gap_authorizes_bounded_experiment"}
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize", "criterion_ref": "criterion.canonical_structural_alternative_ref", "reason_ref": "reason.canonical_structural_ref_makes_total_order_explicit"}
+      ],
+      "reason_refs": [
+        "reason.ready_obligation_frontier_vetoes_an_unbound_local_candidate",
+        "reason.local_candidate_generation_does_not_override_obligation_authority"
+      ]
+    }
+  ]
+}

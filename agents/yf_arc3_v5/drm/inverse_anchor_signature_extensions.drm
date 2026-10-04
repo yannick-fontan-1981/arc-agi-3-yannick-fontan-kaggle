@@ -1,0 +1,293 @@
+{
+  "module_id": "inverse_anchor_signature_extensions",
+  "declarations": [
+    {
+      "id": "policy.declared_inverse_anchor_geometry_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_complete_before_after_geometry_packet_for_independent_anchor_systems_is_supplied"],
+      "applicability": ["provisional_inverse_anchor_geometry_reconciliation"],
+      "invariants": [
+        "full_anchor_and_dependent_masks_are_compared",
+        "wire_identity_is_separate_from_redrawn_raster",
+        "independent_systems_remain_separate"
+      ],
+      "falsifiers": ["mask_packet_incomplete", "wire_ownership_unresolved", "system_identity_missing"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.inverse_anchor_signature.geometry"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.geometry",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.inverse_anchor_signature.geometry"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "before_after_packet_complete", "operator": "equals", "expected": true},
+          {"field": "full_anchor_masks_supplied", "operator": "equals", "expected": true},
+          {"field": "full_dependent_masks_supplied", "operator": "equals", "expected": true},
+          {"field": "redrawn_wire_packet_complete", "operator": "equals", "expected": true},
+          {"field": "quantized_displacements_supplied", "operator": "equals", "expected": true},
+          {"field": "independent_system_refs_complete", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.inverse_anchor_signature.geometry",
+          "reasoning_tree_parent_key": "frontier.effect.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.inverse_anchor_signature.geometry"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_terrain_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_blocked_result_is_partitioned_across_anchor_dependent_path_and_quantization_causes"],
+      "applicability": ["provisional_inverse_anchor_terrain_reconciliation"],
+      "invariants": [
+        "anchor_and_dependent_legality_remain_distinct",
+        "unmeasured_swept_path_remains_unknown",
+        "uncertain_quantization_is_not_reported_as_collision"
+      ],
+      "falsifiers": ["blocked_result_absent", "cause_partition_incomplete", "unknown_path_silently_treated_as_clear"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.inverse_anchor_signature.terrain"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.terrain",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.inverse_anchor_signature.terrain"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "blocked_result_observed", "operator": "equals", "expected": true},
+          {"field": "anchor_footprint_status_explicit", "operator": "equals", "expected": true},
+          {"field": "dependent_destination_status_explicit", "operator": "equals", "expected": true},
+          {"field": "dependent_transition_path_status_explicit", "operator": "equals", "expected": true},
+          {"field": "placement_quantization_status_explicit", "operator": "equals", "expected": true},
+          {"field": "blocked_attribution_partition_complete", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.inverse_anchor_signature.terrain",
+          "reasoning_tree_parent_key": "frontier.effect.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.inverse_anchor_signature.terrain"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_utility_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_legal_anchor_placement_left_the_next_dependent_waypoint_inaccessible"],
+      "applicability": ["provisional_inverse_anchor_configuration_revision"],
+      "invariants": [
+        "only_the_anchor_configuration_proposal_is_revised",
+        "terminal_identity_is_preserved",
+        "grounded_click_semantics_are_preserved"
+      ],
+      "falsifiers": ["placement_was_illegal", "next_waypoint_is_accessible", "terminal_identity_was_contradicted"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.inverse_anchor_signature.utility"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.utility",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.inverse_anchor_signature.utility"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "legal_anchor_placement_observed", "operator": "equals", "expected": true},
+          {"field": "next_dependent_waypoint_accessible", "operator": "equals", "expected": false},
+          {"field": "terminal_identity_still_supported", "operator": "equals", "expected": true},
+          {"field": "grounded_click_semantics_still_supported", "operator": "equals", "expected": true},
+          {"field": "revision_scope", "operator": "equals", "expected": "anchor_configuration_only"}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.inverse_anchor_signature.utility",
+          "reasoning_tree_parent_key": "frontier.effect.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.inverse_anchor_signature.utility"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_typed_clearance",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["complete_anchor_and_dependent_footprints_typed_terrain_and_a_supported_or_explicitly_unmeasured_path_policy_are_supplied"],
+      "applicability": ["provisional_inverse_anchor_typed_clearance_request"],
+      "invariants": [
+        "anchor_destination_and_dependent_transition_legality_are_separate",
+        "unmeasured_swept_path_returns_unknown",
+        "python_does_not_choose_a_destination"
+      ],
+      "falsifiers": ["footprint_packet_incomplete", "typed_terrain_absent", "clearance_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.inverse_anchor_signature.typed_clearance"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.typed_clearance",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.inverse_anchor_signature.typed_clearance"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "anchor_and_dependent_footprints_complete", "operator": "equals", "expected": true},
+          {"field": "typed_terrain_rules_supplied", "operator": "equals", "expected": true},
+          {"field": "transition_path_policy_explicit", "operator": "equals", "expected": true},
+          {"field": "clearance_packet_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.inverse_anchor_signature.typed_clearance",
+          "reasoning_tree_parent_key": "mechanics.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.inverse_anchor_typed_clearance_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_inverse_anchor_signature_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.inverse_anchor_signature.two_legalities",
+            "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.inverse_anchor_signature.typed_clearance"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_successor",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_complete_current_system_packet_one_explicit_operator_and_its_grounded_result_packet_are_supplied"],
+      "applicability": ["provisional_inverse_anchor_successor_request"],
+      "invariants": [
+        "control_transfer_and_anchor_placement_are_distinct_operators",
+        "placement_requires_a_grounded_destination",
+        "unaffected_systems_are_preserved_exactly"
+      ],
+      "falsifiers": ["operator_ambiguous", "destination_ungrounded", "unaffected_system_packet_incomplete"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.inverse_anchor_signature.successor"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.successor",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.inverse_anchor_signature.successor"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "current_system_packet_complete", "operator": "equals", "expected": true},
+          {"field": "requested_operator_kind_explicit", "operator": "equals", "expected": true},
+          {"field": "requested_anchor_identity_grounded", "operator": "equals", "expected": true},
+          {"field": "operator_result_packet_complete", "operator": "equals", "expected": true},
+          {"field": "unaffected_systems_complete", "operator": "equals", "expected": true},
+          {"field": "successor_system_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.inverse_anchor_signature.successor",
+          "reasoning_tree_parent_key": "mechanics.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.inverse_anchor_successor_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_inverse_anchor_signature_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.inverse_anchor_signature.select_then_place",
+            "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.inverse_anchor_signature.successor"]
+    },
+    {
+      "id": "policy.declared_inverse_anchor_waypoint_candidates",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["the_current_inverse_domain_is_insufficient_and_at_most_three_complete_corridor_witnesses_are_supplied"],
+      "applicability": ["provisional_inverse_anchor_waypoint_request"],
+      "invariants": [
+        "obstacle_tip_and_connected_region_constraints_are_explicit",
+        "supporting_anchor_configuration_stays_attached_to_each_waypoint",
+        "python_partitions_but_does_not_select_a_route"
+      ],
+      "falsifiers": ["current_inverse_domain_sufficient", "corridor_constraints_implicit", "global_candidate_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.inverse_anchor_signature.waypoint_candidates"],
+      "fact_projections": [{
+        "id": "projection.inverse_anchor_signature.waypoint_candidates",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.inverse_anchor_signature.waypoint_candidates"},
+          {"field": "provisional_inverse_anchor_signature_family_requested", "operator": "equals", "expected": true},
+          {"field": "current_inverse_domain_produces_next_safe_waypoint", "operator": "equals", "expected": false},
+          {"field": "obstacle_tip_and_connected_region_constraints_explicit", "operator": "equals", "expected": true},
+          {"field": "supporting_anchor_configurations_complete", "operator": "equals", "expected": true},
+          {"field": "waypoint_candidate_count", "operator": "between_inclusive", "lower": 1, "upper": 3},
+          {"field": "global_waypoint_candidate_bound_respected", "operator": "equals", "expected": true},
+          {"field": "route_desirability_not_preselected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.inverse_anchor_signature.waypoint_candidates",
+          "reasoning_tree_parent_key": "mechanics.inverse_anchor_signature",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.inverse_anchor_waypoint_candidate_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_inverse_anchor_signature_action_ready_activations": [
+            {
+              "reasoning_tree_node_id": "solving.inverse_anchor_signature.configuration_waypoint",
+              "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            },
+            {
+              "reasoning_tree_node_id": "solving.inverse_anchor_signature.corridor",
+              "reasoning_tree_parent_key": "solving.inverse_anchor_signature",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            }
+          ]
+        }
+      }],
+      "reason_refs": ["mechanics.inverse_anchor_signature.waypoint_candidates"]
+    }
+  ]
+}

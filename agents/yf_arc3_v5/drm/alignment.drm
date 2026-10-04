@@ -1,0 +1,3471 @@
+{
+  "module_id": "alignment",
+  "declarations": [
+    {
+      "id": "policy.remember_completed_reference_write",
+      "kind": "selection_policy", "evaluation": "declared_lexicographic_order",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["reference_write.remember", "reference_write.absent"],
+      "configuration": {"measurement_contract": {
+        "goal_contract_field": "active_terminal_goal_ref",
+        "goal_kind": "reference_guided_pattern_correspondence",
+        "surface_binding_fields": ["reference_candidate_ref", "output_candidate_ref"],
+        "maximum_pixels": 4096, "maximum_frames": 256, "maximum_elements": 256
+      }},
+      "fact_projections": [
+        {
+          "id": "projection.reference_write.remember",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "reference_write.remember"},
+            {"field": "reference_write_evidence_present", "operator": "equals", "expected": true},
+            {"field": "official_boundary_present", "operator": "equals", "expected": true},
+            {"field": "reference_unchanged", "operator": "equals", "expected": true},
+            {"field": "before_mismatch_count", "operator": "greater_than", "expected": 0},
+            {"field": "terminal_mismatch_count", "operator": "equals", "expected": 0},
+            {"field": "matching_packet_suffix_count", "operator": "greater_than", "expected": 0},
+            {"field": "changed_pixel_count", "operator": "greater_than", "expected": 0},
+            {"field": "changed_to_value_count", "operator": "equals", "expected": 1},
+            {"field": "prior_observation_index_complete", "operator": "equals", "expected": true},
+            {"field": "prior_reference_unchanged", "operator": "equals", "expected": true},
+            {"field": "prior_matching_observation_count", "operator": "equals", "expected": 0}
+          ],
+          "static_facts": {"reference_write_memory_kind": "remember"},
+          "templated_facts": {"reference_write_memory_claim_refs": ["claim.reference_write.method.{observation_evidence_digest}", "claim.reference_write.terminal.{observation_evidence_digest}"]}
+        },
+        {
+          "id": "projection.reference_write.absent",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "reference_write.absent"}],
+          "static_facts": {"reference_write_memory_kind": "absent"}
+        }
+      ],
+      "selection_tiers": [
+        {"id": "tier.reference_write.remember", "all_conditions": [{"field": "reference_write_memory_kind", "operator": "equals", "expected": "remember"}], "reason_ref": "reason.terminal_surface_match_supports_revisable_reference_write_method"},
+        {"id": "tier.reference_write.absent", "all_conditions": [{"field": "reference_write_memory_kind", "operator": "equals", "expected": "absent"}], "reason_ref": "reason.reference_write_terminal_evidence_is_incomplete_or_contradicted"}
+      ],
+      "selection_tie_breakers": [{"field": "reference_write_memory_kind", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"reference_write.remember": "rule.completed_reference_write_memory"},
+      "reason_refs": ["reason.terminal_surface_match_supports_revisable_reference_write_method"]
+    },
+    {
+      "id": "rule.completed_reference_write_memory", "kind": "rule",
+      "evaluation": "project_requested_conclusions", "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "invariants": [
+        "official_boundary_and_observed_terminal_surface_equality_support_a_revisable_goal",
+        "prior_nonwinning_equality_is_counterevidence",
+        "a_changed_pixel_support_is_only_a_lower_bound_on_the_write_footprint",
+        "memory_retains_color_and_command_but_no_scene_coordinates_or_exact_route",
+        "current_scene_roles_pose_and_footprint_require_revalidation"
+      ],
+      "term_templates": [{
+        "id_pattern": "memory.reference_write.{observation_evidence_digest}", "kind": "schema",
+        "label": "revisable_reference_surface_writing_method",
+        "required_fields": ["observation_evidence_digest", "application_action_ref", "unique_written_value", "transition_ref"],
+        "static_attributes": {
+          "projection_contract": "yf_arc3_v5.reference_write_method.v1",
+          "canonical_fact_projection_enabled": true, "active": true,
+          "memory_scope": "same_game", "commitment": "revisable",
+          "terminal_relation_ref": "relation.output_matches_reference",
+          "workflow_ref": "workflow.hot.revalidated_reference_surface_writing",
+          "activity_refs": ["activity.rebind_reference_and_output", "activity.revalidate_application_pose_and_footprint", "activity.compose_reconciled_surface_writes"],
+          "requires_current_control_revalidation": true, "complete_footprint_known": false,
+          "canonical_role_link_constraints": {"allowed_statuses": ["supported", "established"], "disposition": "active", "polarity": "positive", "no_contradictions": true, "no_defeaters": true},
+          "falsifier_refs": ["falsifier.application_does_not_write_bound_output", "falsifier.output_equality_does_not_explain_official_boundary"]
+        },
+        "attribute_bindings": {"application_action_ref": "application_action_ref", "written_palette_value": "unique_written_value", "observed_oriented_half_surface": "changed_support_matches_oriented_half_surface", "last_completion_transition_ref": "transition_ref", "role_premise_claim_refs": "reference_write_memory_claim_refs"}
+      }],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.reference_write.method.{observation_evidence_digest}",
+          "predicate": "remembers_revisable_reference_write_method", "family": "control", "epistemic_status": "supported",
+          "argument_patterns": ["memory.reference_write.{observation_evidence_digest}"],
+          "required_fields": ["observation_evidence_digest", "source_intent_ref", "transition_ref"],
+          "attribute_bindings": {"executed_intent_ref": "source_intent_ref", "transition_ref": "transition_ref"},
+          "static_attributes": {"memory_scope": "same_game", "commitment": "revisable"}
+        },
+        {
+          "id_pattern": "claim.reference_write.terminal.{observation_evidence_digest}",
+          "predicate": "declares_revalidatable_terminal_objective_contract", "family": "control", "epistemic_status": "supported",
+          "argument_patterns": ["memory.reference_write.{observation_evidence_digest}"],
+          "required_fields": ["observation_evidence_digest", "transition_ref"],
+          "attribute_bindings": {"transition_ref": "transition_ref"},
+          "static_attributes": {"measure_ref": "measure.reference_output_mismatch_count", "comparator": "equals", "target_value": 0, "attested_value_after_plan": 0, "contract_status": "provisional_until_current_scene_revalidation", "drop_scene_local_bindings": true}
+        },
+        {
+          "id_pattern": "claim.reference_write.completed.{observation_evidence_digest}",
+          "predicate": "goal_lifecycle_status", "family": "control", "epistemic_status": "established",
+          "argument_patterns": ["{source_goal_ref}", "level_achieved"],
+          "required_fields": ["observation_evidence_digest", "source_goal_ref", "transition_ref"],
+          "static_attributes": {"goal_lifecycle_status": "level_achieved"},
+          "attribute_bindings": {"transition_ref": "transition_ref"}
+        }
+      ],
+      "reason_refs": ["reason.terminal_surface_match_supports_revisable_reference_write_method"]
+    },
+    {
+      "id": "policy.preserve_official_terminal_outcome",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["terminal_memory.preserve_official_outcome"],
+      "configuration": {"measurement_contract": {
+        "official_predicate": "level_completed", "official_status": "established",
+        "official_rules": ["rule.verified_alignment_completion_meaning", "rule.observed_score_boundary_meaning"],
+        "maximum_records": 1024, "maximum_pixels": 8192, "maximum_fields": 24, "maximum_reference_length": 1024,
+        "maximum_history_inputs": 8192, "history_ordinal_field": "step_index",
+        "before_observation_binding": "actual_executed_action_frame",
+        "maximum_action_fields": 32, "maximum_action_references": 64,
+        "retained_action_fields": ["action_ref", "frame_id", "state_revision",
+          "active_goal_ref", "active_terminal_goal_ref", "declared_terminal_goal_ref", "subgoal_ref",
+          "goal_graph_edge_refs", "goal_dependency_chain_refs", "declared_dependency_chain_refs",
+          "selection_principle_ref", "premise_claim_refs", "canonical_premise_claim_refs",
+          "expected_effect_class", "expected_configuration_or_goal_delta_ref", "falsifier_refs",
+          "committed_plan_ref", "discriminating_experiment_ref", "remaining_action_bound",
+          "reconciliation_checkpoint_ref", "declared_series_ref", "declared_series_index"],
+        "history_scope_fields": ["game_id", "guid", "instance_seed"],
+        "entry_geometry_contract": {
+          "action_equalities": {"active_goal_ref": "goal.enter_compatible_fixed_region", "selection_principle_ref": "principle.directional_control_and_palette_region_open_revisable_entry"},
+          "role_attribute": "role", "role_value": "cursor_supposition", "maximum_scene_terms": 4096,
+          "route_measurement": {"max_support_pixels": 64, "max_palette_values": 4, "max_frame_pixels": 65536,
+            "max_witnesses": 3, "max_expanded_states": 4096, "max_path_actions": 1,
+            "vacated_current_control_support_constrains_surface": true}
+        },
+        "retained_fields": ["goal_ref", "context_epoch", "action_ref", "candidate_ref", "score_delta", "before_score", "after_score", "expected_remaining_step_count",
+          "moving_entity_ref", "fixed_entity_ref", "alignment_axis",
+          "terminal_objective_contract_ref", "terminal_objective_measure_ref",
+          "terminal_objective_comparator", "terminal_objective_target_value",
+          "terminal_objective_predicted_value_after_plan", "terminal_access_candidate_ref",
+          "exact_terminal_relation_step_expected", "distance_is_quantized"]
+      }},
+      "selection_eligibility_conditions": [{"field": "official_boundary_present", "operator": "equals", "expected": true}],
+      "meaning_template_ref_by_alternative": {"terminal_memory.preserve_official_outcome": "rule.preserved_official_terminal_outcome"},
+      "premises": ["one_exact_canonical_official_completion_proof"],
+      "invariants": ["preserve_evidence_before_optional_goal_interpretation", "no_goal_kind_required", "no_action_authorization"],
+      "reason_refs": ["reason.official_completion_evidence_survives_incomplete_terminal_interpretation"]
+    },
+    {
+      "id": "rule.preserved_official_terminal_outcome",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": ["one_exact_canonical_official_completion_proof"],
+      "invariants": ["observation_is_not_an_inferred_terminal_predicate", "post_action_frame_may_be_the_next_scene",
+        "historical_coordinates_are_evidence_not_current_bindings", "predicted_contract_is_not_observed_effect",
+        "no_method_required", "no_action_authorization"],
+      "term_templates": [{
+        "id_pattern": "evidence.memory.terminal_outcome.{transition_ref}", "kind": "event",
+        "label": "official terminal outcome observations awaiting or supporting causal interpretation",
+        "required_fields": ["transition_ref", "retained_completion_digest", "before_frame_digest", "after_frame_digest"],
+        "static_attributes": {"projection_contract": "yf_arc3_v5.terminal_outcome_evidence.v1",
+          "scope": "same_game_history", "canonical_fact_projection_enabled": false,
+          "action_authorization": false, "automatic_current_scene_rebinding": false,
+          "terminal_relation_inferred": false},
+        "attribute_bindings": {"transition_ref": "transition_ref",
+          "official_boundary_present": "official_boundary_present",
+          "observation_history": "observation_history",
+          "executed_action_contract": "executed_action_contract",
+          "executed_before_raw_input_ref": "executed_before_raw_input_ref",
+          "retrospective_start_raw_input_ref": "retrospective_start_raw_input_ref",
+          "before_frame_rows": "before_frame_rows", "after_frame_rows": "after_frame_rows",
+          "before_frame_present": "before_frame_present", "after_frame_present": "after_frame_present",
+          "before_frame_digest": "before_frame_digest", "after_frame_digest": "after_frame_digest",
+          "retained_completion_facts": "retained_completion_facts", "retained_completion_digest": "retained_completion_digest"}
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.memory.terminal_outcome.{transition_ref}",
+        "predicate": "retains_official_terminal_outcome_evidence", "family": "control",
+        "argument_patterns": ["evidence.memory.terminal_outcome.{transition_ref}", "{transition_ref}"],
+        "epistemic_status": "established", "required_fields": ["transition_ref"]
+      }],
+      "reason_refs": ["reason.official_completion_evidence_survives_incomplete_terminal_interpretation"]
+    },
+    {
+      "id": "policy.remember_terminal_region_entry",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "terminal_memory.remember_region_entry"
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "entry_geometry_present",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "terminal_memory.remember_region_entry": "rule.official_completion_supports_revisable_region_entry"
+      },
+      "premises": [
+        "official_boundary",
+        "executed_entry_goal",
+        "previous_same_action_measured_translation",
+        "predicted_complete_containment_in_unchanged_region"
+      ],
+      "invariants": [
+        "prediction_is_not_an_observed_final_frame",
+        "retain_revisable_relation_not_coordinates",
+        "no_current_action_authorization"
+      ],
+      "reason_refs": [
+        "reason.official_completion_correlates_with_goal_directed_entry"
+      ]
+    },
+    {
+      "id": "rule.official_completion_supports_revisable_region_entry",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "official_boundary",
+        "executed_entry_goal",
+        "previous_same_action_measured_translation",
+        "predicted_complete_containment_in_unchanged_region"
+      ],
+      "invariants": [
+        "prediction_is_not_an_observed_final_frame",
+        "retain_revisable_relation_not_coordinates",
+        "no_current_action_authorization"
+      ],
+      "falsifiers": [
+        "compatible_region_entry_does_not_produce_official_progress"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "goal.memory.palette_region_entry.{entry_relation_token}",
+          "kind": "schema",
+          "label": "revisable entry relation supported by an official completion",
+          "required_fields": [
+            "entry_relation_token",
+            "entry_palette_values",
+            "entry_executed_intent_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "entry_geometry_present",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.shared_terminal_entry_goal.v1",
+            "scope": "same_game",
+            "commitment": "revisable",
+            "canonical_fact_projection_enabled": false,
+            "relation_ref": "relation.controlled_body_enters_compatible_fixed_region",
+            "action_authorization": false,
+            "observed_final_support_is_available": false,
+            "attestation_kind": "official_boundary_after_conditionally_predicted_entry",
+            "necessity_or_sufficiency_proven": false,
+            "instance_binding_forbidden": true
+          },
+          "attribute_bindings": {
+            "palette_values": "entry_palette_values"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.memory.palette_region_entry.{entry_relation_token}.{transition_ref}",
+          "predicate": "supports_revisable_palette_region_entry_terminal_relation",
+          "family": "control",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "goal.memory.palette_region_entry.{entry_relation_token}",
+            "evidence.memory.terminal_outcome.{transition_ref}"
+          ],
+          "required_fields": [
+            "entry_relation_token",
+            "entry_palette_values",
+            "entry_executed_intent_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "entry_geometry_present",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "static_attributes": {
+            "relation_ref": "relation.controlled_body_enters_compatible_fixed_region",
+            "commitment": "revisable",
+            "no_current_action_authorization": true,
+            "observed_final_support_is_available": false,
+            "necessity_or_sufficiency_proven": false
+          },
+          "attribute_bindings": {
+            "palette_values": "entry_palette_values",
+            "executed_intent_ref": "entry_executed_intent_ref",
+            "previous_intent_ref": "entry_previous_intent_ref",
+            "previous_delta": "entry_previous_delta",
+            "historical_before_bbox": "entry_before_bbox",
+            "historical_region_bbox": "entry_region_bbox",
+            "conditionally_predicted_bbox": "entry_predicted_bbox",
+            "geometry_premise_refs": "entry_geometry_premise_refs"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.official_completion_correlates_with_goal_directed_entry"
+      ]
+    },
+    {
+      "id": "policy.remember_retrospective_support_cover",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["terminal_memory.reconcile_support_cover"],
+      "premises": ["canonical_official_boundary", "conditionally_predicted_complete_support_cover", "canonical_role_appearance_associations"],
+      "invariants": ["goal_is_independent_of_hot_workflow", "no_palette_binding_or_scene_position_in_shared_goal", "counterfactual_geometry_does_not_become_an_observed_final_frame", "score_alone_does_not_prove_cover", "historical_success_does_not_mean_current_goal_satisfied"],
+      "falsifiers": ["new_scene_success_or_failure_contradicts_recalled_terminal_relation"],
+      "configuration": {"measurement_contract": {
+        "component_connectivity": 4,
+        "layer_contract": "yf_arc3_v5.counterfactual_support_render.v1",
+        "layer_predicate": "records_counterfactual_support_render_difference",
+        "layer_rule": "rule.counterfactual_translation_render_accounting",
+        "association_predicate": "learned_role_has_appearance_signature",
+        "association_rule": "rule.captured_canonical_role_appearances",
+        "role_predicate": "proposes_role_candidate",
+        "moving_role_ref": "role.alignment_mover", "fixed_role_ref": "role.alignment_target",
+        "executed_support_source": {
+          "outcome_contract": "yf_arc3_v5.terminal_outcome_evidence.v1",
+          "outcome_predicate": "retains_official_terminal_outcome_evidence",
+          "outcome_rule": "rule.preserved_official_terminal_outcome",
+          "pair_predicate": "goal_exact_multicell_peer_relation_observed",
+          "pair_rules": ["rule.exact_multicell_peer_goal_memory_meaning"],
+          "translation_predicate": "action_conditions_translation",
+          "translation_rules": ["rule.observed_action_conditioned_translation_meaning"],
+          "endpoint_orientations": [
+            [["first_entity_ref", "first_component_ref"], ["second_entity_ref", "second_component_ref"]],
+            [["second_entity_ref", "second_component_ref"], ["first_entity_ref", "first_component_ref"]]],
+          "maximum_premises": 64, "maximum_history_inputs": 8192
+        },
+        "maximum_history_evaluations": 256,
+        "history_skip_partition_initial": true,
+        "history_require_forward_support_witness": true,
+        "history_measure_field": "uncovered_pixel_count_before", "history_comparison_value": 0,
+        "official_predicate": "level_completed",
+        "official_status": "established",
+        "official_rules": ["rule.observed_score_boundary_meaning", "rule.verified_alignment_completion_meaning"],
+        "proof_statuses": ["proposed", "supported", "established"],
+        "proof_disposition": "active", "proof_polarity": "positive",
+        "layer_equalities": {"scene_layer_composition_available": true, "scene_layer_composition_within_bound": true, "scene_layer_unexplained_pixel_count": 0, "scene_layer_unexplained_extension_count": 0, "scene_layer_outside_pixel_count": 0, "scene_layer_cover_nonzero_last_delta_count": 0, "scene_layer_cover_untracked_count": 0, "scene_layer_same_last_action": true},
+        "maximum_records": 1024, "maximum_layers": 8, "maximum_pixels": 8192, "maximum_components": 128, "maximum_rows": 64,
+        "measurement_fields": ["moving_support_pixel_count", "fixed_support_pixel_count", "uncovered_pixel_count_before", "uncovered_pixel_count_after", "predicted_supports_equal", "predicted_outside_pixel_count", "visible_moving_pixel_count", "row_gap_before", "column_gap_before", "row_gap_after", "column_gap_after"]
+      }},
+      "selection_eligibility_conditions": [{"field": "official_boundary_present", "operator": "equals", "expected": true}],
+      "meaning_template_ref_by_alternative": {"terminal_memory.reconcile_support_cover": "rule.retrospective_support_cover_memory"},
+      "reason_refs": ["reason.final_expected_quantum_and_score_increase_reach_single_reducer"]
+    },
+    {
+      "id": "rule.retrospective_support_cover_memory",
+      "kind": "rule", "evaluation": "project_requested_conclusions", "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1", "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": ["official_success_after_predicted_complete_cover", "retained_masks_match_current_render", "revisable_signature_bound_roles"],
+      "invariants": ["terminal_goal_not_hot_workflow_activity", "revisable_same_game_memory_without_expiry", "no_current_action_authorization", "preserve_the_conditional_attestation_scope"],
+      "falsifiers": ["the_terminal_relation_fails_in_a_compatible_observed_context"],
+      "term_templates": [{
+        "id_pattern": "goal.memory.target_coverage.{relation_token}", "kind": "schema", "label": "remembered terminal support coverage",
+        "required_fields": ["relation_token", "moving_association_refs", "fixed_association_refs"],
+        "all_conditions": [{"field": "predicted_supports_equal", "operator": "equals", "expected": true}, {"field": "uncovered_pixel_count_before", "operator": "greater_than", "expected": 0}, {"field": "predicted_outside_pixel_count", "operator": "equals", "expected": 0}, {"field": "history_true_count", "operator": "equals", "expected": 0}],
+        "static_attributes": {"projection_contract": "yf_arc3_v5.shared_terminal_coverage_goal.v1", "scope": "same_game", "commitment": "revisable", "canonical_fact_projection_enabled": false, "terminal_relation_ref": "relation.target_support_is_covered", "measure_ref": "measure.target_support_uncovered_pixel_count", "comparator": "equals", "target_value": 0, "moving_role_ref": "role.alignment_mover", "fixed_role_ref": "role.alignment_target", "action_authorization": false},
+        "attribute_bindings": {"moving_association_refs": "moving_association_refs", "fixed_association_refs": "fixed_association_refs",
+          "contribution_evidence_ref": "geometry_evidence_ref", "history_true_count": "history_true_count",
+          "history_false_count": "history_false_count", "history_unknown_count": "history_unknown_count",
+          "history_evaluation_complete": "history_evaluation_complete"},
+        "iteration": {"source_field": "coverage_rows", "max_items": 64, "item_bindings": {"relation_token": "relation_token", "moving_association_refs": "moving_association_refs", "fixed_association_refs": "fixed_association_refs", "predicted_supports_equal": "predicted_supports_equal", "uncovered_pixel_count_before": "uncovered_pixel_count_before", "predicted_outside_pixel_count": "predicted_outside_pixel_count",
+          "geometry_evidence_ref": "geometry_evidence_ref", "history_true_count": "history_true_count", "history_false_count": "history_false_count", "history_unknown_count": "history_unknown_count", "history_evaluation_complete": "history_evaluation_complete"}}
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.memory.terminal_geometry_review.{transition_ref}",
+        "predicate": "records_retrospective_terminal_geometry_review", "family": "epistemic", "epistemic_status": "supported",
+        "argument_patterns": ["{completion_event_ref}"], "required_fields": ["transition_ref", "completion_event_ref"],
+        "static_attributes": {"partial_cover_is_not_terminal_cover": true, "authorizes_action": false}
+      }, {
+        "id_pattern": "claim.memory.terminal_coverage.{relation_token}.{transition_ref}",
+        "predicate": "declares_revalidatable_terminal_objective_contract", "family": "control", "epistemic_status": "supported",
+        "argument_patterns": ["goal.memory.target_coverage.{relation_token}", "{completion_event_ref}"],
+        "required_term_patterns": ["goal.memory.target_coverage.{relation_token}"],
+        "required_fields": ["relation_token", "transition_ref", "completion_event_ref"],
+        "all_conditions": [{"field": "predicted_supports_equal", "operator": "equals", "expected": true}, {"field": "uncovered_pixel_count_before", "operator": "greater_than", "expected": 0}, {"field": "predicted_outside_pixel_count", "operator": "equals", "expected": 0}, {"field": "history_true_count", "operator": "equals", "expected": 0}],
+        "static_attributes": {"knowledge_family": "terminal_objective_contract", "contract_status": "revisable_on_relocated_bearers", "drop_scene_local_bindings": true, "instance_binding_forbidden": true, "measure_ref": "measure.target_support_uncovered_pixel_count", "comparator": "equals", "target_value": 0, "attestation_kind": "official_boundary_after_conditionally_predicted_complete_cover", "observed_final_support_is_available": false},
+        "attribute_bindings": {"geometry_evidence_ref": "geometry_evidence_ref", "history_true_count": "history_true_count", "history_false_count": "history_false_count", "history_unknown_count": "history_unknown_count", "history_evaluation_complete": "history_evaluation_complete"},
+        "derivation_premise_refs_field": "row_evidence_refs",
+        "iteration": {"source_field": "coverage_rows", "max_items": 64, "item_bindings": {"relation_token": "relation_token", "predicted_supports_equal": "predicted_supports_equal", "uncovered_pixel_count_before": "uncovered_pixel_count_before", "predicted_outside_pixel_count": "predicted_outside_pixel_count", "geometry_evidence_ref": "geometry_evidence_ref", "row_evidence_refs": "row_evidence_refs",
+          "history_true_count": "history_true_count", "history_false_count": "history_false_count", "history_unknown_count": "history_unknown_count", "history_evaluation_complete": "history_evaluation_complete"}}
+      }, {
+        "id_pattern": "claim.memory.terminal_counterexample.{relation_token}.{transition_ref}",
+        "predicate": "terminal_relation_has_nonwinning_counterexample", "family": "epistemic", "epistemic_status": "supported",
+        "argument_patterns": ["{completion_event_ref}", "{geometry_evidence_ref}"],
+        "required_fields": ["relation_token", "transition_ref", "completion_event_ref", "geometry_evidence_ref"],
+        "all_conditions": [{"field": "history_true_count", "operator": "greater_than", "expected": 0}],
+        "static_attributes": {"condition_alone_is_insufficient": true, "preserve_unfalsified_components": true,
+          "official_victory_is_preserved": true, "no_action_authorization": true},
+        "attribute_bindings": {"counterexample_raw_input_ref": "history_first_counterexample_ref", "history_true_count": "history_true_count",
+          "moving_association_refs": "moving_association_refs", "fixed_association_refs": "fixed_association_refs"},
+        "derivation_premise_refs_field": "row_evidence_refs",
+        "iteration": {"source_field": "coverage_rows", "max_items": 64, "item_bindings": {
+          "relation_token": "relation_token", "geometry_evidence_ref": "geometry_evidence_ref",
+          "moving_association_refs": "moving_association_refs", "fixed_association_refs": "fixed_association_refs",
+          "history_true_count": "history_true_count", "history_first_counterexample_ref": "history_first_counterexample_ref", "row_evidence_refs": "row_evidence_refs"}}
+      }, {
+        "id_pattern": "claim.memory.terminal_column_contribution.{relation_token}.{transition_ref}",
+        "predicate": "terminal_objective_combines_preserved_and_completed_relations", "family": "structural", "epistemic_status": "supported",
+        "argument_patterns": ["goal.memory.target_coverage.{relation_token}", "{geometry_evidence_ref}", "{completion_event_ref}"],
+        "required_term_patterns": ["goal.memory.target_coverage.{relation_token}"],
+        "required_fields": ["relation_token", "transition_ref", "completion_event_ref", "geometry_evidence_ref"],
+        "all_conditions": [{"field": "row_gap_before", "operator": "equals", "expected": 0},
+          {"field": "row_gap_after", "operator": "equals", "expected": 0},
+          {"field": "column_gap_before", "operator": "not_equals", "expected": 0},
+          {"field": "column_gap_after", "operator": "equals", "expected": 0}],
+        "static_attributes": {"preserved_relation_ref": "relation.same_row_position", "completed_relation_ref": "relation.same_column_position",
+          "last_subgoal_is_only_one_component": true, "full_support_equality_is_also_required": true,
+          "attestation_kind": "predicted_final_relation_with_official_boundary", "universal_sufficiency_proven": false,
+          "no_action_authorization": true},
+        "derivation_premise_refs_field": "row_evidence_refs",
+        "iteration": {"source_field": "coverage_rows", "max_items": 64, "item_bindings": {
+          "relation_token": "relation_token", "geometry_evidence_ref": "geometry_evidence_ref", "row_evidence_refs": "row_evidence_refs",
+          "row_gap_before": "row_gap_before", "row_gap_after": "row_gap_after", "column_gap_before": "column_gap_before", "column_gap_after": "column_gap_after"}}
+      }, {
+        "id_pattern": "claim.memory.terminal_row_contribution.{relation_token}.{transition_ref}",
+        "predicate": "terminal_objective_combines_preserved_and_completed_relations", "family": "structural", "epistemic_status": "supported",
+        "argument_patterns": ["goal.memory.target_coverage.{relation_token}", "{geometry_evidence_ref}", "{completion_event_ref}"],
+        "required_term_patterns": ["goal.memory.target_coverage.{relation_token}"],
+        "required_fields": ["relation_token", "transition_ref", "completion_event_ref", "geometry_evidence_ref"],
+        "all_conditions": [{"field": "column_gap_before", "operator": "equals", "expected": 0},
+          {"field": "column_gap_after", "operator": "equals", "expected": 0},
+          {"field": "row_gap_before", "operator": "not_equals", "expected": 0},
+          {"field": "row_gap_after", "operator": "equals", "expected": 0}],
+        "static_attributes": {"preserved_relation_ref": "relation.same_column_position", "completed_relation_ref": "relation.same_row_position",
+          "last_subgoal_is_only_one_component": true, "full_support_equality_is_also_required": true,
+          "attestation_kind": "predicted_final_relation_with_official_boundary", "universal_sufficiency_proven": false,
+          "no_action_authorization": true},
+        "derivation_premise_refs_field": "row_evidence_refs",
+        "iteration": {"source_field": "coverage_rows", "max_items": 64, "item_bindings": {
+          "relation_token": "relation_token", "geometry_evidence_ref": "geometry_evidence_ref", "row_evidence_refs": "row_evidence_refs",
+          "row_gap_before": "row_gap_before", "row_gap_after": "row_gap_after", "column_gap_before": "column_gap_before", "column_gap_after": "column_gap_after"}}
+      }],
+      "reason_refs": ["reason.final_expected_quantum_and_score_increase_reach_single_reducer"]
+    },
+    {
+      "id": "rule.local_frame_correspondence",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "source_geometry",
+        "candidate_local_frame",
+        "correspondence_witness"
+      ],
+      "applicability": [
+        "candidate_frame_explicit"
+      ],
+      "invariants": [
+        "translation_and_orientation_are_explicit"
+      ],
+      "falsifiers": [
+        "correspondence_witness_contradicted"
+      ],
+      "reason_refs": [
+        "reason.local_frame_correspondence_is_witnessed"
+      ]
+    },
+    {
+      "id": "principle.goal_is_a_revisable_set_of_open_relations",
+      "kind": "principle",
+      "premises": [
+        "a_goal_candidate_has_one_or_more_measurable_relational_requirements",
+        "each_requirement_has_an_explicit_current_status"
+      ],
+      "applicability": [
+        "relational_goal_construction_and_reconciliation"
+      ],
+      "invariants": [
+        "the_goal_is_the_set_of_required_relations_not_one_privileged_axis",
+        "satisfying_one_relation_preserves_every_unsatisfied_required_relation",
+        "absence_of_official_completion_keeps_the_unresolved_remainder_open",
+        "a_relation_is_removed_only_by_satisfaction_or_explicit_contradiction"
+      ],
+      "falsifiers": [
+        "a_required_relation_cannot_be_measured_or_falsified",
+        "the_candidate_correspondence_is_contradicted"
+      ],
+      "relation_parameters": [
+        "relation.position.row",
+        "relation.position.column",
+        "relation.contact.edge",
+        "relation.contact.overlap",
+        "relation.containment",
+        "relation.region_membership",
+        "relation.offset.constant",
+        "relation.terminal_satisfaction"
+      ],
+      "reason_refs": [
+        "reason.goal_progress_is_exact_relational_set_reduction"
+      ]
+    },
+    {
+      "id": "principle.alignment_uses_a_parameterized_required_aspect_set",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.goal_is_a_revisable_set_of_open_relations"
+      ],
+      "premises": [
+        "candidate_correspondence_has_independently_measurable_aspects"
+      ],
+      "applicability": [
+        "alignment_goal_construction_and_residual_measurement"
+      ],
+      "invariants": [
+        "row_column_and_both_are_instances_of_a_required_aspect_set",
+        "only_declared_required_aspects_contribute_to_the_alignment_residual",
+        "closing_one_aspect_does_not_close_another_required_aspect",
+        "required_aspects_may_include_position_orientation_shape_color_topology_effect_or_cardinality"
+      ],
+      "falsifiers": [
+        "a_required_aspect_has_no_exact_measurement",
+        "the_declared_aspect_set_is_contradicted_by_world_feedback"
+      ],
+      "aspect_parameters": [
+        "match.position_row",
+        "match.position_column",
+        "match.shape_exact",
+        "match.shape_topology",
+        "match.color_value",
+        "match.orientation",
+        "match.count_or_cardinality",
+        "match.by_effect"
+      ],
+      "reason_refs": [
+        "reason.alignment_residual_is_parameterized_by_required_aspects"
+      ]
+    },
+    {
+      "id": "principle.region_contact_containment_and_terminal_satisfaction_are_distinct",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.goal_is_a_revisable_set_of_open_relations"
+      ],
+      "premises": [
+        "one_or_more_spatial_relations_are_observed_or_required"
+      ],
+      "applicability": [
+        "spatial_goal_interpretation"
+      ],
+      "invariants": [
+        "arrival_in_a_region_contact_overlap_and_containment_are_distinct_relations",
+        "terminal_satisfaction_is_world_feedback_not_a_synonym_for_any_spatial_relation",
+        "one_relation_never_entails_another_without_a_declared_rule_and_witness"
+      ],
+      "falsifiers": [
+        "the_declared_relation_kinds_are_observationally_indistinguishable_in_context"
+      ],
+      "relation_parameters": [
+        "relation.region_membership",
+        "relation.contact.edge",
+        "relation.contact.overlap",
+        "relation.containment",
+        "relation.terminal_satisfaction"
+      ],
+      "reason_refs": [
+        "reason.spatial_relation_kinds_require_independent_evidence"
+      ]
+    },
+    {
+      "id": "principle.capacity_constrained_relational_assignment",
+      "kind": "principle",
+      "premises": [
+        "two_or_more_candidate_families_have_measurable_pairwise_compatibility",
+        "source_and_destination_capacities_are_explicit_or_bounded"
+      ],
+      "applicability": [
+        "relational_correspondence_assignment"
+      ],
+      "invariants": [
+        "bijection_is_only_the_unit_capacity_special_case",
+        "one_to_many_many_to_one_and_heterogeneous_capacities_remain_representable",
+        "assignment_never_exceeds_a_declared_capacity",
+        "unassigned_compatible_alternatives_remain_explicit"
+      ],
+      "falsifiers": [
+        "observed_assignment_exceeds_declared_capacity",
+        "pairwise_compatibility_is_contradicted"
+      ],
+      "cardinality_parameters": [
+        "cardinality.one_to_one",
+        "cardinality.one_to_many",
+        "cardinality.many_to_one",
+        "cardinality.capacity_constrained",
+        "cardinality.heterogeneous_capacity"
+      ],
+      "reason_refs": [
+        "reason.relational_assignment_respects_explicit_capacities"
+      ]
+    },
+    {
+      "id": "principle.correspondence_combines_independent_match_aspects",
+      "kind": "principle",
+      "premises": [
+        "candidate_correspondences_have_factorized_visual_or_causal_measurements"
+      ],
+      "applicability": [
+        "correspondence_generation_and_discrimination"
+      ],
+      "invariants": [
+        "exact_shape_is_a_strong_correspondence_cue_but_not_the_only_possible_cue",
+        "topology_effect_orientation_and_cardinality_may_support_correspondence_independently",
+        "render_scale_is_recorded_separately_from_shape",
+        "incompatible aspects preserve competing correspondence alternatives"
+      ],
+      "falsifiers": [
+        "all_declared_match_aspects_are_contradicted",
+        "the_correspondence_requires_an_unmeasured_aspect"
+      ],
+      "aspect_parameters": [
+        "match.shape_exact",
+        "match.shape_topology",
+        "match.color_value",
+        "match.multiscale",
+        "match.orientation",
+        "match.count_or_cardinality",
+        "match.by_effect"
+      ],
+      "reason_refs": [
+        "reason.correspondence_is_a_factorized_match_aspect_contract"
+      ]
+    },
+    {
+      "id": "principle.rotation_pivot_is_inferred_from_observed_transform",
+      "kind": "principle",
+      "premises": [
+        "a_finite_rotation_correspondence_or_action_conditioned_rotation_is_measured"
+      ],
+      "applicability": [
+        "rotation_residual_or_transform_inference"
+      ],
+      "invariants": [
+        "the_rotation_pivot_is_a_hypothesis_fitted_to_corresponding_points",
+        "bounding_box_center_cell_center_external_marker_and_contact_point_are_candidates_not_defaults",
+        "a_pivot_is_committed_only_when_it_exactly_explains_the_observed_transform",
+        "multiple_exact_pivots_remain_live_until_discriminated"
+      ],
+      "falsifiers": [
+        "the_committed_pivot_does_not_reproduce_corresponding_points",
+        "the_transform_is_not_a_rotation_in_the_observed_frame"
+      ],
+      "aspect_parameters": [
+        "match.orientation",
+        "match.shape_exact",
+        "match.shape_topology"
+      ],
+      "relation_parameters": [
+        "relation.transform.rotation_about_inferred_pivot"
+      ],
+      "reason_refs": [
+        "reason.rotation_requires_an_observed_transform_consistent_pivot"
+      ]
+    },
+    {
+      "id": "principle.exact_affine_relation_generalizes_equal_mean",
+      "kind": "principle",
+      "premises": [
+        "ordered_numeric_or_geometric_correspondence_values_are_measured_exactly"
+      ],
+      "applicability": [
+        "relational_geometry_hypothesis_construction"
+      ],
+      "invariants": [
+        "candidate_relations_use_exact_affine_coefficients_and_offsets",
+        "equal_value_and_equal_mean_are_special_cases_not_privileged_definitions",
+        "multiple_exact_affine_relations_remain_open_until_action_conditioned_evidence_discriminates_them",
+        "approximate numeric fit cannot replace exact symbolic evidence"
+      ],
+      "falsifiers": [
+        "one_observed_correspondence_violates_the_declared_affine_relation",
+        "required_values_are_not_measurable"
+      ],
+      "relation_parameters": [
+        "relation.affine.unary",
+        "relation.affine.nary",
+        "relation.affine.equal_value_special_case",
+        "relation.affine.equal_mean_special_case"
+      ],
+      "reason_refs": [
+        "reason.exact_affine_family_subsumes_equality_and_mean_relations"
+      ]
+    },
+    {
+      "id": "principle.partial_relation_satisfaction_preserves_open_remainder",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.goal_is_a_revisable_set_of_open_relations"
+      ],
+      "premises": [
+        "one_or_more_but_not_all_required_relations_are_satisfied",
+        "official_completion_is_absent"
+      ],
+      "applicability": [
+        "post_action_goal_reconciliation"
+      ],
+      "invariants": [
+        "satisfied_relations_are_recorded_without_erasing_the_goal",
+        "every_unsatisfied_required_relation_remains_open",
+        "no_score_or_level_boundary_means_terminal_satisfaction_is_not_established",
+        "the_next_plan_may_target_only_the_open_remainder"
+      ],
+      "falsifiers": [
+        "official_completion_is_observed",
+        "the_candidate_goal_is_explicitly_contradicted"
+      ],
+      "reason_refs": [
+        "reason.partial_goal_progress_preserves_unsatisfied_relations"
+      ]
+    },
+    {
+      "id": "rule.scale_correspondence",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "exact_or_uniform_scale_evidence",
+        "candidate_correspondence"
+      ],
+      "applicability": [
+        "scale_relation_observed"
+      ],
+      "invariants": [
+        "palette_identity_not_required",
+        "lossy_match_not_established"
+      ],
+      "falsifiers": [
+        "non_uniform_scale_contradiction"
+      ],
+      "reason_refs": [
+        "reason.scale_correspondence_requires_explicit_evidence"
+      ]
+    },
+    {
+      "id": "rule.scene_rebinding_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "principle.level_boundary_rebinds_preserved_knowledge_to_current_scene",
+        "current_scene_measurements",
+        "established_current_tracking",
+        "preserved_revisable_knowledge"
+      ],
+      "applicability": [
+        "a_supported_scene_rebinding_interpretation_was_selected"
+      ],
+      "invariants": [
+        "scene_local_references_are_not_rebound",
+        "transported_references_remain_explicit",
+        "rebinding_is_revisable",
+        "rebinding_releases_no_world_action"
+      ],
+      "falsifiers": [
+        "new_current_scene_tracking_or_structure_evidence_contradicts_the_rebinding"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "scene_rebinding.assessment.{measurement_ref}",
+          "kind": "schema",
+          "label": "current-scene rebinding assessment",
+          "required_fields": [
+            "measurement_ref",
+            "scene_rebinding_status",
+            "handoff_claim_ref",
+            "scope_ref"
+          ],
+          "static_attributes": {
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "status": "scene_rebinding_status",
+            "handoff_claim_ref": "handoff_claim_ref",
+            "scope_ref": "scope_ref",
+            "tracking_frame_ref": "tracking_frame_ref",
+            "transported_reference_refs": "transported_reference_refs",
+            "established_tracking_count": "established_tracking_count",
+            "ambiguous_tracking_count": "ambiguous_tracking_count"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.scene_rebinding.{measurement_ref}",
+          "predicate": "declares_scene_rebinding_status",
+          "family": "structural",
+          "argument_patterns": [
+            "scene_rebinding.assessment.{measurement_ref}",
+            "{handoff_claim_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "measurement_ref",
+            "handoff_claim_ref",
+            "scene_rebinding_status"
+          ],
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "new_current_scene_tracking_or_structure_evidence_contradicts_the_rebinding"
+          },
+          "attribute_bindings": {
+            "status": "scene_rebinding_status",
+            "scope_ref": "scope_ref",
+            "tracking_frame_ref": "tracking_frame_ref",
+            "transported_reference_refs": "transported_reference_refs"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.level_boundary_requires_explicit_current_scene_rebinding"
+      ]
+    },
+    {
+      "id": "policy.declared_scene_rebinding_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "principle.level_boundary_rebinds_preserved_knowledge_to_current_scene",
+        "bounded_current_scene_measurements"
+      ],
+      "applicability": [
+        "preserved_knowledge_is_considered_for_the_new_scene"
+      ],
+      "invariants": [
+        "stale_tracking_cannot_support_rebinding",
+        "ambiguous_correspondence_remains_uncommitted",
+        "current_tracking_support_is_required",
+        "rebinding_releases_no_world_action"
+      ],
+      "falsifiers": [
+        "the_measurement_cases_are_not_exhaustive",
+        "a_selected_supported_case_has_no_established_current_track"
+      ],
+      "declared_alternative_refs": [
+        "scene_rebinding.stale_tracking_context",
+        "scene_rebinding.no_preserved_references",
+        "scene_rebinding.ambiguous_current_correspondence",
+        "scene_rebinding.exact_canonical_structure_continuity",
+        "scene_rebinding.tracked_structural_change",
+        "scene_rebinding.insufficient_current_support"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.scene_rebinding.stale_tracking",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.stale_tracking_context"}],
+          "static_facts": {"scene_rebinding_status": "stale_tracking_context"}
+        },
+        {
+          "id": "projection.scene_rebinding.no_preserved_references",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.no_preserved_references"}],
+          "static_facts": {"scene_rebinding_status": "no_preserved_references"}
+        },
+        {
+          "id": "projection.scene_rebinding.ambiguous",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.ambiguous_current_correspondence"}],
+          "static_facts": {"scene_rebinding_status": "ambiguous_current_correspondence"}
+        },
+        {
+          "id": "projection.scene_rebinding.exact_continuity",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.exact_canonical_structure_continuity"}],
+          "static_facts": {"scene_rebinding_status": "exact_canonical_structure_continuity"}
+        },
+        {
+          "id": "projection.scene_rebinding.tracked_change",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.tracked_structural_change"}],
+          "static_facts": {"scene_rebinding_status": "tracked_structural_change"}
+        },
+        {
+          "id": "projection.scene_rebinding.insufficient",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "scene_rebinding.insufficient_current_support"}],
+          "static_facts": {"scene_rebinding_status": "insufficient_current_support"}
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.scene_rebinding.stale_tracking",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "stale_tracking_context"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": false}
+          ],
+          "reason_ref": "reason.scene_rebinding_requires_current_tracking_frame"
+        },
+        {
+          "id": "tier.scene_rebinding.no_preserved_references",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "no_preserved_references"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": true},
+            {"field": "transported_reference_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.scene_rebinding_requires_preserved_references"
+        },
+        {
+          "id": "tier.scene_rebinding.ambiguous",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "ambiguous_current_correspondence"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": true},
+            {"field": "transported_reference_count", "operator": "greater_than", "expected": 0},
+            {"field": "ambiguous_tracking_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.scene_rebinding_preserves_ambiguous_correspondence"
+        },
+        {
+          "id": "tier.scene_rebinding.exact_continuity",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "exact_canonical_structure_continuity"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": true},
+            {"field": "transported_reference_count", "operator": "greater_than", "expected": 0},
+            {"field": "ambiguous_tracking_count", "operator": "equals", "expected": 0},
+            {"field": "established_tracking_count", "operator": "greater_than", "expected": 0},
+            {"field": "canonical_dimensions_match", "operator": "equals", "expected": true},
+            {"field": "canonical_frame_equality", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.exact_canonical_continuity_supports_revisable_rebinding"
+        },
+        {
+          "id": "tier.scene_rebinding.tracked_change",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "tracked_structural_change"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": true},
+            {"field": "transported_reference_count", "operator": "greater_than", "expected": 0},
+            {"field": "ambiguous_tracking_count", "operator": "equals", "expected": 0},
+            {"field": "established_tracking_count", "operator": "greater_than", "expected": 0},
+            {"field": "canonical_frame_equality", "operator": "equals", "expected": false}
+          ],
+          "reason_ref": "reason.established_tracking_supports_revisable_structural_change"
+        },
+        {
+          "id": "tier.scene_rebinding.insufficient",
+          "all_conditions": [
+            {"field": "scene_rebinding_status", "operator": "equals", "expected": "insufficient_current_support"},
+            {"field": "tracking_frame_matches_current", "operator": "equals", "expected": true},
+            {"field": "transported_reference_count", "operator": "greater_than", "expected": 0},
+            {"field": "ambiguous_tracking_count", "operator": "equals", "expected": 0},
+            {"field": "established_tracking_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.scene_rebinding_waits_for_established_current_support"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {
+        "scene_rebinding.exact_canonical_structure_continuity": "rule.scene_rebinding_meaning",
+        "scene_rebinding.tracked_structural_change": "rule.scene_rebinding_meaning"
+      },
+      "reason_refs": [
+        "reason.level_boundary_requires_explicit_current_scene_rebinding"
+      ]
+    },
+    {
+      "id": "principle.level_boundary_rebinds_preserved_knowledge_to_current_scene",
+      "kind": "principle",
+      "premises": [
+        "official_score_increase_establishes_a_level_boundary",
+        "the_boundary_handoff_preserves_revisable_knowledge_families",
+        "current_scene_tracking_has_been_reinitialized"
+      ],
+      "applicability": [
+        "preserved_knowledge_is_considered_for_the_new_scene"
+      ],
+      "invariants": [
+        "scene_local_objects_coordinates_routes_and_exact_plans_are_not_rebound",
+        "preserved_effect_patterns_invariants_mechanism_schemas_terminal_objective_contracts_and_workflow_activity_schemas_require_current_scene_support",
+        "preserved_knowledge_remains_provisional_until_current_tracking_supports_correspondence",
+        "a_terminal_objective_contract_becomes_priority_only_after_a_current_scene_candidate_revalidates_it",
+        "a_workflow_activity_schema_guides_selection_only_after_a_current_scene_candidate_revalidates_its_workflow_terminal_contract_and_open_activity",
+        "a_revalidated_terminal_objective_remains_open_until_its_terminal_predicate_or_official_boundary_is_observed",
+        "goal_search_reopens_after_rebinding",
+        "rebinding_releases_no_world_action"
+      ],
+      "falsifiers": [
+        "current_scene_correspondence_contradicts_the_preserved_schema",
+        "the_preserved_claim_depends_on_a_dropped_scene_local_reference",
+        "no_unique_level_boundary_handoff_is_available"
+      ],
+      "reason_refs": [
+        "reason.level_boundary_requires_explicit_current_scene_rebinding"
+      ]
+    },
+    {
+      "id": "rule.verified_alignment_completion_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "verified_goal_reducing_plan",
+        "one_remaining_quantized_step",
+        "executed_expected_action",
+        "observed_score_increase"
+      ],
+      "applicability": [
+        "goal_completion_boundary_observed"
+      ],
+      "invariants": [
+        "goal_identity_is_preserved",
+        "completion_is_grounded_by_world_feedback",
+        "new_level_frame_is_not_mistaken_for_same_scene_motion",
+        "level_boundary_drops_local_objects_coordinates_routes_and_exact_plans",
+        "level_boundary_preserves_revisable_effect_patterns_invariants_mechanism_schemas_terminal_objective_contracts_and_workflow_activity_schemas",
+        "the_completed_level_hot_workflow_is_saved_before_new_scene_assimilation_and_reloaded_before_the_next_level_action",
+        "winning_terminal_measure_comparator_and_threshold_are_retrospectively_recorded_without_shape_position_action_or_scene_local_bindings",
+        "official_boundary_with_pre_action_target_layer_measurement_retrospectively_attests_only_measure_comparator_and_zero_threshold",
+        "level_boundary_requires_scene_rebinding_and_goal_reopening",
+        "level_boundary_clears_the_committed_local_plan"
+      ],
+      "falsifiers": [
+        "score_did_not_increase",
+        "more_than_one_step_was_expected"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "{goal_ref}",
+          "kind": "goal",
+          "label": "align matching visual peer entities",
+          "required_fields": [
+            "goal_ref"
+          ],
+          "static_attributes": {
+            "goal_kind": "alignment",
+            "status": "achieved"
+          },
+          "attribute_bindings": {
+            "completed_by_transition": "transition_ref",
+            "axis": "alignment_axis"
+          }
+        },
+        {
+          "id_pattern": "{completion_event_ref}",
+          "kind": "event",
+          "label": "observed goal and level completion",
+          "required_fields": [
+            "completion_event_ref"
+          ],
+          "static_attributes": {
+            "event_kind": "level_completion"
+          },
+          "attribute_bindings": {
+            "score_before": "before_score",
+            "score_after": "after_score",
+            "action_ref": "action_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.alignment.achieved.{transition_ref}",
+          "predicate": "aligned_with",
+          "family": "structural",
+          "argument_patterns": [
+            "{moving_entity_ref}",
+            "{fixed_entity_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "moving_entity_ref",
+            "fixed_entity_ref"
+          ],
+          "attribute_bindings": {
+            "axis": "alignment_axis",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.achieved.{transition_ref}",
+          "predicate": "goal_achieved",
+          "family": "control",
+          "argument_patterns": [
+            "{goal_ref}",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "goal_ref",
+            "completion_event_ref"
+          ]
+        },
+        {
+          "id_pattern": "claim.goal.lifecycle.level_achieved.{transition_ref}",
+          "predicate": "goal_lifecycle_status",
+          "family": "control",
+          "argument_patterns": ["{goal_ref}", "level_achieved"],
+          "epistemic_status": "established",
+          "required_fields": ["goal_ref", "transition_ref"],
+          "static_attributes": {"goal_lifecycle_status": "level_achieved"},
+          "attribute_bindings": {"transition_ref": "transition_ref"}
+        },
+        {
+          "id_pattern": "claim.level.completed.{transition_ref}",
+          "predicate": "level_completed",
+          "family": "dynamic",
+          "argument_patterns": [
+            "{completion_event_ref}",
+            "{transition_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "completion_event_ref"
+          ],
+          "attribute_bindings": {
+            "score_delta": "score_delta"
+          }
+        },
+        {
+          "id_pattern": "claim.level.victory_contract.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_objective_contract",
+          "family": "control",
+          "argument_patterns": [
+            "{terminal_objective_contract_ref}",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "terminal_objective_contract_ref",
+            "terminal_objective_measure_ref",
+            "terminal_objective_comparator",
+            "terminal_objective_target_value",
+            "terminal_objective_predicted_value_after_plan",
+            "completion_event_ref",
+            "transition_ref"
+          ],
+          "static_attributes": {
+            "knowledge_family": "terminal_objective_contract",
+            "contract_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "priority_after_revalidation": "precedes_unrelated_exploration_while_open"
+          },
+          "attribute_bindings": {
+            "measure_ref": "terminal_objective_measure_ref",
+            "comparator": "terminal_objective_comparator",
+            "target_value": "terminal_objective_target_value",
+            "attested_value_after_plan": "terminal_objective_predicted_value_after_plan",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.retrospective_stationary_peer_victory_contract.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_objective_contract",
+          "family": "control",
+          "argument_patterns": [
+            "objective_contract.target_layer_uncovered_cell_count_equals_zero",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action",
+            "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence",
+            "retrospective_exact_stationary_peer_morphology_match",
+            "completion_event_ref",
+            "transition_ref"
+          ],
+          "all_conditions": [
+            {"field": "score_delta", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence", "operator": "equals", "expected": 0},
+            {"field": "retrospective_exact_stationary_peer_morphology_match", "operator": "equals", "expected": true},
+            {"field": "retrospective_target_coverage_boundary_evidence_present", "operator": "equals", "expected": false},
+            {"field": "terminal_objective_contract_attested_by_official_boundary_and_predicate_match", "operator": "equals", "expected": false}
+          ],
+          "static_attributes": {
+            "knowledge_family": "terminal_objective_contract",
+            "contract_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "priority_after_revalidation": "precedes_unrelated_exploration_while_open",
+            "measure_ref": "measure.target_layer_uncovered_cell_count",
+            "comparator": "equals",
+            "target_value": 0,
+            "attested_value_after_plan": 0,
+            "attestation_kind": "retrospective_official_boundary_with_exact_stationary_peer_cover"
+          },
+          "attribute_bindings": {
+            "pre_action_candidate_cell_count": "retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action",
+            "predicted_remaining_cell_count": "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.hot_workflow_activity_schema.{transition_ref}",
+          "predicate": "declares_revalidatable_workflow_activity_schema",
+          "family": "control",
+          "argument_patterns": [
+            "{retrospective_hot_workflow_ref}",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "retrospective_hot_workflow_ref",
+            "retrospective_hot_workflow_activity_refs",
+            "retrospective_hot_workflow_observation_count",
+            "completion_event_ref",
+            "transition_ref"
+          ],
+          "all_conditions": [
+            {"field": "score_delta", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_hot_workflow_ref_present", "operator": "equals", "expected": true},
+            {"field": "retrospective_hot_workflow_activity_count", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_hot_workflow_observation_count", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "knowledge_family": "workflow_activity_schema",
+            "schema_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "guidance_after_revalidation": "order_open_recurring_activities_before_unrelated_exploration",
+            "future_analogy_basis": "workflow_activity_order_terminal_contract_and_falsifiers_only"
+          },
+          "attribute_bindings": {
+            "ordered_activity_refs": "retrospective_hot_workflow_activity_refs",
+            "boundary_observation_count": "retrospective_hot_workflow_observation_count",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.completion_linked_access_candidate_terminal.{transition_ref}",
+          "predicate": "confirms_completion_linked_access_candidate_as_terminal",
+          "family": "dynamic",
+          "argument_patterns": [
+            "{terminal_access_candidate_ref}",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "terminal_access_candidate_ref",
+            "terminal_access_candidate_ref_present",
+            "goal_ref",
+            "completion_event_ref",
+            "transition_ref",
+            "score_delta"
+          ],
+          "all_conditions": [
+            {"field": "terminal_access_candidate_ref_present", "operator": "equals", "expected": true},
+            {"field": "goal_ref", "operator": "equals", "expected": "goal.reach_terminal_candidate_after_objective_progress_complete"},
+            {"field": "score_delta", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "terminal_role": "confirmed",
+            "confirmation_kind": "official_level_boundary_after_declared_candidate_contact",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {
+            "goal_ref": "goal_ref",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.completion_linked_access_transition_schema.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_access_transition_schema",
+          "family": "control",
+          "argument_patterns": [
+            "mechanism_schema.completed_indicator_family_shape_preserving_access_transition",
+            "{completion_event_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "terminal_access_candidate_ref",
+            "terminal_access_candidate_ref_present",
+            "goal_ref",
+            "completion_event_ref",
+            "transition_ref",
+            "score_delta"
+          ],
+          "all_conditions": [
+            {"field": "terminal_access_candidate_ref_present", "operator": "equals", "expected": true},
+            {"field": "goal_ref", "operator": "equals", "expected": "goal.reach_terminal_candidate_after_objective_progress_complete"},
+            {"field": "score_delta", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "knowledge_family": "mechanism_schema",
+            "schema_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "candidate_criterion": "unique_same_action_shape_preserving_stationary_change_when_linked_indicator_family_becomes_complete",
+            "terminal_confirmation": "official_level_boundary_after_candidate_contact",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.handoff.{transition_ref}",
+          "predicate": "declares_level_boundary_handoff",
+          "family": "control",
+          "argument_patterns": [
+            "{completion_event_ref}",
+            "{transition_ref}"
+          ],
+          "epistemic_status": "established",
+          "required_fields": [
+            "completion_event_ref",
+            "transition_ref"
+          ],
+          "static_attributes": {
+            "drop_local_reference_families": [
+              "object",
+              "coordinate",
+              "route",
+              "exact_plan"
+            ],
+            "preserve_revisable_knowledge_families": [
+              "effect_pattern",
+              "invariant",
+              "mechanism_schema",
+              "terminal_objective_contract",
+              "workflow_activity_schema"
+            ],
+            "requires_scene_rebinding": true,
+            "rebind_preserved_knowledge_to_current_scene": true,
+            "preserved_knowledge_remains_provisional_until_rebound": true,
+            "reopen_current_level_goals": true,
+            "clear_committed_local_plan": true,
+            "save_hot_workflow_at_level_end": true,
+            "load_hot_workflow_before_new_level_action": true,
+            "persist_hot_workflow_through_game_end": true
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.final_expected_quantum_and_score_increase_establish_completion"
+      ]
+    },
+    {
+      "id": "rule.observed_score_boundary_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "official_score_increase_is_observed",
+        "the_terminal_local_goal_classification_may_be_incomplete"
+      ],
+      "applicability": [
+        "level_boundary_observed_outside_exact_final_alignment_classification"
+      ],
+      "invariants": [
+        "official_score_increase_always_establishes_a_level_boundary",
+        "new_level_frame_is_not_mistaken_for_same_scene_motion",
+        "level_boundary_drops_local_objects_coordinates_routes_and_exact_plans",
+        "level_boundary_preserves_revisable_effect_patterns_invariants_mechanism_schemas_terminal_objective_contracts_and_workflow_activity_schemas",
+        "the_completed_level_hot_workflow_is_saved_before_new_scene_assimilation_and_reloaded_before_the_next_level_action",
+        "an_available_winning_terminal_measure_comparator_and_threshold_are_retrospectively_recorded_without_shape_position_action_or_scene_local_bindings",
+        "official_boundary_with_pre_action_target_layer_measurement_retrospectively_attests_only_measure_comparator_and_zero_threshold",
+        "level_boundary_requires_scene_rebinding_and_goal_reopening",
+        "level_boundary_clears_the_committed_local_plan"
+      ],
+      "falsifiers": ["score_did_not_increase"],
+      "term_templates": [
+        {
+          "id_pattern": "{completion_event_ref}",
+          "kind": "event",
+          "label": "observed official level boundary",
+          "required_fields": ["completion_event_ref"],
+          "static_attributes": {"event_kind": "level_completion"},
+          "attribute_bindings": {
+            "score_before": "before_score",
+            "score_after": "after_score",
+            "action_ref": "action_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.level.completed.{transition_ref}",
+          "predicate": "level_completed",
+          "family": "dynamic",
+          "argument_patterns": ["{completion_event_ref}", "{transition_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["completion_event_ref", "transition_ref"],
+          "attribute_bindings": {"score_delta": "score_delta"}
+        },
+        {
+          "id_pattern": "claim.level.victory_contract.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_objective_contract",
+          "family": "control",
+          "argument_patterns": ["{terminal_objective_contract_ref}", "{completion_event_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["terminal_objective_contract_ref", "terminal_objective_measure_ref", "terminal_objective_comparator", "terminal_objective_target_value", "terminal_objective_predicted_value_after_plan", "completion_event_ref", "transition_ref"],
+          "static_attributes": {
+            "knowledge_family": "terminal_objective_contract",
+            "contract_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "priority_after_revalidation": "precedes_unrelated_exploration_while_open"
+          },
+          "attribute_bindings": {
+            "measure_ref": "terminal_objective_measure_ref",
+            "comparator": "terminal_objective_comparator",
+            "target_value": "terminal_objective_target_value",
+            "attested_value_after_plan": "terminal_objective_predicted_value_after_plan",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.retrospective_stationary_peer_victory_contract.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_objective_contract",
+          "family": "control",
+          "argument_patterns": ["objective_contract.target_layer_uncovered_cell_count_equals_zero", "{completion_event_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action", "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence", "retrospective_exact_stationary_peer_morphology_match", "completion_event_ref", "transition_ref"],
+          "all_conditions": [
+            {"field": "score_delta", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence", "operator": "equals", "expected": 0},
+            {"field": "retrospective_exact_stationary_peer_morphology_match", "operator": "equals", "expected": true},
+            {"field": "retrospective_target_coverage_boundary_evidence_present", "operator": "equals", "expected": false},
+            {"field": "terminal_objective_contract_attested_by_official_boundary_and_predicate_match", "operator": "equals", "expected": false}
+          ],
+          "static_attributes": {
+            "knowledge_family": "terminal_objective_contract",
+            "contract_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "priority_after_revalidation": "precedes_unrelated_exploration_while_open",
+            "measure_ref": "measure.target_layer_uncovered_cell_count",
+            "comparator": "equals",
+            "target_value": 0,
+            "attested_value_after_plan": 0,
+            "attestation_kind": "retrospective_official_boundary_with_exact_stationary_peer_cover"
+          },
+          "attribute_bindings": {
+            "pre_action_candidate_cell_count": "retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action",
+            "predicted_remaining_cell_count": "retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.hot_workflow_activity_schema.{transition_ref}",
+          "predicate": "declares_revalidatable_workflow_activity_schema",
+          "family": "control",
+          "argument_patterns": ["{retrospective_hot_workflow_ref}", "{completion_event_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["retrospective_hot_workflow_ref", "retrospective_hot_workflow_activity_refs", "retrospective_hot_workflow_observation_count", "completion_event_ref", "transition_ref"],
+          "all_conditions": [
+            {"field": "score_delta", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_hot_workflow_ref_present", "operator": "equals", "expected": true},
+            {"field": "retrospective_hot_workflow_activity_count", "operator": "greater_than", "expected": 0},
+            {"field": "retrospective_hot_workflow_observation_count", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "knowledge_family": "workflow_activity_schema",
+            "schema_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "guidance_after_revalidation": "order_open_recurring_activities_before_unrelated_exploration",
+            "future_analogy_basis": "workflow_activity_order_terminal_contract_and_falsifiers_only"
+          },
+          "attribute_bindings": {
+            "ordered_activity_refs": "retrospective_hot_workflow_activity_refs",
+            "boundary_observation_count": "retrospective_hot_workflow_observation_count",
+            "score_delta": "score_delta",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.level.completion_linked_access_candidate_terminal.{transition_ref}",
+          "predicate": "confirms_completion_linked_access_candidate_as_terminal",
+          "family": "dynamic",
+          "argument_patterns": ["{terminal_access_candidate_ref}", "{completion_event_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["terminal_access_candidate_ref", "terminal_access_candidate_ref_present", "goal_ref", "completion_event_ref", "transition_ref", "score_delta"],
+          "all_conditions": [
+            {"field": "terminal_access_candidate_ref_present", "operator": "equals", "expected": true},
+            {"field": "goal_ref", "operator": "equals", "expected": "goal.reach_terminal_candidate_after_objective_progress_complete"},
+            {"field": "score_delta", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "terminal_role": "confirmed",
+            "confirmation_kind": "official_level_boundary_after_declared_candidate_contact",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {"goal_ref": "goal_ref", "score_delta": "score_delta", "transition_ref": "transition_ref"}
+        },
+        {
+          "id_pattern": "claim.level.completion_linked_access_transition_schema.{transition_ref}",
+          "predicate": "declares_revalidatable_terminal_access_transition_schema",
+          "family": "control",
+          "argument_patterns": ["mechanism_schema.completed_indicator_family_shape_preserving_access_transition", "{completion_event_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["terminal_access_candidate_ref", "terminal_access_candidate_ref_present", "goal_ref", "completion_event_ref", "transition_ref", "score_delta"],
+          "all_conditions": [
+            {"field": "terminal_access_candidate_ref_present", "operator": "equals", "expected": true},
+            {"field": "goal_ref", "operator": "equals", "expected": "goal.reach_terminal_candidate_after_objective_progress_complete"},
+            {"field": "score_delta", "operator": "greater_than", "expected": 0}
+          ],
+          "static_attributes": {
+            "knowledge_family": "mechanism_schema",
+            "schema_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "candidate_criterion": "unique_same_action_shape_preserving_stationary_change_when_linked_indicator_family_becomes_complete",
+            "terminal_confirmation": "official_level_boundary_after_candidate_contact",
+            "reason": "principle.completed_indicator_family_and_shape_preserving_stationary_change_support_access_candidate"
+          },
+          "attribute_bindings": {"score_delta": "score_delta", "transition_ref": "transition_ref"}
+        },
+        {
+          "id_pattern": "claim.level.handoff.{transition_ref}",
+          "predicate": "declares_level_boundary_handoff",
+          "family": "control",
+          "argument_patterns": ["{completion_event_ref}", "{transition_ref}"],
+          "epistemic_status": "established",
+          "required_fields": ["completion_event_ref", "transition_ref"],
+          "static_attributes": {
+            "drop_local_reference_families": ["object", "coordinate", "route", "exact_plan"],
+            "preserve_revisable_knowledge_families": ["effect_pattern", "invariant", "mechanism_schema", "terminal_objective_contract", "workflow_activity_schema"],
+            "requires_scene_rebinding": true,
+            "rebind_preserved_knowledge_to_current_scene": true,
+            "preserved_knowledge_remains_provisional_until_rebound": true,
+            "reopen_current_level_goals": true,
+            "clear_committed_local_plan": true,
+            "save_hot_workflow_at_level_end": true,
+            "load_hot_workflow_before_new_level_action": true,
+            "persist_hot_workflow_through_game_end": true
+          }
+        }
+      ],
+      "reason_refs": ["reason.level_boundary_requires_explicit_current_scene_rebinding"]
+    },
+    {
+      "id": "policy.declared_verified_goal_completion",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "goal_completion_measurements",
+        "verified_plan_expectation"
+      ],
+      "applicability": [
+        "score_transition_observed_after_goal_action"
+      ],
+      "invariants": [
+        "no_weighted_score",
+        "both_completion_interpretations_remain_attested",
+        "verified_completion_requires_exact_final_step_expectation",
+        "official_score_increase_still_commits_boundary_when_goal_classification_is_incomplete"
+      ],
+      "falsifiers": [
+        "score_did_not_increase"
+      ],
+      "declared_alternative_refs": [
+        "goal_completion.verified",
+        "goal_completion.observed_boundary",
+        "goal_completion.local_relation_satisfied",
+        "goal_completion.axis_done_missing_subgoal",
+        "goal_completion.unresolved"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.goal_completion.verified_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "goal_completion.verified"
+            }
+          ],
+          "static_facts": {
+            "completion_candidate_kind": "verified",
+            "method_activity_contract": {
+          "method_ref": "method.workflow.hot.coupled_alignment",
+          "activity_ref": "execution.activity.revalidate_alignment_roles_then_reduce_residue",
+          "component_refs": [
+                    "cold.component.arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+                    "cold.component.arc3.construct_transition_meaning.construct_transition_meaning",
+                    "cold.component.arc3.record_verified_goal_completion.record_verified_goal_completion"
+          ],
+          "objective_schema_ref": "goal.schema.revalidate_alignment_roles_then_reduce_residue",
+          "required_role_refs": [
+                    "role.alignment_mover",
+                    "role.alignment_target"
+          ],
+          "required_mechanism_refs": [
+                    "rule.observed_action_conditioned_translation_meaning"
+          ],
+          "requires_predicate_refs": [
+                    "current_alignment_roles_revalidated",
+                    "current_control_effect_revalidated",
+                    "current_residue_measured"
+          ],
+          "provides_predicate_refs": [
+                    "alignment_residue_reduced"
+          ],
+          "preserves_invariant_refs": [
+                    "all_intermediate_states_valid",
+                    "no_terminal_overshoot"
+          ],
+          "falsifier_refs": [
+                    "current_roles_or_control_effect_contradict_alignment_method"
+          ]
+}
+          },
+          "templated_facts": {
+            "completion_event_ref": "event.goal_completion.{transition_ref}"
+          }
+        },
+        {
+          "id": "projection.goal_completion.observed_boundary_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "goal_completion.observed_boundary"
+            }
+          ],
+          "static_facts": {
+            "completion_candidate_kind": "observed_boundary",
+            "method_activity_contract": {
+          "method_ref": "method.workflow.hot.coupled_alignment",
+          "activity_ref": "execution.activity.revalidate_alignment_roles_then_reduce_residue",
+          "component_refs": [
+                    "cold.component.arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+                    "cold.component.arc3.construct_transition_meaning.construct_transition_meaning",
+                    "cold.component.arc3.record_verified_goal_completion.record_verified_goal_completion"
+          ],
+          "objective_schema_ref": "goal.schema.revalidate_alignment_roles_then_reduce_residue",
+          "required_role_refs": [
+                    "role.alignment_mover",
+                    "role.alignment_target"
+          ],
+          "required_mechanism_refs": [
+                    "rule.observed_action_conditioned_translation_meaning"
+          ],
+          "requires_predicate_refs": [
+                    "current_alignment_roles_revalidated",
+                    "current_control_effect_revalidated",
+                    "current_residue_measured"
+          ],
+          "provides_predicate_refs": [
+                    "alignment_residue_reduced"
+          ],
+          "preserves_invariant_refs": [
+                    "all_intermediate_states_valid",
+                    "no_terminal_overshoot"
+          ],
+          "falsifier_refs": [
+                    "current_roles_or_control_effect_contradict_alignment_method"
+          ]
+}
+          },
+          "templated_facts": {
+            "completion_event_ref": "event.level_boundary.{transition_ref}"
+          }
+        },
+        {
+          "id": "projection.goal_completion.local_relation_satisfied_candidate",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "goal_completion.local_relation_satisfied"},
+            {"field": "goal_ref_present", "operator": "equals", "expected": true},
+            {"field": "lifecycle_revision_group_ref_present", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "completion_candidate_kind": "local_relation_satisfied",
+            "goal_lifecycle_status": "locally_satisfied",
+            "terminal_evidence_observed": true
+          }
+        },
+        {
+          "id": "projection.goal_completion.unresolved_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "goal_completion.unresolved"
+            }
+          ],
+          "static_facts": {
+            "completion_candidate_kind": "unresolved"
+          }
+        },
+        {
+          "id": "projection.goal_completion.missing_subgoal_candidate",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "goal_completion.axis_done_missing_subgoal"
+            },
+            {
+              "field": "goal_ref",
+              "operator": "is_present"
+            },
+            {
+              "field": "alignment_axis",
+              "operator": "is_present"
+            }
+          ],
+          "static_facts": {
+            "completion_candidate_kind": "axis_done_missing_subgoal",
+            "goal_lifecycle_status": "axis_exhausted_missing_subgoal",
+            "static_knowledge_graph_ref": "knowledge.graph.generic",
+            "guiding_principle_ref": "principle.static_knowledge_precedes_dynamic_goal_activation",
+            "instrumental_subgoal_refs": [],
+            "instrumental_parent_goal_refs": [],
+            "activation_reason_refs": ["reason.static_knowledge_is_not_the_current_goal_graph"],
+            "open_goal_kinds": [
+              "align.position.row",
+              "align.position.column",
+              "align.position.both",
+              "align.contact.edge",
+              "align.contact.overlap",
+              "align.containment",
+              "align.offset.constant",
+              "align.separation",
+              "match.shape_exact",
+              "match.shape_topology",
+              "match.color_and_shape",
+              "match.orientation",
+              "match.scale",
+              "match.pattern.normalized",
+              "match.marker_or_subcomponent",
+              "match.by_effect",
+              "goal.move_dependent_onto_target",
+              "goal.move_source_to_marker",
+              "goal.quantity_capacity_transfer",
+              "goal.discrete_state_or_permutation_offset",
+              "goal.connectivity_traversability_support",
+              "goal.prerequisite_mechanism",
+              "goal.temporal_occupancy_or_concurrency",
+              "goal.safe_world_revelation",
+              "goal.reach_new_informative_element",
+              "goal.open_required_passage",
+              "goal.move_toward_opened_passage",
+              "goal.learned_terminal_cardinality",
+              "goal.conjunction",
+              "goal.subgoal_assignment"
+            ]
+          },
+          "templated_facts": {
+            "missing_subgoal_set_ref": "hypothesis.open_goal_set.after.{goal_ref}.{alignment_axis}",
+            "activation_ref": "activation.goal_frontier.{goal_ref}.{transition_ref}",
+            "active_goal_ref": "{goal_ref}",
+            "scene_support_claim_refs": ["claim.goal.lifecycle.{goal_ref}.{transition_ref}"],
+            "terminal_goal_refs": ["{goal_ref}"],
+            "instrumental_subgoal_refs": [
+              "subgoal.discriminate_open_goal_kinds.{goal_ref}.{alignment_axis}"
+            ],
+            "instrumental_parent_goal_refs": [
+              [
+                "subgoal.discriminate_open_goal_kinds.{goal_ref}.{alignment_axis}",
+                "{goal_ref}"
+              ]
+            ]
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.verified_goal_completion",
+          "all_conditions": [
+            {
+              "field": "completion_candidate_kind",
+              "operator": "equals",
+              "expected": "verified"
+            },
+            {
+              "field": "score_increased",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "expected_remaining_step_count",
+              "operator": "equals",
+              "expected": 1
+            }
+          ],
+          "reason_ref": "reason.final_expected_quantum_and_score_increase_establish_completion"
+        },
+        {
+          "id": "tier.observed_score_boundary",
+          "all_conditions": [
+            {
+              "field": "completion_candidate_kind",
+              "operator": "equals",
+              "expected": "observed_boundary"
+            },
+            {
+              "field": "score_increased",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.level_boundary_requires_explicit_current_scene_rebinding"
+        },
+        {
+          "id": "tier.local_relation_satisfied",
+          "all_conditions": [
+            {"field": "completion_candidate_kind", "operator": "equals", "expected": "local_relation_satisfied"},
+            {"field": "score_increased", "operator": "equals", "expected": false},
+            {"field": "expected_remaining_step_count", "operator": "equals", "expected": 1},
+            {"field": "distance_is_quantized", "operator": "equals", "expected": true},
+            {"field": "exact_terminal_relation_step_expected", "operator": "equals", "expected": true},
+            {"field": "causally_effective_action_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.exact_terminal_relation_transition_locally_satisfies_only_its_concrete_goal"
+        },
+        {
+          "id": "tier.axis_done_missing_subgoal",
+          "all_conditions": [
+            {
+              "field": "completion_candidate_kind",
+              "operator": "equals",
+              "expected": "axis_done_missing_subgoal"
+            },
+            {
+              "field": "score_increased",
+              "operator": "equals",
+              "expected": false
+            },
+            {
+              "field": "expected_remaining_step_count",
+              "operator": "equals",
+              "expected": 1
+            },
+            {
+              "field": "distance_is_quantized",
+              "operator": "equals",
+              "expected": true
+            }
+          ],
+          "reason_ref": "reason.incomplete_goal_set_explains_axis_success_without_win"
+        },
+        {
+          "id": "tier.unresolved_goal_boundary",
+          "all_conditions": [
+            {
+              "field": "completion_candidate_kind",
+              "operator": "equals",
+              "expected": "unresolved"
+            }
+          ],
+          "reason_ref": "reason.goal_boundary_evidence_is_incomplete"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "completion_candidate_kind",
+          "preferred_order": "minimize"
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "goal_completion.verified": "rule.verified_alignment_completion_meaning",
+        "goal_completion.observed_boundary": "rule.observed_score_boundary_meaning",
+        "goal_completion.local_relation_satisfied": "rule.exact_multicell_peer_terminal_transition_meaning",
+        "goal_completion.axis_done_missing_subgoal": "rule.alignment_goal_lifecycle_meaning"
+      },
+      "reason_refs": [
+        "reason.goal_completion_uses_declared_exact_conditions"
+      ]
+    },
+    {
+      "id": "rule.exact_multicell_peer_terminal_transition_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "goal_ref",
+        "exact_terminal_relation_step_expected",
+        "causally_effective_action_count",
+        "lifecycle_revision_group_ref",
+        "world_feedback"
+      ],
+      "applicability": ["exact_multicell_peer_terminal_transition_reconciliation"],
+      "invariants": [
+        "the_concrete_pair_goal_only_is_locally_satisfied",
+        "other_agenda_goals_remain_open",
+        "local_satisfaction_does_not_claim_level_achievement",
+        "the_lifecycle_revision_supersedes_the_prior_open_state"
+      ],
+      "falsifiers": [
+        "the_expected_terminal_primitive_had_no_effect",
+        "the_declared_remaining_step_count_was_not_one",
+        "the_lifecycle_revision_group_is_missing"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "{goal_ref}",
+          "kind": "goal",
+          "label": "exact multicell peer relation locally satisfied",
+          "required_fields": ["goal_ref", "transition_ref"],
+          "static_attributes": {
+            "goal_kind": "align.position.both",
+            "commitment": "revisable",
+            "status": "locally_satisfied",
+            "terminal_evidence_observed": true
+          },
+          "attribute_bindings": {
+            "terminal_transition_ref": "transition_ref",
+            "terminal_action_ref": "action_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.goal.exact_multicell_peer.terminal_transition.{goal_ref}.{transition_ref}",
+          "predicate": "goal_lifecycle_status",
+          "family": "control",
+          "argument_patterns": ["{goal_ref}", "current_relation_state"],
+          "epistemic_status": "established",
+          "required_fields": [
+            "goal_ref",
+            "transition_ref",
+            "lifecycle_revision_group_ref"
+          ],
+          "static_attributes": {
+            "lifecycle_status": "locally_satisfied",
+            "access_state": "satisfied",
+            "terminal_evidence_observed": true,
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "revision_family_ref": "lifecycle_revision_group_ref",
+            "lifecycle_revision_family_ref": "lifecycle_revision_group_ref",
+            "terminal_transition_ref": "transition_ref",
+            "terminal_action_ref": "action_ref",
+            "causally_effective_action_count": "causally_effective_action_count"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.exact_terminal_relation_transition_locally_satisfies_only_its_concrete_goal"
+      ]
+    },
+    {
+      "id": "principle.target_region_arrival_is_not_terminal_alignment",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.region_contact_containment_and_terminal_satisfaction_are_distinct"
+      ],
+      "relation_parameters": [
+        "relation.region_membership",
+        "relation.terminal_satisfaction"
+      ],
+      "premises": [
+        "tracked_identity_is_inside_its_corresponding_target_region",
+        "terminal_alignment_has_an_independent_exact_constraint"
+      ],
+      "applicability": [
+        "identity_arrives_before_terminal_constraint_is_satisfied"
+      ],
+      "invariants": [
+        "target_region_membership_and_terminal_alignment_are_distinct_state_dimensions",
+        "arrival_alone_cannot_complete_the_goal",
+        "later_resource_or_relation_changes_may_align_an_already_arrived_identity"
+      ],
+      "falsifiers": [
+        "the_declared_goal_contains_no_constraint_beyond_region_membership",
+        "target_correspondence_is_contradicted"
+      ],
+      "reason_refs": [
+        "reason.arrival_and_terminal_alignment_require_independent_evidence"
+      ]
+    },
+    {
+      "id": "principle.interface_readiness_uses_side_local_coordinates",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.exact_affine_relation_generalizes_equal_mean",
+        "principle.region_contact_containment_and_terminal_satisfaction_are_distinct"
+      ],
+      "relation_parameters": [
+        "relation.affine.nary",
+        "relation.contact.edge",
+        "relation.terminal_satisfaction"
+      ],
+      "premises": [
+        "one_physical_interface_has_one_measured_coordinate_per_incident_support_frame",
+        "each_quantity_surface_is_measured_from_its_own_support_origin"
+      ],
+      "applicability": [
+        "interface_readiness_depends_on_incident_quantity_surfaces"
+      ],
+      "invariants": [
+        "every_incident_side_must_reach_its_own_local_coordinate",
+        "equal_values_are_an_optional_special_case_not_the_definition",
+        "asymmetric_local_values_may_describe_one_physical_interface",
+        "interface_activation_remains_distinct_from_readiness"
+      ],
+      "falsifiers": [
+        "an_observed_activation_succeeds_while_a_declared_side_coordinate_is_not_reached",
+        "the_measured_support_origin_is_revised"
+      ],
+      "reason_refs": [
+        "reason.interface_sides_share_a_passage_but_not_a_global_quantity_origin"
+      ]
+    },
+    {
+      "id": "principle.thirst_for_meaning_keeps_goal_space_open",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.goal_is_a_revisable_set_of_open_relations"
+      ],
+      "premises": [
+        "live_observations",
+        "open_goal_hypotheses"
+      ],
+      "applicability": [
+        "any_reasoning_stage"
+      ],
+      "invariants": [
+        "new_evidence_may_open_new_goal_kinds",
+        "one_axis_success_does_not_close_orthogonal_axes",
+        "level_failure_after_pursued_goals_suggests_missing_subgoal_or_false_goal"
+      ],
+      "falsifiers": [
+        "all_declared_goal_kinds_were_explicitly_tested_and_contradicted"
+      ],
+      "reason_refs": [
+        "reason.meaning_seeking_preserves_untested_goal_kinds"
+      ]
+    },
+    {
+      "id": "principle.axis_success_without_level_success_implies_missing_subgoal",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.partial_relation_satisfaction_preserves_open_remainder"
+      ],
+      "relation_parameters": [
+        "relation.position.row",
+        "relation.position.column",
+        "relation.terminal_satisfaction"
+      ],
+      "premises": [
+        "a_pursued_alignment_axis_was_driven_to_its_expected_last_step",
+        "official_score_did_not_increase"
+      ],
+      "applicability": [
+        "verified_alignment_step_returned_without_level_boundary"
+      ],
+      "invariants": [
+        "the_pursued_axis_goal_is_recorded_as_exhausted_or_satisfied_on_that_axis",
+        "all_other_catalog_goal_kinds_are_reopened_as_proposed_not_a_single_opaque_gap",
+        "level_completion_later_teaches_which_combination_of_open_kinds_was_required",
+        "no_goal_kind_is_hard_rejected_merely_because_one_axis_exhausted",
+        "axis_exhaustion_does_not_cancel_align_position_both_or_orthogonal_axis"
+      ],
+      "falsifiers": [
+        "score_increased_on_the_same_transition",
+        "expected_remaining_step_count_was_not_one"
+      ],
+      "reason_refs": [
+        "reason.level_teaches_goal_combination_among_open_kinds"
+      ]
+    },
+    {
+      "id": "principle.position_both_outranks_single_axis_alignment",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.alignment_uses_a_parameterized_required_aspect_set",
+        "principle.partial_relation_satisfaction_preserves_open_remainder"
+      ],
+      "aspect_parameters": [
+        "match.position_row",
+        "match.position_column",
+        "match.shape_exact",
+        "match.by_effect"
+      ],
+      "relation_parameters": [
+        "relation.position.row",
+        "relation.position.column"
+      ],
+      "premises": [
+        "open_alignment_residual_on_row_or_column_or_both",
+        "same_shape_or_effect_backed_peer_pair"
+      ],
+      "applicability": [
+        "verified_mechanism_repetition",
+        "open_alignment_goal_selection"
+      ],
+      "invariants": [
+        "align_position_both_outranks_align_position_row_alone",
+        "align_position_both_outranks_align_position_column_alone",
+        "closing_one_axis_immediately_continues_to_the_remaining_open_axis",
+        "single_axis_repetition_must_not_erase_orthogonal_open_residual",
+        "same_shape_orientation_peer_goal_stays_committed_across_axes",
+        "co_moving_pairs_are_control_map_not_position_alignment_targets"
+      ],
+      "falsifiers": [
+        "both_axis_residuals_already_zero",
+        "no_peer_pair_with_measurable_position_residual"
+      ],
+      "reason_refs": [
+        "reason.position_both_outranks_single_axis_alignment",
+        "reason.sticky_same_shape_position_outranks_co_moving_pairs"
+      ]
+    },
+    {
+      "id": "principle.multi_cell_body_quantum_is_observed_translation_step",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.correspondence_combines_independent_match_aspects"
+      ],
+      "aspect_parameters": [
+        "match.shape_exact",
+        "match.orientation"
+      ],
+      "relation_parameters": [
+        "relation.transform.observed_translation",
+        "relation.offset.constant"
+      ],
+      "premises": [
+        "compact_multi_cell_body_observed",
+        "pure_axis_translation_under_directional_action"
+      ],
+      "applicability": [
+        "multi_cell_to_multi_cell_position_alignment",
+        "verified_mechanism_repetition"
+      ],
+      "invariants": [
+        "a_multi_cell_object_is_a_rigid_set_of_cells_under_identity_transport",
+        "the_cell_quantum_equals_the_observed_pure_axis_pixel_step_of_that_body",
+        "alignment_residual_is_measured_on_corresponding_anchors_of_two_bodies",
+        "anchor_residual_uses_an_exact_observed_correspondence_and_never_an_unwitnessed_default",
+        "remaining_steps_equal_floor_of_anchor_gap_over_observed_quantum",
+        "coupled_reflection_uses_residual_entity_delta_as_the_control_quantum_step"
+      ],
+      "falsifiers": [
+        "body_deforms_or_changes_relative_pixel_set_under_the_action",
+        "observed_step_is_not_pure_axis_or_not_constant"
+      ],
+      "reason_refs": [
+        "reason.multi_cell_alignment_uses_cell_quantum_and_anchor_residual"
+      ]
+    },
+    {
+      "id": "rule.alignment_goal_lifecycle_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "goal_ref",
+        "alignment_axis",
+        "world_feedback"
+      ],
+      "applicability": [
+        "alignment_goal_lifecycle_revision"
+      ],
+      "invariants": [
+        "goal_status_is_revisable",
+        "missing_subgoal_is_a_hypothesis_not_a_terminal_rejection",
+        "axis_status_does_not_erase_other_open_goals"
+      ],
+      "falsifiers": [
+        "goal_ref_missing"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "{goal_ref}",
+          "kind": "goal",
+          "label": "alignment goal with recorded lifecycle status",
+          "required_fields": [
+            "goal_ref",
+            "goal_lifecycle_status"
+          ],
+          "static_attributes": {
+            "goal_kind": "alignment",
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "status": "goal_lifecycle_status",
+            "axis": "alignment_axis",
+            "action_ref": "action_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "{missing_subgoal_set_ref}",
+          "kind": "event",
+          "label": "open goal-kind set after axis exhaust without level success",
+          "required_fields": [
+            "missing_subgoal_set_ref"
+          ],
+          "static_attributes": {
+            "event_kind": "open_goal_set",
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "open_goal_kinds": "open_goal_kinds",
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.goal.open_set.{missing_subgoal_set_ref}",
+          "predicate": "proposes_open_goal_set",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "{goal_ref}"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "goal_ref",
+            "open_goal_kinds"
+          ],
+          "attribute_bindings": {
+            "open_goal_kinds": "open_goal_kinds",
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "reason": "axis_last_step_without_level_success",
+            "transition_ref": "transition_ref",
+            "note": "level_end_teaches_which_subset_was_required"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.lifecycle.{goal_ref}.{transition_ref}",
+          "predicate": "goal_lifecycle_status",
+          "family": "control",
+          "argument_patterns": [
+            "{goal_ref}",
+            "{goal_lifecycle_status}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "goal_ref",
+            "goal_lifecycle_status",
+            "transition_ref"
+          ],
+          "attribute_bindings": {
+            "axis": "alignment_axis",
+            "action_ref": "action_ref",
+            "score_increased": "score_increased",
+            "expected_remaining_step_count": "expected_remaining_step_count"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.position.row",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.position.row"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.position.row",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.position.column",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.position.column"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.position.column",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.position.both",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.position.both"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.position.both",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.contact.edge",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.contact.edge"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.contact.edge",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.contact.overlap",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.contact.overlap"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.contact.overlap",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.containment",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.containment"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.containment",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.align.offset.constant",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "align.offset.constant"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.offset.constant",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.match.shape_exact",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "match.shape_exact"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.shape_exact",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.match.shape_topology",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "match.shape_topology"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.shape_topology",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.match.color_and_shape",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "match.color_and_shape"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.color_and_shape",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.match.orientation",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "match.orientation"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.orientation",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.match.by_effect",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "match.by_effect"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "match.by_effect",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.goal.move_dependent_onto_target",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "goal.move_dependent_onto_target"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "goal.move_dependent_onto_target",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        },
+        {
+          "id_pattern": "claim.goal.open.{missing_subgoal_set_ref}.goal.move_source_to_marker",
+          "predicate": "proposes_open_goal_kind",
+          "family": "control",
+          "argument_patterns": [
+            "{missing_subgoal_set_ref}",
+            "goal.move_source_to_marker"
+          ],
+          "epistemic_status": "proposed",
+          "required_fields": [
+            "missing_subgoal_set_ref",
+            "open_goal_kinds"
+          ],
+          "static_attributes": {
+            "goal_kind": "goal.move_source_to_marker",
+            "source": "axis_exhausted_without_level_success",
+            "combinatorial_note": "level_completion_teaches_which_open_kinds_were_jointly_required"
+          },
+          "attribute_bindings": {
+            "exhausted_axis": "alignment_axis",
+            "exhausted_goal_ref": "goal_ref",
+            "transition_ref": "transition_ref"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.incomplete_goal_set_explains_axis_success_without_win"
+      ]
+    },
+    {
+      "id": "principle.factorized_symbolic_aspects_open_rotation_gap",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.alignment_uses_a_parameterized_required_aspect_set",
+        "principle.correspondence_combines_independent_match_aspects",
+        "principle.rotation_pivot_is_inferred_from_observed_transform"
+      ],
+      "aspect_parameters": [
+        "match.shape_exact",
+        "match.shape_topology",
+        "match.color_value",
+        "match.multiscale",
+        "match.orientation"
+      ],
+      "premises": [
+        "one_or_more_exact_finite_mask_transform_correspondences_are_measured",
+        "shape_color_scale_and_rotation_measurements_are_available_separately",
+        "the_correspondence_roles_remain_revisable"
+      ],
+      "applicability": ["normalized_symbolic_correspondence_assessment"],
+      "invariants": [
+        "render_scale_is_not_a_shape_difference",
+        "one_shared_palette_value_does_not_assign_reference_or_target_roles",
+        "all_exact_correspondence_alternatives_remain_open_until_contradicted",
+        "a_nonzero_exact_quarter_turn_opens_rotation_as_a_measured_gap_dimension",
+        "the_open_goal_releases_no_action_before_a_causal_operator_is_established"
+      ],
+      "falsifiers": [
+        "no_exact_normalized_mask_equality_exists",
+        "the_pairing_is_contradicted_by_complete_region_lineage",
+        "the_measured_transform_is_not_reproducible"
+      ],
+      "reason_refs": [
+        "reason.factorized_exact_symbolic_aspects_open_only_measured_gaps"
+      ]
+    },
+    {
+      "id": "principle.action_conditioned_gap_closure_commits_mechanism_once",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.partial_relation_satisfaction_preserves_open_remainder"
+      ],
+      "premises": [
+        "a_bounded_object_terminating_route_has_reached_its_terminal_edge",
+        "the_reconciled_delta_matches_one_previously_open_exact_symbolic_transform_gap",
+        "the_same_transition_does_not_establish_official_completion"
+      ],
+      "applicability": ["post_terminal_edge_symbolic_gap_reconciliation"],
+      "invariants": [
+        "commit_only_the_exact_mechanism_supported_by_the_action_conditioned_delta",
+        "close_only_the_satisfied_symbolic_gap",
+        "preserve_still_valid_correspondence_alternatives",
+        "do_not_repeat_the_committed_mechanism_without_a_new_open_gap",
+        "reopen_guarded_route_assessment_after_reconciliation"
+      ],
+      "falsifiers": [
+        "the_observed_delta_does_not_match_the_open_transform_gap",
+        "more_than_one_incompatible_mechanism_explains_the_same_delta",
+        "the_committed_mechanism_repeats_without_an_open_gap"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_exact_gap_closure_commits_one_mechanism_once"
+      ]
+    },
+    {
+      "id": "principle.aligned_canonical_target_opens_guarded_entry_route",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.region_contact_containment_and_terminal_satisfaction_are_distinct"
+      ],
+      "relation_parameters": [
+        "relation.region_membership",
+        "relation.contact.overlap",
+        "relation.terminal_satisfaction"
+      ],
+      "premises": [
+        "a_complete_canonical_region_is_linked_to_one_measured_cell_carrier",
+        "all_committed_symbolic_aspect_gaps_for_the_correspondence_are_satisfied",
+        "official_completion_is_absent"
+      ],
+      "applicability": ["post_alignment_target_entry_assessment"],
+      "invariants": [
+        "alignment_opens_entry_as_a_revisable_supposition_not_an_exit_fact",
+        "the_complete_region_is_not_replaced_by_its_carrier",
+        "only_one_committed_bounded_route_payload_remains_executable",
+        "every_route_edge_is_reconciled_before_the_next_release",
+        "exit_meaning_requires_an_official_score_or_level_boundary"
+      ],
+      "falsifiers": [
+        "a_committed_symbolic_gap_is_open",
+        "the_carrier_link_is_ambiguous",
+        "entry_occurs_without_official_completion",
+        "resource_viability_is_contradicted"
+      ],
+      "reason_refs": [
+        "reason.aligned_complete_region_opens_guarded_entry_without_preassigning_exit"
+      ]
+    },
+    {
+      "id": "schema.declared_goal_kind_contract",
+      "kind": "schema",
+      "premises": [
+        "current_claims_license_goal_kinds",
+        "each_open_goal_declares_only_measurable_dimensions"
+      ],
+      "invariants": [
+        "all_licensed_goal_kinds_may_remain_open_concurrently",
+        "terminal_cardinality_is_observed_never_catalogued_as_a_number",
+        "one_exhausted_axis_does_not_close_other_licensed_goal_kinds",
+        "gap_measurement_is_exact_and_contains_no_goal_selection"
+      ],
+      "falsifiers": [
+        "goal_kind_has_no_current_licensing_claim",
+        "declared_gap_dimension_cannot_be_measured",
+        "goal_contract_lacks_an_explicit_reopening_rule"
+      ],
+      "configuration": {
+        "goal_node_kinds": [
+          "official_completion",
+          "safety_invariant",
+          "world_achievement",
+          "required_prerequisite",
+          "access",
+          "mechanism_discrimination",
+          "effect_calibration",
+          "configuration_discovery",
+          "recovery"
+        ],
+        "goal_edge_kinds": [
+          "requires",
+          "enables",
+          "refines",
+          "alternative_to",
+          "conflicts_with",
+          "protects",
+          "restores",
+          "falsifies",
+          "achieved_by"
+        ],
+        "dominance_tiers": [
+          "G0_safety_and_invariants",
+          "G1_committed_official_plan",
+          "G2_supported_world_achievement",
+          "G3_blocking_prerequisite_or_access",
+          "G4_required_mechanism_discrimination",
+          "G5_predicted_configuration_discovery",
+          "G6_required_effect_calibration",
+          "G7_non_blocking_coverage"
+        ],
+        "lifecycle_statuses": [
+          "proposed",
+          "enabled",
+          "blocked_by_prerequisite",
+          "disabled_with_reason",
+          "accessible",
+          "pursuing",
+          "locally_satisfied",
+          "axis_satisfied",
+          "axis_exhausted_missing_subgoal",
+          "failed_partial",
+          "falsified",
+          "abandoned_exact_variant",
+          "reopened_after_context_change",
+          "level_achieved"
+        ],
+        "goal_families": [
+          {
+            "goal_kinds": [
+              "align.position.row",
+              "align.position.column",
+              "align.position.both",
+              "align.offset.constant"
+            ],
+            "premise_refs": ["claim.role.mover", "claim.role.fixed_reference"],
+            "measured_dimension_refs": ["row", "column", "position", "offset"],
+            "falsifier_refs": ["measured_position_relation_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_position_goal_after_new_relation_evidence"
+          },
+          {
+            "goal_kinds": [
+              "align.contact.edge",
+              "align.contact.overlap",
+              "align.containment",
+              "align.separation"
+            ],
+            "premise_refs": ["claim.material_topology_pair"],
+            "measured_dimension_refs": ["distance", "contact", "overlap", "containment", "separation"],
+            "falsifier_refs": ["measured_topological_relation_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_topology_goal_after_scene_change"
+          },
+          {
+            "goal_kinds": [
+              "match.shape_exact",
+              "match.shape_topology",
+              "match.color_and_shape",
+              "match.orientation",
+              "match.scale",
+              "match.pattern.normalized"
+            ],
+            "premise_refs": ["claim.correspondence_candidate_pair"],
+            "measured_dimension_refs": ["shape", "topology", "color", "rotation", "scale", "normalized_pattern"],
+            "falsifier_refs": ["declared_correspondence_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_match_goal_after_correspondence_revision"
+          },
+          {
+            "goal_kinds": [
+              "match.marker_or_subcomponent",
+              "match.by_effect",
+              "goal.move_dependent_onto_target",
+              "goal.move_source_to_marker"
+            ],
+            "premise_refs": ["claim.action_conditioned_role_pair"],
+            "measured_dimension_refs": ["marker_correspondence", "position"],
+            "falsifier_refs": ["action_conditioned_correspondence_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_action_role_goal_after_role_revision"
+          },
+          {
+            "goal_kinds": ["goal.quantity_capacity_transfer"],
+            "premise_refs": ["claim.resource_or_transfer_relation"],
+            "measured_dimension_refs": ["quantity", "capacity", "conserved_transfer"],
+            "falsifier_refs": ["measured_conservation_or_capacity_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_transfer_goal_after_resource_revision"
+          },
+          {
+            "goal_kinds": ["goal.discrete_state_or_permutation_offset"],
+            "premise_refs": ["claim.discrete_transform_relation"],
+            "measured_dimension_refs": ["discrete_state", "permutation_offset"],
+            "falsifier_refs": ["declared_discrete_transition_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_discrete_goal_after_state_revision"
+          },
+          {
+            "goal_kinds": [
+              "goal.connectivity_traversability_support",
+              "goal.reach_new_informative_element",
+              "goal.open_required_passage",
+              "goal.move_toward_opened_passage"
+            ],
+            "premise_refs": ["claim.material_or_support_graph"],
+            "measured_dimension_refs": ["connectivity", "traversability", "support"],
+            "falsifier_refs": ["declared_graph_relation_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_graph_goal_after_topology_revision"
+          },
+          {
+            "goal_kinds": ["goal.prerequisite_mechanism"],
+            "premise_refs": ["claim.unmet_mechanism_precondition"],
+            "measured_dimension_refs": ["mechanism_state"],
+            "falsifier_refs": ["precondition_is_already_satisfied_or_irrelevant"],
+            "reopening_rule_ref": "rule.reopen_prerequisite_goal_after_mechanism_revision"
+          },
+          {
+            "goal_kinds": ["goal.temporal_occupancy_or_concurrency"],
+            "premise_refs": ["claim.temporal_or_phase_relation"],
+            "measured_dimension_refs": ["temporal_occupancy", "concurrency"],
+            "falsifier_refs": ["declared_phase_relation_is_contradicted"],
+            "reopening_rule_ref": "rule.reopen_temporal_goal_after_phase_revision"
+          },
+          {
+            "goal_kinds": ["goal.safe_world_revelation"],
+            "premise_refs": ["claim.unobserved_world_frontier", "claim.safe_revelation_operator"],
+            "measured_dimension_refs": ["world_revelation"],
+            "falsifier_refs": ["revelation_operator_is_unsafe_or_frontier_is_closed"],
+            "reopening_rule_ref": "rule.reopen_revelation_goal_after_frontier_revision"
+          },
+          {
+            "goal_kinds": ["goal.reach_scroll_terminal_frontier"],
+            "premise_refs": ["claim.viewport_scroll_direction_observed", "claim.retained_grid_action_witness_unique"],
+            "measured_dimension_refs": ["world_revelation", "viewport_shift"],
+            "falsifier_refs": ["falsifier.viewport_scroll_does_not_advance_or_retrigger"],
+            "reopening_rule_ref": "rule.reopen_revelation_goal_after_frontier_revision"
+          },
+          {
+            "goal_kinds": ["goal.learned_terminal_cardinality"],
+            "premise_refs": ["claim.repeated_completion_boundary"],
+            "measured_dimension_refs": ["cardinality"],
+            "falsifier_refs": ["later_completion_observation_changes_the_cardinality"],
+            "reopening_rule_ref": "rule.reopen_cardinality_goal_after_new_boundary"
+          },
+          {
+            "goal_kinds": ["goal.conjunction", "goal.subgoal_assignment"],
+            "premise_refs": ["claim.multiple_compatible_open_goals"],
+            "measured_dimension_refs": ["conjunction_assignment"],
+            "falsifier_refs": ["subgoal_assignment_is_incompatible_or_incomplete"],
+            "reopening_rule_ref": "rule.reopen_conjunction_after_partial_completion"
+          }
+        ]
+      },
+      "reason_refs": ["reason.goal_catalog_declares_typed_gaps_and_reopening_rules"]
+    },
+    {
+      "id": "principle.exact_multicell_peer_goals_are_durable",
+      "kind": "principle",
+      "premises": [
+        "bounded_exact_multicell_peer_relation_measurements",
+        "persistent_visual_identities"
+      ],
+      "applicability": ["exact_same_orientation_multicell_peer_relation"],
+      "invariants": [
+        "each_relation_in_the_complete_bounded_priority_frontier_is_preserved_as_a_distinct_revisable_hypothesis",
+        "only_an_exact_silhouette_class_of_cardinality_two_activates_a_pairwise_terminal_goal",
+        "larger_indistinguishable_silhouette_classes_remain_explicitly_ambiguous_until_action_conditioned_identity_disambiguates_them",
+        "relations_outside_the_active_bound_remain_explicitly_counted_as_deferred_not_absent",
+        "the_priority_frontier_is_ordered_by_completion_proximity_then_screen_space_then_observation_frequency_then_first_observation_sequence_then_collective_scope_then_screen_reading_order",
+        "the_priority_order_must_be_unique_without_hash_or_incidental_iteration_order",
+        "a_higher_priority_suspends_but_never_erases_an_open_instance_goal",
+        "a_suspended_open_goal_is_reconsidered_after_stronger_goals_are_ineligible",
+        "priority_change_is_not_terminal_evidence",
+        "local_satisfaction_requires_exact_terminal_relational_evidence",
+        "level_achievement_requires_an_official_score_or_level_boundary",
+        "eight_connected_assemblies_preserve_the_identity_of_every_four_connected_member"
+      ],
+      "falsifiers": [
+        "the_exact_relative_silhouette_relation_is_contradicted",
+        "the_pair_identity_lineage_becomes_ambiguous",
+        "the_exact_peer_enumeration_is_truncated"
+      ],
+      "reason_refs": [
+        "reason.every_exact_multicell_peer_relation_remains_a_durable_open_goal",
+        "reason.complete_bounded_exact_peer_frontier_prevents_combinatorial_goal_overflow",
+        "reason.semantic_priority_criteria_precede_identity_only_fallbacks",
+        "reason.goal_priority_suspension_preserves_lower_priority_obligations",
+        "reason.only_explicit_terminal_evidence_closes_an_alignment_goal"
+      ]
+    },
+    {
+      "id": "policy.declared_exact_multicell_peer_goal_memory",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_exact_multicell_peer_relation_measurements"],
+      "applicability": ["tracked_scene_goal_memory_update"],
+      "invariants": [
+        "measurement_is_not_meaning",
+        "all_measured_exact_multicell_pairs_are_either_active_or_explicitly_deferred",
+        "the_active_frontier_contains_the_first_bounded_slice_of_the_complete_declared_semantic_order",
+        "truncated_enumeration_fails_closed"
+      ],
+      "falsifiers": [
+        "tracking_lineage_is_missing",
+        "exact_peer_enumeration_is_truncated"
+      ],
+      "declared_alternative_refs": [
+        "exact_multicell_peer_memory.relations_observed",
+        "exact_multicell_peer_memory.no_relation"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.exact_multicell_peer_memory.observed",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "exact_multicell_peer_memory.relations_observed"}
+          ],
+          "static_facts": {"exact_multicell_peer_memory_status": "relations_observed"}
+        },
+        {
+          "id": "projection.exact_multicell_peer_memory.empty",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "exact_multicell_peer_memory.no_relation"}
+          ],
+          "static_facts": {"exact_multicell_peer_memory_status": "no_relation"}
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "exact_multicell_peer_enumeration_truncated", "operator": "equals", "expected": false},
+        {"field": "exact_multicell_peer_priority_frontier_complete", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.exact_multicell_peer_memory.observed",
+          "all_conditions": [
+            {"field": "exact_multicell_peer_memory_status", "operator": "equals", "expected": "relations_observed"},
+            {"field": "exact_multicell_peer_relation_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.every_exact_multicell_peer_relation_remains_a_durable_open_goal"
+        },
+        {
+          "id": "tier.exact_multicell_peer_memory.empty",
+          "all_conditions": [
+            {"field": "exact_multicell_peer_memory_status", "operator": "equals", "expected": "no_relation"},
+            {"field": "exact_multicell_peer_relation_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.no_exact_multicell_peer_goal_is_currently_licensed"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {
+        "exact_multicell_peer_memory.relations_observed": "rule.exact_multicell_peer_goal_memory_meaning"
+      },
+      "reason_refs": [
+        "reason.every_exact_multicell_peer_relation_remains_a_durable_open_goal",
+        "reason.complete_bounded_exact_peer_frontier_prevents_combinatorial_goal_overflow",
+        "reason.no_exact_multicell_peer_goal_is_currently_licensed"
+      ]
+    },
+    {
+      "id": "principle.persistent_goal_collection_is_a_revisable_agenda",
+      "kind": "principle",
+      "premises": [
+        "multiple_non_falsified_goals_are_simultaneously_present",
+        "current_context_action_witnesses_are_bounded_and_measured",
+        "configuration_and_affordance_revisions_are_observable"
+      ],
+      "applicability": ["dynamic_goal_frontier_action_binding"],
+      "invariants": [
+        "all_non_falsified_goals_remain_side_by_side_in_the_agenda",
+        "one_isolated_no_effect_does_not_block_a_goal",
+        "bounded_current_context_witness_exhaustion_blocks_without_closing",
+        "the_next_open_goal_is_reconsidered_after_contextual_nonprogress",
+        "a_relevant_context_change_reexposes_the_preserved_goal",
+        "only_explicit_terminal_evidence_can_close_a_goal"
+      ],
+      "falsifiers": [
+        "a_contextually_blocked_goal_is_deleted",
+        "a_single_untried_witness_is_treated_as_exhaustion",
+        "blocked_is_confused_with_locally_satisfied"
+      ],
+      "reason_refs": [
+        "reason.goal_collection_itself_is_the_persistent_revisable_agenda"
+      ]
+    },
+    {
+      "id": "rule.exact_multicell_peer_goal_memory_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "observation_ref",
+        "exact_multicell_peer_relation_measurements",
+        "exact_multicell_peer_deferred_relation_count",
+        "exact_multicell_peer_priority_frontier_complete",
+        "exact_multicell_peer_priority_criterion_refs",
+        "exact_multicell_peer_enumeration_truncated"
+      ],
+      "applicability": ["exact_multicell_peer_memory.relations_observed"],
+      "invariants": [
+        "one_persistent_goal_term_exists_per_relation_ref",
+        "one_current_revisable_lifecycle_claim_exists_per_relation_ref",
+        "priority_class_binding_does_not_activate_or_close_the_goal",
+        "assembly_members_remain_inspectable_after_collective_confirmation"
+      ],
+      "falsifiers": [
+        "exact_peer_relation_measurement_is_missing",
+        "exact_peer_enumeration_is_truncated"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "goal.align_same_shape_multicell_position.{relation_ref}",
+          "kind": "goal",
+          "label": "durable exact multicell peer position goal",
+          "required_fields": [
+            "relation_ref",
+            "first_entity_ref",
+            "second_entity_ref",
+            "relative_shape_ref",
+            "area",
+            "exact_shape_occurrence_count",
+            "residual_row_twice",
+            "residual_column_twice"
+          ],
+          "static_attributes": {
+            "goal_kind": "align.position.both",
+            "node_kind": "world_achievement",
+            "commitment": "revisable",
+            "priority_class_ref": "G1_same_shape_multicell_position_alignment",
+            "declared_priority_ordinal": 1,
+            "terminal_evidence_requirement_ref": "requirement.exact_both_axis_relation_or_official_boundary"
+          },
+          "attribute_bindings": {
+            "pair_relation_ref": "relation_ref",
+            "first_entity_ref": "first_entity_ref",
+            "second_entity_ref": "second_entity_ref",
+            "first_component_ref": "first_component_ref",
+            "second_component_ref": "second_component_ref",
+            "first_member_entity_refs": "first_member_entity_refs",
+            "second_member_entity_refs": "second_member_entity_refs",
+            "first_member_component_refs": "first_member_component_refs",
+            "second_member_component_refs": "second_member_component_refs",
+            "relative_shape_ref": "relative_shape_ref",
+            "area": "area",
+            "exact_shape_occurrence_count": "exact_shape_occurrence_count",
+            "residual_row_twice": "residual_row_twice",
+            "residual_column_twice": "residual_column_twice",
+            "residual_manhattan_twice": "residual_manhattan_twice",
+            "joint_observation_count": "joint_observation_count",
+            "first_observation_sequence": "first_observation_sequence",
+            "second_observation_sequence": "second_observation_sequence",
+            "first_bbox_top": "first_bbox_top",
+            "first_bbox_left": "first_bbox_left",
+            "first_bbox_bottom": "first_bbox_bottom",
+            "first_bbox_right": "first_bbox_right",
+            "second_bbox_top": "second_bbox_top",
+            "second_bbox_left": "second_bbox_left",
+            "second_bbox_bottom": "second_bbox_bottom",
+            "second_bbox_right": "second_bbox_right",
+            "containing_exact_peer_relation_refs": "containing_exact_peer_relation_refs",
+            "strictly_contained_in_larger_exact_peer_relation": "strictly_contained_in_larger_exact_peer_relation",
+            "internal_to_larger_exact_peer_endpoint_refs": "internal_to_larger_exact_peer_endpoint_refs",
+            "internal_to_larger_exact_peer_endpoint": "internal_to_larger_exact_peer_endpoint",
+            "last_observation_ref": "observation_ref"
+          },
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "relation_ref": "relation_ref",
+              "first_entity_ref": "first_entity_ref",
+              "second_entity_ref": "second_entity_ref",
+              "first_component_ref": "first_component_ref",
+              "second_component_ref": "second_component_ref",
+              "first_member_entity_refs": "first_member_entity_refs",
+              "second_member_entity_refs": "second_member_entity_refs",
+              "first_member_component_refs": "first_member_component_refs",
+              "second_member_component_refs": "second_member_component_refs",
+              "relative_shape_ref": "relative_shape_ref",
+              "area": "area",
+              "exact_shape_occurrence_count": "exact_shape_occurrence_count",
+              "residual_row_twice": "residual_row_twice",
+              "residual_column_twice": "residual_column_twice",
+              "residual_manhattan_twice": "residual_manhattan_twice",
+              "joint_observation_count": "joint_observation_count",
+              "first_observation_sequence": "first_observation_sequence",
+              "second_observation_sequence": "second_observation_sequence",
+              "first_bbox_top": "first_bbox_top",
+              "first_bbox_left": "first_bbox_left",
+              "first_bbox_bottom": "first_bbox_bottom",
+              "first_bbox_right": "first_bbox_right",
+              "second_bbox_top": "second_bbox_top",
+              "second_bbox_left": "second_bbox_left",
+              "second_bbox_bottom": "second_bbox_bottom",
+              "second_bbox_right": "second_bbox_right",
+              "containing_exact_peer_relation_refs": "containing_exact_peer_relation_refs",
+              "strictly_contained_in_larger_exact_peer_relation": "strictly_contained_in_larger_exact_peer_relation",
+              "internal_to_larger_exact_peer_endpoint_refs": "internal_to_larger_exact_peer_endpoint_refs",
+              "internal_to_larger_exact_peer_endpoint": "internal_to_larger_exact_peer_endpoint",
+              "observation_ref": "observation_ref"
+            },
+            "max_items": 256
+          }
+        },
+        {
+          "id_pattern": "entity.collective.{first_entity_ref}",
+          "kind": "entity",
+          "label": "revisable eight-connected collective entity",
+          "required_fields": ["first_entity_ref", "first_member_entity_refs"],
+          "static_attributes": {"identity_kind": "eight_connected_collective", "commitment": "revisable"},
+          "attribute_bindings": {"member_entity_refs": "first_member_entity_refs"},
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "first_entity_ref": "first_entity_ref",
+              "first_member_entity_refs": "first_member_entity_refs",
+              "first_is_assembly": "first_is_eight_connected_assembly"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "first_is_assembly", "operator": "equals", "expected": true}
+            ]
+          }
+        },
+        {
+          "id_pattern": "entity.collective.{second_entity_ref}",
+          "kind": "entity",
+          "label": "revisable eight-connected collective entity",
+          "required_fields": ["second_entity_ref", "second_member_entity_refs"],
+          "static_attributes": {"identity_kind": "eight_connected_collective", "commitment": "revisable"},
+          "attribute_bindings": {"member_entity_refs": "second_member_entity_refs"},
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "second_entity_ref": "second_entity_ref",
+              "second_member_entity_refs": "second_member_entity_refs",
+              "second_is_assembly": "second_is_eight_connected_assembly"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "second_is_assembly", "operator": "equals", "expected": true}
+            ]
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.goal.exact_multicell_peer.current.{relation_ref}",
+          "predicate": "goal_exact_multicell_peer_relation_observed",
+          "family": "dynamic",
+          "argument_patterns": [
+            "goal.align_same_shape_multicell_position.{relation_ref}",
+            "{relation_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["relation_ref", "observation_ref", "residual_manhattan_twice"],
+          "required_term_patterns": ["goal.align_same_shape_multicell_position.{relation_ref}"],
+          "static_attributes": {
+            "goal_kind": "align.position.both",
+            "node_kind": "world_achievement",
+            "priority_class_ref": "G1_same_shape_multicell_position_alignment",
+            "declared_priority_ordinal": 1,
+            "commitment": "revisable",
+            "falsifier_ref": "falsifier.same_shape_pair_is_absent_or_contradicted"
+          },
+          "attribute_bindings": {
+            "pair_relation_ref": "relation_ref",
+            "observation_ref": "observation_ref",
+            "first_entity_ref": "first_entity_ref",
+            "second_entity_ref": "second_entity_ref",
+            "first_component_ref": "first_component_ref",
+            "second_component_ref": "second_component_ref",
+            "first_member_component_refs": "first_member_component_refs",
+            "second_member_component_refs": "second_member_component_refs",
+            "area": "area",
+            "exact_shape_occurrence_count": "exact_shape_occurrence_count",
+            "residual_row_twice": "residual_row_twice",
+            "residual_column_twice": "residual_column_twice",
+            "residual_manhattan_twice": "residual_manhattan_twice",
+            "joint_observation_count": "joint_observation_count",
+            "first_observation_sequence": "first_observation_sequence",
+            "second_observation_sequence": "second_observation_sequence",
+            "first_bbox_top": "first_bbox_top",
+            "first_bbox_left": "first_bbox_left",
+            "first_bbox_bottom": "first_bbox_bottom",
+            "first_bbox_right": "first_bbox_right",
+            "second_bbox_top": "second_bbox_top",
+            "second_bbox_left": "second_bbox_left",
+            "second_bbox_bottom": "second_bbox_bottom",
+            "second_bbox_right": "second_bbox_right",
+            "relation_residual_open": "relation_residual_open",
+            "containing_exact_peer_relation_refs": "containing_exact_peer_relation_refs",
+            "strictly_contained_in_larger_exact_peer_relation": "strictly_contained_in_larger_exact_peer_relation",
+            "internal_to_larger_exact_peer_endpoint_refs": "internal_to_larger_exact_peer_endpoint_refs",
+            "internal_to_larger_exact_peer_endpoint": "internal_to_larger_exact_peer_endpoint"
+          },
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "relation_ref": "relation_ref",
+              "observation_ref": "observation_ref",
+              "first_entity_ref": "first_entity_ref",
+              "second_entity_ref": "second_entity_ref",
+              "first_component_ref": "first_component_ref",
+              "second_component_ref": "second_component_ref",
+              "first_member_component_refs": "first_member_component_refs",
+              "second_member_component_refs": "second_member_component_refs",
+              "area": "area",
+              "exact_shape_occurrence_count": "exact_shape_occurrence_count",
+              "residual_row_twice": "residual_row_twice",
+              "residual_column_twice": "residual_column_twice",
+              "residual_manhattan_twice": "residual_manhattan_twice",
+              "joint_observation_count": "joint_observation_count",
+              "first_observation_sequence": "first_observation_sequence",
+              "second_observation_sequence": "second_observation_sequence",
+              "first_bbox_top": "first_bbox_top",
+              "first_bbox_left": "first_bbox_left",
+              "first_bbox_bottom": "first_bbox_bottom",
+              "first_bbox_right": "first_bbox_right",
+              "second_bbox_top": "second_bbox_top",
+              "second_bbox_left": "second_bbox_left",
+              "second_bbox_bottom": "second_bbox_bottom",
+              "second_bbox_right": "second_bbox_right",
+              "relation_residual_open": "relation_residual_open",
+              "containing_exact_peer_relation_refs": "containing_exact_peer_relation_refs",
+              "strictly_contained_in_larger_exact_peer_relation": "strictly_contained_in_larger_exact_peer_relation",
+              "internal_to_larger_exact_peer_endpoint_refs": "internal_to_larger_exact_peer_endpoint_refs",
+              "internal_to_larger_exact_peer_endpoint": "internal_to_larger_exact_peer_endpoint"
+            },
+            "max_items": 256
+          }
+        },
+        {
+          "id_pattern": "claim.goal.exact_multicell_peer.lifecycle.open.{relation_ref}",
+          "predicate": "goal_lifecycle_status",
+          "family": "control",
+          "argument_patterns": [
+            "goal.align_same_shape_multicell_position.{relation_ref}",
+            "current_relation_state"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["relation_ref", "observation_ref"],
+          "required_term_patterns": ["goal.align_same_shape_multicell_position.{relation_ref}"],
+          "static_attributes": {
+            "lifecycle_status": "enabled",
+            "access_state": "accessible",
+            "terminal_evidence_observed": false,
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "last_revised_observation_ref": "observation_ref",
+            "revision_family_ref": "lifecycle_revision_family_ref",
+            "lifecycle_revision_family_ref": "lifecycle_revision_family_ref"
+          },
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "relation_ref": "relation_ref",
+              "observation_ref": "observation_ref",
+              "lifecycle_revision_family_ref": "lifecycle_revision_family_ref",
+              "exact_shape_occurrence_count": "exact_shape_occurrence_count",
+              "relation_residual_open": "relation_residual_open"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "exact_shape_occurrence_count", "operator": "equals", "expected": 2},
+              {"field": "relation_residual_open", "operator": "equals", "expected": true}
+            ]
+          }
+        },
+        {
+          "id_pattern": "claim.goal.exact_multicell_peer.lifecycle.terminal.{relation_ref}",
+          "predicate": "goal_lifecycle_status",
+          "family": "control",
+          "argument_patterns": [
+            "goal.align_same_shape_multicell_position.{relation_ref}",
+            "current_relation_state"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["relation_ref", "observation_ref"],
+          "required_term_patterns": ["goal.align_same_shape_multicell_position.{relation_ref}"],
+          "static_attributes": {
+            "lifecycle_status": "locally_satisfied",
+            "access_state": "satisfied",
+            "terminal_evidence_observed": true,
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "last_revised_observation_ref": "observation_ref",
+            "revision_family_ref": "lifecycle_revision_family_ref",
+            "lifecycle_revision_family_ref": "lifecycle_revision_family_ref"
+          },
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "relation_ref": "relation_ref",
+              "observation_ref": "observation_ref",
+              "lifecycle_revision_family_ref": "lifecycle_revision_family_ref",
+              "relation_residual_open": "relation_residual_open"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "relation_residual_open", "operator": "equals", "expected": false}
+            ]
+          }
+        },
+        {
+          "id_pattern": "claim.goal.exact_multicell_peer.priority.{relation_ref}",
+          "predicate": "goal_instantiates_priority_class",
+          "family": "control",
+          "argument_patterns": [
+            "goal.align_same_shape_multicell_position.{relation_ref}",
+            "G1_same_shape_multicell_position_alignment"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["relation_ref"],
+          "required_term_patterns": ["goal.align_same_shape_multicell_position.{relation_ref}"],
+          "static_attributes": {
+            "generic_priority_class_ref": "G1_same_shape_multicell_position_alignment",
+            "declared_priority_ordinal": 1,
+            "active": true,
+            "commitment": "revisable"
+          },
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {"relation_ref": "relation_ref"},
+            "max_items": 256
+          }
+        },
+        {
+          "id_pattern": "claim.assembly.cotranslation.first.{relation_ref}",
+          "predicate": "observed_rigid_cotranslation",
+          "family": "dynamic",
+          "argument_patterns": ["{first_entity_ref}", "{relation_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["first_entity_ref", "relation_ref", "first_member_entity_refs"],
+          "static_attributes": {"identity_composition_status": "collective_confirmed", "commitment": "revisable"},
+          "attribute_bindings": {"member_entity_refs": "first_member_entity_refs"},
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "first_entity_ref": "first_entity_ref",
+              "relation_ref": "relation_ref",
+              "first_member_entity_refs": "first_member_entity_refs",
+              "cotranslation": "first_assembly_cotranslation_observed"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "cotranslation", "operator": "equals", "expected": true}
+            ]
+          }
+        },
+        {
+          "id_pattern": "claim.assembly.cotranslation.second.{relation_ref}",
+          "predicate": "observed_rigid_cotranslation",
+          "family": "dynamic",
+          "argument_patterns": ["{second_entity_ref}", "{relation_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["second_entity_ref", "relation_ref", "second_member_entity_refs"],
+          "static_attributes": {"identity_composition_status": "collective_confirmed", "commitment": "revisable"},
+          "attribute_bindings": {"member_entity_refs": "second_member_entity_refs"},
+          "iteration": {
+            "source_field": "exact_multicell_peer_relation_measurements",
+            "item_bindings": {
+              "second_entity_ref": "second_entity_ref",
+              "relation_ref": "relation_ref",
+              "second_member_entity_refs": "second_member_entity_refs",
+              "cotranslation": "second_assembly_cotranslation_observed"
+            },
+            "max_items": 256,
+            "all_conditions": [
+              {"field": "cotranslation", "operator": "equals", "expected": true}
+            ]
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.every_exact_multicell_peer_relation_remains_a_durable_open_goal",
+        "reason.goal_priority_suspension_preserves_lower_priority_obligations",
+        "reason.only_explicit_terminal_evidence_closes_an_alignment_goal"
+      ]
+    }
+  ]
+}

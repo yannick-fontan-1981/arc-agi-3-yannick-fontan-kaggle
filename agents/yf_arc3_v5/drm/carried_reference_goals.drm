@@ -1,0 +1,66 @@
+{
+  "module_id": "carried_reference_goals",
+  "declarations": [
+    {
+      "id": "policy.suppose_carried_reference_center_goal", "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single", "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["carried_reference.center"],
+      "selection_eligibility_conditions": [{"field": "carried_reference_goal_eligible", "operator": "equals", "expected": true}],
+      "fact_projections": [{
+        "id": "projection.carried_reference.unambiguous_stationary_hole",
+        "all_conditions": [
+          {"field": "multiple_observed_receivers", "operator": "equals", "expected": true},
+          {"field": "unique_carried_marker", "operator": "equals", "expected": true},
+          {"field": "four_identical_stationary_references", "operator": "equals", "expected": true},
+          {"field": "reference_is_symmetric_surround", "operator": "equals", "expected": true},
+          {"field": "center_origin_is_integral", "operator": "equals", "expected": true},
+          {"field": "center_copy_is_disjoint", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {"carried_reference_goal_eligible": true}
+      }],
+      "meaning_template_ref_by_alternative": {"carried_reference.center": "rule.carried_reference_center_goal"},
+      "premises": ["one_shape_is_carried_by_the_observed_axis_receivers", "four_identical_stationary_copies_bound_an_unoccupied_center"],
+      "invariants": ["palette_correspondence_is_measured_not_fixed", "the_goal_is_a_revisable_supposition_until_official_feedback", "no_action_is_authorized_without_mechanism_and_clearance"],
+      "falsifiers": ["the_reference_moves_under_a_receiver_action", "another_carried_shape_or_reference_is_equally_compatible", "occupying_the_center_does_not_satisfy_the_expected_terminal_relation"],
+      "reason_refs": ["reason.carried_shape_can_complete_its_stationary_reference_center"]
+    },
+    {
+      "id": "rule.carried_reference_center_goal", "kind": "rule", "relation_family": "dynamic",
+      "evaluation": "project_requested_conclusions", "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "premises": ["unambiguous_carried_reference_center_measurement"],
+      "invariants": ["reference_support_is_preserved", "geometry_is_current_epoch_bound", "prior_level_terminal_learning_is_not_assumed"],
+      "falsifiers": ["new_identity_or_geometry_contradicts_the_reference"],
+      "term_templates": [{
+        "id_pattern": "supposition.carried-reference-goal.{context_epoch}", "kind": "schema",
+        "label": "carried marker at the implicit stationary reference center",
+        "required_fields": ["context_epoch", "marker_entity_ref", "reference_entity_refs", "wanted_marker_top_left", "wanted_marker_support", "source_term_refs"],
+        "static_attributes": {
+          "projection_contract": "yf_arc3_v5.carried_reference_center_goal.v1",
+          "commitment": "revisable", "terminal_relation_status": "hypothesized",
+          "prior_level_transfer": "not_proved", "action_authorization": false,
+          "goal_ref": "goal.align_carried_marker_to_reference_center",
+          "wanted_relation": "marker_support_occupies_implicit_reference_center",
+          "preservation_constraint": "stationary_reference_support_is_preserved"
+        },
+        "attribute_bindings": {
+          "context_epoch": "context_epoch", "marker_entity_ref": "marker_entity_ref",
+          "reference_entity_refs": "reference_entity_refs", "wanted_marker_top_left": "wanted_marker_top_left",
+          "wanted_marker_support": "wanted_marker_support", "marker_relative_valued_pixels": "marker_relative_valued_pixels",
+          "source_term_refs": "source_term_refs"
+        }
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.carried-reference-goal.{context_epoch}", "predicate": "supposes_carried_marker_reference_center_goal",
+        "family": "dynamic", "epistemic_status": "proposed",
+        "argument_patterns": ["supposition.carried-reference-goal.{context_epoch}"],
+        "required_fields": ["context_epoch"], "required_term_patterns": ["supposition.carried-reference-goal.{context_epoch}"],
+        "static_attributes": {"action_authorization": false}
+      }],
+      "reason_refs": ["reason.carried_shape_can_complete_its_stationary_reference_center"]
+    }
+  ]
+}

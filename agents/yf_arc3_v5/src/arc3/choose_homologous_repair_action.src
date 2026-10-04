@@ -1,0 +1,74 @@
+# Exact homologous structure is committed before any generic click exploration.
+MODULE arc3.choose_homologous_repair_action
+
+WORKFLOW choose_homologous_repair_action(
+    scene: VisualSceneDescription,
+    available_action_refs: List<Ref>,
+    verified_repair_count: Integer,
+    basis_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        analysis: HomologousRepairAnalysis
+        mapping: Assessment
+        agenda: InteractionProbeAgenda
+        projected_agenda: InteractionProbeAgenda
+        selected: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared_updates: PreparedMeaningUpdates
+        revision: Any?
+    STEP analyze_homologues
+        CALL capability.homologous_repair_analysis(
+            scene=scene
+        ) -> analysis
+        REQUIRE analysis.has_mapping_candidates
+        SELECT mapping
+            FOR "goal.select_exact_normalized_multiscale_mapping"
+            FROM analysis.mapping_alternative_refs
+            UNDER policy.declared_multiscale_mapping
+            REQUIRE ["requirement.three_or_more_coherent_homologues"]
+            PRESERVE analysis.mapping_alternative_refs
+            FACTS analysis.mapping_alternative_facts
+        CALL capability.homologous_repair_action_enumeration(
+            analysis=analysis,
+            selected_mapping_ref=mapping.alternatives.selected,
+            available_action_refs=available_action_refs,
+            verified_repair_count=verified_repair_count
+        ) -> agenda
+        REQUIRE agenda.has_candidates
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_homologous_mismatch_repair",
+            agenda=agenda
+        ) -> projected_agenda
+        SELECT selected
+            FOR "goal.test_or_continue_predicted_homologous_repair"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_homologous_mismatch_repair
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_homologous_mismatch_repair",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=projected_agenda.alternative_facts,
+            evidence_refs=basis_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.homologous_repair_expectation
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_repair_prediction
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected_agenda.alternative_refs
+        STOP selected

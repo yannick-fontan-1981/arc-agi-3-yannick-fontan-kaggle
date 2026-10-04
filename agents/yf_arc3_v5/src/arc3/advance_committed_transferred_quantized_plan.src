@@ -1,0 +1,65 @@
+# Advance one already simulated route by an immutable cursor delta only.
+MODULE arc3.advance_committed_transferred_quantized_plan
+
+WORKFLOW advance_committed_transferred_quantized_plan(
+    committed_plan_facts: Any,
+    continuation_policy: Any,
+    basis_refs: List<Ref>,
+    available_action_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        agenda: InteractionProbeAgenda
+        projected_agenda: InteractionProbeAgenda
+        selected: Assessment?
+        committed_agenda: InteractionProbeAgenda
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared_updates: PreparedMeaningUpdates?
+        revision: Any?
+    STEP advance_committed_cursor
+        CALL capability.committed_quantized_plan_advance(
+            committed_plan_facts=committed_plan_facts,
+            continuation_policy=continuation_policy,
+            available_action_refs=available_action_refs
+        ) -> agenda
+        REQUIRE agenda.has_candidates
+        CALL control.project_declared_agenda(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            agenda=agenda
+        ) -> projected_agenda
+        SELECT selected
+            FOR "goal.continue_exact_quantized_alignment_route"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_transferred_quantized_plan
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE ["preserve.only_committed_route"]
+            FACTS projected_agenda.alternative_facts
+        CALL control.retain_selected_agenda(
+            agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected
+        ) -> committed_agenda
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_transferred_quantized_plan",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=projected_agenda.alternative_facts,
+            evidence_refs=basis_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.transferred_quantized_plan_expectation
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_expected_plan_cursor_delta
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [selected.alternatives.selected]
+        STOP selected

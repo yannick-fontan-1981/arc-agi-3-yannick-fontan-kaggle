@@ -1,0 +1,179 @@
+{
+  "module_id": "ordered_relief_writing",
+  "declarations": [
+    {
+      "id": "policy.declared_ordered_relief_transition_measurement",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["one_bounded_sealed_packet_and_source_declared_partitions_are_supplied"],
+      "applicability": ["provisional_ordered_relief_measurement_request"],
+      "invariants": [
+        "partition_meanings_are_supplied_by_drm_not_invented_by_python",
+        "changed_pixels_and_known_same_value_writes_remain_distinct",
+        "unobserved_poses_aspects_and_sizes_are_not_promoted"
+      ],
+      "falsifiers": [
+        "the_packet_is_not_sealed",
+        "the_partitions_overlap",
+        "the_comparison_bound_is_exceeded"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.ordered_relief_writing.separate"],
+      "fact_projections": [
+        {
+          "id": "projection.ordered_relief_writing.sealed_transition_measurement",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.ordered_relief_writing.separate"},
+            {"field": "provisional_ordered_relief_family_requested", "operator": "equals", "expected": true},
+            {"field": "sealed_before_after_packet_supplied", "operator": "equals", "expected": true},
+            {"field": "source_declared_partition_count", "operator": "greater_than", "expected": 0},
+            {"field": "comparison_bound_respected", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "frontier.effect.ordered_relief_writing.separate",
+            "reasoning_tree_parent_key": "frontier.effect.ordered_relief_writing",
+            "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.ordered_relief_transition_measurement",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "reasoning_tree_ordered_relief_observation_or_reconciliation_activations": [
+              {
+                "reasoning_tree_node_id": "frontier.effect.ordered_relief_writing.measure",
+                "reasoning_tree_parent_key": "frontier.effect.ordered_relief_writing",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "frontier.effect.ordered_relief_writing.confirm",
+                "reasoning_tree_parent_key": "frontier.effect.ordered_relief_writing",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["frontier.effect.ordered_relief_writing.separate"]
+    },
+    {
+      "id": "policy.declared_ordered_relief_pose_precondition",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["one_requested_pose_aspect_and_size_and_one_observed_action_graph_are_supplied"],
+      "applicability": ["provisional_ordered_relief_pose_request"],
+      "invariants": [
+        "only_observed_action_labelled_edges_are_usable",
+        "a_mathematical_rotation_does_not_license_an_action",
+        "missing_routes_preserve_the_open_pose_alternative"
+      ],
+      "falsifiers": ["the_pose_graph_is_missing", "the_graph_bound_is_exceeded"],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.ordered_relief_writing.pose_precondition"],
+      "fact_projections": [
+        {
+          "id": "projection.ordered_relief_writing.pose_precondition",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.ordered_relief_writing.pose_precondition"},
+            {"field": "provisional_ordered_relief_family_requested", "operator": "equals", "expected": true},
+            {"field": "requested_pose_aspect_and_size_supplied", "operator": "equals", "expected": true},
+            {"field": "observed_pose_graph_supplied", "operator": "equals", "expected": true},
+            {"field": "pose_graph_bound_respected", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.ordered_relief_writing.pose_precondition",
+            "reasoning_tree_parent_key": "mechanics.ordered_relief_writing",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.ordered_relief_pose_measurement",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "reasoning_tree_ordered_relief_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.ordered_relief_writing.ports",
+                "reasoning_tree_parent_key": "solving.ordered_relief_writing",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.ordered_relief_writing.pose_precondition"]
+    },
+    {
+      "id": "policy.declared_ordered_relief_write_successor",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["one_bounded_canvas_footprint_and_write_value_are_supplied"],
+      "applicability": ["provisional_ordered_relief_successor_request"],
+      "invariants": [
+        "replacement_is_limited_to_the_supplied_footprint",
+        "non_writing_state_is_not_modified",
+        "the_result_is_counterfactual_until_world_feedback"
+      ],
+      "falsifiers": ["the_footprint_is_out_of_bounds", "the_canvas_bound_is_exceeded"],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.ordered_relief_writing.successor"],
+      "fact_projections": [
+        {
+          "id": "projection.ordered_relief_writing.write_successor",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.ordered_relief_writing.successor"},
+            {"field": "provisional_ordered_relief_family_requested", "operator": "equals", "expected": true},
+            {"field": "bounded_canvas_supplied", "operator": "equals", "expected": true},
+            {"field": "application_footprint_supplied", "operator": "equals", "expected": true},
+            {"field": "write_value_supplied", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.ordered_relief_writing.successor",
+            "reasoning_tree_parent_key": "mechanics.ordered_relief_writing",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.ordered_relief_write_successor",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "counterfactual_until_world_feedback": true,
+            "reasoning_tree_ordered_relief_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.ordered_relief_writing.sequence",
+                "reasoning_tree_parent_key": "solving.ordered_relief_writing",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.ordered_relief_writing.successor"]
+    }
+  ]
+}

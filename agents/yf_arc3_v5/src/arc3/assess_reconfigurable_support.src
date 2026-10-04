@@ -1,0 +1,76 @@
+# DRM selects each provisional K22 operation before Python measures it.
+MODULE arc3.assess_reconfigurable_support
+
+WORKFLOW assess_reconfigurable_support(
+    descriptive_facts: Any,
+    support_request: ReconfigurableSupportPacketInput,
+    geometry_request: ReconfigurableRigidGeometryInput,
+    connection_request: ReconfigurableConnectionDomainInput
+) -> Any
+    STATE
+        support_projected: DeclaredAlternativeFacts
+        support_selected: Assessment
+        support_result: ReconfigurableSupportPacketMeasurements?
+        geometry_projected: DeclaredAlternativeFacts
+        geometry_selected: Assessment
+        geometry_result: ReconfigurableRigidGeometryMeasurements?
+        connection_projected: DeclaredAlternativeFacts
+        connection_selected: Assessment
+        connection_result: ReconfigurableConnectionDomainMeasurements?
+    STEP select_support_report
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reconfigurable_support_report",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> support_projected
+        SELECT support_selected
+            FOR "goal.measure_declared_reconfigurable_support_packet"
+            FROM support_projected.alternative_refs
+            UNDER policy.declared_reconfigurable_support_report
+            REQUIRE ["requirement.ordered_support_packet_and_connection_question_are_supplied"]
+            PRESERVE support_projected.alternative_refs
+            FACTS support_projected.alternative_facts
+        NEXT measure_support_report
+    STEP measure_support_report
+        CALL capability.reconfigurable_support_packet_measurement(
+            request=support_request
+        ) -> support_result
+        NEXT select_rigid_geometry
+    STEP select_rigid_geometry
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reconfigurable_rigid_geometry",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> geometry_projected
+        SELECT geometry_selected
+            FOR "goal.measure_declared_reconfigurable_rigid_geometry"
+            FROM geometry_projected.alternative_refs
+            UNDER policy.declared_reconfigurable_rigid_geometry
+            REQUIRE ["requirement.rigid_masks_support_layers_and_pivot_candidates_are_supplied"]
+            PRESERVE geometry_projected.alternative_refs
+            FACTS geometry_projected.alternative_facts
+        NEXT measure_rigid_geometry
+    STEP measure_rigid_geometry
+        CALL capability.reconfigurable_rigid_geometry_measurement(
+            request=geometry_request
+        ) -> geometry_result
+        NEXT select_inverse_connection
+    STEP select_inverse_connection
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reconfigurable_inverse_connection",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> connection_projected
+        SELECT connection_selected
+            FOR "goal.measure_declared_reconfigurable_inverse_connection"
+            FROM connection_projected.alternative_refs
+            UNDER policy.declared_reconfigurable_inverse_connection
+            REQUIRE ["requirement.bounded_support_configurations_and_terminal_footprint_are_supplied"]
+            PRESERVE connection_projected.alternative_refs
+            FACTS connection_projected.alternative_facts
+        NEXT enumerate_inverse_connection
+    STEP enumerate_inverse_connection
+        CALL capability.reconfigurable_connection_domain_enumeration(
+            request=connection_request
+        ) -> connection_result
+        STOP connection_result

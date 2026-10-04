@@ -1,0 +1,277 @@
+{
+  "module_id": "articulated_channel_kinematics",
+  "declarations": [
+    {
+      "id": "policy.declared_articulated_extent_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_complete_sealed_before_after_packet_contains_roots_free_ends_and_every_co_moving_component"],
+      "applicability": ["provisional_articulated_extent_reconciliation"],
+      "invariants": [
+        "extension_translation_and_ancestor_induced_motion_remain_distinct",
+        "the_local_root_remains_the_extent_origin",
+        "the_packet_is_observed_not_reconstructed_from_a_witness_script"
+      ],
+      "falsifiers": ["root_or_free_end_missing", "co_moving_component_packet_incomplete", "sealed_transition_absent"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.articulated_channel_kinematics.extent"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.extent",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.articulated_channel_kinematics.extent"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "sealed_before_after_packet_complete", "operator": "equals", "expected": true},
+          {"field": "root_and_free_end_measurements_complete", "operator": "equals", "expected": true},
+          {"field": "co_moving_component_measurements_complete", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.articulated_channel_kinematics.extent",
+          "reasoning_tree_parent_key": "frontier.effect.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.articulated_channel_kinematics.extent"]
+    },
+    {
+      "id": "policy.declared_articulated_channel_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["every_grounded_same_channel_receiver_is_compared_while_attachment_edges_remain_separate"],
+      "applicability": ["provisional_articulated_channel_reconciliation"],
+      "invariants": [
+        "simultaneous_control_does_not_create_a_physical_attachment",
+        "physical_attachment_does_not_create_channel_membership",
+        "all_grounded_receivers_are_retained"
+      ],
+      "falsifiers": ["channel_receiver_set_incomplete", "attachment_graph_collapsed_into_channel_graph"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.articulated_channel_kinematics.channel"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.channel",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.articulated_channel_kinematics.channel"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "same_channel_receiver_packet_complete", "operator": "equals", "expected": true},
+          {"field": "attachment_graph_explicit_and_separate", "operator": "equals", "expected": true},
+          {"field": "receiver_before_after_measurements_complete", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.articulated_channel_kinematics.channel",
+          "reasoning_tree_parent_key": "frontier.effect.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.articulated_channel_kinematics.channel"]
+    },
+    {
+      "id": "policy.declared_articulated_collision_reconciliation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["the_observed_transaction_packet_distinguishes_rejection_partial_prefix_and_tentative_restoration"],
+      "applicability": ["provisional_articulated_collision_reconciliation"],
+      "invariants": [
+        "the_exact_observed_transaction_outcome_is_preserved",
+        "endpoint_overlap_does_not_imply_a_swept_motion_policy",
+        "restoration_does_not_erase_the_tentative_transform_evidence"
+      ],
+      "falsifiers": ["transaction_outcome_missing", "intermediate_animation_required_but_absent", "settled_state_missing"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["frontier.effect.articulated_channel_kinematics.collision"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.collision",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "frontier.effect.articulated_channel_kinematics.collision"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "transaction_outcome_explicit", "operator": "equals", "expected": true},
+          {"field": "stable_before_and_settled_packets_complete", "operator": "equals", "expected": true},
+          {"field": "animation_evidence_status_explicit", "operator": "equals", "expected": true},
+          {"field": "collision_policy_scope_explicit", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "frontier.effect.articulated_channel_kinematics.collision",
+          "reasoning_tree_parent_key": "frontier.effect.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["frontier.effect.articulated_channel_kinematics.collision"]
+    },
+    {
+      "id": "policy.declared_articulated_kinematics_measurement",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["a_bounded_acyclic_attachment_forest_with_complete_exact_local_frames_is_supplied"],
+      "applicability": ["provisional_articulated_kinematics_measurement"],
+      "invariants": [
+        "predecessor_anchors_are_preserved",
+        "descendant_geometry_is_transported_by_composed_local_frames",
+        "exact_rational_geometry_precedes_raster_measurement"
+      ],
+      "falsifiers": ["attachment_cycle", "local_frame_incomplete", "body_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.articulated_channel_kinematics.kinematics"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.kinematics",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.articulated_channel_kinematics.kinematics"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "attachment_forest_complete_and_acyclic", "operator": "equals", "expected": true},
+          {"field": "local_frame_packet_complete", "operator": "equals", "expected": true},
+          {"field": "exact_rational_geometry_supplied", "operator": "equals", "expected": true},
+          {"field": "articulated_body_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.articulated_channel_kinematics.kinematics",
+          "reasoning_tree_parent_key": "mechanics.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.articulated_kinematics_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_articulated_channel_kinematics_action_ready_activations": [{
+            "reasoning_tree_node_id": "solving.articulated_channel_kinematics.root_frame",
+            "reasoning_tree_parent_key": "solving.articulated_channel_kinematics",
+            "reasoning_tree_provisional_gate": "action_ready",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true
+          }]
+        }
+      }],
+      "reason_refs": ["mechanics.articulated_channel_kinematics.kinematics"]
+    },
+    {
+      "id": "policy.declared_articulated_shared_snapshot_measurement",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["all_grounded_receiver_operations_share_one_complete_pre_action_snapshot_and_distinct_cause_identities"],
+      "applicability": ["provisional_articulated_shared_snapshot_measurement"],
+      "invariants": [
+        "all_grounded_channel_receivers_are_in_scope",
+        "same_cause_reports_are_deduplicated_but_distinct_causes_are_not",
+        "missing_composition_order_remains_ambiguous"
+      ],
+      "falsifiers": ["receiver_scope_incomplete", "pre_action_snapshots_differ", "operation_bound_reached"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.articulated_channel_kinematics.shared_snapshot"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.shared_snapshot",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.articulated_channel_kinematics.shared_snapshot"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "single_pre_action_snapshot_complete", "operator": "equals", "expected": true},
+          {"field": "grounded_channel_receiver_scope_complete", "operator": "equals", "expected": true},
+          {"field": "causal_operation_identities_explicit", "operator": "equals", "expected": true},
+          {"field": "composition_order_status_explicit", "operator": "equals", "expected": true},
+          {"field": "articulated_operation_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.articulated_channel_kinematics.shared_snapshot",
+          "reasoning_tree_parent_key": "mechanics.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.articulated_shared_snapshot_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false,
+          "reasoning_tree_articulated_channel_kinematics_action_ready_activations": [
+            {
+              "reasoning_tree_node_id": "solving.articulated_channel_kinematics.four_graphs",
+              "reasoning_tree_parent_key": "solving.articulated_channel_kinematics",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            },
+            {
+              "reasoning_tree_node_id": "solving.articulated_channel_kinematics.operator_scope",
+              "reasoning_tree_parent_key": "solving.articulated_channel_kinematics",
+              "reasoning_tree_provisional_gate": "action_ready",
+              "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+              "reasoning_tree_creator_alert_preserved": true
+            }
+          ]
+        }
+      }],
+      "reason_refs": ["mechanics.articulated_channel_kinematics.shared_snapshot"]
+    },
+    {
+      "id": "policy.declared_articulated_successor_measurement",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["complete_before_after_transaction_and_atomicity_packets_define_one_joint_delta"],
+      "applicability": ["provisional_articulated_successor_measurement"],
+      "invariants": [
+        "all_changed_extents_poses_and_markers_are_returned_together",
+        "atomic_rejection_does_not_commit_partial_receivers",
+        "the_exact_transaction_outcome_is_preserved"
+      ],
+      "falsifiers": ["before_after_packet_incomplete", "transaction_outcome_missing", "atomic_policy_missing"],
+      "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.articulated_channel_kinematics.successor"],
+      "fact_projections": [{
+        "id": "projection.articulated_channel_kinematics.successor",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.articulated_channel_kinematics.successor"},
+          {"field": "provisional_articulated_channel_kinematics_family_requested", "operator": "equals", "expected": true},
+          {"field": "complete_before_after_body_packets", "operator": "equals", "expected": true},
+          {"field": "complete_dependent_marker_packet", "operator": "equals", "expected": true},
+          {"field": "transaction_outcome_explicit", "operator": "equals", "expected": true},
+          {"field": "atomic_commit_policy_explicit", "operator": "equals", "expected": true},
+          {"field": "joint_delta_bound_respected", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "reasoning_tree_node_id": "mechanics.articulated_channel_kinematics.successor",
+          "reasoning_tree_parent_key": "mechanics.articulated_channel_kinematics",
+          "reasoning_tree_provisional_gate": "action_boundary",
+          "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+          "reasoning_tree_creator_alert_preserved": true,
+          "mechanical_operation_ref": "capability.articulated_successor_measurement",
+          "operation_authority": "drm",
+          "selection_releases_action": false
+        }
+      }],
+      "reason_refs": ["mechanics.articulated_channel_kinematics.successor"]
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "module_id": "extent_commands",
+  "declarations": [
+    {
+      "id": "policy.remember_observed_scoped_extent_command",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["extent_command.observed"],
+      "selection_eligibility_conditions": [{"field": "extent_command_observation_eligible", "operator": "equals", "expected": true}],
+      "fact_projections": [{
+        "id": "projection.extent_command.unique_remote_same_palette_parameter",
+        "all_conditions": [
+          {"field": "operator_scope_ref", "operator": "is_present"},
+          {"field": "origin_stable", "operator": "equals", "expected": true},
+          {"field": "extent_measurements_consistent", "operator": "equals", "expected": true},
+          {"field": "nonzero_extent_delta", "operator": "equals", "expected": true},
+          {"field": "point_outside_extent_boxes", "operator": "equals", "expected": true},
+          {"field": "extent_palette_matches_source", "operator": "equals", "expected": true},
+          {"field": "same_palette_extent_occurrence_count", "operator": "equals", "expected": 1}
+        ],
+        "static_facts": {"extent_command_observation_eligible": true}
+      }],
+      "meaning_template_ref_by_alternative": {"extent_command.observed": "rule.observed_scoped_extent_command"},
+      "premises": ["source_licensed_scoped_control_observation", "sealed_before_after_extent_and_translation_measurements"],
+      "invariants": ["same_palette_is_correspondence_evidence_after_an_effect_not_a_fixed_role", "origin_is_a_measured_bbox_reference_not_a_hidden_physical_joint", "co_translation_is_not_attachment_or_action_permission"],
+      "falsifiers": ["another_extent_recipient_is_equally_compatible", "extent_origin_is_not_preserved_under_this_operator", "temporal_identity_or_scope_is_missing"],
+      "reason_refs": ["reason.scoped_operator_changes_one_remote_axis_parameter_from_a_stable_origin"]
+    },
+    {
+      "id": "rule.observed_scoped_extent_command", "kind": "rule",
+      "evaluation": "project_requested_conclusions", "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["one_scoped_observed_command_changed_a_unique_remote_same_palette_extent"],
+      "invariants": ["observed_parameter_delta_is_not_a_world_direction_command", "passive_transport_and_extent_change_remain_distinct", "current_pose_revalidation_precedes_any_reuse"],
+      "falsifiers": ["a_repeat_in_the_same_scope_has_a_different_unexplained_parameter_effect"],
+      "term_templates": [{
+        "id_pattern": "supposition.extent-command.{observation_token}",
+        "kind": "schema", "label": "observed scoped axis extent command",
+        "required_fields": ["observation_token", "operator_scope_ref", "extent_entity_ref", "origin_before", "origin_after", "free_edge_before", "free_edge_after", "delta_extent", "source_transition_ref"],
+        "static_attributes": {
+          "projection_contract": "yf_arc3_v5.observed_extent_command.v1",
+          "commitment": "revisable", "role_supposition": "parameterized_axis_recipient",
+          "origin_convention": "stable_bbox_edge_midpoint", "action_authorization": false,
+          "attachment_status": "unknown", "pose_scope": "sealed_observation_only"
+        },
+        "attribute_bindings": {
+          "operator_scope_ref": "operator_scope_ref", "observed_action_ref": "observed_action_ref",
+          "observed_action_data": "observed_action_data", "extent_entity_ref": "extent_entity_ref",
+          "extent_before": "extent_before", "extent_after": "extent_after", "delta_extent": "delta_extent",
+          "axis_vector": "axis_vector", "origin_before": "origin_before", "origin_after": "origin_after",
+          "free_edge_before": "free_edge_before", "free_edge_after": "free_edge_after",
+          "co_translated_entity_refs": "co_translated_entity_refs", "co_translation_delta": "co_translation_delta",
+          "stationary_entity_refs": "stationary_entity_refs", "context_epoch": "context_epoch",
+          "source_transition_ref": "source_transition_ref", "before_frame_ref": "before_frame_ref",
+          "after_frame_ref": "after_frame_ref"
+        }
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.extent-command.{observation_token}",
+        "predicate": "observed_scoped_command_changes_axis_extent", "family": "dynamic",
+        "argument_patterns": ["supposition.extent-command.{observation_token}"],
+        "epistemic_status": "supported", "required_fields": ["observation_token", "extent_entity_ref"],
+        "required_term_patterns": ["supposition.extent-command.{observation_token}"],
+        "static_attributes": {"evidence_scope": "observed_parameter_effect_not_universal_kinematics", "action_authorization": false}
+      }],
+      "reason_refs": ["reason.scoped_operator_changes_one_remote_axis_parameter_from_a_stable_origin"]
+    },
+    {
+      "id": "policy.remember_observed_axis_transport_graph",
+      "kind": "selection_policy", "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": ["axis_transport.observed"],
+      "selection_eligibility_conditions": [{"field": "multiple_receiver_refs", "operator": "equals", "expected": true}],
+      "fact_projections": [
+        {"id": "projection.axis_transport.revisable_observation", "static_facts": {"graph_status": "unresolved_observations"}},
+        {
+          "id": "projection.axis_transport.asymmetric_intervention_forest",
+          "all_conditions": [
+            {"field": "has_asymmetric_effect", "operator": "equals", "expected": true},
+            {"field": "has_contrary_effect", "operator": "equals", "expected": false},
+            {"field": "is_acyclic", "operator": "equals", "expected": true},
+            {"field": "has_unique_covering_parent", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {"graph_status": "provisional_directed_transport_forest"}
+        }
+      ],
+      "meaning_template_ref_by_alternative": {"axis_transport.observed": "rule.observed_axis_transport_graph"},
+      "premises": ["source_scoped_parameter_observations_and_current_identities_are_available"],
+      "invariants": ["common_motion_without_reverse_preservation_is_not_directed_dependency", "transitive_transport_is_not_a_second_immediate_parent", "contradictory_interventions_remain_in_the_graph"],
+      "falsifiers": ["child_operation_moves_its_supposed_ancestor", "ancestor_operation_preserves_its_supposed_descendant"],
+      "reason_refs": ["reason.asymmetric_interventions_support_revisable_axis_transport_order"]
+    },
+    {
+      "id": "rule.observed_axis_transport_graph", "kind": "rule",
+      "evaluation": "project_requested_conclusions", "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "dynamic",
+      "premises": ["sealed_axis_parameter_observations_are_joined_by_current_receiver_identity"],
+      "invariants": ["observational_transport_is_not_yet_a_rigid_joint_or_action_authorization", "unmapped_passive_entities_remain_separate_from_receivers"],
+      "falsifiers": ["new_intervention_changes_the_asymmetric_order"],
+      "term_templates": [{
+        "id_pattern": "supposition.axis-transport-graph.{context_epoch}",
+        "kind": "schema", "label": "revisable directed axis transport graph",
+        "required_fields": ["context_epoch", "source_term_refs", "receiver_refs", "graph_status"],
+        "static_attributes": {"projection_contract": "yf_arc3_v5.observed_axis_transport_graph.v1", "commitment": "revisable", "action_authorization": false, "attachment_status": "hypothesis_requires_geometry_revalidation"},
+        "attribute_bindings": {
+          "context_epoch": "context_epoch", "source_term_refs": "source_term_refs", "receiver_refs": "receiver_refs",
+          "graph_status": "graph_status", "asymmetric_effect_pairs": "asymmetric_effect_pairs",
+          "covering_effect_pairs": "covering_effect_pairs", "contrary_effect_pairs": "contrary_effect_pairs",
+          "one_sided_effect_pairs": "one_sided_effect_pairs", "passive_entity_refs": "passive_entity_refs",
+          "is_acyclic": "is_acyclic", "has_unique_covering_parent": "has_unique_covering_parent"
+        }
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.axis-transport-graph.{context_epoch}",
+        "predicate": "records_revisable_axis_transport_hypotheses", "family": "dynamic",
+        "argument_patterns": ["supposition.axis-transport-graph.{context_epoch}"], "epistemic_status": "supported",
+        "required_fields": ["context_epoch"], "required_term_patterns": ["supposition.axis-transport-graph.{context_epoch}"],
+        "static_attributes": {"evidence_scope": "observed_intervention_asymmetry", "action_authorization": false}
+      }],
+      "reason_refs": ["reason.asymmetric_interventions_support_revisable_axis_transport_order"]
+    }
+  ]
+}

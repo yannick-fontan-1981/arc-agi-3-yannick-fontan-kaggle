@@ -1,0 +1,23 @@
+# SRC owns pre-action ordering and fail-closed support-transform eligibility.
+MODULE arc3.screen_mobile_support_transform
+
+WORKFLOW screen_mobile_support_transform(
+    descriptive_support_transform_facts: Any
+) -> Assessment
+    STATE
+        alternatives: DeclaredAlternativeFacts
+        screening: Assessment
+    STEP preserve_and_project_fate_alternatives
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_mobile_support_transform_eligibility",
+            alternative_refs=[],
+            descriptive_facts=descriptive_support_transform_facts
+        ) -> alternatives
+        SELECT screening
+            FOR "goal.screen_mobile_support_transform_before_action_release"
+            FROM alternatives.alternative_refs
+            UNDER policy.declared_mobile_support_transform_eligibility
+            REQUIRE ["requirement.all_live_mobile_support_fates_were_examined"]
+            PRESERVE alternatives.alternative_refs
+            FACTS alternatives.alternative_facts
+        STOP screening

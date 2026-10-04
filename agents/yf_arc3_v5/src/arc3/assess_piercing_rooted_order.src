@@ -1,0 +1,122 @@
+# DRM licenses each provisional piercing/rooted-order measurement before Python runs it.
+MODULE arc3.assess_piercing_rooted_order
+
+WORKFLOW assess_piercing_rooted_order(
+    descriptive_facts: Any,
+    intersection_request: PiercingIntersectionInput,
+    push_request: PiercingPushSuccessorInput,
+    pierce_request: PiercingPierceSuccessorInput,
+    withdraw_request: PiercingWithdrawSuccessorInput,
+    clearance_request: PiercingClearanceInput
+) -> Any
+    STATE
+        effect_projected: DeclaredAlternativeFacts
+        effect_assessed: Assessment
+        intersection_projected: DeclaredAlternativeFacts
+        intersection_assessed: Assessment
+        intersection_result: PiercingIntersectionMeasurements?
+        push_projected: DeclaredAlternativeFacts
+        push_assessed: Assessment
+        push_result: PiercingPushSuccessorMeasurements?
+        pierce_projected: DeclaredAlternativeFacts
+        pierce_assessed: Assessment
+        pierce_result: PiercingPierceSuccessorMeasurements?
+        withdraw_projected: DeclaredAlternativeFacts
+        withdraw_assessed: Assessment
+        withdraw_result: PiercingWithdrawSuccessorMeasurements?
+        clearance_projected: DeclaredAlternativeFacts
+        clearance_assessed: Assessment
+        clearance_result: PiercingClearanceMeasurements?
+    STEP reconcile_effect
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_effect_reconciliation",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> effect_projected
+        SELECT effect_assessed
+            FOR "goal.reconcile_declared_piercing_effect_packet"
+            FROM effect_projected.alternative_refs
+            UNDER policy.declared_piercing_effect_reconciliation
+            REQUIRE ["requirement.sealed_handle_rod_piece_support_and_reference_packet"]
+            PRESERVE effect_projected.alternative_refs
+            FACTS effect_projected.alternative_facts
+        NEXT assess_intersection
+    STEP assess_intersection
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_intersection",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> intersection_projected
+        SELECT intersection_assessed
+            FOR "goal.measure_declared_piercing_intersections_and_rooted_order"
+            FROM intersection_projected.alternative_refs
+            UNDER policy.declared_piercing_intersection
+            REQUIRE ["requirement.complete_rods_pieces_roots_reference_and_bound"]
+            PRESERVE intersection_projected.alternative_refs
+            FACTS intersection_projected.alternative_facts
+        NEXT measure_intersection
+    STEP measure_intersection
+        CALL capability.piercing_intersection_measurement(request=intersection_request) -> intersection_result
+        NEXT assess_push
+    STEP assess_push
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_push_successor",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> push_projected
+        SELECT push_assessed
+            FOR "goal.measure_declared_selective_push_successor"
+            FROM push_projected.alternative_refs
+            UNDER policy.declared_piercing_push_successor
+            REQUIRE ["requirement.complete_contacted_movable_translation_and_stop_packet"]
+            PRESERVE push_projected.alternative_refs
+            FACTS push_projected.alternative_facts
+        NEXT measure_push
+    STEP measure_push
+        CALL capability.piercing_push_successor_measurement(request=push_request) -> push_result
+        NEXT assess_pierce
+    STEP assess_pierce
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_pierce_successor",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> pierce_projected
+        SELECT pierce_assessed
+            FOR "goal.measure_declared_directional_pierce_successor"
+            FROM pierce_projected.alternative_refs
+            UNDER policy.declared_piercing_pierce_successor
+            REQUIRE ["requirement.complete_after_rod_entry_face_immobilization_and_candidate"]
+            PRESERVE pierce_projected.alternative_refs
+            FACTS pierce_projected.alternative_facts
+        NEXT measure_pierce
+    STEP measure_pierce
+        CALL capability.piercing_pierce_successor_measurement(request=pierce_request) -> pierce_result
+        NEXT assess_withdraw
+    STEP assess_withdraw
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_withdraw_successor",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> withdraw_projected
+        SELECT withdraw_assessed
+            FOR "goal.measure_declared_selective_withdrawal_and_multi_support"
+            FROM withdraw_projected.alternative_refs
+            UNDER policy.declared_piercing_withdraw_successor
+            REQUIRE ["requirement.complete_before_after_rods_piece_masks_constraints_and_bound"]
+            PRESERVE withdraw_projected.alternative_refs
+            FACTS withdraw_projected.alternative_facts
+        NEXT measure_withdraw
+    STEP measure_withdraw
+        CALL capability.piercing_withdraw_successor_measurement(request=withdraw_request) -> withdraw_result
+        NEXT assess_clearance
+    STEP assess_clearance
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_piercing_clearance",
+            alternative_refs=[], descriptive_facts=descriptive_facts
+        ) -> clearance_projected
+        SELECT clearance_assessed
+            FOR "goal.measure_declared_whole_tool_load_clearance"
+            FROM clearance_projected.alternative_refs
+            UNDER policy.declared_piercing_clearance
+            REQUIRE ["requirement.complete_loaded_mask_delta_obstacles_free_pieces_and_bound"]
+            PRESERVE clearance_projected.alternative_refs
+            FACTS clearance_projected.alternative_facts
+        NEXT measure_clearance
+    STEP measure_clearance
+        CALL capability.piercing_clearance_measurement(request=clearance_request) -> clearance_result
+        STOP clearance_result

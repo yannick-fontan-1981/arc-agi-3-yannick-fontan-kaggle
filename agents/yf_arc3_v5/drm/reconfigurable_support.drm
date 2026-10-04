@@ -1,0 +1,208 @@
+{
+  "module_id": "reconfigurable_support",
+  "declarations": [
+    {
+      "id": "policy.declared_reconfigurable_support_report",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["one_ordered_support_packet_complete_actor_footprint_and_connection_question_are_supplied"],
+      "applicability": ["provisional_reconfigurable_support_report_request"],
+      "invariants": [
+        "support_is_the_union_of_every_supplied_active_owner_mask",
+        "the_complete_actor_footprint_is_checked_at_every_snapshot",
+        "world_and_control_layers_remain_separate_descriptive_masks"
+      ],
+      "falsifiers": [
+        "the_actor_footprint_changes_cardinality",
+        "the_support_packet_is_not_ordered",
+        "the_actor_pose_bound_is_exceeded"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.reconfigurable_support.support_report"],
+      "fact_projections": [
+        {
+          "id": "projection.reconfigurable_support.support_report",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.reconfigurable_support.support_report"},
+            {"field": "provisional_reconfigurable_support_family_requested", "operator": "equals", "expected": true},
+            {"field": "ordered_support_packet_supplied", "operator": "equals", "expected": true},
+            {"field": "complete_actor_footprints_supplied", "operator": "equals", "expected": true},
+            {"field": "requested_connection_supplied", "operator": "equals", "expected": true},
+            {"field": "support_measurement_bound_respected", "operator": "equals", "expected": true},
+            {"field": "separate_support_layer_count", "operator": "greater_than", "expected": 1},
+            {"field": "world_control_overlap_accounted", "operator": "equals", "expected": true},
+            {"field": "restoration_measurement_requested", "operator": "equals", "expected": true},
+            {"field": "support_connection_utility_measurement_requested", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.reconfigurable_support.support_report",
+            "reasoning_tree_parent_key": "mechanics.reconfigurable_support",
+            "reasoning_tree_provisional_gate": "action_boundary",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.reconfigurable_support_packet_measurement",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "reasoning_tree_reconfigurable_support_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.reconfigurable_support.support_union",
+                "reasoning_tree_parent_key": "solving.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "solving.reconfigurable_support.layer_space",
+                "reasoning_tree_parent_key": "solving.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ],
+            "reasoning_tree_reconfigurable_support_observation_or_reconciliation_activations": [
+              {
+                "reasoning_tree_node_id": "frontier.effect.reconfigurable_support.support",
+                "reasoning_tree_parent_key": "frontier.effect.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "frontier.effect.reconfigurable_support.restoration",
+                "reasoning_tree_parent_key": "frontier.effect.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "frontier.effect.reconfigurable_support.utility",
+                "reasoning_tree_parent_key": "frontier.effect.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.reconfigurable_support.support_report"]
+    },
+    {
+      "id": "policy.declared_reconfigurable_rigid_geometry",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["before_after_masks_support_layers_and_bounded_pivot_candidates_are_supplied"],
+      "applicability": ["provisional_reconfigurable_rigid_geometry_request"],
+      "invariants": [
+        "every_supplied_pivot_is_tested_without_ranking",
+        "quarter_turns_and_translations_are_exact_set_equalities",
+        "staging_support_is_checked_before_and_after_the_transform"
+      ],
+      "falsifiers": [
+        "no_supplied_pivot_exactly_fits",
+        "the_candidate_lies_inside_the_transformed_mask",
+        "the_staging_footprint_loses_support"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.reconfigurable_support.rigid_geometry"],
+      "fact_projections": [
+        {
+          "id": "projection.reconfigurable_support.rigid_geometry",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.reconfigurable_support.rigid_geometry"},
+            {"field": "provisional_reconfigurable_support_family_requested", "operator": "equals", "expected": true},
+            {"field": "before_after_rigid_masks_supplied", "operator": "equals", "expected": true},
+            {"field": "supplied_pivot_candidate_count", "operator": "greater_than", "expected": 0},
+            {"field": "before_after_support_layers_supplied", "operator": "equals", "expected": true},
+            {"field": "pivot_measurement_bound_respected", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.reconfigurable_support.rigid_geometry",
+            "reasoning_tree_parent_key": "mechanics.reconfigurable_support",
+            "reasoning_tree_provisional_gate": "action_boundary",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.reconfigurable_rigid_geometry_measurement",
+            "operation_authority": "drm",
+            "selection_releases_action": false,
+            "reasoning_tree_reconfigurable_support_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.reconfigurable_support.pivot",
+                "reasoning_tree_parent_key": "solving.reconfigurable_support",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.reconfigurable_support.rigid_geometry"]
+    },
+    {
+      "id": "policy.declared_reconfigurable_inverse_connection",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_support_configurations_complete_actor_footprint_and_terminal_footprint_are_supplied"],
+      "applicability": ["provisional_reconfigurable_inverse_connection_request"],
+      "invariants": [
+        "every_tested_pose_uses_the_complete_actor_footprint",
+        "only_the_first_shortest_witness_per_configuration_is_retained",
+        "no_more_than_three_global_witnesses_are_exposed"
+      ],
+      "falsifiers": [
+        "the_actor_pose_bound_is_exceeded",
+        "the_requested_connection_is_absent",
+        "more_than_three_witnesses_would_be_required"
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_required_fact_fields": ["alternative_ref"],
+      "declared_alternative_refs": ["mechanics.reconfigurable_support.inverse_connection"],
+      "fact_projections": [
+        {
+          "id": "projection.reconfigurable_support.inverse_connection",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "mechanics.reconfigurable_support.inverse_connection"},
+            {"field": "provisional_reconfigurable_support_family_requested", "operator": "equals", "expected": true},
+            {"field": "bounded_support_configurations_supplied", "operator": "equals", "expected": true},
+            {"field": "complete_actor_footprint_supplied", "operator": "equals", "expected": true},
+            {"field": "requested_terminal_footprint_supplied", "operator": "equals", "expected": true},
+            {"field": "inverse_connection_bounds_respected", "operator": "equals", "expected": true},
+            {"field": "global_witness_ceiling", "operator": "between_inclusive", "lower": 1, "upper": 3}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "reasoning_tree_node_id": "mechanics.reconfigurable_support.inverse_connection",
+            "reasoning_tree_parent_key": "mechanics.reconfigurable_support",
+            "reasoning_tree_provisional_gate": "action_boundary",
+            "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+            "reasoning_tree_creator_alert_preserved": true,
+            "mechanical_operation_ref": "capability.reconfigurable_connection_domain_enumeration",
+            "operation_authority": "drm",
+            "selection_releases_action": false
+          }
+        }
+      ],
+      "reason_refs": ["mechanics.reconfigurable_support.inverse_connection"]
+    }
+  ]
+}

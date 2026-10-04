@@ -1,0 +1,367 @@
+{
+  "module_id": "retrospection",
+  "declarations": [
+    {
+      "id": "principle.every_observed_transition_phenomenon_requires_explicit_epistemic_disposition",
+      "kind": "principle",
+      "premises": [
+        "one_action_and_its_ordered_frame_packet_were_observed",
+        "the_action_outcome_was_reconciled"
+      ],
+      "applicability": ["post_action_and_level_boundary_retrospection"],
+      "invariants": [
+        "every_changed_pixel_belongs_to_one_exact_temporal_trace_group_or_a_named_bound_overflow",
+        "persistent_settled_change_and_transient_return_to_initial_state_remain_distinct",
+        "action_conditioned_co_occurrence_is_a_link_but_not_a_mechanism_explanation",
+        "a_causal_explanation_names_evidence_a_revisable_relation_and_a_falsifier",
+        "unexplained_groups_remain_explicit_learning_debt_after_official_success",
+        "no_change_is_recorded_as_observed_invariance_not_as_absence_of_meaning"
+      ],
+      "falsifiers": [
+        "one_changed_pixel_is_neither_individuated_nor_counted_in_bound_overflow",
+        "a_group_is_called_explained_without_source_declared_evidence_and_falsifier",
+        "a_level_boundary_discards_unexplained_transition_groups"
+      ],
+      "reason_refs": [
+        "reason.retrospection_seeks_explanation_link_or_explicit_unknown_for_every_observed_phenomenon"
+      ]
+    },
+    {
+      "id": "principle.transition_animation_is_causal_evidence_not_rendering_noise_by_default",
+      "kind": "principle",
+      "premises": [
+        "one_or_more_intermediate_frames_occur_between_action_and_settled_observation"
+      ],
+      "applicability": ["ordered_transition_interpretation"],
+      "invariants": [
+        "ordered_value_traces_are_measured_before_settled_frame_reduction",
+        "returned_to_initial_groups_remain_available_as transient_process_evidence",
+        "simultaneous_and_sequential changes remain distinguishable",
+        "rendering_noise_remains_only_a_revisable_alternative_until repeated evidence supports irrelevance"
+      ],
+      "falsifiers": [
+        "frame_order_is_missing_or_inconsistent",
+        "the_same visual event varies independently of action and settled effects"
+      ],
+      "reason_refs": [
+        "reason.transition_frames_can_expose_hidden_causal_order_and_object_roles"
+      ]
+    },
+    {
+      "id": "principle.ordered_activation_decomposes_displayed_operators_compartments_and_bounded_quantities",
+      "kind": "principle",
+      "premises": [
+        "ordered_animation_activation_candidates",
+        "exact_morphology_homologues",
+        "temporally_following_extent_changes",
+        "visible_bracketing_marker_extents"
+      ],
+      "applicability": ["ordered_action_animation_with_sequential_local_activations"],
+      "invariants": [
+        "activation_order_is_preserved_exactly",
+        "palette_values_link_occurrences_to_changed_bands_but_never_define_global_roles",
+        "one_activation_then_local_absence_supports_a_revisable_single_use_operator",
+        "replay_or_prior_presence_then_persistence_supports_a_revisable_recurrent_operator",
+        "one_persistent_activation_followed_by_opposite_signed_band_changes_supports_a_revisable_transfer_operator",
+        "exact_morphology_homologues_inherit_only_the_observed_operator_supposition",
+        "each_operator_supposition_retains_its_observed_effect_vector_bounds_and_falsifier"
+      ],
+      "falsifiers": [
+        "a_homologous_morphology_produces_a_different_signed_effect_vector",
+        "a_supposed_single_use_occurrence_replays",
+        "a_supposed_recurrent_occurrence_disappears_before_its_declared_effect",
+        "a_supposed_transfer_does_not_preserve_opposite_signed_quantity_change"
+      ],
+      "reason_refs": [
+        "reason.sequential_activation_and_following_band_change_expose_operator_meaning"
+      ]
+    },
+    {
+      "id": "principle.ordered_glyph_activation_and_affine_effect_covariance_supports_revisable_operator_meaning",
+      "kind": "principle",
+      "premises": [
+        "one_measured_ordered_collection_highlights_exactly_one_member_at_a_time",
+        "the_highlighted_member_has_one_equal_palette_member_in_a_measured_glyph_carrier_family",
+        "the_coincident_scene_delta_is_measured_against_a_rank_two_affine_repetition_basis"
+      ],
+      "applicability": [
+        "ordered_action_animation_with_displayed_glyph_carriers_and_affine_scene_structure"
+      ],
+      "invariants": [
+        "source_activation_order_is_preserved_exactly",
+        "palette_equality_links_one_displayed_carrier_to_one_source_episode_but_never_defines_a_global_role",
+        "a_singleton_glyph_marker_supports_a_directional_operator_supposition_only_when_its_exact_vector_matches_the_leading_action_conditioned_affine_translation",
+        "an_isotropic_multi_marker_glyph_supports_only_a_local_multi_direction_effect_scope_until object_identity_or_quantity_change_discriminates_attack_push_or_another_operator",
+        "every_episode_preserves_its_changed_region_translation_candidates_and_explicit_falsifier",
+        "no_game_identity_screen_coordinate_or_fixed_palette_binding_participates_in_operator_meaning"
+      ],
+      "falsifiers": [
+        "one_collection_member_is_not_activated_in_the_measured_order",
+        "the_equal_palette_glyph_member_is_absent_or_ambiguous",
+        "the_leading_affine_translation_differs_from_the_singleton_glyph_vector",
+        "a_later_equal_morphology_episode_produces_an_incompatible_effect"
+      ],
+      "reason_refs": [
+        "reason.ordered_highlight_and_exact_affine_covariance_expose_revisable_glyph_operator_meaning"
+      ]
+    },
+    {
+      "id": "rule.transition_phenomenon_retrospection_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "epistemic",
+      "premises": [
+        "transition_ref",
+        "retrospective_coverage_status",
+        "phenomenon_group_count",
+        "unexplained_group_count"
+      ],
+      "applicability": ["transition_phenomenon_coverage_disposition_selected"],
+      "invariants": [
+        "temporal_description_and_causal_explanation_are_distinct",
+        "unexplained_groups_remain_queryable",
+        "official_success_does_not_upgrade_causal_coverage"
+      ],
+      "falsifiers": ["later_exact_evidence_changes_a_trace_or_explanation_link"],
+      "term_templates": [
+        {
+          "id_pattern": "retrospection.transition_phenomena.{transition_ref}",
+          "kind": "schema",
+          "label": "bounded exhaustive transition phenomenon audit",
+          "required_fields": ["transition_ref", "retrospective_coverage_status"],
+          "attribute_bindings": {
+            "status": "retrospective_coverage_status",
+            "packet_frame_count": "packet_frame_count",
+            "changed_pixel_count": "changed_pixel_count",
+            "unchanged_pixel_count": "unchanged_pixel_count",
+            "phenomenon_group_count": "phenomenon_group_count",
+            "phenomenon_relation_count": "phenomenon_relation_count",
+            "simultaneous_relation_count": "simultaneous_relation_count",
+            "ordered_relation_count": "ordered_relation_count",
+            "temporally_described_group_count": "temporally_described_group_count",
+            "transient_group_count": "transient_group_count",
+            "settled_change_group_count": "settled_change_group_count",
+            "action_conditioned_linked_group_count": "action_conditioned_linked_group_count",
+            "causally_explained_group_count": "causally_explained_group_count",
+            "unexplained_group_count": "unexplained_group_count",
+            "unexplained_group_refs": "unexplained_group_refs",
+            "transient_group_refs": "transient_group_refs",
+            "settled_change_group_refs": "settled_change_group_refs",
+            "overflow_group_count": "overflow_group_count",
+            "overflow_pixel_count": "overflow_pixel_count",
+            "ordered_animation_model_status": "ordered_animation_model_status",
+            "ordered_animation_glyph_candidate_count": "ordered_animation_glyph_candidate_count",
+            "ordered_animation_explanatory_candidate_count": "ordered_animation_explanatory_candidate_count",
+            "ordered_animation_marked_extent_change_count": "ordered_animation_marked_extent_change_count",
+            "ordered_animation_glyph_candidates": "ordered_animation_glyph_candidates",
+            "single_use_operator_count": "one_activation_one_marked_extent_absent_after_count",
+            "single_use_operator_evidence_refs": "one_activation_one_marked_extent_absent_after_refs",
+            "recurrent_operator_count": "replayed_one_marked_extent_count",
+            "recurrent_operator_evidence_refs": "replayed_one_marked_extent_persistent_refs",
+            "transfer_operator_count": "replayed_opposite_marked_extent_pair_count",
+            "transfer_operator_evidence_refs": "replayed_opposite_marked_extent_pair_persistent_refs",
+            "source_compartment_count": "ordered_animation_source_compartment_count",
+            "bounded_quantity_count": "ordered_animation_bounded_quantity_count",
+            "ordered_glyph_activation_episode_count": "ordered_glyph_activation_episode_count",
+            "ordered_glyph_activation_episodes": "ordered_glyph_activation_episodes",
+            "ordered_glyph_activation_all_members_observed_once": "ordered_glyph_activation_all_members_observed_once",
+            "ordered_glyph_activation_direction_match_count": "ordered_glyph_activation_direction_match_count"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.retrospection.transition_phenomena.{transition_ref}",
+          "predicate": "records_exhaustive_transition_phenomenon_disposition",
+          "family": "epistemic",
+          "argument_patterns": [
+            "retrospection.transition_phenomena.{transition_ref}",
+            "{transition_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["transition_ref", "retrospective_coverage_status"],
+          "attribute_bindings": {
+            "status": "retrospective_coverage_status",
+            "unexplained_group_refs": "unexplained_group_refs",
+            "inventory_complete": "inventory_complete"
+          },
+          "static_attributes": {
+            "selection_authority": "drm",
+            "falsifier": "later_exact_evidence_changes_a_trace_or_explanation_link"
+          }
+        },
+        {
+          "id_pattern": "claim.retrospection.ordered_animation_model.{transition_ref}",
+          "predicate": "records_revisable_ordered_animation_causal_model",
+          "family": "epistemic",
+          "argument_patterns": [
+            "retrospection.transition_phenomena.{transition_ref}",
+            "{transition_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": ["transition_ref", "ordered_animation_model_status"],
+          "attribute_bindings": {
+            "status": "ordered_animation_model_status",
+            "operator_instances": "ordered_animation_glyph_candidates",
+            "single_use_operator_count": "one_activation_one_marked_extent_absent_after_count",
+            "single_use_operator_refs": "one_activation_one_marked_extent_absent_after_refs",
+            "recurrent_operator_count": "replayed_one_marked_extent_count",
+            "recurrent_operator_refs": "replayed_one_marked_extent_persistent_refs",
+            "transfer_operator_count": "replayed_opposite_marked_extent_pair_count",
+            "transfer_operator_refs": "replayed_opposite_marked_extent_pair_persistent_refs",
+            "source_compartment_count": "ordered_animation_source_compartment_count",
+            "bounded_quantity_count": "ordered_animation_bounded_quantity_count"
+          },
+          "static_attributes": {
+            "selection_authority": "drm",
+            "principle_ref": "principle.ordered_activation_decomposes_displayed_operators_compartments_and_bounded_quantities",
+            "falsifier": "later_homologous_activation_contradicts_the_signed_effect_vector_or_lifecycle"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.retrospective_coverage_status_is_selected_from_exact_frame_inventory"
+      ]
+    },
+    {
+      "id": "policy.declared_transition_phenomenon_coverage",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_transition_phenomenon_inventory"],
+      "applicability": ["post_action_and_level_boundary_retrospection"],
+      "invariants": [
+        "bound_overflow_precedes_any_coverage_claim",
+        "complete_explanation_precedes_partial_explanation",
+        "an_unexplained_group_is_never_relabelled_as_failure_or_noise"
+      ],
+      "falsifiers": ["ordered_frame_packet_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "retrospection.terminal_interruption_exact_prefix_supported",
+        "retrospection.directed_accretive_flow_terminal_process_supported",
+        "retrospection.ordered_affine_glyph_episode_model_supported_with_inventory_bound",
+        "retrospection.inventory_bound_reached",
+        "retrospection.causal_explanation_complete",
+        "retrospection.ordered_affine_glyph_episode_model_supported",
+        "retrospection.ordered_animation_causal_model_supported",
+        "retrospection.causal_explanation_partial",
+        "retrospection.observed_change_unexplained",
+        "retrospection.observed_invariance"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.retrospection.terminal_interruption_exact_prefix",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "retrospection.terminal_interruption_exact_prefix_supported"}
+          ],
+          "static_facts": {
+            "retrospective_coverage_status": "terminal_interruption_exact_prefix_supported",
+            "terminal_comparison_scope": "actually_executed_internal_prefix_only",
+            "unexecuted_or_simulated_suffix_is_observed_precondition": false,
+            "reasoning_tree_terminal_interruption_action_boundary_activations": [
+              {
+                "reasoning_tree_node_id": "continuation.compare.terminal_interruption",
+                "reasoning_tree_parent_key": "continuation.call.k04.declared.predicate.comparison",
+                "reasoning_tree_provisional_gate": "action_boundary",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "projection.retrospection.directed_accretive_flow_terminal_process",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "retrospection.directed_accretive_flow_terminal_process_supported"}
+          ],
+          "static_facts": {
+            "retrospective_coverage_status": "directed_accretive_flow_terminal_process_supported",
+            "ordered_animation_model_status": "bounded_monotone_growth_split_and_terminal_recolour_supported",
+            "directed_accretive_process_scope": "single_release_ordered_packet_with_one_revisable_growth_palette",
+            "directed_accretive_capture_scope": "two_ordered_non_growth_recolours_after_growth_start_with_terminal_stability",
+            "directed_accretive_inverse_routing_status": "supported_forward_checked_witness_not_exhaustive_or_minimum",
+            "reasoning_tree_directed_accretive_frontier_observation_activations": [
+              {"reasoning_tree_node_id": "frontier.effect.directed_accretive_flow.fronts", "reasoning_tree_parent_key": "frontier.effect.directed_accretive_flow", "reasoning_tree_provisional_gate": "observation_or_reconciliation", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "frontier.effect.directed_accretive_flow.receptacle", "reasoning_tree_parent_key": "frontier.effect.directed_accretive_flow", "reasoning_tree_provisional_gate": "observation_or_reconciliation", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+            ],
+            "reasoning_tree_directed_accretive_solving_action_ready_activations": [
+              {"reasoning_tree_node_id": "solving.directed_accretive_flow.cascade", "reasoning_tree_parent_key": "solving.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "solving.directed_accretive_flow.capture", "reasoning_tree_parent_key": "solving.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "solving.directed_accretive_flow.negative_goal", "reasoning_tree_parent_key": "solving.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_ready", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+            ],
+            "reasoning_tree_directed_accretive_mechanics_action_boundary_activations": [
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.advance", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.split", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.composite_relief", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.capture", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.successor", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true},
+              {"reasoning_tree_node_id": "mechanics.directed_accretive_flow.inverse_routing", "reasoning_tree_parent_key": "mechanics.directed_accretive_flow", "reasoning_tree_provisional_gate": "action_boundary", "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work", "reasoning_tree_creator_alert_preserved": true}
+            ]
+          }
+        },
+        {"id": "projection.retrospection.ordered_affine_glyph_episode_model_with_inventory_bound", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_affine_glyph_episode_model_supported_with_inventory_bound"}], "static_facts": {"retrospective_coverage_status": "inventory_bound_with_ordered_affine_glyph_episode_model_supported", "ordered_animation_model_status": "ordered_glyph_activation_affine_covariance_supported_with_pixel_overflow_debt"}},
+        {"id": "projection.retrospection.bound", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.inventory_bound_reached"}], "static_facts": {"retrospective_coverage_status": "inventory_bound_reached", "ordered_animation_model_status": "inventory_incomplete"}},
+        {"id": "projection.retrospection.complete", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.causal_explanation_complete"}], "static_facts": {"retrospective_coverage_status": "causal_explanation_complete", "ordered_animation_model_status": "not_required_for_complete_external_explanation"}},
+        {"id": "projection.retrospection.ordered_affine_glyph_episode_model", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_affine_glyph_episode_model_supported"}], "static_facts": {"retrospective_coverage_status": "ordered_affine_glyph_episode_model_supported_with_pixel_debt_preserved", "ordered_animation_model_status": "ordered_glyph_activation_affine_covariance_supported"}},
+        {"id": "projection.retrospection.ordered_animation_model", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_animation_causal_model_supported"}], "static_facts": {"retrospective_coverage_status": "causal_object_model_supported_with_pixel_debt_preserved", "ordered_animation_model_status": "glyph_compartment_bounded_quantity_model_supported"}},
+        {"id": "projection.retrospection.partial", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.causal_explanation_partial"}], "static_facts": {"retrospective_coverage_status": "causal_explanation_partial", "ordered_animation_model_status": "partial_or_absent"}},
+        {"id": "projection.retrospection.unexplained", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.observed_change_unexplained"}], "static_facts": {"retrospective_coverage_status": "observed_change_unexplained", "ordered_animation_model_status": "absent"}},
+        {"id": "projection.retrospection.invariance", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.observed_invariance"}], "static_facts": {"retrospective_coverage_status": "observed_invariance", "ordered_animation_model_status": "not_applicable"}}
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.retrospection.terminal_interruption_exact_prefix",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "retrospection.terminal_interruption_exact_prefix_supported"},
+            {"field": "official_terminal_success", "operator": "equals", "expected": true},
+            {"field": "terminal_transition_packet_excludes_next_level_scene", "operator": "equals", "expected": true},
+            {"field": "same_declared_interaction_effectful_history_present", "operator": "equals", "expected": true},
+            {"field": "official_terminal_effectful_prefix_shorter_than_prior_packet", "operator": "equals", "expected": true},
+            {"field": "terminal_effectful_pair_deficit", "operator": "greater_than", "expected": 0},
+            {"field": "ordered_stable_suffix_pair_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.official_completion_shortened_the_same_declared_interaction_packet_so_only_the_executed_prefix_is_evidence"
+        },
+        {
+          "id": "tier.retrospection.directed_accretive_flow_terminal_process",
+          "all_conditions": [
+            {"field": "alternative_ref", "operator": "equals", "expected": "retrospection.directed_accretive_flow_terminal_process_supported"},
+            {"field": "ordered_palette_transition_inventory_complete", "operator": "equals", "expected": true},
+            {"field": "monotone_palette_growth_candidate_count", "operator": "equals", "expected": 1},
+            {"field": "unique_monotone_palette_growth_added_pair_count", "operator": "greater_than", "expected": 2},
+            {"field": "unique_monotone_palette_growth_split_pair_count", "operator": "greater_than", "expected": 0},
+            {"field": "unique_monotone_palette_growth_maximum_added_component_count", "operator": "greater_than", "expected": 1},
+            {"field": "non_growth_palette_transition_after_growth_start_count", "operator": "greater_than", "expected": 1},
+            {"field": "non_growth_palette_transition_after_growth_start_pair_count", "operator": "greater_than", "expected": 1},
+            {"field": "terminal_pair_is_stable", "operator": "equals", "expected": true},
+            {"field": "final_bottom_edge_change_count", "operator": "equals", "expected": 0},
+            {"field": "official_terminal_success", "operator": "equals", "expected": true},
+            {"field": "directed_accretive_port_status", "operator": "equals", "expected": "revisable_candidate_from_exact_paired_open_hollow_outer_loci"},
+            {"field": "directed_accretive_port_scope", "operator": "equals", "expected": "single_translated_extent_between_one_exact_paired_open_hollow_correspondence"},
+            {"field": "directed_accretive_commit_risk_scope", "operator": "equals", "expected": "first_or_evidenced_nondirectional_release_at_exact_fit"}
+          ],
+          "reason_ref": "reason.ordered_growth_split_two_recolours_and_no_bottom_leak_forward_check_the_configured_release_witness"
+        },
+        {"id": "tier.retrospection.ordered_affine_glyph_episode_model_with_inventory_bound", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_affine_glyph_episode_model_supported_with_inventory_bound"}, {"field": "inventory_complete", "operator": "equals", "expected": false}, {"field": "ordered_glyph_activation_episode_count", "operator": "greater_than", "expected": 0}, {"field": "ordered_glyph_activation_all_members_observed_once", "operator": "equals", "expected": true}, {"field": "ordered_glyph_activation_direction_match_count", "operator": "greater_than", "expected": 0}], "reason_ref": "reason.inventory_bound_is_preserved_while_complete_ordered_affine_episode_evidence_remains_interpretable"},
+        {"id": "tier.retrospection.bound", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.inventory_bound_reached"}, {"field": "inventory_complete", "operator": "equals", "expected": false}], "reason_ref": "reason.bound_overflow_is_explicit_epistemic_debt"},
+        {"id": "tier.retrospection.complete", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.causal_explanation_complete"}, {"field": "has_observed_change", "operator": "equals", "expected": true}, {"field": "causal_explanation_complete", "operator": "equals", "expected": true}], "reason_ref": "reason.every_inventoried_group_has_evidence_relation_and_falsifier"},
+        {"id": "tier.retrospection.ordered_affine_glyph_episode_model", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_affine_glyph_episode_model_supported"}, {"field": "inventory_complete", "operator": "equals", "expected": true}, {"field": "ordered_glyph_activation_episode_count", "operator": "greater_than", "expected": 0}, {"field": "ordered_glyph_activation_all_members_observed_once", "operator": "equals", "expected": true}, {"field": "ordered_glyph_activation_direction_match_count", "operator": "greater_than", "expected": 0}], "reason_ref": "reason.ordered_highlight_and_exact_affine_covariance_expose_revisable_glyph_operator_meaning"},
+        {"id": "tier.retrospection.ordered_animation_model", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.ordered_animation_causal_model_supported"}, {"field": "inventory_complete", "operator": "equals", "expected": true}, {"field": "ordered_animation_explanatory_candidate_count", "operator": "greater_than", "expected": 0}, {"field": "ordered_animation_marked_extent_change_count", "operator": "greater_than", "expected": 0}, {"field": "ordered_animation_has_homologous_source_occurrences", "operator": "equals", "expected": true}], "reason_ref": "reason.sequential_glyph_activation_exposes_compartment_lifecycle_and_bounded_quantity_effect"},
+        {"id": "tier.retrospection.partial", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.causal_explanation_partial"}, {"field": "has_causal_explanation", "operator": "equals", "expected": true}, {"field": "causal_explanation_complete", "operator": "equals", "expected": false}], "reason_ref": "reason.some_transition_groups_still_require_explanation"},
+        {"id": "tier.retrospection.unexplained", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.observed_change_unexplained"}, {"field": "has_observed_change", "operator": "equals", "expected": true}, {"field": "has_causal_explanation", "operator": "equals", "expected": false}], "reason_ref": "reason.observed_change_opens_explicit_causal_learning_debt"},
+        {"id": "tier.retrospection.invariance", "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "retrospection.observed_invariance"}, {"field": "has_observed_change", "operator": "equals", "expected": false}], "reason_ref": "reason.exact_packet_invariance_is_itself_observed_evidence"}
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.transition_phenomenon_retrospection_meaning"},
+      "reason_refs": [
+        "reason.retrospection_disposition_is_declarative_and_never_inferred_by_python"
+      ]
+    }
+  ]
+}

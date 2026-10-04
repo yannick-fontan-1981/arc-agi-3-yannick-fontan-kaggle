@@ -1,0 +1,82 @@
+{
+  "module_id": "consumptive_type_dependency",
+  "declarations": [{
+    "id": "policy.declared_consumptive_type_dependency",
+    "kind": "selection_policy",
+    "evaluation": "declared_eligibility_single",
+    "supported_operators": ["SELECT"],
+    "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+    "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+    "premises": ["a_current_type_deficit_has_a_disjoint_symbolic_input_witness"],
+    "applicability": ["the_first_dependency_requires_either_supported_construction_or_a_scoped_experiment"],
+    "invariants": [
+      "hypothetical_transitions_do_not_certify_known_construction",
+      "symbolic_stock_witness_is_not_a_spatial_action_plan",
+      "a_consumed_identity_cannot_fill_two_input_slots"
+    ],
+    "declared_alternative_refs": ["dependency.current_supported_step", "dependency.current_unobserved_step"],
+    "selection_eligibility_conditions": [{"field": "applicable", "operator": "equals", "expected": true}],
+    "fact_projections": [
+      {
+        "id": "projection.consumptive_dependency.bind_measured_witness",
+        "all_conditions": [
+          {"field": "witness_present", "operator": "is_present"},
+          {"field": "required_signature_present_count", "operator": "equals", "expected": 0}
+        ],
+        "static_facts": {"current_type_deficit": true, "applicable": false},
+        "bound_facts": {
+          "dependency_witness_present": "witness_present",
+          "dependency_first_template_observed": "first_template_observed"
+        }
+      },
+      {
+        "id": "projection.consumptive_dependency.supported_current_step",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "dependency.current_supported_step"},
+          {"field": "consumptive_type_dependency_requested", "operator": "equals", "expected": true},
+          {"field": "current_type_deficit", "operator": "equals", "expected": true},
+          {"field": "current_world_stock_evidence_complete", "operator": "equals", "expected": true},
+          {"field": "dependency_witness_present", "operator": "equals", "expected": true},
+          {"field": "dependency_first_template_observed", "operator": "equals", "expected": true},
+          {"field": "signature_substitution_declared", "operator": "equals", "expected": true},
+          {"field": "current_participant_binding_revalidated", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "instrumental_goal_ref": "goal.produce_one_required_dependency_contribution",
+          "reason_ref": "reason.current_observed_transform_supplies_required_consumptive_dependency",
+          "epistemic_status": "supported_requires_current_spatial_feasibility",
+          "requires_current_influence_measurement": true,
+          "selection_releases_action": false,
+          "reasoning_tree_node_id": "solving.local_field_type_production.type_plan"
+        }
+      },
+      {
+        "id": "projection.consumptive_dependency.unobserved_current_step",
+        "all_conditions": [
+          {"field": "alternative_ref", "operator": "equals", "expected": "dependency.current_unobserved_step"},
+          {"field": "consumptive_type_dependency_requested", "operator": "equals", "expected": true},
+          {"field": "current_type_deficit", "operator": "equals", "expected": true},
+          {"field": "current_world_stock_evidence_complete", "operator": "equals", "expected": true},
+          {"field": "dependency_witness_present", "operator": "equals", "expected": true},
+          {"field": "dependency_first_template_observed", "operator": "equals", "expected": false},
+          {"field": "signature_substitution_declared", "operator": "equals", "expected": true},
+          {"field": "current_participant_binding_revalidated", "operator": "equals", "expected": true},
+          {"field": "probe_continuation_or_discovery_risk_declared", "operator": "equals", "expected": true}
+        ],
+        "static_facts": {
+          "applicable": true,
+          "question_ref": "question.characterize_required_consumptive_operator",
+          "instrumental_goal_ref": "goal.characterize_one_required_dependency_transition",
+          "reason_ref": "reason.required_dependency_contains_an_unobserved_current_transform",
+          "epistemic_status": "proposed_requires_action_conditioned_comparison",
+          "requires_current_influence_measurement": true,
+          "selection_releases_action": false,
+          "experiment_workflow_ref": "arc3.test_mechanism.test_mechanism",
+          "reasoning_tree_node_id": "frontier.experiment.mechanism_or_usefulness"
+        }
+      }
+    ],
+    "reason_refs": ["reason.current_observed_transform_supplies_required_consumptive_dependency", "reason.required_dependency_contains_an_unobserved_current_transform"]
+  }]
+}

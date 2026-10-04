@@ -1,0 +1,102 @@
+# Release one DRM-selected action, then require a fresh reconciled frame.
+MODULE arc3.choose_symbol_tile_action
+
+WORKFLOW choose_symbol_tile_action(
+    measured_agenda: InteractionProbeAgenda,
+    reference_scene: Any,
+    reference_tracking: Any,
+    reference_frame_ref: Ref,
+    reasoning_strategy_ref: Ref,
+    context: WorldContext,
+    current_context_no_effect_candidate_refs: List<Ref>,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        projected_agenda: InteractionProbeAgenda
+        selected: Assessment
+        reconciled_context: WorldContext
+        prepared: Any
+        grounding: ActionGroundingContract
+        meaning: DeclaredMeaningInstantiation
+        derived: Any
+        prepared_updates: PreparedMeaningUpdates
+        revision: Any?
+        action_event: ActionEvent
+        after_frame: Frame
+    STEP project_symbol_tile_agenda
+        REQUIRE measured_agenda.has_candidates
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_symbol_tile_action",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        NEXT select_symbol_tile_action
+    STEP select_symbol_tile_action
+        SELECT selected
+            # Selection scope covers both DRM-declared specializations. The
+            # frozen action contract retains the exact active goal from DRM:
+            # pointwise projection or complete word transduction.
+            FOR "goal.complete_connector_bound_symbol_relation"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_symbol_tile_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        NEXT commit_selected_symbol_derivation
+    STEP commit_selected_symbol_derivation
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_symbol_tile_action",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=projected_agenda.alternative_facts,
+            evidence_refs=[reference_frame_ref]
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.connector_bound_symbol_derivation
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_symbol_derivation
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected_agenda.alternative_refs
+        NEXT prepare_selected_symbol_action
+    STEP prepare_selected_symbol_action
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_symbol_tile_action",
+            selection_source_ref="selection_source.projected_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true
+        ) -> release
+        # The selected candidate is handed to the global action-series
+        # kernel.  No environment action is released in this selector.
+        STOP prepared

@@ -1,0 +1,207 @@
+{
+  "module_id": "arc3",
+  "declarations": [
+    {
+      "id": "schema.role_candidate",
+      "kind": "schema",
+      "premises": ["observed_referent", "recognition_evidence"],
+      "applicability": ["role_not_established"],
+      "invariants": ["candidate_is_not_established_role"],
+      "falsifiers": ["candidate_evidence_contradicted"],
+      "reason_refs": ["reason.role_candidate_requires_evidence"]
+    },
+    {
+      "id": "schema.role_binding",
+      "kind": "schema",
+      "premises": ["role_candidate", "supporting_transition"],
+      "applicability": ["binding_scope_current"],
+      "invariants": ["binding_keeps_exact_grounds", "alternatives_remain_explicit"],
+      "falsifiers": ["expected_transition_contradicted"],
+      "reason_refs": ["reason.role_binding_is_falsifiable"]
+    },
+    {
+      "id": "schema.epistemic_principle_lifecycle",
+      "kind": "schema",
+      "premises": ["scoped_objective", "candidate_alternative_refs", "explicit_evidence_refs"],
+      "applicability": ["commitment_or_ontology_extension_is_considered"],
+      "invariants": [
+        "threshold_condition_refs_are_distinct_from_activation_evidence_refs",
+        "activation_evidence_refs_are_distinct_from_causal_confirmation_refs",
+        "contradicted_scope_refs_are_disjoint_from_retained_scope_refs",
+        "applied_principle_record_precedes_general_principle_proposal"
+      ],
+      "falsifiers": ["lifecycle_stage_or_scope_lineage_missing"],
+      "reason_refs": ["reason.epistemic_lifecycle_keeps_evidence_alternatives_and_revision_explicit"]
+    },
+    {
+      "id": "principle.grounded_epistemic_lifecycle",
+      "kind": "principle",
+      "premises": ["candidate_explanations", "explicit_evidence_state", "scoped_objective"],
+      "applicability": ["symbolic_commitment_or_extension_is_considered"],
+      "invariants": [
+        "coherent_alternatives_remain_live_before_decisive_evidence",
+        "commitment_requires_explicit_supporting_evidence",
+        "threshold_condition_activation_event_and_causal_confirmation_remain_distinct",
+        "contradiction_removes_only_links_inside_its_explicit_falsified_scope",
+        "situation_grounded_construction_precedes_reviewable_generalization"
+      ],
+      "falsifiers": [
+        "unsupported_commitment",
+        "unscoped_alternative_removal",
+        "generalization_without_applied_principle_lineage"
+      ],
+      "reason_refs": ["reason.epistemic_lifecycle_keeps_evidence_alternatives_and_revision_explicit"]
+    },
+    {
+      "id": "principle.contradiction_revises_only_falsified_scope",
+      "kind": "principle",
+      "premises": ["live_alternative_links", "explicit_contradicted_scope_refs"],
+      "applicability": ["contradiction_has_exact_lineage_and_scope"],
+      "invariants": [
+        "only_explicitly_falsified_links_are_removed",
+        "unrelated_live_alternatives_are_preserved",
+        "a_selected_link_loses_selection_when_it_is_falsified"
+      ],
+      "falsifiers": ["contradiction_scope_is_missing_or_ambiguous"],
+      "general_principle_refs": ["principle.grounded_epistemic_lifecycle"],
+      "reason_refs": ["reason.contradiction_revises_only_its_explicit_scope"]
+    },
+    {
+      "id": "principle.evidence_before_commitment",
+      "kind": "principle",
+      "premises": ["candidate_belief", "commitment_request"],
+      "applicability": ["evidence_state_visible"],
+      "invariants": ["visual_similarity_alone_does_not_establish_role"],
+      "falsifiers": ["direct_transition_evidence_missing"],
+      "general_principle_refs": ["principle.grounded_epistemic_lifecycle"],
+      "reason_refs": ["reason.commit_only_from_explicit_evidence"]
+    },
+    {
+      "id": "principle.preserve_live_alternatives",
+      "kind": "principle",
+      "premises": ["more_than_one_coherent_interpretation"],
+      "applicability": ["no_decisive_contradiction"],
+      "invariants": ["non_selected_is_not_rejected"],
+      "falsifiers": ["alternative_explicitly_contradicted"],
+      "general_principle_refs": [
+        "principle.grounded_epistemic_lifecycle",
+        "principle.contradiction_revises_only_falsified_scope"
+      ],
+      "reason_refs": ["reason.ambiguity_requires_another_test"]
+    },
+    {
+      "id": "principle.action_requires_wisdom",
+      "kind": "principle",
+      "premises": ["action_intent", "current_state_revision"],
+      "applicability": ["environment_effect_requested"],
+      "invariants": ["current_commitment_and_release_required"],
+      "falsifiers": ["stale_or_blocked_commitment"],
+      "reason_refs": ["reason.action_must_cross_release_boundary"]
+    },
+    {
+      "id": "principle.action_conditioned_observation_updates_revisable_transition_knowledge",
+      "kind": "principle",
+      "premises": [
+        "identified_released_action_from_known_revision",
+        "post_action_observation_linked_to_action",
+        "measured_effect_or_contextual_no_effect",
+        "complete_before_action_after_lineage"
+      ],
+      "applicability": [
+        "action_conditioned_transition_reconciliation"
+      ],
+      "invariants": [
+        "contextual_no_effect_does_not_establish_global_impossibility",
+        "one_observed_transition_does_not_universalize_untested_contexts",
+        "an_observed_effect_does_not_alone_establish_role_goal_or_mechanism",
+        "transition_knowledge_is_reconciled_before_committed_repetition"
+      ],
+      "falsifiers": [
+        "action_observation_lineage_is_missing_or_ambiguous",
+        "an_unreconciled_level_boundary_explains_the_delta",
+        "multiple_unseparated_actions_prevent_attribution",
+        "a_later_same_context_observation_contradicts_the_transition"
+      ],
+      "general_principle_refs": [
+        "principle.grounded_epistemic_lifecycle",
+        "principle.contradiction_revises_only_falsified_scope"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_observation_updates_only_scoped_revisable_transition_knowledge"
+      ]
+    },
+    {
+      "id": "principle.factorized_interface_tool_state",
+      "kind": "principle",
+      "premises": ["persistent_interface_entity", "action_conditioned_component_changes"],
+      "applicability": ["two_or_more_independently_revisable_aspects_observed"],
+      "invariants": ["aspect_identity_is_observation_grounded", "palette_value_and_coordinate_do_not_assign_role"],
+      "falsifiers": ["later_transition_shows_aspects_are_not_independent"],
+      "reason_refs": ["reason.independent_effects_license_factorized_tool_state"]
+    },
+    {
+      "id": "principle.observed_finite_control_graph",
+      "kind": "principle",
+      "premises": ["reidentified_control_state", "action_conditioned_successor_measurements"],
+      "applicability": ["bounded_distinct_state_set_observed"],
+      "invariants": [
+        "transition_order_is_not_cyclicity",
+        "closed_orbit_requires_observed_return",
+        "unobserved_edges_remain_unknown",
+        "a_no_effect_edge_is_scoped_to_its_observed_configuration",
+        "the_same_action_reopens_after_configuration_change",
+        "the_immediate_inverse_of_an_effectful_move_is_deferred_while_a_fresh_orthogonal_probe_exists",
+        "a_contextual_no_effect_keeps_the_untried_axis_counterpart_open_before_orthogonal_switch",
+        "bounded_cartesian_and_center_relative_frames_remain_alternatives_until_discriminated"
+      ],
+      "falsifiers": [
+        "same_state_and_action_has_incompatible_successor",
+        "a_later_observation_shows_the_context_digest_did_not_preserve_state_identity",
+        "an_observed_return_or_non_cartesian_successor_contradicts_the_open_frame_alternative"
+      ],
+      "general_principle_refs": [
+        "principle.action_conditioned_observation_updates_revisable_transition_knowledge"
+      ],
+      "reason_refs": ["reason.observed_successors_license_revisable_finite_control_graph"]
+    },
+    {
+      "id": "principle.regional_application_effect",
+      "kind": "principle",
+      "premises": ["discrete_application_action", "bounded_before_after_region_delta"],
+      "applicability": ["persistent_output_region_change_observed"],
+      "invariants": ["effect_mask_is_measured_not_named_by_position", "same_value_application_may_have_no_visible_delta"],
+      "falsifiers": ["later_application_contradicts_the_recorded_state_conditioned_mask"],
+      "general_principle_refs": [
+        "principle.action_conditioned_observation_updates_revisable_transition_knowledge"
+      ],
+      "reason_refs": ["reason.action_conditioned_delta_licenses_revisable_regional_application"]
+    },
+    {
+      "id": "principle.reference_output_difference_repair",
+      "kind": "principle",
+      "premises": ["separated_static_pattern", "compatible_mutable_pattern", "exact_normalized_difference"],
+      "applicability": ["action_conditioned_evidence_supports_mutable_output_role"],
+      "invariants": ["reference_and_output_roles_remain_revisable", "repair_targets_only_observed_difference", "completion_requires_world_feedback"],
+      "falsifiers": ["reference_changes_under_output_action", "exact_match_does_not_correlate_with_completion"],
+      "reason_refs": ["reason.static_mutable_correspondence_licenses_minimal_difference_repair"]
+    },
+    {
+      "id": "principle.matching_tool_value_direct_pose_test",
+      "kind": "principle",
+      "premises": ["revisable_reference_output_difference", "unique_adjacent_tool_supposition", "tool_value_matches_reference_difference_value", "measured_direction_toward_difference_pose"],
+      "applicability": ["direct_directional_test_not_yet_falsified_in_current_context"],
+      "invariants": ["morphological_roles_remain_revisable", "one_direct_test_does_not_assert_passability", "observed_no_effect_opens_bounded_detour_without_erasing_goal"],
+      "falsifiers": ["tool_value_does_not_match_difference_value", "direction_does_not_approach_difference_pose", "direct_edge_has_no_effect_in_current_context"],
+      "reason_refs": ["reason.matching_tool_value_and_reference_difference_license_direct_pose_test"]
+    },
+    {
+      "id": "principle.reversible_reference_guided_regional_repair",
+      "kind": "principle",
+      "premises": ["reference_output_correspondence", "minimal_observed_difference", "learned_value_selection_effect", "learned_pose_graph", "regional_application_effect"],
+      "applicability": ["one_learned_application_mask_isolates_one_current_difference"],
+      "invariants": ["at_most_three_global_plan_witnesses", "select_reference_value_before_routing", "route_ends_at_the_isolating_pose", "application_follows_pose_arrival", "world_feedback_precedes_any_next_difference", "only_remaining_differences_continue", "repair_is_reversible_and_role_assignments_remain_revisable"],
+      "falsifiers": ["the_mask_changes_a_non_target_region", "the_selected_value_does_not_match_the_reference_region", "the_pose_route_or_application_effect_is_not_reproduced"],
+      "reason_refs": ["reason.learned_selection_pose_and_mask_compose_a_reversible_minimal_repair"]
+    }
+  ]
+}

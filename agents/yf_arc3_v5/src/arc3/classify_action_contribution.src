@@ -1,0 +1,23 @@
+# Classify the reconciled primitive's contribution before choosing continuation.
+MODULE arc3.classify_action_contribution
+
+WORKFLOW classify_action_contribution(
+    descriptive_contribution_evidence: Any
+) -> Assessment
+    STATE
+        contributions: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP construct_contribution_agenda
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_action_contribution",
+            alternative_refs=[],
+            descriptive_facts=descriptive_contribution_evidence
+        ) -> contributions
+        SELECT selected
+            FOR "goal.classify_reconciled_primitive_contribution"
+            FROM contributions.alternative_refs
+            UNDER policy.declared_action_contribution
+            REQUIRE ["requirement.contribution_is_supported_by_reconciled_effect"]
+            PRESERVE contributions.alternative_refs
+            FACTS contributions.alternative_facts
+        STOP selected

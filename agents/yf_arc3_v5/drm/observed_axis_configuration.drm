@@ -1,0 +1,54 @@
+{
+  "module_id": "observed_axis_configuration",
+  "declarations": [{
+    "id": "policy.declared_observed_axis_configuration_frontier",
+    "kind": "selection_policy", "evaluation": "declared_lexicographic_order",
+    "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+    "supported_operators": ["SELECT"],
+    "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+    "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+    "premises": ["a_current_carried_reference_goal_is_proposed", "scoped_axis_interventions_have_been_observed"],
+    "invariants": ["a_measured_complete_route_precedes_missing_operator_measurement", "all_bodies_and_passive_parts_are_checked_against_fixed_foreground", "one_primitive_is_reconciled_before_any_next_release", "no_unobserved_inverse_command_is_treated_as_known"],
+    "falsifiers": ["an_observed_operator_changes_a_different_receiver", "a_descendant_disagrees_with_the_predicted_transport", "fixed_foreground_or_goal_identity_changes"],
+    "selection_eligibility_conditions": [{"field": "axis_frontier_available", "operator": "equals", "expected": true}],
+    "selection_tiers": [
+      {"id": "tier.axis_configuration.complete_route", "all_conditions": [{"field": "axis_frontier_kind", "operator": "equals", "expected": "complete_route"}], "reason_ref": "reason.a_clear_complete_configuration_route_serves_the_carried_reference_goal"},
+      {"id": "tier.axis_configuration.missing_receiver", "all_conditions": [{"field": "axis_frontier_kind", "operator": "equals", "expected": "missing_receiver"}], "reason_ref": "reason.measure_a_homologous_control_whose_remote_receiver_is_not_in_the_model"},
+      {"id": "tier.axis_configuration.missing_operator", "all_conditions": [{"field": "axis_frontier_kind", "operator": "equals", "expected": "missing_operator"}], "reason_ref": "reason.measure_an_unobserved_opposed_operator_when_known_commands_have_no_clear_route"}
+    ],
+    "selection_tie_breakers": [{"field": "point_row", "preferred_order": "minimize"}, {"field": "point_col", "preferred_order": "minimize"}, {"field": "alternative_ref", "preferred_order": "minimize"}],
+    "configuration": {"measurement_contract": {
+      "extent_contract": "yf_arc3_v5.observed_extent_command.v1",
+      "graph_contract": "yf_arc3_v5.observed_axis_transport_graph.v1",
+      "goal_contract": "yf_arc3_v5.carried_reference_center_goal.v1",
+      "extent_predicate": "observed_scoped_command_changes_axis_extent",
+      "graph_predicate": "records_revisable_axis_transport_hypotheses",
+      "goal_predicate": "supposes_carried_marker_reference_center_goal",
+      "maximum_observations": 64, "maximum_states": 20000, "maximum_actions": 64,
+      "command_traversal_order": "point_row_column_scope",
+      "observation_support_transport": "canonical_graph_source_terms",
+      "minimum_retained_cohort": 2
+    }},
+    "fact_projections": [
+      {"id": "projection.axis_configuration.ground_current_carried_goal", "all_conditions": [{"field": "axis_frontier_available", "operator": "equals", "expected": true}], "static_facts": {
+        "active_goal_ref": "goal.align_carried_marker_to_reference_center",
+        "active_terminal_goal_ref": "goal.align_carried_marker_to_reference_center",
+        "subgoal_ref": "subgoal.reconcile_one_axis_configuration_command",
+        "goal_dependency_chain_refs": ["goal.align_carried_marker_to_reference_center", "subgoal.reconcile_one_axis_configuration_command"],
+        "goal_graph_edge_refs": ["edge.carried_reference_goal_requires_reconciled_axis_configuration"],
+        "reconciliation_checkpoint_ref": "checkpoint.axis_configuration.extent_suffix_and_clearance",
+        "advances_active_goal_chain": true, "candidate_goal_role": "instrumental_subgoal",
+        "selection_principle_ref": "principle.observed_axis_configuration_requires_complete_clearance",
+        "priority_class_ref": "G1_CARRIED_REFERENCE_CONFIGURATION",
+        "coupling_measurement_requested": true,
+        "coupling_operator_scope_measurement_kind": "point_locus",
+        "remaining_action_bound": 1,
+        "falsifier_refs": ["falsifier.axis_command_changes_a_different_receiver", "falsifier.axis_descendant_transport_disagrees_with_prediction", "falsifier.axis_whole_body_clearance_disagrees_with_observation"],
+        "discriminating_experiment_ref": "experiment.verify_one_axis_configuration_command"
+      }},
+      {"id": "projection.axis_configuration.route_is_revisable_effect_prediction", "all_conditions": [{"field": "axis_frontier_kind", "operator": "equals", "expected": "complete_route"}], "static_facts": {"expected_effect_class": "effectful_known", "expected_configuration_or_goal_delta_ref": "delta.observed_axis_configuration.measured_whole_forest_successor"}},
+      {"id": "projection.axis_configuration.unmeasured_command_remains_experiment", "any_conditions": [{"field": "axis_frontier_kind", "operator": "equals", "expected": "missing_receiver"}, {"field": "axis_frontier_kind", "operator": "equals", "expected": "missing_operator"}], "static_facts": {"expected_effect_class": "effectful_novel", "expected_configuration_or_goal_delta_ref": "delta.observed_axis_configuration.complete_scoped_operator_model"}}
+    ],
+    "reason_refs": ["reason.a_carried_goal_needs_a_clear_configuration_or_a_discriminating_operator_measurement"]
+  }]
+}

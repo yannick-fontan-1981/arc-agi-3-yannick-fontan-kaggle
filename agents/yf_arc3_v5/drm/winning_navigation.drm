@@ -1,0 +1,909 @@
+{
+  "module_id": "winning_navigation",
+  "declarations": [
+    {
+      "id": "policy.remember_winning_cursor_navigation",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "navigation_memory.official_contact"
+      ],
+      "configuration": {
+        "measurement_contract": {
+          "measurement_basis_ref": "measurement.pixel_support",
+          "role_capture_neutral_facts": {
+            "nested_white_component_count": 0,
+            "archives_source_role_fact_projection": false,
+            "disables_source_entity_role_projection": false
+          },
+          "outcome_contract": "yf_arc3_v5.terminal_outcome_evidence.v1",
+          "outcome_predicate": "retains_official_terminal_outcome_evidence",
+          "outcome_rule": "rule.preserved_official_terminal_outcome",
+          "official_predicate": "level_completed",
+          "cursor_role_ref": "role.cursor_supposition",
+          "association_predicate": "learned_role_has_appearance_signature",
+          "proof_statuses": [
+            "supported",
+            "established"
+          ],
+          "maximum_records": 1024,
+          "maximum_history_inputs": 8192,
+          "maximum_observations": 256,
+          "maximum_pixels": 8192,
+          "maximum_components": 256,
+          "maximum_rows": 16,
+          "connectivity": 4,
+          "point_action_ref": "ACTION6",
+          "roles": {
+            "moving": "role.alignment_mover",
+            "fixed": "role.alignment_target",
+            "control": "role.remote_support_control"
+          },
+          "entity_pattern": "entity.memory.winning_role.{association_token}",
+          "role_claim_pattern": "claim.memory.winning_role.{association_token}",
+          "association_pattern": "supposition.memory.association.{association_token}",
+          "mechanism_schema_refs": [
+            "schema.cursor_translation_and_remote_support"
+          ],
+          "falsifier_refs": [
+            "falsifier.relocated_role_or_effect_contradicts_winning_history"
+          ],
+          "method_support_claim_pattern": "claim.memory.navigation_method_support.{transition_ref}",
+          "workflow_claim_pattern": "claim.memory.support_navigation.{relation_token}.{transition_ref}"
+        },
+        "dependency_measurement_contract": {
+          "surface_models": [
+            "observed_entered_pattern",
+            "complete_rectangular_cell_union",
+            "actor_occluded_rectangle",
+            "current_measured_homogeneous_actor_underlay",
+            "current_exact_translation_actor_underlay",
+            "entered_pattern_occluded_by_homologous_item"
+          ],
+          "effect_models": [
+            "observed_cell_pattern_exchange",
+            "observed_quarter_turn_fit",
+            "control_shape_and_pivot_palette_assembly_quarter_turn"
+          ],
+          "permission_models": [
+            "missing_control_smaller_same_palette_band_homologue_contact"
+          ],
+          "interface_steps": {
+            "ACTION1": [
+              -1,
+              0
+            ],
+            "ACTION2": [
+              1,
+              0
+            ],
+            "ACTION3": [
+              0,
+              -1
+            ],
+            "ACTION4": [
+              0,
+              1
+            ]
+          },
+          "point_action_ref": "ACTION6",
+          "maximum_pixels": 4096,
+          "maximum_components": 256,
+          "maximum_states": 8192,
+          "maximum_operators": 6,
+          "maximum_witnesses": 1,
+          "witness_order": "shortest_primitive_count_then_declared_interface_order",
+          "unknown_models_remain_hypotheses": true,
+          "recompute_after_every_observation": true,
+          "full_actor_support_required_before_and_after_point_action": true
+        }
+      },
+      "selection_eligibility_conditions": [
+        {
+          "field": "measurement_count",
+          "operator": "equals",
+          "expected": 1
+        },
+        {
+          "field": "motion_observation_count",
+          "operator": "greater_than",
+          "expected": 0
+        },
+        {
+          "field": "predicted_supports_equal",
+          "operator": "equals",
+          "expected": true
+        },
+        {
+          "field": "history_true_count",
+          "operator": "equals",
+          "expected": 0
+        },
+        {
+          "field": "history_unknown_count",
+          "operator": "equals",
+          "expected": 0
+        },
+        {
+          "field": "history_evaluation_complete",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "navigation_memory.official_contact": "rule.winning_cursor_navigation_memory"
+      },
+      "premises": [
+        "official_boundary_and_actual_dispatched_primitive",
+        "unique_causally_learned_cursor_signature",
+        "earlier_same_command_has_consistent_translation",
+        "stationary_destination_exactly_matches_predicted_support"
+      ],
+      "invariants": [
+        "no_palette_or_scene_coordinate_to_role_rule",
+        "history_counterexample_prevents_goal_memory",
+        "historical_goal_does_not_authorize_current_action"
+      ],
+      "reason_refs": [
+        "reason.winning_history_binds_roles_destination_and_revisable_method"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.navigation_memory.reusable_activities",
+          "static_facts": {
+            "method_activity_contract": {
+              "method_ref": "workflow.hot.support_navigation_method",
+              "objective_schema_ref": "schema.objective.reach_relocalized_terminal_destination",
+              "required_mechanism_refs": [
+                "policy.declared_reconfigurable_support_report"
+              ],
+              "preserves_invariant_refs": [
+                "invariant.entire_actor_remains_supported",
+                "invariant.terminal_destination_remains_parent_goal"
+              ],
+              "falsifier_refs": [
+                "falsifier.current_effect_differs_from_recalled_effect",
+                "falsifier.observed_support_loss"
+              ],
+              "activity_ref": "activity.reconfigure_from_preserved_support",
+              "component_refs": [
+                "cold.component.arc3.assess_reconfigurable_support.assess_reconfigurable_support",
+                "cold.component.arc3.construct_transition_meaning.construct_transition_meaning",
+                "cold.component.arc3.continue_declared_action.continue_declared_action"
+              ],
+              "required_role_refs": [
+                "role.alignment_mover",
+                "role.alignment_target",
+                "role.remote_support_control"
+              ],
+              "observed_control_role_refs": [
+                "role.remote_support_control"
+              ],
+              "requires_predicate_refs": [
+                "counterfactual_full_actor_support_verified",
+                "useful_connection_dependency_identified"
+              ],
+              "provides_predicate_refs": [
+                "requested_support_connection_reconfigured"
+              ]
+            },
+            "method_follow_activity_contract": {
+              "method_ref": "workflow.hot.support_navigation_method",
+              "objective_schema_ref": "schema.objective.reach_relocalized_terminal_destination",
+              "required_mechanism_refs": [
+                "policy.declared_reconfigurable_support_report"
+              ],
+              "preserves_invariant_refs": [
+                "invariant.entire_actor_remains_supported",
+                "invariant.terminal_destination_remains_parent_goal"
+              ],
+              "falsifier_refs": [
+                "falsifier.current_effect_differs_from_recalled_effect",
+                "falsifier.observed_support_loss"
+              ],
+              "activity_ref": "activity.follow_current_support",
+              "component_refs": [
+                "cold.component.arc3.construct_transition_meaning.construct_transition_meaning",
+                "cold.component.arc3.continue_declared_action.continue_declared_action"
+              ],
+              "required_role_refs": [
+                "role.alignment_mover",
+                "role.alignment_target"
+              ],
+              "requires_predicate_refs": [
+                "current_support_route_verified"
+              ],
+              "provides_predicate_refs": [
+                "actor_reached_requested_supported_pose"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "rule.winning_cursor_navigation_memory",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": [
+        "official_contact_and_canonical_cursor_evidence"
+      ],
+      "invariants": [
+        "historical_entities_are_not_current_scene_bindings",
+        "workflow_requires_current_role_and_support_revalidation",
+        "no_old_route_or_color_order_is_replayed"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "{entity_ref}",
+          "kind": "entity",
+          "label": "historical winning role bearer",
+          "required_fields": [
+            "entity_ref",
+            "causal_role_ref"
+          ],
+          "static_attributes": {
+            "canonical_fact_projection_enabled": false,
+            "scope": "historical_evidence"
+          },
+          "attribute_bindings": {
+            "causal_role_ref": "causal_role_ref"
+          },
+          "iteration": {
+            "source_field": "learning_rows",
+            "max_items": 64,
+            "item_bindings": {
+              "entity_ref": "entity_ref",
+              "role_claim_ref": "role_claim_ref",
+              "causal_role_ref": "causal_role_ref",
+              "row_evidence_refs": "row_evidence_refs"
+            }
+          }
+        },
+        {
+          "id_pattern": "workflow.memory.support_navigation.{relation_token}",
+          "kind": "procedure",
+          "label": "revisable navigation through reconfigurable supports",
+          "required_fields": [
+            "relation_token"
+          ],
+          "all_conditions": [
+            {
+              "field": "remote_change_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.reconfigurable_navigation_method.v1",
+            "scope": "same_game",
+            "canonical_fact_projection_enabled": false,
+            "terminal_relation_ref": "relation.target_support_is_covered",
+            "ordered_activity_refs": [
+              "activity.follow_current_support",
+              "activity.reconfigure_from_preserved_support",
+              "activity.rejoin_terminal_destination"
+            ],
+            "preserved_invariant_refs": [
+              "invariant.entire_actor_remains_supported",
+              "invariant.terminal_destination_remains_parent_goal"
+            ],
+            "requires_current_relocalization": true,
+            "requires_recomputed_routes": true,
+            "missing_control_is_open_dependency": true,
+            "observed_translations_require_current_calibration": true,
+            "remote_effects_require_current_support_revalidation": true,
+            "historical_effect_extent_is_not_a_current_route": true,
+            "historical_lattice_is_preferred_until_current_geometric_contradiction": true,
+            "first_current_motion_must_reconfirm_calibration": true,
+            "action_authorization": false
+          },
+          "attribute_bindings": {
+            "control_association_refs": "control_association_refs",
+            "remote_change_observation_count": "remote_change_count",
+            "moving_association_refs": "moving_association_refs",
+            "fixed_association_refs": "fixed_association_refs",
+            "observed_command_translation_rows": "observed_command_translation_rows",
+            "observed_remote_effect_rows": "observed_remote_effect_rows",
+            "observed_entered_surface_rows": "observed_entered_surface_rows",
+            "observed_lattice_calibration_rows": "observed_lattice_calibration_rows",
+            "memory_claim_ref": "workflow_memory_claim_ref"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "{role_claim_ref}",
+          "predicate": "proposes_role_candidate",
+          "family": "dynamic",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{entity_ref}",
+            "{causal_role_ref}"
+          ],
+          "required_fields": [
+            "entity_ref",
+            "role_claim_ref",
+            "causal_role_ref"
+          ],
+          "required_term_patterns": [
+            "{entity_ref}"
+          ],
+          "derivation_premise_refs_field": "row_evidence_refs",
+          "iteration": {
+            "source_field": "learning_rows",
+            "max_items": 64,
+            "item_bindings": {
+              "entity_ref": "entity_ref",
+              "role_claim_ref": "role_claim_ref",
+              "causal_role_ref": "causal_role_ref",
+              "row_evidence_refs": "row_evidence_refs"
+            }
+          }
+        },
+        {
+          "id_pattern": "claim.memory.support_navigation.{relation_token}.{transition_ref}",
+          "predicate": "declares_revalidatable_workflow_activity_schema",
+          "family": "control",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "workflow.memory.support_navigation.{relation_token}",
+            "{completion_event_ref}"
+          ],
+          "required_fields": [
+            "relation_token",
+            "transition_ref",
+            "completion_event_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "remote_change_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_attributes": {
+            "knowledge_family": "workflow_activity_schema",
+            "schema_status": "provisional_until_current_scene_revalidation",
+            "drop_scene_local_bindings": true,
+            "instance_binding_forbidden": true,
+            "boundary_observation_count": 1,
+            "ordered_activity_refs": [
+              "activity.follow_current_support",
+              "activity.reconfigure_from_preserved_support",
+              "activity.rejoin_terminal_destination"
+            ],
+            "guidance_after_revalidation": "order_open_recurring_activities_before_unrelated_exploration"
+          },
+          "attribute_bindings": {
+            "transition_ref": "transition_ref",
+            "remote_change_observation_count": "remote_change_count"
+          }
+        },
+        {
+          "id_pattern": "{method_support_claim_ref}",
+          "predicate": "observed_navigation_supports_reusable_activities",
+          "family": "control",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{completion_event_ref}",
+            "{transition_ref}"
+          ],
+          "required_fields": [
+            "completion_event_ref",
+            "transition_ref",
+            "method_support_claim_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "remote_change_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_attributes": {
+            "method_remains_partial": true,
+            "current_requirements_are_not_proved": true,
+            "authorizes_action": false
+          },
+          "attribute_bindings": {
+            "revision_family_ref": "method_support_claim_ref"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.winning_history_binds_roles_destination_and_revisable_method"
+      ]
+    },
+    {
+      "id": "policy.recall_navigation_cell_lattice",
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "memory_grid.revalidate_previous_calibration"
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "has_inventory_delta",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "meaning_template_ref_by_alternative": {
+        "memory_grid.revalidate_previous_calibration": "rule.recalled_navigation_cell_lattice"
+      },
+      "configuration": {
+        "measurement_contract": {
+          "memory_contract": "yf_arc3_v5.reconfigurable_navigation_method.v1",
+          "memory_predicate": "declares_revalidatable_workflow_activity_schema",
+          "memory_rule": "rule.winning_cursor_navigation_memory",
+          "binding_contract": "yf_arc3_v5.current_memorial_role_binding.v1",
+          "proof_statuses": [
+            "supported",
+            "established"
+          ],
+          "exact_match_codes": [
+            "SPRITE"
+          ],
+          "association_fields": [
+            "moving_association_refs",
+            "fixed_association_refs"
+          ],
+          "maximum_records": 1024,
+          "maximum_history_inputs": 8192,
+          "maximum_pixels": 4096,
+          "maximum_candidates": 3,
+          "maximum_cell_extent": 16,
+          "maximum_supports": 128,
+          "grid_ref_pattern": "measurement.recalled_navigation_grid.{grid_token}",
+          "term_pattern": "supposition.memory.navigation_grid.{frame_token}.{grid_token}",
+          "claim_pattern": "claim.navigation_grid.binding.{frame_token}.{grid_token}"
+        }
+      },
+      "premises": [
+        "winning_observed_calibration_is_recalled_before_new_grid_search",
+        "current_actor_and_destination_tile_exactly"
+      ],
+      "invariants": [
+        "historical_calibration_is_preferred_until_current_geometric_contradiction",
+        "first_current_motion_reconfirms_calibration",
+        "whole_component_supports_are_never_clipped",
+        "typed_support_is_not_walkability",
+        "external_controls_do_not_become_navigation_cases",
+        "no_action_authorization"
+      ],
+      "falsifiers": [
+        "current_actor_or_destination_cannot_tile",
+        "current_motion_contradicts_observed_command_translation"
+      ],
+      "reason_refs": [
+        "reason.reuse_observed_grid_until_current_contradiction"
+      ]
+    },
+    {
+      "id": "rule.recalled_navigation_cell_lattice",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": [
+        "DERIVE"
+      ],
+      "relation_family": "structural",
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "premises": [
+        "winning_observed_calibration_is_recalled_before_new_grid_search",
+        "current_actor_and_destination_tile_exactly"
+      ],
+      "invariants": [
+        "historical_calibration_is_preferred_until_current_geometric_contradiction",
+        "first_current_motion_reconfirms_calibration",
+        "whole_component_supports_are_never_clipped",
+        "typed_support_is_not_walkability",
+        "external_controls_do_not_become_navigation_cases",
+        "no_action_authorization"
+      ],
+      "falsifiers": [
+        "current_actor_or_destination_cannot_tile",
+        "current_motion_contradicts_observed_command_translation"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "supposition.memory.navigation_grid.{frame_token}.{grid_token}",
+          "kind": "schema",
+          "label": "current revisable typed-cell lattice",
+          "required_fields": [
+            "frame_ref",
+            "frame_token",
+            "grid_token",
+            "grid_geometry",
+            "grid_claim_ref"
+          ],
+          "all_conditions": [
+            {
+              "field": "historical_calibration_unique",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "historical_calibration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_role_bearers_unique",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_role_bearers_tiled",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_motion_contradicts",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "static_attributes": {
+            "projection_contract": "yf_arc3_v5.current_typed_cell_lattice.v1",
+            "commitment": "revisable",
+            "canonical_fact_projection_enabled": true,
+            "action_authorization": false,
+            "coordinate_basis": "logical_cells",
+            "internal_modes_preserve_support": true,
+            "canonical_role_link_constraints": {
+              "allowed_statuses": [
+                "proposed",
+                "supported",
+                "established"
+              ],
+              "disposition": "active",
+              "polarity": "positive",
+              "no_contradictions": true,
+              "no_defeaters": true
+            },
+            "calibration_origin": "remembered_winning_homogeneous_actor_and_motion",
+            "first_current_motion_requires_revalidation": true,
+            "typed_support_is_walkability": false
+          },
+          "attribute_bindings": {
+            "operational_scene_ref": "frame_ref",
+            "grid_geometry": "grid_geometry",
+            "role_premise_claim_refs": "row_claim_refs",
+            "type_patterns": "type_patterns",
+            "cell_type_ids": "cell_type_ids",
+            "cell_support_rows": "cell_support_rows",
+            "uncovered_bottom_extent": "uncovered_bottom_extent",
+            "uncovered_right_extent": "uncovered_right_extent",
+            "source_memory_ref": "source_memory_ref",
+            "historical_calibration_unique": "historical_calibration_unique",
+            "historical_calibration_complete": "historical_calibration_complete",
+            "current_role_bearers_unique": "current_role_bearers_unique",
+            "current_role_bearers_tiled": "current_role_bearers_tiled",
+            "current_motion_observed": "current_motion_observed",
+            "current_motion_confirms": "current_motion_confirms",
+            "current_motion_contradicts": "current_motion_contradicts",
+            "unbound_entity_refs": "unbound_entity_refs",
+            "canonical_term_dependency_revisions": "canonical_term_dependency_revisions",
+            "canonical_claim_dependency_digests": "canonical_claim_dependency_digests"
+          },
+          "iteration": {
+            "source_field": "grid_rows",
+            "max_items": 3,
+            "item_bindings": {
+              "frame_ref": "frame_ref",
+              "frame_token": "frame_token",
+              "grid_token": "grid_token",
+              "grid_geometry": "grid_geometry",
+              "grid_claim_ref": "grid_claim_ref",
+              "row_claim_refs": "row_claim_refs",
+              "type_patterns": "type_patterns",
+              "cell_type_ids": "cell_type_ids",
+              "cell_support_rows": "cell_support_rows",
+              "uncovered_bottom_extent": "uncovered_bottom_extent",
+              "uncovered_right_extent": "uncovered_right_extent",
+              "source_memory_ref": "source_memory_ref",
+              "historical_calibration_unique": "historical_calibration_unique",
+              "historical_calibration_complete": "historical_calibration_complete",
+              "current_role_bearers_unique": "current_role_bearers_unique",
+              "current_role_bearers_tiled": "current_role_bearers_tiled",
+              "current_motion_observed": "current_motion_observed",
+              "current_motion_confirms": "current_motion_confirms",
+              "current_motion_contradicts": "current_motion_contradicts",
+              "unbound_entity_refs": "unbound_entity_refs",
+              "canonical_term_dependency_revisions": "canonical_term_dependency_revisions",
+              "canonical_claim_dependency_digests": "canonical_claim_dependency_digests"
+            }
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.navigation_grid.measurement.{frame_token}.{grid_token}",
+          "predicate": "recalled_cell_lattice_candidate_measured",
+          "family": "structural",
+          "epistemic_status": "supported",
+          "argument_patterns": [
+            "{frame_ref}"
+          ],
+          "required_fields": [
+            "frame_token",
+            "grid_token",
+            "frame_ref"
+          ],
+          "static_attributes": {
+            "authorizes_action": false,
+            "establishes_grid_binding": false
+          },
+          "iteration": {
+            "source_field": "grid_rows",
+            "max_items": 3,
+            "item_bindings": {
+              "frame_token": "frame_token",
+              "grid_token": "grid_token",
+              "frame_ref": "frame_ref",
+              "source_memory_ref": "source_memory_ref",
+              "historical_calibration_unique": "historical_calibration_unique",
+              "historical_calibration_complete": "historical_calibration_complete",
+              "current_role_bearers_unique": "current_role_bearers_unique",
+              "current_role_bearers_tiled": "current_role_bearers_tiled",
+              "current_motion_observed": "current_motion_observed",
+              "current_motion_confirms": "current_motion_confirms",
+              "current_motion_contradicts": "current_motion_contradicts",
+              "unbound_entity_refs": "unbound_entity_refs",
+              "canonical_term_dependency_revisions": "canonical_term_dependency_revisions",
+              "canonical_claim_dependency_digests": "canonical_claim_dependency_digests"
+            }
+          }
+        },
+        {
+          "id_pattern": "{grid_claim_ref}",
+          "predicate": "current_cell_lattice_reuses_winning_calibration",
+          "family": "structural",
+          "epistemic_status": "proposed",
+          "argument_patterns": [
+            "supposition.memory.navigation_grid.{frame_token}.{grid_token}",
+            "{frame_ref}"
+          ],
+          "required_fields": [
+            "grid_claim_ref",
+            "frame_token",
+            "grid_token",
+            "frame_ref"
+          ],
+          "required_term_patterns": [
+            "supposition.memory.navigation_grid.{frame_token}.{grid_token}"
+          ],
+          "all_conditions": [
+            {
+              "field": "historical_calibration_unique",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "historical_calibration_complete",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_role_bearers_unique",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_role_bearers_tiled",
+              "operator": "equals",
+              "expected": true
+            },
+            {
+              "field": "current_motion_contradicts",
+              "operator": "equals",
+              "expected": false
+            }
+          ],
+          "static_attributes": {
+            "authorizes_action": false,
+            "same_object_identity_requires_observed_joint_motion": true
+          },
+          "iteration": {
+            "source_field": "grid_rows",
+            "max_items": 3,
+            "item_bindings": {
+              "grid_claim_ref": "grid_claim_ref",
+              "frame_token": "frame_token",
+              "grid_token": "grid_token",
+              "frame_ref": "frame_ref",
+              "source_memory_ref": "source_memory_ref",
+              "historical_calibration_unique": "historical_calibration_unique",
+              "historical_calibration_complete": "historical_calibration_complete",
+              "current_role_bearers_unique": "current_role_bearers_unique",
+              "current_role_bearers_tiled": "current_role_bearers_tiled",
+              "current_motion_observed": "current_motion_observed",
+              "current_motion_confirms": "current_motion_confirms",
+              "current_motion_contradicts": "current_motion_contradicts",
+              "unbound_entity_refs": "unbound_entity_refs",
+              "canonical_term_dependency_revisions": "canonical_term_dependency_revisions",
+              "canonical_claim_dependency_digests": "canonical_claim_dependency_digests"
+            }
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.reuse_observed_grid_until_current_contradiction"
+      ]
+    },
+    {
+      "id": "policy.capture_winning_navigation_method",
+      "reason_refs": [
+        "reason.reuse_learned_method_without_suppressing_useful_discovery"
+      ],
+      "kind": "selection_policy",
+      "evaluation": "declared_eligibility_single",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "declared_alternative_refs": [
+        "method_activity.reconciled"
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "canonical_support_present",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.capture_winning_navigation_method",
+          "static_facts": {
+            "canonical_activity_projection": {
+              "producer_policy_ref": "policy.remember_winning_cursor_navigation",
+              "producer_projection_ref": "projection.navigation_memory.reusable_activities",
+              "contract_field": "method_activity_contract",
+              "optional_control_criterion": {
+                "role_refs": [
+                  "role.remote_support_control"
+                ],
+                "association_predicate": "learned_role_has_appearance_signature",
+                "association_argument_index": 0,
+                "premise_join": {
+                  "max_candidates_per_stage": 64,
+                  "max_comparisons": 8192,
+                  "max_rows": 64,
+                  "stages": [
+                    {
+                      "predicate": "proposes_role_candidate",
+                      "proof_rules": [
+                        "rule.winning_cursor_navigation_memory"
+                      ],
+                      "statuses": [
+                        "proposed",
+                        "supported",
+                        "established"
+                      ],
+                      "constraints": [],
+                      "bindings": {
+                        "control_proof_ref": "id"
+                      }
+                    },
+                    {
+                      "predicate": "learned_role_has_appearance_signature",
+                      "proof_rules": [
+                        "rule.captured_canonical_role_appearances"
+                      ],
+                      "statuses": [
+                        "supported",
+                        "established"
+                      ],
+                      "constraints": [
+                        {
+                          "field": "term_argument.0.attributes.role_ref",
+                          "operator": "equals",
+                          "operand": {
+                            "literal": "role.remote_support_control"
+                          }
+                        },
+                        {
+                          "field": "term_argument.0.attributes.active",
+                          "operator": "equals",
+                          "operand": {
+                            "literal": true
+                          }
+                        },
+                        {
+                          "field": "term_argument.0.attributes.source_claim_refs",
+                          "operator": "contains",
+                          "operand": {
+                            "binding": "control_proof_ref"
+                          }
+                        }
+                      ],
+                      "bindings": {}
+                    }
+                  ]
+                }
+              },
+              "component_workflow_refs": {
+                "cold.component.arc3.assess_reconfigurable_support.assess_reconfigurable_support": "arc3.assess_reconfigurable_support.assess_reconfigurable_support",
+                "cold.component.arc3.construct_transition_meaning.construct_transition_meaning": "arc3.construct_transition_meaning.construct_transition_meaning",
+                "cold.component.arc3.continue_declared_action.continue_declared_action": "arc3.continue_declared_action.continue_declared_action"
+              },
+              "proof_rule": "rule.winning_cursor_navigation_memory",
+              "proof_rules": [
+                "rule.winning_cursor_navigation_memory"
+              ],
+              "link_predicate": "observed_navigation_supports_reusable_activities",
+              "claim_id_pattern": "claim.memory.navigation_method_support.{transition_ref}",
+              "argument_fields": [
+                "completion_event_ref",
+                "transition_ref"
+              ],
+              "allowed_link_statuses": [
+                "supported"
+              ],
+              "link_disposition": "active",
+              "link_polarity": "positive",
+              "max_candidates": 64,
+              "no_contradictions": true,
+              "no_defeaters": true,
+              "candidate_status_attribute": "declared_epistemic_status",
+              "additional_activity_profiles": [
+                {
+                  "contract_field": "method_follow_activity_contract",
+                  "proof_predicate": "observed_navigation_supports_reusable_activities",
+                  "proof_rule": "rule.winning_cursor_navigation_memory",
+                  "argument_fields": [
+                    "completion_event_ref",
+                    "transition_ref"
+                  ],
+                  "allowed_link_statuses": [
+                    "supported"
+                  ],
+                  "max_proof_links": 64
+                }
+              ],
+              "activity_dependencies": [],
+              "max_activity_rows": 2,
+              "max_dependency_rows": 0
+            }
+          }
+        }
+      ],
+      "premises": [
+        "official_victory_after_same_context_alignment_activity",
+        "matching_causal_roles_have_canonical_appearance_associations",
+        "coupled_displacement_is_observed_on_the_alignment_bearer"
+      ],
+      "invariants": [
+        "objective_remains_revisable",
+        "same_game_memory_has_no_level_expiry",
+        "context_is_proof_scope_not_memory_expiry",
+        "no_old_positions_routes_or_actions_are_carried",
+        "component_attestations_are_requirements_not_execution_history",
+        "coupling_proposition_is_not_promoted_to_a_verified_operator"
+      ],
+      "falsifiers": [
+        "official_completion_or_any_required_premise_is_absent_defeated_or_cross_context"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,937 @@
+{
+  "module_id": "geometry",
+  "declarations": [
+    {
+      "id": "model.distinguish_observed_referents",
+      "kind": "model",
+      "evaluation": "distinguish_references",
+      "supported_operators": ["DISTINGUISH"],
+      "input_contract": "yf_arc3_v5.authority_input.distinction.v1",
+      "output_contract": "yf_arc3_v5.authority_output.distinction.v1",
+      "premises": ["descriptive_component_references"],
+      "applicability": ["component_measurements_available"],
+      "invariants": ["no_semantic_role_assigned"],
+      "falsifiers": ["referent_not_observed"],
+      "reason_refs": ["reason.observed_referents_are_distinct"]
+    },
+    {
+      "id": "predicate.spatial_relation_witnessed",
+      "kind": "predicate",
+      "evaluation": "basis_present",
+      "supported_operators": ["RELATE"],
+      "input_contract": "yf_arc3_v5.authority_input.predicate.v1",
+      "output_contract": "yf_arc3_v5.authority_output.predicate.v1",
+      "relation_family": "structural",
+      "premises": ["descriptive_geometry_witness"],
+      "applicability": ["referents_are_distinct"],
+      "invariants": ["relation_keeps_exact_basis"],
+      "falsifiers": ["geometry_witness_absent"],
+      "reason_refs": ["reason.spatial_relation_has_observed_basis"]
+    },
+    {
+      "id": "rule.scene_structure_from_geometry",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["component_geometry", "explicit_requested_conclusion"],
+      "applicability": ["required_geometry_present"],
+      "invariants": ["conclusion_is_exactly_requested", "premises_are_recorded"],
+      "falsifiers": ["required_geometry_missing"],
+      "reason_refs": ["reason.scene_structure_follows_declared_geometry_rule"]
+    },
+    {
+      "id": "rule.derived_geometry_state_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "measurement_context_ref",
+        "derived_geometry_state_status",
+        "affine_and_discrete_measurement_counts"
+      ],
+      "applicability": ["derived_geometry_state_interpretation_selected"],
+      "invariants": [
+        "affine_support_requires_exact_observed_target_match",
+        "closed_orbit_support_requires_observed_return_and_deterministic_mapping",
+        "transition_order_does_not_imply_cyclicity",
+        "all_meaning_remains_revisable"
+      ],
+      "falsifiers": [
+        "later_affine_target_mismatch",
+        "same_state_has_a_different_observed_successor"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "derived_geometry_state.assessment.{measurement_context_ref}",
+          "kind": "schema",
+          "label": "derived geometry and discrete state assessment",
+          "required_fields": [
+            "measurement_context_ref",
+            "derived_geometry_state_status"
+          ],
+          "attribute_bindings": {
+            "status": "derived_geometry_state_status",
+            "cyclicity_status": "cyclicity_status",
+            "affine_target_match_count": "affine_target_match_count",
+            "affine_target_mismatch_count": "affine_target_mismatch_count",
+            "observed_transition_count": "observed_transition_count",
+            "observed_return_count": "observed_return_count"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.derived_geometry_state.{measurement_context_ref}",
+          "predicate": "declares_derived_geometry_state_status",
+          "family": "structural",
+          "argument_patterns": [
+            "derived_geometry_state.assessment.{measurement_context_ref}",
+            "{derived_geometry_state_status}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "measurement_context_ref",
+            "derived_geometry_state_status",
+            "cyclicity_status"
+          ],
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "new_exact_geometry_or_transition_evidence"
+          },
+          "attribute_bindings": {
+            "cyclicity_status": "cyclicity_status",
+            "transition_mapping_deterministic": "transition_mapping_deterministic"
+          }
+        }
+      ],
+      "reason_refs": ["reason.exact_measurements_precede_geometric_or_state_law"]
+    },
+    {
+      "id": "policy.declared_derived_geometry_state_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "exact_affine_measurements",
+        "ordered_discrete_state_samples"
+      ],
+      "applicability": ["derived_geometry_or_state_measurement_available"],
+      "invariants": [
+        "no_affine_rounding",
+        "cyclicity_requires_an_observed_return",
+        "deterministic_order_and_cyclicity_remain_distinct"
+      ],
+      "falsifiers": ["measurement_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "derived_geometry_state.affine_relation_falsified",
+        "derived_geometry_state.affine_and_closed_orbit_supported",
+        "derived_geometry_state.affine_relation_supported",
+        "derived_geometry_state.closed_orbit_supported",
+        "derived_geometry_state.transition_order_only",
+        "derived_geometry_state.insufficient_evidence"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.derived_geometry_state.affine_falsified",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.affine_relation_falsified"}],
+          "static_facts": {"derived_geometry_state_status": "affine_relation_falsified", "cyclicity_status": "not_established"}
+        },
+        {
+          "id": "projection.derived_geometry_state.combined_support",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.affine_and_closed_orbit_supported"}],
+          "static_facts": {"derived_geometry_state_status": "affine_and_closed_orbit_supported", "cyclicity_status": "revisable_closed_orbit"}
+        },
+        {
+          "id": "projection.derived_geometry_state.affine_support",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.affine_relation_supported"}],
+          "static_facts": {"derived_geometry_state_status": "affine_relation_supported", "cyclicity_status": "not_established"}
+        },
+        {
+          "id": "projection.derived_geometry_state.orbit_support",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.closed_orbit_supported"}],
+          "static_facts": {"derived_geometry_state_status": "closed_orbit_supported", "cyclicity_status": "revisable_closed_orbit"}
+        },
+        {
+          "id": "projection.derived_geometry_state.transition_only",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.transition_order_only"}],
+          "static_facts": {"derived_geometry_state_status": "transition_order_only", "cyclicity_status": "not_established"}
+        },
+        {
+          "id": "projection.derived_geometry_state.insufficient",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "derived_geometry_state.insufficient_evidence"}],
+          "static_facts": {"derived_geometry_state_status": "insufficient_evidence", "cyclicity_status": "not_established"}
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.derived_geometry_state.affine_falsified",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "affine_relation_falsified"},
+            {"field": "affine_target_mismatch_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.exact_target_mismatch_falsifies_affine_relation"
+        },
+        {
+          "id": "tier.derived_geometry_state.combined_support",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "affine_and_closed_orbit_supported"},
+            {"field": "affine_target_match_count", "operator": "greater_than", "expected": 0},
+            {"field": "observed_return_count", "operator": "greater_than", "expected": 0},
+            {"field": "transition_mapping_deterministic", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.affine_match_and_deterministic_return_support_both_relations"
+        },
+        {
+          "id": "tier.derived_geometry_state.affine_support",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "affine_relation_supported"},
+            {"field": "affine_target_match_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.exact_observed_target_matches_affine_position"
+        },
+        {
+          "id": "tier.derived_geometry_state.closed_orbit_support",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "closed_orbit_supported"},
+            {"field": "observed_return_count", "operator": "greater_than", "expected": 0},
+            {"field": "transition_mapping_deterministic", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.observed_return_and_deterministic_successors_support_closed_orbit"
+        },
+        {
+          "id": "tier.derived_geometry_state.transition_only",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "transition_order_only"},
+            {"field": "observed_transition_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.observed_order_without_return_does_not_establish_cyclicity"
+        },
+        {
+          "id": "tier.derived_geometry_state.insufficient",
+          "all_conditions": [
+            {"field": "derived_geometry_state_status", "operator": "equals", "expected": "insufficient_evidence"},
+            {"field": "affine_target_match_count", "operator": "equals", "expected": 0},
+            {"field": "affine_target_mismatch_count", "operator": "equals", "expected": 0},
+            {"field": "observed_transition_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.measurements_do_not_yet_support_a_law"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "alternative_ref", "preferred_order": "minimize"}
+      ],
+      "meaning_template_ref_by_alternative": {
+        "*": "rule.derived_geometry_state_meaning"
+      },
+      "reason_refs": ["reason.derived_geometry_and_state_meaning_is_declared"]
+    },
+    {
+      "id": "rule.viewport_support_terrain_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["measurement_context_ref", "viewport_support_terrain_status"],
+      "applicability": ["viewport_support_terrain_interpretation_selected"],
+      "invariants": [
+        "world_and_viewport_frames_remain_alternatives_without_discriminating_evidence",
+        "terrain_operators_require_observed_traversability_change",
+        "support_roles_require_observed_contact_evidence",
+        "all_meaning_remains_revisable"
+      ],
+      "falsifiers": [
+        "same_context_has_incompatible_viewport_shift",
+        "later_configuration_contradicts_traversability_or_support_delta"
+      ],
+      "term_templates": [
+        {
+          "id_pattern": "viewport_support_terrain.assessment.{measurement_context_ref}",
+          "kind": "schema",
+          "label": "viewport support and terrain assessment",
+          "required_fields": ["measurement_context_ref", "viewport_support_terrain_status"],
+          "attribute_bindings": {
+            "status": "viewport_support_terrain_status",
+            "frame_relation_status": "frame_relation_status",
+            "support_role_status": "support_role_status",
+            "terrain_operator_status": "terrain_operator_status"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.viewport_support_terrain.{measurement_context_ref}",
+          "predicate": "declares_viewport_support_terrain_status",
+          "family": "structural",
+          "argument_patterns": [
+            "viewport_support_terrain.assessment.{measurement_context_ref}",
+            "{viewport_support_terrain_status}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "measurement_context_ref",
+            "viewport_support_terrain_status",
+            "frame_relation_status",
+            "support_role_status",
+            "terrain_operator_status"
+          ],
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "new_exact_viewport_or_configuration_evidence"
+          }
+        }
+      ],
+      "reason_refs": ["reason.exact_configuration_deltas_precede_frame_or_terrain_meaning"]
+    },
+    {
+      "id": "policy.declared_viewport_support_terrain_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_viewport_and_configuration_measurements"],
+      "applicability": ["viewport_or_configuration_measurement_available"],
+      "invariants": [
+        "no_world_coordinate_is_invented",
+        "no_support_role_is_inferred_without_contact_change",
+        "no_terrain_operator_is_inferred_without_traversability_change",
+        "no_destination_or_route_is_selected"
+      ],
+      "falsifiers": ["measurement_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "viewport_support_terrain.incoherent_viewport_observations",
+        "viewport_support_terrain.layered_support_suspension",
+        "viewport_support_terrain.dynamic_terrain_with_support_change",
+        "viewport_support_terrain.dynamic_traversability",
+        "viewport_support_terrain.support_change_only",
+        "viewport_support_terrain.coherent_viewport_relation",
+        "viewport_support_terrain.static_configuration",
+        "viewport_support_terrain.insufficient_evidence"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.viewport_support_terrain.incoherent",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.incoherent_viewport_observations"}],
+          "static_facts": {"viewport_support_terrain_status": "incoherent_viewport_observations", "frame_relation_status": "alternatives_require_discriminating_evidence", "support_role_status": "not_established", "terrain_operator_status": "not_established"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.layered_suspension",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.layered_support_suspension"}],
+          "static_facts": {
+            "viewport_support_terrain_status": "layered_support_suspension",
+            "frame_relation_status": "mobile_and_underlay_are_distinct_spatial_layers",
+            "support_role_status": "complete_underlay_gates_directional_mobility",
+            "terrain_operator_status": "support_transform_is_revisable_and_contextual",
+            "mobile_support_fate_ref": "fate.suspended_on_upper_layer_until_support_returns"
+          }
+        },
+        {
+          "id": "projection.viewport_support_terrain.combined_dynamic",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.dynamic_terrain_with_support_change"}],
+          "static_facts": {"viewport_support_terrain_status": "dynamic_terrain_with_support_change", "frame_relation_status": "revisable_alternatives_preserved", "support_role_status": "revisable_observed_support_change", "terrain_operator_status": "revisable_observed_traversability_change"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.dynamic",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.dynamic_traversability"}],
+          "static_facts": {"viewport_support_terrain_status": "dynamic_traversability", "frame_relation_status": "revisable_alternatives_preserved", "support_role_status": "not_established", "terrain_operator_status": "revisable_observed_traversability_change"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.support",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.support_change_only"}],
+          "static_facts": {"viewport_support_terrain_status": "support_change_only", "frame_relation_status": "revisable_alternatives_preserved", "support_role_status": "revisable_observed_support_change", "terrain_operator_status": "not_established"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.viewport",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.coherent_viewport_relation"}],
+          "static_facts": {"viewport_support_terrain_status": "coherent_viewport_relation", "frame_relation_status": "revisable_alternatives_preserved", "support_role_status": "not_established", "terrain_operator_status": "not_established"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.static",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.static_configuration"}],
+          "static_facts": {"viewport_support_terrain_status": "static_configuration", "frame_relation_status": "not_established", "support_role_status": "not_established", "terrain_operator_status": "not_established"}
+        },
+        {
+          "id": "projection.viewport_support_terrain.insufficient",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "viewport_support_terrain.insufficient_evidence"}],
+          "static_facts": {"viewport_support_terrain_status": "insufficient_evidence", "frame_relation_status": "not_established", "support_role_status": "not_established", "terrain_operator_status": "not_established"}
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.viewport_support_terrain.layered_suspension",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "layered_support_suspension"},
+            {"field": "ordered_layered_support_trace_count", "operator": "greater_than", "expected": 0},
+            {"field": "support_loss_under_stationary_mobile_count", "operator": "greater_than", "expected": 0},
+            {"field": "unsupported_stationary_directional_no_effect_count", "operator": "greater_than", "expected": 0},
+            {"field": "support_restoration_under_stationary_mobile_count", "operator": "greater_than", "expected": 0},
+            {"field": "supported_effectful_directional_transition_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.loss_lock_restoration_and_reactivation_establish_layered_support_suspension"
+        },
+        {
+          "id": "tier.viewport_support_terrain.incoherent",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "incoherent_viewport_observations"},
+            {"field": "distinct_viewport_shift_count", "operator": "greater_than", "expected": 1}
+          ],
+          "reason_ref": "reason.same_context_viewport_shifts_require_discrimination"
+        },
+        {
+          "id": "tier.viewport_support_terrain.combined_dynamic",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "dynamic_terrain_with_support_change"},
+            {"field": "dynamic_traversability_transition_count", "operator": "greater_than", "expected": 0},
+            {"field": "support_change_transition_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.observed_configuration_delta_supports_dynamic_terrain_and_support_change"
+        },
+        {
+          "id": "tier.viewport_support_terrain.dynamic",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "dynamic_traversability"},
+            {"field": "dynamic_traversability_transition_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.observed_traversability_delta_supports_revisable_terrain_operator"
+        },
+        {
+          "id": "tier.viewport_support_terrain.support",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "support_change_only"},
+            {"field": "support_change_transition_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.observed_contact_delta_supports_revisable_support_role"
+        },
+        {
+          "id": "tier.viewport_support_terrain.viewport",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "coherent_viewport_relation"},
+            {"field": "nonzero_coherent_viewport_shift", "operator": "equals", "expected": true},
+            {"field": "persistent_anchor_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.coherent_shift_with_persistent_anchor_supports_frame_relation_alternatives"
+        },
+        {
+          "id": "tier.viewport_support_terrain.static",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "static_configuration"},
+            {"field": "configuration_count", "operator": "greater_than", "expected": 0},
+            {"field": "dynamic_traversability_transition_count", "operator": "equals", "expected": 0},
+            {"field": "support_change_transition_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.observed_configurations_have_no_measured_dynamic_delta"
+        },
+        {
+          "id": "tier.viewport_support_terrain.insufficient",
+          "all_conditions": [
+            {"field": "viewport_support_terrain_status", "operator": "equals", "expected": "insufficient_evidence"},
+            {"field": "configuration_count", "operator": "equals", "expected": 0},
+            {"field": "persistent_anchor_count", "operator": "equals", "expected": 0}
+          ],
+          "reason_ref": "reason.measurements_do_not_yet_support_frame_support_or_terrain_meaning"
+        }
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {"*": "rule.viewport_support_terrain_meaning"},
+      "reason_refs": ["reason.viewport_support_and_terrain_meaning_is_declared"]
+    },
+    {
+      "id": "principle.layered_support_suspension_requires_causal_cross_check",
+      "kind": "principle",
+      "premises": [
+        "the_mobile_remains_present_at_the_same_world_pose_after_complete_underlay_loss",
+        "a_declared_directional_action_is_no_effect_while_complete_underlay_is_absent",
+        "complete_traversable_underlay_is_restored_under_the_same_mobile_pose",
+        "a_later_declared_directional_action_becomes_effectful"
+      ],
+      "applicability": ["mobile_support_fate_revision"],
+      "invariants": [
+        "mobile_and_support_are_distinct_spatial_layers",
+        "directional_mobility_is_disabled_while_complete_underlay_is_absent",
+        "partial_underlay_restoration_does_not_restore_mobility",
+        "one_directional_no_effect_never_establishes_suspension",
+        "all_other_uncontradicted_mobile_support_fates_remain_revisable"
+      ],
+      "falsifiers": [
+        "the_mobile_disappears_or_relocates_when_underlay_is_lost",
+        "a_directional_action_moves_the_mobile_without_complete_underlay",
+        "directional_mobility_remains_disabled_after_complete_underlay_restoration"
+      ],
+      "reason_refs": [
+        "reason.loss_lock_restoration_and_reactivation_establish_layered_support_suspension"
+      ]
+    },
+    {
+      "id": "policy.declared_mobile_support_transform_eligibility",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "declared_support_transform_facts",
+        "preserved_mobile_support_fate_alternatives"
+      ],
+      "applicability": ["pre_action_support_transform_screening"],
+      "invariants": [
+        "no_mobile_support_fate_is_selected_by_python",
+        "unsafe_reconfiguration_is_deferred_when_invariant_support_is_reachable",
+        "unresolved_risk_fails_closed_without_a_route",
+        "at_most_three_route_witnesses_are_considered"
+      ],
+      "falsifiers": ["support_transform_facts_are_missing_or_stale"],
+      "declared_alternative_refs": [
+        "support_transform.eligible_on_invariant_support",
+        "support_transform.eligible_all_live_fates_safe",
+        "support_transform.defer_to_invariant_support_route",
+        "support_transform.block_unresolved_fate_gap"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.support_transform.invariant",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "support_transform.eligible_on_invariant_support"}],
+          "static_facts": {"applicable": true, "support_transform_status": "eligible_on_invariant_support", "action_release_status": "eligible_after_current_reconciliation"}
+        },
+        {
+          "id": "projection.support_transform.all_safe",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "support_transform.eligible_all_live_fates_safe"}],
+          "static_facts": {"applicable": true, "support_transform_status": "eligible_all_live_fates_safe", "action_release_status": "eligible_after_current_reconciliation"}
+        },
+        {
+          "id": "projection.support_transform.defer_route",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "support_transform.defer_to_invariant_support_route"}],
+          "static_facts": {"applicable": true, "support_transform_status": "defer_to_invariant_support_route", "action_release_status": "blocked_route_commitment_required"}
+        },
+        {
+          "id": "projection.support_transform.block_gap",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "support_transform.block_unresolved_fate_gap"}],
+          "static_facts": {"applicable": true, "support_transform_status": "block_unresolved_fate_gap", "action_release_status": "blocked_named_symbolic_gap"}
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.support_transform.invariant",
+          "all_conditions": [
+            {"field": "support_transform_status", "operator": "equals", "expected": "eligible_on_invariant_support"},
+            {"field": "mobile_on_support_invariant_under_transform", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.invariant_underlay_preserves_every_mobile_fate"
+        },
+        {
+          "id": "tier.support_transform.all_safe",
+          "all_conditions": [
+            {"field": "support_transform_status", "operator": "equals", "expected": "eligible_all_live_fates_safe"},
+            {"field": "all_live_mobile_fates_have_valid_nonfailure_successors", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.all_live_mobile_fates_license_reconfiguration"
+        },
+        {
+          "id": "tier.support_transform.defer_route",
+          "all_conditions": [
+            {"field": "support_transform_status", "operator": "equals", "expected": "defer_to_invariant_support_route"},
+            {"field": "bounded_invariant_support_route_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.unresolved_mobile_support_fate_commits_invariant_support_route_first"
+        },
+        {
+          "id": "tier.support_transform.block_gap",
+          "all_conditions": [
+            {"field": "support_transform_status", "operator": "equals", "expected": "block_unresolved_fate_gap"}
+          ],
+          "reason_ref": "reason.unresolved_mobile_support_fate_without_safe_route_fails_closed"
+        }
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "reason_refs": ["reason.mobile_support_transform_eligibility_is_declared"]
+    },
+    {
+      "id": "principle.mobile_support_transform_preserves_fate_alternatives",
+      "kind": "principle",
+      "premises": [
+        "a_committed_terrain_transform_changes_support_under_a_mobile_footprint"
+      ],
+      "applicability": ["pre_action_support_transform_screening"],
+      "invariants": [
+        "preserve_fail_on_any_invalid_occupied_cell",
+        "preserve_suspended_on_upper_layer_until_support_returns",
+        "preserve_follow_support_transform",
+        "preserve_return_to_pre_entry_pose",
+        "preserve_advance_beyond_support",
+        "preserve_stay_on_complete_persistent_underlay",
+        "move_to_invariant_support_before_transform_when_any_live_fate_can_fail",
+        "at_most_three_deterministic_route_witnesses_are_compared",
+        "only_the_committed_route_payload_remains_executable"
+      ],
+      "falsifiers": [
+        "an_exact_observed_successor_contradicts_one_preserved_fate",
+        "all_live_fates_have_a_valid_non_failure_successor"
+      ],
+      "reason_refs": [
+        "reason.unresolved_mobile_support_fate_defers_unsafe_reconfiguration"
+      ]
+    },
+    {
+      "id": "principle.symmetric_external_marker_ensemble_opens_implied_centre_correspondence",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.correspondence_combines_independent_match_aspects",
+        "principle.rotation_pivot_is_inferred_from_observed_transform"
+      ],
+      "aspect_parameters": [
+        "match.shape_topology",
+        "match.color_value",
+        "match.multiscale",
+        "match.orientation",
+        "match.count_or_cardinality"
+      ],
+      "relation_parameters": [
+        "relation.transform.rotation_about_inferred_pivot",
+        "relation.containment"
+      ],
+      "cardinality_parameters": [
+        "cardinality.many_to_one"
+      ],
+      "premises": [
+        "one_regular_closed_perimeter_of_equal_large_cells_is_measured",
+        "four_equal_small_components_share_one_distinct_value",
+        "the_small_components_are_off_the_large_cell_lattice_and_fit_its_separator_gaps",
+        "their_exact_symmetry_surrounds_one_perimeter_cell_centre",
+        "exactly_one_large_perimeter_component_shares_their_value"
+      ],
+      "applicability": [
+        "user_confirmed_generic_marker_group_structure_is_observed"
+      ],
+      "invariants": [
+        "the_marker_group_opens_a_strong_revisable_target_supposition",
+        "the_surrounded_centre_not_any_individual_marker_is_the_candidate_locus",
+        "shared_value_and_unique_large_scale_correspondence_identify_the_candidate_subject",
+        "palette_values_never_assign_roles",
+        "ornament_interface_and_non_target_alternatives_remain_preserved_until_effect_or_score_evidence"
+      ],
+      "falsifiers": [
+        "the_group_is_not_symmetric_off_lattice_or_gap_fitting",
+        "the_surrounded_centre_is_not_a_compatible_large_cell_locus",
+        "more_than_one_large_component_shares_the_value",
+        "the_small_group_moves_with_the_perimeter_occupants",
+        "exact_correspondence_does_not_produce_official_progress"
+      ],
+      "reason_refs": [
+        "reason.user_confirmed_gap_marker_group_strongly_indicates_enclosed_target"
+      ]
+    },
+    {
+      "id": "rule.orthogonal_perimeter_assembly_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": [
+        "orthogonal_perimeter_assembly_status",
+        "exact_perimeter_and_quartet_measurements"
+      ],
+      "applicability": ["orthogonal_perimeter_assembly_interpretation_selected"],
+      "invariants": [
+        "closed_support_and_enclosed_target_supposition_remain_distinct",
+        "all_instance_geometry_is_observation_bound",
+        "all_meaning_remains_revisable"
+      ],
+      "falsifiers": ["new_geometry_or_action_conditioned_evidence_contradicts_the_selected_assembly"],
+      "term_templates": [
+        {
+          "id_pattern": "support.closed_orthogonal.{orthogonal_perimeter_ref}",
+          "kind": "schema",
+          "label": "measured closed orthogonal support supposition",
+          "required_fields": [
+            "orthogonal_perimeter_ref",
+            "orthogonal_perimeter_component_refs",
+            "orthogonal_perimeter_slot_centers_twice",
+            "orthogonal_perimeter_slot_values"
+          ],
+          "static_attributes": {
+            "structure_kind": "closed_orthogonal_support",
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "perimeter_ref": "orthogonal_perimeter_ref",
+            "component_refs": "orthogonal_perimeter_component_refs",
+            "slot_centers_twice": "orthogonal_perimeter_slot_centers_twice",
+            "slot_values": "orthogonal_perimeter_slot_values",
+            "slot_count": "orthogonal_perimeter_slot_count",
+            "cell_height": "orthogonal_perimeter_cell_height",
+            "cell_width": "orthogonal_perimeter_cell_width",
+            "row_gap": "orthogonal_perimeter_row_gap",
+            "column_gap": "orthogonal_perimeter_column_gap"
+          }
+        },
+        {
+          "id_pattern": "correspondence.enclosed_locus.{off_lattice_quartet_ref}",
+          "kind": "schema",
+          "label": "revisable enclosed-locus correspondence",
+          "required_fields": [
+            "off_lattice_quartet_ref",
+            "off_lattice_quartet_common_center_twice",
+            "off_lattice_quartet_unique_same_value_perimeter_component_ref"
+          ],
+          "static_attributes": {
+            "correspondence_kind": "gap_marker_enclosed_locus",
+            "commitment": "revisable"
+          },
+          "attribute_bindings": {
+            "quartet_ref": "off_lattice_quartet_ref",
+            "quartet_component_refs": "off_lattice_quartet_component_refs",
+            "shared_value": "off_lattice_quartet_shared_value",
+            "locus_center_twice": "off_lattice_quartet_common_center_twice",
+            "locus_slot_index": "off_lattice_quartet_slot_index",
+            "corresponding_component_ref": "off_lattice_quartet_unique_same_value_perimeter_component_ref",
+            "fits_separator_gaps": "off_lattice_quartet_fits_separator_gaps",
+            "centres_are_off_perimeter_lattice": "off_lattice_quartet_centres_are_off_perimeter_lattice",
+            "status": "enclosed_locus_supposition_status"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.closed_ordered_support.{orthogonal_perimeter_ref}",
+          "predicate": "describes_closed_ordered_support",
+          "family": "structural",
+          "argument_patterns": ["support.closed_orthogonal.{orthogonal_perimeter_ref}"],
+          "epistemic_status": "supported",
+          "required_fields": ["orthogonal_perimeter_ref"],
+          "static_attributes": {
+            "commitment": "revisable",
+            "falsifier": "closed_regular_perimeter_geometry_is_contradicted"
+          }
+        },
+        {
+          "id_pattern": "claim.supposition.enclosed_locus.{off_lattice_quartet_ref}",
+          "predicate": "proposes_enclosed_locus_correspondence",
+          "family": "structural",
+          "argument_patterns": [
+            "correspondence.enclosed_locus.{off_lattice_quartet_ref}",
+            "support.closed_orthogonal.{orthogonal_perimeter_ref}"
+          ],
+          "epistemic_status": "supported",
+          "required_fields": [
+            "off_lattice_quartet_ref",
+            "orthogonal_perimeter_ref",
+            "enclosed_locus_supposition_status"
+          ],
+          "static_attributes": {
+            "commitment": "revisable",
+            "user_confirmed_generic_structure": true,
+            "falsifier": "marker_geometry_motion_or_official_completion_contradicts_the_correspondence"
+          },
+          "attribute_bindings": {
+            "status": "enclosed_locus_supposition_status"
+          }
+        }
+      ],
+      "reason_refs": [
+        "reason.user_confirmed_gap_marker_group_strongly_indicates_enclosed_target"
+      ]
+    },
+    {
+      "id": "rule.joint_marker_slots_meaning",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["complete_symmetric_marker_groups_enclose_fixed_slots", "matching_square_value_cardinalities", "bounded_intersecting_support_geometry"],
+      "applicability": ["joint_marker_slot_correspondence_selected"],
+      "invariants": ["target_correspondence_remains_revisable", "morphology_does_not_establish_a_control_permutation", "all_marked_slots_are_conjoined", "temporary_distance_increase_is_not_itself_failure"],
+      "falsifiers": ["marker_group_moves_with_contents", "control_changes_the_slot_domain_or_violates_its_observed_map"],
+      "term_templates": [
+        {
+          "id_pattern": "correspondence.joint_slots.{joint_slot_geometry_ref}",
+          "kind": "schema",
+          "label": "revisable simultaneous marked-slot correspondence",
+          "required_fields": ["joint_slot_geometry_ref", "joint_slot_structures", "joint_slot_marker_rows", "joint_slot_associations", "joint_slot_values_by_position"],
+          "static_attributes": {"correspondence_kind": "joint_marker_slots", "commitment": "revisable", "terminal_relation": "each_marked_slot_contains_matching_value", "unobserved_control_disposition": "single_discriminating_probe_only"},
+          "attribute_bindings": {
+            "geometry_ref": "joint_slot_geometry_ref",
+            "structures": "joint_slot_structures",
+            "terminal_constraints": "joint_slot_marker_rows",
+            "control_associations": "joint_slot_associations",
+            "slot_values_by_position": "joint_slot_values_by_position"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.joint_slot_correspondence.{joint_slot_geometry_ref}",
+          "predicate": "supports_joint_slot_marker_correspondence",
+          "family": "structural",
+          "argument_patterns": ["correspondence.joint_slots.{joint_slot_geometry_ref}"],
+          "epistemic_status": "proposed",
+          "required_fields": ["joint_slot_geometry_ref"],
+          "static_attributes": {"commitment": "revisable", "falsifier": "marker_group_moves_or_value_correspondence_is_contradicted"},
+          "attribute_bindings": {"geometry_ref": "joint_slot_geometry_ref"}
+        }
+      ],
+      "reason_refs": ["reason.complete_marker_groups_license_joint_slot_targets_not_individual_marker_clicks"]
+    },
+    {
+      "id": "rule.ordered_trait_word_supposition",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "structural",
+      "premises": ["bounded_regular_columns_of_repeated_ordered_traits"],
+      "applicability": ["ordered_trait_word_supposition_selected"],
+      "invariants": ["whole_word_is_the_unit_of_possible_instruction_meaning", "a_trait_edit_is_not_evidence_of_world_progress", "separate_arrays_do_not_imply_identical_roles", "no_trait_value_has_an_intrinsic_direction"],
+      "falsifiers": ["observed_effect_contradicts_word_or_array_scope"],
+      "term_templates": [{
+        "id_pattern": "supposition.ordered_trait_words.{ordered_trait_geometry_ref}",
+        "kind": "schema", "label": "revisable ordered words with separate control candidates",
+        "required_fields": ["ordered_trait_geometry_ref", "ordered_trait_arrays"],
+        "static_attributes": {"correspondence_kind": "ordered_trait_words", "commitment": "revisable", "effect_knowledge": "unknown_until_observed"},
+        "attribute_bindings": {"geometry_ref": "ordered_trait_geometry_ref", "arrays": "ordered_trait_arrays"}
+      }],
+      "claim_templates": [{
+        "id_pattern": "claim.ordered_trait_words.{ordered_trait_geometry_ref}",
+        "predicate": "supports_ordered_trait_word_supposition", "family": "structural",
+        "argument_patterns": ["supposition.ordered_trait_words.{ordered_trait_geometry_ref}"],
+        "epistemic_status": "proposed", "required_fields": ["ordered_trait_geometry_ref"],
+        "static_attributes": {"commitment": "revisable", "falsifier": "effect_contradicts_word_scope"},
+        "attribute_bindings": {"geometry_ref": "ordered_trait_geometry_ref"}
+      }],
+      "reason_refs": ["reason.repeated_ordered_traits_support_whole_word_tests_not_bit_direction_guesses"]
+    },
+    {
+      "id": "policy.declared_orthogonal_perimeter_assembly_interpretation",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": ["bounded_exact_perimeter_and_off_lattice_group_measurements"],
+      "applicability": ["scene_components_are_available"],
+      "invariants": [
+        "no_palette_role_binding",
+        "a_group_role_requires_the_complete_confirmed_geometric_conjunction",
+        "weaker_alternatives_are_preserved"
+      ],
+      "falsifiers": ["measurement_scope_is_missing_or_unbounded"],
+      "declared_alternative_refs": [
+        "assembly.joint_marker_slots",
+        "assembly.closed_support_with_gap_quartet_correspondence",
+        "assembly.closed_support_only",
+        "assembly.ordered_trait_words",
+        "assembly.insufficient_evidence"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.assembly.joint_marker_slots",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "assembly.joint_marker_slots"}],
+          "static_facts": {"orthogonal_perimeter_assembly_status": "joint_marker_slots"}
+        },
+        {
+          "id": "projection.assembly.closed_support_and_quartet",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "assembly.closed_support_with_gap_quartet_correspondence"}],
+          "static_facts": {
+            "orthogonal_perimeter_assembly_status": "closed_support_with_gap_quartet_correspondence",
+            "enclosed_locus_supposition_status": "strong_revisable"
+          }
+        },
+        {
+          "id": "projection.assembly.closed_support_only",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "assembly.closed_support_only"}],
+          "static_facts": {
+            "orthogonal_perimeter_assembly_status": "closed_support_only",
+            "enclosed_locus_supposition_status": "not_open"
+          }
+        },
+        {
+          "id": "projection.assembly.ordered_trait_words",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "assembly.ordered_trait_words"}],
+          "static_facts": {"orthogonal_perimeter_assembly_status": "ordered_trait_words"}
+        },
+        {
+          "id": "projection.assembly.insufficient",
+          "all_conditions": [{"field": "alternative_ref", "operator": "equals", "expected": "assembly.insufficient_evidence"}],
+          "static_facts": {
+            "orthogonal_perimeter_assembly_status": "insufficient_evidence",
+            "enclosed_locus_supposition_status": "not_open"
+          }
+        }
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.assembly.joint_marker_slots",
+          "all_conditions": [
+            {"field": "orthogonal_perimeter_assembly_status", "operator": "equals", "expected": "joint_marker_slots"},
+            {"field": "joint_slot_structure_count", "operator": "greater_than", "expected": 1},
+            {"field": "joint_slot_marker_count", "operator": "greater_than", "expected": 1},
+            {"field": "joint_slot_association_count", "operator": "greater_than", "expected": 1}
+          ],
+          "reason_ref": "reason.complete_marker_groups_license_joint_slot_targets_not_individual_marker_clicks"
+        },
+        {
+          "id": "tier.assembly.confirmed_gap_quartet_correspondence",
+          "all_conditions": [
+            {"field": "orthogonal_perimeter_assembly_status", "operator": "equals", "expected": "closed_support_with_gap_quartet_correspondence"},
+            {"field": "unique_orthogonal_perimeter", "operator": "equals", "expected": true},
+            {"field": "unique_off_lattice_quartet", "operator": "equals", "expected": true},
+            {"field": "off_lattice_quartet_fits_separator_gaps", "operator": "equals", "expected": true},
+            {"field": "off_lattice_quartet_centres_are_off_perimeter_lattice", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.user_confirmed_gap_marker_group_strongly_indicates_enclosed_target"
+        },
+        {
+          "id": "tier.assembly.closed_support_only",
+          "all_conditions": [
+            {"field": "orthogonal_perimeter_assembly_status", "operator": "equals", "expected": "closed_support_only"},
+            {"field": "unique_orthogonal_perimeter", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.closed_regular_perimeter_supports_order_without_target_meaning"
+        },
+        {
+          "id": "tier.assembly.ordered_trait_words",
+          "all_conditions": [
+            {"field": "orthogonal_perimeter_assembly_status", "operator": "equals", "expected": "ordered_trait_words"},
+            {"field": "ordered_trait_array_count", "operator": "greater_than", "expected": 0}
+          ],
+          "reason_ref": "reason.repeated_ordered_traits_support_whole_word_tests_not_bit_direction_guesses"
+        },
+        {
+          "id": "tier.assembly.insufficient",
+          "all_conditions": [
+            {"field": "orthogonal_perimeter_assembly_status", "operator": "equals", "expected": "insufficient_evidence"}
+          ],
+          "reason_ref": "reason.current_geometry_does_not_support_a_closed_perimeter_assembly"
+        }
+      ],
+      "selection_tie_breakers": [{"field": "alternative_ref", "preferred_order": "minimize"}],
+      "meaning_template_ref_by_alternative": {
+        "assembly.joint_marker_slots": "rule.joint_marker_slots_meaning",
+        "assembly.ordered_trait_words": "rule.ordered_trait_word_supposition",
+        "assembly.closed_support_with_gap_quartet_correspondence": "rule.orthogonal_perimeter_assembly_meaning",
+        "assembly.closed_support_only": "rule.orthogonal_perimeter_assembly_meaning"
+      },
+      "reason_refs": ["reason.orthogonal_perimeter_assembly_meaning_is_declared"]
+    }
+  ]
+}

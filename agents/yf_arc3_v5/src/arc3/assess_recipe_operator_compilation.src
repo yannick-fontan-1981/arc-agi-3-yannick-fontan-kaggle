@@ -1,0 +1,107 @@
+# DRM licenses each provisional recipe/operator measurement before Python runs it.
+MODULE arc3.assess_recipe_operator_compilation
+
+WORKFLOW assess_recipe_operator_compilation(
+    descriptive_facts: Any,
+    pattern_request: RecipePatternDifferenceInput,
+    recipe_request: RecipeSuccessorInput,
+    resize_request: RecipeResizeSuccessorInput,
+    resource_request: RecipeResourceOrderInput
+) -> Any
+    STATE
+        effect_projected: DeclaredAlternativeFacts
+        effect_assessed: Assessment
+        pattern_projected: DeclaredAlternativeFacts
+        pattern_assessed: Assessment
+        pattern_result: RecipePatternDifferenceMeasurements?
+        recipe_projected: DeclaredAlternativeFacts
+        recipe_assessed: Assessment
+        recipe_result: RecipeSuccessorMeasurements?
+        resize_projected: DeclaredAlternativeFacts
+        resize_assessed: Assessment
+        resize_result: RecipeResizeSuccessorMeasurements?
+        resource_projected: DeclaredAlternativeFacts
+        resource_assessed: Assessment
+        resource_result: RecipeResourceOrderMeasurements?
+    STEP reconcile_effect
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_recipe_operator_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> effect_projected
+        SELECT effect_assessed
+            FOR "goal.reconcile_declared_recipe_operator_packet"
+            FROM effect_projected.alternative_refs
+            UNDER policy.declared_recipe_operator_reconciliation
+            REQUIRE ["requirement.sealed_ordered_recipe_demo_world_resize_packet"]
+            PRESERVE effect_projected.alternative_refs
+            FACTS effect_projected.alternative_facts
+        NEXT assess_pattern
+    STEP assess_pattern
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_recipe_pattern_difference",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> pattern_projected
+        SELECT pattern_assessed
+            FOR "goal.measure_declared_recipe_pattern_difference"
+            FROM pattern_projected.alternative_refs
+            UNDER policy.declared_recipe_pattern_difference
+            REQUIRE ["requirement.complete_mapping_patterns_edit_modality_and_bound"]
+            PRESERVE pattern_projected.alternative_refs
+            FACTS pattern_projected.alternative_facts
+        NEXT measure_pattern
+    STEP measure_pattern
+        CALL capability.recipe_pattern_difference_measurement(request=pattern_request) -> pattern_result
+        NEXT assess_recipe
+    STEP assess_recipe
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_recipe_successor",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> recipe_projected
+        SELECT recipe_assessed
+            FOR "goal.measure_declared_recipe_successor"
+            FROM recipe_projected.alternative_refs
+            UNDER policy.declared_recipe_successor
+            REQUIRE ["requirement.complete_edit_trigger_world_operation_and_reset"]
+            PRESERVE recipe_projected.alternative_refs
+            FACTS recipe_projected.alternative_facts
+        NEXT measure_recipe
+    STEP measure_recipe
+        CALL capability.recipe_successor_measurement(request=recipe_request) -> recipe_result
+        NEXT assess_resize
+    STEP assess_resize
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_recipe_resize_successor",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> resize_projected
+        SELECT resize_assessed
+            FOR "goal.measure_declared_recipe_resize_successor"
+            FROM resize_projected.alternative_refs
+            UNDER policy.declared_recipe_resize_successor
+            REQUIRE ["requirement.complete_body_anchor_heading_world_layers_and_bound"]
+            PRESERVE resize_projected.alternative_refs
+            FACTS resize_projected.alternative_facts
+        NEXT measure_resize
+    STEP measure_resize
+        CALL capability.recipe_resize_successor_measurement(request=resize_request) -> resize_result
+        NEXT assess_resource
+    STEP assess_resource
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_recipe_resource_order",
+            alternative_refs=[],
+            descriptive_facts=descriptive_facts
+        ) -> resource_projected
+        SELECT resource_assessed
+            FOR "goal.measure_declared_recipe_resource_order"
+            FROM resource_projected.alternative_refs
+            UNDER policy.declared_recipe_resource_order
+            REQUIRE ["requirement.complete_initial_quantity_ordered_events_costs_and_bound"]
+            PRESERVE resource_projected.alternative_refs
+            FACTS resource_projected.alternative_facts
+        NEXT measure_resource
+    STEP measure_resource
+        CALL capability.recipe_resource_order_measurement(request=resource_request) -> resource_result
+        STOP resource_result

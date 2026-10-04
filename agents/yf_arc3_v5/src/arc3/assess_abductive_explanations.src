@@ -1,0 +1,56 @@
+# Abduction explains required effects by eliminating contradicted declared alternatives.
+MODULE arc3.assess_abductive_explanations
+
+WORKFLOW assess_abductive_explanations(
+    measurement_request: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        measurements: AbductiveVersionSpaceMeasurements
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared: PreparedMeaningUpdates
+        assessment_revision: Any?
+    STEP measure_declared_version_space
+        CALL capability.abductive_version_space_measurement(
+            request=measurement_request
+        ) -> measurements
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_abductive_version_space_interpretation",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.explain_required_effects_by_abduction"
+            FROM projected.alternative_refs
+            UNDER policy.declared_abductive_version_space_interpretation
+            REQUIRE ["requirement.abduction_uses_explicit_falsifiable_explanations"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_abductive_version_space_interpretation",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.abductive_version_space_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_abductive_assessment
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP assessment

@@ -1,0 +1,1010 @@
+# Global bounded tree root.  Meaning is selected by DRM; Python only dispatches
+# the selected disposition and transports the compact delta to the next node.
+MODULE arc3.conditional_reasoning_tree
+
+# A grid singleton is a revisable control supposition, never a committed role.
+# Only SRC may route its first cheap directional falsification ahead of the
+# general objective metaplan; all alternative grids remain available afterward.
+# Its declared first-postaction peer scope postpones unrelated pair-goal
+# measurement once, then the ordinary objective frontier may demand it again.
+WORKFLOW select_initial_singleton_cell_witness(
+    descriptive_singleton_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_initial_singleton_witness
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_initial_singleton_cell_witness",
+            alternative_refs=[],
+            descriptive_facts=descriptive_singleton_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.test_revisable_unique_cell_control_with_one_direction"
+            FROM projected.alternative_refs
+            UNDER policy.declared_initial_singleton_cell_witness
+            REQUIRE ["requirement.initial_unique_cell_witness_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Measure the full point frontier only when SRC is about to prepare a point.
+# This source decision has three leaves (witness, informative retained cells,
+# last-resort full loci) and is independent of game/turn number.
+# The same assessment carries DRM-required measurement families from current
+# canonical dependencies. Narrow point scope cannot erase those demands.
+WORKFLOW select_conditional_point_probe_scope(
+    descriptive_probe_scope_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_point_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_point_probe_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_probe_scope_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_only_the_point_loci_needed_by_the_active_probe"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_point_probe_scope
+            REQUIRE ["requirement.point_probe_scope_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Post-action interaction measurement is a three-leaf lazy gate.  The active
+# route family (K09 object route or bounded zone-state route) is measured alone;
+# an empty compact agenda re-enters this gate with the completion fact and must
+# reopen the full interaction frontier.
+WORKFLOW select_interaction_measurement_scope(
+    descriptive_measurement_scope_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_interaction_measurement_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_interaction_measurement_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_measurement_scope_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_only_the_interaction_family_required_by_the_active_route"
+            FROM projected.alternative_refs
+            UNDER policy.declared_interaction_measurement_scope
+            REQUIRE ["requirement.interaction_measurement_scope_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# V0.3 [assimilation.retrieve.smallest.drm.declared.perception].
+# The general interaction leaf is refined without adding a fourth sibling to
+# the preceding three-way gate.  A unique already-declared dynamic objective
+# may request only its action/residual continuation; ambiguity reopens the full
+# interaction frontier.
+WORKFLOW select_goal_continuation_measurement_scope(
+    descriptive_goal_scope_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_goal_continuation_measurement_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_goal_continuation_measurement_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_goal_scope_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_only_the_unique_declared_dynamic_objective_continuation"
+            FROM projected.alternative_refs
+            UNDER policy.declared_goal_continuation_measurement_scope
+            REQUIRE ["requirement.interaction_measurement_scope_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# A retained geometry is a revisable scene fact, not a palette- or game-bound
+# shortcut.  This two-way decision is made before choosing its measurement.
+WORKFLOW select_conditional_grid_perception(
+    descriptive_grid_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_grid_perception
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_grid_perception",
+            alternative_refs=[],
+            descriptive_facts=descriptive_grid_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_the_active_grid_with_minimal_declared_work"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_tree_grid_perception
+            REQUIRE ["requirement.active_grid_perception_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Measure other repeated cells only if initial bounded grid alternatives are
+# still ambiguous.  This demand precedes the first probe, not each continue.
+WORKFLOW select_initial_repeated_cell_measurement_demand(
+    descriptive_demand_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_repeated_cell_demand
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_initial_repeated_cell_measurement_demand",
+            alternative_refs=[],
+            descriptive_facts=descriptive_demand_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_the_active_grid_with_minimal_declared_work"
+            FROM projected.alternative_refs
+            UNDER policy.declared_initial_repeated_cell_measurement_demand
+            REQUIRE ["requirement.active_grid_perception_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Inspect one measured lattice at a time against every available repeated-cell
+# witness.  Those cells decide geometry before any moving control carrier can
+# corroborate it; a gap is retained when competing partitions place complete
+# cells inside their alleged separators.
+WORKFLOW inspect_repeated_cell_lattice_evidence(
+    descriptive_lattice_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_repeated_cell_evidence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_repeated_cell_lattice_evidence",
+            alternative_refs=[],
+            descriptive_facts=descriptive_lattice_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_the_active_grid_with_minimal_declared_work"
+            FROM projected.alternative_refs
+            UNDER policy.declared_repeated_cell_lattice_evidence
+            REQUIRE ["requirement.active_grid_perception_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Once all bounded lattice alternatives have been classified from the whole
+# visible cell family, retain only an exact singleton as revisable geometry;
+# all ties and truncations defer.  Later carrier motion corroborates or revises
+# that geometry but never selects it by itself.
+WORKFLOW select_revisable_lattice_geometry(
+    descriptive_lattice_frontier_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_lattice_frontier
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_revisable_lattice_geometry_commitment",
+            alternative_refs=[],
+            descriptive_facts=descriptive_lattice_frontier_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_the_active_grid_with_minimal_declared_work"
+            FROM projected.alternative_refs
+            UNDER policy.declared_revisable_lattice_geometry_commitment
+            REQUIRE ["requirement.active_grid_perception_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# The objective has already declared which scene families it needs.  This
+# selector attests the two-way scope before any post-action decomposition;
+# absence of a declaration must be supplied as the conservative full scope.
+WORKFLOW select_postaction_scene_scope(
+    descriptive_scene_scope_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_scene_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_postaction_scene_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_scene_scope_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.measure_only_scene_families_required_by_active_objective"
+            FROM projected.alternative_refs
+            UNDER policy.declared_postaction_scene_scope
+            REQUIRE ["requirement.postaction_scene_scope_is_explicit"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Root 0.0 is an ordered cascade of four nodes with at most three outgoing
+# branches each.  A scan leaf is internal only; the nine terminal leaves map
+# exactly to the stable semantic identities at addresses 0.0.1 through 0.0.9 in
+# reasoning-tree v0.3. Runtime selection uses semantic refs, never addresses.
+WORKFLOW select_ordered_root_dispatch(
+    descriptive_root_facts: Any
+) -> Assessment
+    STATE
+        transport_projected: DeclaredAlternativeFacts
+        transport_selected: Assessment
+        official_projected: DeclaredAlternativeFacts
+        official_selected: Assessment
+        runtime_projected: DeclaredAlternativeFacts
+        runtime_selected: Assessment
+        demand_projected: DeclaredAlternativeFacts
+        demand_selected: Assessment
+    STEP project_transport_and_reconciliation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_root_transport_and_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_root_facts
+        ) -> transport_projected
+        SELECT transport_selected
+            FOR "goal.dispatch_the_highest_priority_root_obligation"
+            FROM transport_projected.alternative_refs
+            UNDER policy.declared_ordered_root_transport_and_reconciliation
+            REQUIRE ["requirement.ordered_root_dispatch_is_explicit"]
+            PRESERVE transport_projected.alternative_refs
+            FACTS transport_projected.alternative_facts
+        MATCH transport_selected.alternatives.selected
+            "root.transport_recovery", "root.reconcile_sealed_path" -> STOP transport_selected
+            "root.scan_official_events" -> NEXT project_official_events
+    STEP project_official_events
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_root_official_events",
+            alternative_refs=[],
+            descriptive_facts=descriptive_root_facts
+        ) -> official_projected
+        SELECT official_selected
+            FOR "goal.dispatch_the_highest_priority_root_obligation"
+            FROM official_projected.alternative_refs
+            UNDER policy.declared_ordered_root_official_events
+            REQUIRE ["requirement.ordered_root_dispatch_is_explicit"]
+            PRESERVE official_projected.alternative_refs
+            FACTS official_projected.alternative_facts
+        MATCH official_selected.alternatives.selected
+            "root.interpret_official_failure", "root.run_winning_retrospection" -> STOP official_selected
+            "root.scan_runtime_work" -> NEXT project_runtime_work
+    STEP project_runtime_work
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_root_runtime_work",
+            alternative_refs=[],
+            descriptive_facts=descriptive_root_facts
+        ) -> runtime_projected
+        SELECT runtime_selected
+            FOR "goal.dispatch_the_highest_priority_root_obligation"
+            FROM runtime_projected.alternative_refs
+            UNDER policy.declared_ordered_root_runtime_work
+            REQUIRE ["requirement.ordered_root_dispatch_is_explicit"]
+            PRESERVE runtime_projected.alternative_refs
+            FACTS runtime_projected.alternative_facts
+        MATCH runtime_selected.alternatives.selected
+            "root.continue_active_path", "root.process_eligible_evidence" -> STOP runtime_selected
+            "root.scan_demand" -> NEXT project_demand
+    STEP project_demand
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_ordered_root_demand",
+            alternative_refs=[],
+            descriptive_facts=descriptive_root_facts
+        ) -> demand_projected
+        SELECT demand_selected
+            FOR "goal.dispatch_the_highest_priority_root_obligation"
+            FROM demand_projected.alternative_refs
+            UNDER policy.declared_ordered_root_demand
+            REQUIRE ["requirement.ordered_root_dispatch_is_explicit"]
+            PRESERVE demand_projected.alternative_refs
+            FACTS demand_projected.alternative_facts
+        STOP demand_selected
+
+WORKFLOW interpret_official_failure(
+    descriptive_failure_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        interpreted: Assessment
+    STEP project_official_failure_result
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_official_failure_frontier_result",
+            alternative_refs=[],
+            descriptive_facts=descriptive_failure_facts
+        ) -> projected
+        SELECT interpreted
+            FOR "goal.make_official_failure_the_active_frontier_result"
+            FROM projected.alternative_refs
+            UNDER policy.declared_official_failure_frontier_result
+            REQUIRE ["requirement.official_failure_evidence_is_preserved"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP interpreted
+
+WORKFLOW classify_official_failure_contact(
+    descriptive_failure_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        attributed: Assessment
+    STEP inspect_last_visible_cursor_neighborhood_then_edge_gauge
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_official_failure_contact_cause",
+            alternative_refs=[],
+            descriptive_facts=descriptive_failure_facts
+        ) -> projected
+        SELECT attributed
+            FOR "goal.attribute_official_failure_to_unfamiliar_contact_then_exhausted_gauge_or_preserve_unknown"
+            FROM projected.alternative_refs
+            UNDER policy.declared_official_failure_contact_cause
+            REQUIRE ["requirement.five_cell_cause_excludes_previously_safe_bearers"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP attributed
+
+WORKFLOW remember_oriented_official_failure_contact(
+    descriptive_failure_facts: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        remembered: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared: PreparedMeaningUpdates
+        revision: Any?
+    STEP establish_revisable_contact_memory
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_oriented_official_failure_contact",
+            alternative_refs=[],
+            descriptive_facts=descriptive_failure_facts
+        ) -> projected
+        SELECT remembered
+            FOR "goal.retain_official_failure_contact_by_sprite_face_and_palette"
+            FROM projected.alternative_refs
+            UNDER policy.record_oriented_official_failure_contact
+            REQUIRE ["requirement.official_failure_contact_has_unique_observed_bearer"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH remembered.alternatives.selected
+            "failure.preserve_remembered_oriented_contact" -> STOP remembered
+            "failure.remember_oriented_contact" -> NEXT record_new_oriented_contact
+    STEP record_new_oriented_contact
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_oriented_official_failure_contact",
+            selected_ref=remembered.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.oriented_official_failure_contact_memory
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_oriented_failure_contact_memory
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP remembered
+
+WORKFLOW process_eligible_evidence_event(
+    descriptive_evidence_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        processed: Assessment
+    STEP select_one_eligible_event
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_eligible_evidence_processing",
+            alternative_refs=[],
+            descriptive_facts=descriptive_evidence_facts
+        ) -> projected
+        SELECT processed
+            FOR "goal.process_exactly_one_eligible_evidence_event"
+            FROM projected.alternative_refs
+            UNDER policy.declared_eligible_evidence_processing
+            REQUIRE ["requirement.unprocessed_sibling_events_are_preserved"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP processed
+
+WORKFLOW select_bounded_recovery_disposition(
+    descriptive_recovery_facts: Any
+) -> Assessment
+    STATE
+        primary_projected: DeclaredAlternativeFacts
+        primary_selected: Assessment
+        restoration_projected: DeclaredAlternativeFacts
+        restoration_selected: Assessment
+    STEP select_primary_recovery_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_bounded_recovery_primary_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_recovery_facts
+        ) -> primary_projected
+        SELECT primary_selected
+            FOR "goal.select_smallest_supported_recovery_scope"
+            FROM primary_projected.alternative_refs
+            UNDER policy.declared_bounded_recovery_primary_scope
+            REQUIRE ["requirement.old_attempt_paths_remain_non_executable"]
+            PRESERVE primary_projected.alternative_refs
+            FACTS primary_projected.alternative_facts
+        MATCH primary_selected.alternatives.selected
+            "recovery.transport_acknowledgement", "recovery.current_state_path" -> STOP primary_selected
+            "recovery.scan_restoration" -> NEXT select_restoration_scope
+    STEP select_restoration_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_bounded_recovery_restoration_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_recovery_facts
+        ) -> restoration_projected
+        SELECT restoration_selected
+            FOR "goal.select_smallest_supported_restoration_scope"
+            FROM restoration_projected.alternative_refs
+            UNDER policy.declared_bounded_recovery_restoration_scope
+            REQUIRE ["requirement.reacquisition_obligation_is_preserved", "requirement.failure_knowledge_survives_one_restart"]
+            PRESERVE restoration_projected.alternative_refs
+            FACTS restoration_projected.alternative_facts
+        STOP restoration_selected
+
+WORKFLOW recover_uncertain_transport(
+    descriptive_transport_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        recovered: Assessment
+    STEP select_transport_recovery_operation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_uncertain_transport_recovery",
+            alternative_refs=[],
+            descriptive_facts=descriptive_transport_facts
+        ) -> projected
+        SELECT recovered
+            FOR "goal.resolve_transport_acknowledgement_without_redelivery"
+            FROM projected.alternative_refs
+            UNDER policy.declared_uncertain_transport_recovery
+            REQUIRE ["requirement.uncertain_non_idempotent_action_is_never_resent"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP recovered
+
+WORKFLOW run_conditional_reasoning_tree(
+    descriptive_tree_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+        perception_projected: DeclaredAlternativeFacts?
+        perception_selected: Assessment?
+    STEP project_active_disposition
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_reasoning_tree",
+            alternative_refs=[],
+            descriptive_facts=descriptive_tree_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.follow_current_objective_with_minimal_declared_work"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_reasoning_tree
+            REQUIRE ["requirement.active_tree_disposition_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH selected.alternatives.selected
+            "tree.request_declared_perception" -> NEXT project_active_perception
+            "tree.reconcile_without_optional_perception", "tree.release_declared_action" -> STOP selected
+    STEP project_active_perception
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_perception",
+            alternative_refs=[],
+            descriptive_facts=descriptive_tree_facts
+        ) -> perception_projected
+        SELECT perception_selected
+            FOR "goal.satisfy_active_perception_demand"
+            FROM perception_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_perception
+            REQUIRE ["requirement.active_perception_is_eligible"]
+            PRESERVE perception_projected.alternative_refs
+            FACTS perception_projected.alternative_facts
+        STOP selected
+
+# Objective progression is the semantic spine above the strategy leaves.  Each
+# node has at most three branches and transports only the active objective
+# stage/substage; perception, memory and action remain children of that node.
+WORKFLOW select_conditional_objective_stage(
+    descriptive_objective_facts: Any
+) -> Assessment
+    STATE
+        phase_projected: DeclaredAlternativeFacts
+        phase_selected: Assessment
+        representation_projected: DeclaredAlternativeFacts
+        interpretation_projected: DeclaredAlternativeFacts
+        control_projected: DeclaredAlternativeFacts
+        substage_selected: Assessment
+        route_projected: DeclaredAlternativeFacts
+        route_selected: Assessment
+        selected: Assessment
+    STEP project_objective_phase
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_objective_phase_route",
+            alternative_refs=[],
+            descriptive_facts=descriptive_objective_facts
+        ) -> phase_projected
+        SELECT phase_selected
+            FOR "goal.advance_the_active_objective_through_the_global_tree"
+            FROM phase_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_objective_phase_route
+            REQUIRE ["requirement.active_objective_phase_is_eligible"]
+            PRESERVE phase_projected.alternative_refs
+            FACTS phase_projected.alternative_facts
+        MATCH phase_selected.alternatives.selected
+            "objective.representation" -> NEXT project_representation_subroute
+            "objective.interpretation" -> NEXT project_interpretation_subroute
+            "objective.control" -> NEXT project_control_subroute
+    STEP project_representation_subroute
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_representation_subroute",
+            alternative_refs=[],
+            descriptive_facts=descriptive_objective_facts
+        ) -> representation_projected
+        SELECT substage_selected
+            FOR "goal.complete_the_active_representation_objective"
+            FROM representation_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_representation_subroute
+            REQUIRE ["requirement.active_representation_substage_is_eligible"]
+            PRESERVE representation_projected.alternative_refs
+            FACTS representation_projected.alternative_facts
+        STOP substage_selected
+    STEP project_interpretation_subroute
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_interpretation_subroute",
+            alternative_refs=[],
+            descriptive_facts=descriptive_objective_facts
+        ) -> interpretation_projected
+        SELECT substage_selected
+            FOR "goal.complete_the_active_interpretation_objective"
+            FROM interpretation_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_interpretation_subroute
+            REQUIRE ["requirement.active_interpretation_substage_is_eligible"]
+            PRESERVE interpretation_projected.alternative_refs
+            FACTS interpretation_projected.alternative_facts
+        STOP substage_selected
+    STEP project_control_subroute
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_control_subroute",
+            alternative_refs=[],
+            descriptive_facts=descriptive_objective_facts
+        ) -> control_projected
+        SELECT substage_selected
+            FOR "goal.complete_the_active_control_objective"
+            FROM control_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_control_subroute
+            REQUIRE ["requirement.active_control_substage_is_eligible"]
+            PRESERVE control_projected.alternative_refs
+            FACTS control_projected.alternative_facts
+        MATCH substage_selected.alternatives.selected
+            "objective.route_and_execute" -> NEXT project_route_execution_subroute
+            "objective.probe_controlled_motion", "objective.establish_terminal_objective" -> STOP substage_selected
+    STEP project_route_execution_subroute
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_route_execution_subroute",
+            alternative_refs=[],
+            descriptive_facts=descriptive_objective_facts
+        ) -> route_projected
+        SELECT route_selected
+            FOR "goal_complete_the_active_route_execution_objective"
+            FROM route_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_route_execution_subroute
+            REQUIRE ["requirement.active_route_execution_substage_is_eligible"]
+            PRESERVE route_projected.alternative_refs
+            FACTS route_projected.alternative_facts
+        STOP route_selected
+
+# Memory is a post-reconciliation child.  It is deliberately a separate
+# workflow so the action-release path cannot select or synthesize memory before
+# the declared action has ended and been reconciled.
+WORKFLOW select_conditional_memory_disposition(
+    descriptive_memory_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_memory_disposition
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_memory",
+            alternative_refs=[],
+            descriptive_facts=descriptive_memory_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.close_reconciled_action_boundary_with_compact_memory"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_tree_memory
+            REQUIRE ["requirement.active_memory_disposition_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# The concrete strategy catalogue remains a leaf contract.  This bounded
+# router exposes the global tree's reasoning family before that leaf dispatch.
+WORKFLOW select_conditional_reasoning_family(
+    descriptive_reasoning_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_reasoning_family
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_reasoning_route",
+            alternative_refs=[],
+            descriptive_facts=descriptive_reasoning_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.route_selected_strategy_through_bounded_reasoning_tree"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_tree_reasoning_route
+            REQUIRE ["requirement.selected_reasoning_family_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Before the full metaplan is materialized, route an already grounded action-
+# vocabulary question to the frontier leaf.  The fallback remains explicit so
+# absence of this exact demand never implies that a strategy is unavailable.
+WORKFLOW select_named_information_fast_route(
+    descriptive_frontier_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_named_information_route
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_named_information_route",
+            alternative_refs=[],
+            descriptive_facts=descriptive_frontier_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.route_named_control_effect_question_before_sibling_measurements"
+            FROM projected.alternative_refs
+            UNDER policy.declared_conditional_tree_named_information_route
+            REQUIRE ["requirement.named_information_route_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# The production strategy selector is a bounded ternary tree.  Each leaf keeps
+# the original strategy reference, so Python dispatches only an already
+# selected declarative result and never reconstructs the choice.
+WORKFLOW select_conditional_reasoning_strategy(
+    descriptive_strategy_evidence: Any
+) -> Assessment
+    STATE
+        route_projected: DeclaredAlternativeFacts
+        route_selected: Assessment
+        leaf_projected: DeclaredAlternativeFacts
+        leaf_selected: Assessment
+        mechanism_projected: DeclaredAlternativeFacts
+        mechanism_selected: Assessment
+        final_projected: DeclaredAlternativeFacts
+        final_selected: Assessment
+        selected: Assessment
+    STEP project_strategy_route
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_strategy_route",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> route_projected
+        SELECT route_selected
+            FOR "goal.choose_next_reasoning_strategy_through_bounded_tree"
+            FROM route_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_strategy_route
+            REQUIRE ["requirement.active_reasoning_route_is_eligible"]
+            PRESERVE route_projected.alternative_refs
+            FACTS route_projected.alternative_facts
+        MATCH route_selected.alternatives.selected
+            "reasoning.reuse_committed_witness" -> NEXT project_reuse_leaf
+            "reasoning.measure_or_reopen_frontier" -> NEXT project_frontier_leaf
+            "reasoning.construct_declared_mechanism" -> NEXT project_mechanism_route
+    STEP project_reuse_leaf
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_reuse_leaf",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> leaf_projected
+        SELECT selected
+            FOR "goal.select_reuse_reasoning_strategy"
+            FROM leaf_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_reuse_leaf
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE leaf_projected.alternative_refs
+            FACTS leaf_projected.alternative_facts
+        STOP selected
+    STEP project_frontier_leaf
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_frontier_leaf",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> leaf_projected
+        SELECT selected
+            FOR "goal.select_frontier_reasoning_strategy"
+            FROM leaf_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_frontier_leaf
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE leaf_projected.alternative_refs
+            FACTS leaf_projected.alternative_facts
+        STOP selected
+    STEP project_mechanism_route
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_mechanism_route",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> mechanism_projected
+        SELECT mechanism_selected
+            FOR "goal.choose_mechanism_subroute_through_bounded_tree"
+            FROM mechanism_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_mechanism_route
+            REQUIRE ["requirement.mechanism_subroute_is_eligible"]
+            PRESERVE mechanism_projected.alternative_refs
+            FACTS mechanism_projected.alternative_facts
+        MATCH mechanism_selected.alternatives.selected
+            "reasoning.symbol_projection" -> NEXT project_symbol_leaf
+            "reasoning.local_constraints" -> NEXT project_constraint_leaf
+            "reasoning.structural_correspondence" -> NEXT project_correspondence_leaf
+    STEP project_symbol_leaf
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_symbol_leaf",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> final_projected
+        SELECT selected
+            FOR "goal.select_symbol_reasoning_strategy"
+            FROM final_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_symbol_leaf
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE final_projected.alternative_refs
+            FACTS final_projected.alternative_facts
+        STOP selected
+    STEP project_constraint_leaf
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_constraint_leaf",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> final_projected
+        SELECT selected
+            FOR "goal.select_constraint_reasoning_strategy"
+            FROM final_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_constraint_leaf
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE final_projected.alternative_refs
+            FACTS final_projected.alternative_facts
+        STOP selected
+    STEP project_correspondence_leaf
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_conditional_tree_correspondence_leaf",
+            alternative_refs=[],
+            descriptive_facts=descriptive_strategy_evidence
+        ) -> final_projected
+        SELECT selected
+            FOR "goal.select_correspondence_reasoning_strategy"
+            FROM final_projected.alternative_refs
+            UNDER policy.declared_conditional_tree_correspondence_leaf
+            REQUIRE ["requirement.strategy_has_current_evidence"]
+            PRESERVE final_projected.alternative_refs
+            FACTS final_projected.alternative_facts
+        STOP selected
+
+# Reconcile the previous primitive from the retained-grid delta before any
+# next-action branch is considered.  Contradiction explicitly reopens the
+# general transition path; no omitted scene family is interpreted as empty.
+WORKFLOW reconcile_retained_grid_delta(
+    descriptive_delta_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_retained_grid_delta
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_retained_grid_delta_reconciliation",
+            alternative_refs=[],
+            descriptive_facts=descriptive_delta_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.reconcile_previous_retained_grid_primitive"
+            FROM projected.alternative_refs
+            UNDER policy.declared_retained_grid_delta_reconciliation
+            REQUIRE ["requirement.previous_action_delta_is_reconciled"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Select only the structural branch.  The concrete action remains uncommitted
+# until the ordinary SRC action-release boundary consumes this assessment.
+WORKFLOW select_retained_grid_motion_branch(
+    descriptive_motion_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_retained_grid_motion
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_retained_grid_motion_branch",
+            alternative_refs=[],
+            descriptive_facts=descriptive_motion_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.expand_unvisited_retained_grid_frontier"
+            FROM projected.alternative_refs
+            UNDER policy.declared_retained_grid_motion_branch
+            REQUIRE ["requirement.retained_grid_motion_frontier_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# A newly adjacent repeated pattern can demand the expensive point-locus
+# measurement, but it cannot itself authorize or locate a click.  The ordinary
+# information-probe workflow performs full enumeration and action release.
+WORKFLOW select_retained_grid_interaction_scope(
+    descriptive_interaction_facts: Any
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+    STEP project_retained_grid_interaction_scope
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_retained_grid_interaction_scope",
+            alternative_refs=[],
+            descriptive_facts=descriptive_interaction_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM projected.alternative_refs
+            UNDER policy.declared_retained_grid_interaction_scope
+            REQUIRE ["requirement.retained_grid_interaction_scope_is_eligible"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        STOP selected
+
+# Ground and release the one cell already demanded by the retained-grid
+# interaction leaf. Python transports geometry and a point payload only; DRM
+# supplies every objective, premise, expectation and falsifier reference.
+WORKFLOW choose_retained_grid_interaction_action(
+    agenda: InteractionProbeAgenda,
+    context: WorldContext,
+    reasoning_strategy_ref: Ref?,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        projected: InteractionProbeAgenda
+        selected: Assessment
+        reconciled_context: WorldContext
+        prepared: Any?
+        grounding: ActionGroundingContract?
+        wisdom: CommitmentDecision
+        release: ActionReleasePermit?
+    STEP project_retained_grid_interaction_action
+        REQUIRE agenda.has_candidates
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_retained_grid_interaction_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected
+        REQUIRE projected.has_candidates
+        NEXT select_retained_grid_interaction_action
+    STEP select_retained_grid_interaction_action
+        SELECT selected
+            FOR "goal.open_required_passage"
+            FROM projected.alternative_refs
+            UNDER policy.declared_retained_grid_interaction_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+            CONTEXT projected.selection_context_facts
+        NEXT prepare_retained_grid_interaction_action
+    STEP prepare_retained_grid_interaction_action
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            projected_agenda=projected,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_retained_grid_interaction_action",
+            selection_source_ref="selection_source.projected_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=false,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared
+
+# Convert one source-selected structural branch and one exact action witness
+# into the ordinary grounding/release boundary.  No environment action occurs
+# inside this workflow; the declared action-series kernel dispatches it later.
+WORKFLOW choose_retained_grid_motion_action(
+    agenda: InteractionProbeAgenda,
+    context: WorldContext,
+    reasoning_strategy_ref: Ref?,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        projected: InteractionProbeAgenda
+        selected: Assessment
+        reconciled_context: WorldContext
+        prepared: Any?
+        grounding: ActionGroundingContract?
+        wisdom: CommitmentDecision
+        release: ActionReleasePermit?
+    STEP project_retained_grid_motion_action
+        REQUIRE agenda.has_candidates
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_retained_grid_motion_action",
+            agenda=agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected
+        REQUIRE projected.has_candidates
+        NEXT select_retained_grid_motion_action
+    STEP select_retained_grid_motion_action
+        SELECT selected
+            FOR "goal.exploration.retained_grid_frontier"
+            FROM projected.alternative_refs
+            UNDER policy.declared_retained_grid_motion_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+            CONTEXT projected.selection_context_facts
+        NEXT prepare_retained_grid_motion_action
+    STEP prepare_retained_grid_motion_action
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=agenda,
+            projected_agenda=projected,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_retained_grid_motion_action",
+            selection_source_ref="selection_source.projected_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true,
+            full_route_authorized=prepared.context.declared_complete_series_authorized,
+            defer_concentration_acquisition=true
+        ) -> release
+        STOP prepared

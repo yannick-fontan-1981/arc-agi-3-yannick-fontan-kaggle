@@ -1,0 +1,719 @@
+{
+  "module_id": "symbolic_editing",
+  "declarations": [
+    {
+      "id": "principle.configuration_is_factorized_into_observable_editable_aspects",
+      "kind": "principle",
+      "premises": [
+        "one_configuration_has_independently_observable_state_dimensions"
+      ],
+      "applicability": [
+        "configuration_measurement_editing_and_validation"
+      ],
+      "invariants": [
+        "configuration_identity_and_each_editable_aspect_are_represented_separately",
+        "an_edit_changes_only_its_declared_aspect_unless_a_coupled_effect_is_observed",
+        "unchanged_aspects_and_world_state_are_preserved_across_reconciliation",
+        "validation_compares_the_complete_declared_aspect_set"
+      ],
+      "falsifiers": [
+        "the_declared_aspects_cannot_reconstruct_the_observed_configuration",
+        "an_operator_changes_an_undeclared_aspect"
+      ],
+      "configuration_parameters": [
+        "configuration.alphabet",
+        "configuration.traits",
+        "configuration.order",
+        "configuration.connectors",
+        "configuration.transform_group",
+        "configuration.layout"
+      ],
+      "reason_refs": [
+        "reason.configuration_is_a_factorized_observable_aspect_set"
+      ]
+    },
+    {
+      "id": "principle.symbol_system_parameterizes_alphabet_order_connectors_and_transform_group",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_is_factorized_into_observable_editable_aspects"
+      ],
+      "premises": [
+        "a_repeated_symbol_system_has_measurable_carriers_traits_and_relations"
+      ],
+      "applicability": [
+        "symbolic_configuration_correspondence_and_editing"
+      ],
+      "invariants": [
+        "alphabet_palette_glyph_shape_and_layout_are_independent_parameters",
+        "order_and_connector_topology_are_measured_rather_than_assumed",
+        "the_finite_transform_group_is_inferred_from_observed_exact_transforms",
+        "the_same_law_may_instantiate_under_a_different_alphabet_palette_rotation_or_layout"
+      ],
+      "falsifiers": [
+        "the_parameterized_system_does_not_preserve_the_observed_correspondence",
+        "an_unobserved_transform_is_required"
+      ],
+      "configuration_parameters": [
+        "configuration.alphabet",
+        "configuration.traits",
+        "configuration.order",
+        "configuration.connectors",
+        "configuration.transform_group",
+        "configuration.layout"
+      ],
+      "aspect_parameters": [
+        "match.shape_exact",
+        "match.shape_topology",
+        "match.color_value",
+        "match.orientation",
+        "match.count_or_cardinality"
+      ],
+      "reason_refs": [
+        "reason.symbolic_law_is_parameterized_independently_from_its_rendering"
+      ]
+    },
+    {
+      "id": "principle.phase_cursor_slot_and_world_state_are_distinct",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_is_factorized_into_observable_editable_aspects"
+      ],
+      "premises": [
+        "configuration_control_exposes_phase_cursor_slot_or_world_deltas"
+      ],
+      "applicability": [
+        "configuration_workflow_state_reconciliation"
+      ],
+      "invariants": [
+        "phase_cursor_slot_content_and_world_state_are_independent_dimensions",
+        "cursor_movement_does_not_imply_slot_edit_or_world_progress",
+        "slot_edit_does_not_imply_phase_advance_or_execution",
+        "every_observed_delta_is_assigned_only_to_supported_dimensions"
+      ],
+      "falsifiers": [
+        "the_factorization_cannot_reproduce_an_observed_transition",
+        "a_declared_independent_action_changes_multiple_dimensions_without_a_coupled_effect"
+      ],
+      "configuration_parameters": [
+        "configuration.phase",
+        "configuration.cursor",
+        "configuration.slot",
+        "configuration.world_state"
+      ],
+      "reason_refs": [
+        "reason.configuration_control_dimensions_are_reconciled_independently"
+      ]
+    },
+    {
+      "id": "principle.configuration_edit_and_execution_are_distinct_operators",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.phase_cursor_slot_and_world_state_are_distinct"
+      ],
+      "premises": [
+        "one_or_more_operators_edit_configuration_and_one_operator_may_execute_it"
+      ],
+      "applicability": [
+        "configuration_programming_and_execution"
+      ],
+      "invariants": [
+        "editing_changes_declared_configuration_aspects_before_execution",
+        "execution_effects_are_reconciled_separately_from_edit_effects",
+        "a_completed_configuration_does_not_self_execute_without_observed_support",
+        "the_execution_operator_remains_revisable_until_action_conditioned"
+      ],
+      "falsifiers": [
+        "the_same_operator_cannot_be_factorized_by_observed_effect",
+        "execution_occurs_without_the_declared_configuration_precondition"
+      ],
+      "action_family_parameters": [
+        "action_family.point",
+        "action_family.selection",
+        "action_family.transformation",
+        "action_family.execution"
+      ],
+      "configuration_parameters": [
+        "configuration.edit_operator",
+        "configuration.execution_operator"
+      ],
+      "reason_refs": [
+        "reason.configuration_edit_and_world_execution_require_distinct_evidence"
+      ]
+    },
+    {
+      "id": "principle.each_configuration_phase_requires_src_checkpoint",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.phase_cursor_slot_and_world_state_are_distinct",
+        "principle.configuration_edit_and_execution_are_distinct_operators"
+      ],
+      "premises": [
+        "a_configuration_workflow_has_one_or_more_declared_phases"
+      ],
+      "applicability": [
+        "configuration_phase_transition"
+      ],
+      "invariants": [
+        "src_owns_phase_ordering_branch_and_checkpoint_continuation",
+        "phase_advance_requires_complete_current_phase_reconciliation",
+        "the_checkpoint_records_expected_and_observed_configuration_and_world_deltas",
+        "a_failed_checkpoint_reopens_the_named_phase_gap_before_any_continuation"
+      ],
+      "falsifiers": [
+        "the_current_phase_is_incomplete_or_contradicted",
+        "the_expected_checkpoint_delta_is_absent_or_different"
+      ],
+      "configuration_parameters": [
+        "configuration.phase",
+        "configuration.phase_checkpoint"
+      ],
+      "reason_refs": [
+        "reason.configuration_phase_advance_is_an_src_reconciliation_boundary"
+      ]
+    },
+    {
+      "id": "principle.rotation_normalized_symbol_carrier_lattice",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.symbol_system_parameterizes_alphabet_order_connectors_and_transform_group"
+      ],
+      "configuration_parameters": [
+        "configuration.alphabet",
+        "configuration.traits",
+        "configuration.transform_group",
+        "configuration.layout"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "repeated_equal_extent_carriers_have_one_confined_inner_mask",
+        "touching_carriers_preserve_the_same_exact_pitch",
+        "quarter_turn_orbits_are_measured_exhaustively"
+      ],
+      "applicability": ["repeated_symbol_carrier_interpretation"],
+      "invariants": [
+        "carrier_and_inner_mask_remain_distinct_layers",
+        "latent_slots_survive_connected_component_merging",
+        "orientation_is_revisable_metadata",
+        "reflection_is_not_inferred_from_rotation"
+      ],
+      "falsifiers": [
+        "the_exact_pitch_does_not_reconstruct_action_local_cells",
+        "quarter_turn_canonicalization_merges_effect_distinct_patterns"
+      ],
+      "reason_refs": ["reason.repeated_carrier_pitch_and_inner_orbit_support_latent_symbol_cells"]
+    },
+    {
+      "id": "principle.connector_bound_pointwise_projection",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.symbol_system_parameterizes_alphabet_order_connectors_and_transform_group"
+      ],
+      "configuration_parameters": [
+        "configuration.alphabet",
+        "configuration.order",
+        "configuration.connectors",
+        "configuration.layout"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "repeated_cross_carrier_pairs_are_bound_by_exact_bridge_components",
+        "one ordered band_is_fully_covered_by_the_measured_pair_relation",
+        "another_equal_cardinality_band_reuses_the_opposite_carrier_family"
+      ],
+      "applicability": ["reference_relation_and_active_band_projection"],
+      "invariants": [
+        "bridge_topology_precedes_proximity",
+        "ordered_cells_are_projected_independently",
+        "unused_missing_relation_members_remain_unknown",
+        "the_cursor_bearing_band_is_only_a_revisable_editable_output_supposition_until_action_evidence"
+      ],
+      "falsifiers": [
+        "bridge_endpoints_are_not_functional",
+        "the_ordered_first_band_is_not_relation_covered",
+        "an_action_changes_the_presumed_static_relation_or_first_band"
+      ],
+      "reason_refs": ["reason.exact_bridges_and_cross_region_reuse_support_pointwise_projection"]
+    },
+    {
+      "id": "principle.connector_bound_complete_word_transduction",
+      "kind": "principle",
+      "general_principle_refs": ["principle.symbol_system_parameterizes_alphabet_order_connectors_and_transform_group"],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "exact_bridge_components_bind_complete_ordered_words_in_distinct_carrier_families",
+        "one_complete_bounded_cover_derives_the_other_band_cardinality",
+        "every_contribution_preserves_its_source_and_output_intervals_and_connector"
+      ],
+      "applicability": ["reference_word_relation_and_active_band_transduction"],
+      "invariants": [
+        "whole_connected_words_are_not_reduced_to_their_first_glyph",
+        "concatenation_preserves_word_and_rule_order",
+        "output_contribution_spans_do_not_imply_collective_edit_units",
+        "ambiguous_covers_remain_alternatives_and_do_not_release_an_uncommitted_edit",
+        "glyph_identity_uses_the_declared_rotation_normalization_only"
+      ],
+      "falsifiers": [
+        "source_cover_is_incomplete_or_ambiguous",
+        "derived_output_cardinality_differs_from_the_measured_band",
+        "an_edit_changes_reference_words_or_an_unfocused_output_unit"
+      ],
+      "reason_refs": ["reason.complete_connector_words_derive_ordered_output_and_validation_spans"]
+    },
+    {
+      "id": "principle.factorized_discrete_symbol_editor_control",
+      "kind": "principle",
+      "general_principle_refs": [
+        "principle.configuration_is_factorized_into_observable_editable_aspects",
+        "principle.phase_cursor_slot_and_world_state_are_distinct",
+        "principle.configuration_edit_and_execution_are_distinct_operators",
+        "principle.each_configuration_phase_requires_src_checkpoint"
+      ],
+      "configuration_parameters": [
+        "configuration.alphabet",
+        "configuration.traits",
+        "configuration.order",
+        "configuration.cursor",
+        "configuration.slot",
+        "configuration.phase",
+        "configuration.phase_checkpoint",
+        "configuration.edit_operator",
+        "configuration.execution_operator"
+      ],
+      "static_knowledge_node_kind": "principle",
+      "premises": [
+        "one_action_changes_only_the_cursor_cell",
+        "another_action_changes_only_the_cursor_bearing_cell_pattern"
+      ],
+      "applicability": ["action_conditioned_symbol_editor_control"],
+      "invariants": [
+        "cursor_position_and_cell_pattern_are_separate_state_dimensions",
+        "one_reconciled_action_is_released_at_a_time",
+        "a_transition_order_does_not_establish_cyclicity",
+        "cyclicity_requires_an_observed_return",
+        "corrected_cells_are_not_mutated_again",
+        "at_most_three_bounded_route_witnesses_are_materialized"
+      ],
+      "falsifiers": [
+        "cursor_and_pattern_change_in_the_same_asserted_factorized_action",
+        "a repeated_transition_is_nondeterministic",
+        "a corrected_cell_changes_during_navigation",
+        "official_progress_fails_after_the_complete_projection_matches"
+      ],
+      "reason_refs": ["reason.action_local_deltas_support_factorized_symbol_editor_control"]
+    },
+    {
+      "id": "rule.connector_bound_symbol_derivation",
+      "kind": "rule",
+      "evaluation": "project_requested_conclusions",
+      "supported_operators": ["DERIVE"],
+      "input_contract": "yf_arc3_v5.authority_input.derivation.v1",
+      "output_contract": "yf_arc3_v5.authority_output.derivation.v1",
+      "relation_family": "control",
+      "premises": ["exact_bridge_words", "complete_unique_cover", "cursor_bearing_band"],
+      "applicability": ["source_selected_symbol_derivation"],
+      "invariants": ["canonical_premises_preserve_measured_words_and_contribution_intervals", "scene_local_derivation_never_becomes_a_prior_level_answer"],
+      "falsifiers": ["measured_cover_or_cursor_scope_is_stale", "independent_editor_supposition_is_contradicted"],
+      "term_templates": [
+        {
+          "id_pattern": "symbol_derivation.{observation_ref}.{symbol_tile_system_ref}",
+          "kind": "schema",
+          "label": "revisable connector-bound symbol derivation",
+          "required_fields": ["observation_ref", "symbol_tile_system_ref", "relation_source_pattern_refs", "relation_projected_pattern_refs", "relation_contribution_spans", "relation_bridge_bboxes", "relation_first_band_bbox", "relation_second_band_bbox", "cursor_cell_ordinal"],
+          "static_attributes": {"commitment": "revisable", "validation_scope": "one_current_observation", "edit_unit_supposition": "one_focused_tile"},
+          "attribute_bindings": {
+            "operational_scene_ref": "observation_ref",
+            "operational_observation_ref": "observation_ref",
+            "source_pattern_refs": "relation_source_pattern_refs",
+            "projected_pattern_refs": "relation_projected_pattern_refs",
+            "contribution_spans": "relation_contribution_spans",
+            "bridge_bboxes": "relation_bridge_bboxes",
+            "first_band_bbox": "relation_first_band_bbox",
+            "second_band_bbox": "relation_second_band_bbox",
+            "word_transduction": "relation_word_transduction",
+            "tile_extent": "tile_extent",
+            "inner_extent": "inner_extent",
+            "cursor_cell_ordinal": "cursor_cell_ordinal",
+            "remaining_difference_count": "remaining_projection_difference_count"
+          }
+        }
+      ],
+      "claim_templates": [
+        {
+          "id_pattern": "claim.symbol_tile.lattice.{observation_ref}.{symbol_tile_system_ref}",
+          "predicate": "measures_rotation_normalized_symbol_carrier_lattice",
+          "family": "structural", "epistemic_status": "established",
+          "argument_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_term_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_fields": ["observation_ref", "symbol_tile_system_ref"],
+          "static_attributes": {"generic_principle_ref": "principle.rotation_normalized_symbol_carrier_lattice", "falsifier_ref": "falsifier.symbol_editor_delta_contradicts_factorized_relation"}
+        },
+        {
+          "id_pattern": "claim.symbol_tile.derivation.{observation_ref}.{symbol_tile_system_ref}",
+          "predicate": "supposes_connector_bound_symbol_derivation",
+          "family": "structural", "epistemic_status": "supported",
+          "argument_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_term_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_fields": ["observation_ref", "symbol_tile_system_ref"],
+          "static_attributes": {"commitment": "revisable", "falsifier_ref": "falsifier.symbol_editor_delta_contradicts_factorized_relation"},
+          "attribute_bindings": {"word_transduction": "relation_word_transduction", "contribution_spans": "relation_contribution_spans"}
+        },
+        {
+          "id_pattern": "claim.symbol_tile.cursor.{observation_ref}.{symbol_tile_system_ref}",
+          "predicate": "supposes_cursor_bearing_output_band",
+          "family": "structural", "epistemic_status": "supported",
+          "argument_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_term_patterns": ["symbol_derivation.{observation_ref}.{symbol_tile_system_ref}"],
+          "required_fields": ["observation_ref", "symbol_tile_system_ref"],
+          "static_attributes": {"commitment": "revisable", "falsifier_ref": "falsifier.symbol_editor_delta_contradicts_factorized_relation"}
+        }
+      ],
+      "reason_refs": ["reason.symbol_derivation_premises_are_bound_to_the_exact_current_words_and_spans"]
+    },
+    {
+      "id": "policy.declared_symbol_tile_action",
+      "kind": "selection_policy",
+      "evaluation": "declared_lexicographic_order",
+      "meaning_template_ref_by_alternative": {"*": "rule.connector_bound_symbol_derivation"},
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": ["SELECT"],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "premises": [
+        "exact_symbol_tile_alternatives",
+        "action_conditioned_cell_and_cursor_deltas"
+      ],
+      "applicability": ["one_symbol_tile_action_must_be_selected"],
+      "invariants": [
+        "the_relation_orientation_is_selected_by_explicit_cursor_and_coverage_evidence",
+        "positive_axis_is_only_a_declared_deterministic_probe_order",
+        "a_known_exact_closure_precedes_unseen_continuation",
+        "a_current_cell_direction_continues_until_reconciled_or_falsified",
+        "navigation_occurs_only_after_the_current_projection_cell_matches",
+        "non_selected_actions_remain_explicit"
+      ],
+      "falsifiers": ["the_selected_action_lacks_its_declared_measurement_tier"],
+      "reason_refs": ["reason.symbol_editor_actions_follow_explicit_factorized_evidence"],
+      "fact_projections": [
+        {
+          "id": "projection.symbol_tile.structural_orientation",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true},
+            {"field": "relation_word_transduction", "operator": "equals", "expected": false},
+            {"field": "relation_derivation_count", "operator": "equals", "expected": 1},
+            {"field": "relation_projection_complete", "operator": "equals", "expected": true},
+            {"field": "cursor_on_second_band", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "active_goal_ref": "goal.complete_connector_bound_pointwise_projection",
+            "active_terminal_goal_ref": "goal.complete_connector_bound_pointwise_projection",
+            "subgoal_ref": "subgoal.release_one_reconciled_symbol_editor_action",
+            "dependency_node_refs": [
+              "goal.complete_connector_bound_pointwise_projection",
+              "subgoal.release_one_reconciled_symbol_editor_action"
+            ],
+            "dependency_edge_refs": ["edge.symbol_projection_requires_reconciled_editor_actions"],
+            "goal_graph_edge_refs": ["edge.symbol_projection_requires_reconciled_editor_actions"],
+            "goal_dependency_chain_refs": ["goal.complete_connector_bound_pointwise_projection"],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "priority_class_ref": "G1_CONNECTOR_BOUND_SYMBOL_PROJECTION",
+            "selection_principle_ref": "principle.factorized_discrete_symbol_editor_control",
+            "principle_refs": [
+              "principle.rotation_normalized_symbol_carrier_lattice",
+              "principle.connector_bound_pointwise_projection",
+              "principle.factorized_discrete_symbol_editor_control"
+            ],
+            "premise_claim_refs": [
+              "claim.scene.rotation_normalized_symbol_carrier_lattice",
+              "claim.scene.connector_bound_pointwise_projection",
+              "claim.scene.cursor_bearing_second_band"
+            ],
+            "expected_configuration_or_goal_delta_ref": "expectation.one_reconciled_symbol_editor_delta",
+            "falsifier_refs": ["falsifier.symbol_editor_delta_contradicts_factorized_relation"],
+            "remaining_action_bound": 40,
+            "reconciliation_checkpoint_ref": "checkpoint.symbol_editor_action",
+            "reasoning_tree_typed_word_structure_observation_activations": [
+              {
+                "reasoning_tree_node_id": "frontier.effect.typed_word_transduction.canonical",
+                "reasoning_tree_parent_key": "frontier.effect.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ],
+            "reasoning_tree_typed_word_structure_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.typed_word_transduction.glyphs",
+                "reasoning_tree_parent_key": "solving.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "solving.typed_word_transduction.partitions",
+                "reasoning_tree_parent_key": "solving.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "solving.typed_word_transduction.parse",
+                "reasoning_tree_parent_key": "solving.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ],
+            "reasoning_tree_typed_word_structure_action_boundary_activations": [
+              {
+                "reasoning_tree_node_id": "mechanics.typed_word_transduction.canonicalization",
+                "reasoning_tree_parent_key": "mechanics.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_boundary",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "mechanics.typed_word_transduction.parse_transduce",
+                "reasoning_tree_parent_key": "mechanics.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_boundary",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "projection.symbol_tile.complete_word_orientation",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true},
+            {"field": "relation_word_transduction", "operator": "equals", "expected": true},
+            {"field": "relation_derivation_count", "operator": "equals", "expected": 1},
+            {"field": "relation_projection_complete", "operator": "equals", "expected": true},
+            {"field": "cursor_on_second_band", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "applicable": true,
+            "active_goal_ref": "goal.complete_connector_bound_word_transduction",
+            "active_terminal_goal_ref": "goal.complete_connector_bound_word_transduction",
+            "subgoal_ref": "subgoal.release_one_reconciled_symbol_editor_action",
+            "dependency_node_refs": ["goal.complete_connector_bound_word_transduction", "subgoal.release_one_reconciled_symbol_editor_action"],
+            "dependency_edge_refs": ["edge.word_transduction_requires_reconciled_editor_actions"],
+            "goal_graph_edge_refs": ["edge.word_transduction_requires_reconciled_editor_actions"],
+            "goal_dependency_chain_refs": ["goal.complete_connector_bound_word_transduction"],
+            "advances_active_goal_chain": true,
+            "inherited_priority_from_terminal_goal": true,
+            "priority_class_ref": "G1_CONNECTOR_BOUND_SYMBOL_PROJECTION",
+            "selection_principle_ref": "principle.factorized_discrete_symbol_editor_control",
+            "principle_refs": [
+              "principle.rotation_normalized_symbol_carrier_lattice",
+              "principle.connector_bound_complete_word_transduction",
+              "principle.factorized_discrete_symbol_editor_control"
+            ],
+            "premise_claim_refs": [
+              "claim.scene.rotation_normalized_symbol_carrier_lattice",
+              "claim.scene.connector_bound_complete_word_transduction",
+              "claim.scene.cursor_bearing_second_band"
+            ],
+            "expected_configuration_or_goal_delta_ref": "expectation.one_reconciled_symbol_editor_delta",
+            "falsifier_refs": ["falsifier.symbol_editor_delta_contradicts_factorized_relation"],
+            "remaining_action_bound": 40,
+            "reconciliation_checkpoint_ref": "checkpoint.symbol_editor_action"
+          }
+        },
+        {
+          "id": "projection.symbol_tile.canonical_derivation_premises",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true},
+            {"field": "relation_derivation_count", "operator": "equals", "expected": 1},
+            {"field": "relation_projection_complete", "operator": "equals", "expected": true},
+            {"field": "cursor_on_second_band", "operator": "equals", "expected": true}
+          ],
+          "templated_facts": {
+            "premise_claim_refs": [
+              "claim.symbol_tile.lattice.{observation_ref}.{symbol_tile_system_ref}",
+              "claim.symbol_tile.derivation.{observation_ref}.{symbol_tile_system_ref}",
+              "claim.symbol_tile.cursor.{observation_ref}.{symbol_tile_system_ref}"
+            ],
+            "canonical_premise_claim_refs": [
+              "claim.symbol_tile.lattice.{observation_ref}.{symbol_tile_system_ref}",
+              "claim.symbol_tile.derivation.{observation_ref}.{symbol_tile_system_ref}",
+              "claim.symbol_tile.cursor.{observation_ref}.{symbol_tile_system_ref}"
+            ]
+          }
+        },
+        {
+          "id": "projection.symbol_tile.unobserved_action_grounding",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true},
+            {"field": "action_unobserved", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "expected_effect_class": "effectful_novel",
+            "discriminating_experiment_ref": "experiment.symbol_tile_action_conditioned_delta"
+          }
+        },
+        {
+          "id": "projection.symbol_tile.observed_action_grounding",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true}
+          ],
+          "any_conditions": [
+            {"field": "local_pattern_change_support_count", "operator": "greater_than", "expected": 0},
+            {"field": "cursor_change_support_count", "operator": "greater_than", "expected": 0}
+          ],
+          "static_facts": {
+            "expected_effect_class": "effectful_known",
+            "committed_plan_ref": "plan.reconciled_symbol_tile_transition_family",
+            "reasoning_tree_typed_word_observed_transition_activations": [
+              {
+                "reasoning_tree_node_id": "frontier.effect.typed_word_transduction.transition",
+                "reasoning_tree_parent_key": "frontier.effect.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              },
+              {
+                "reasoning_tree_node_id": "mechanics.typed_word_transduction.edit_successor",
+                "reasoning_tree_parent_key": "mechanics.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_boundary",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "projection.symbol_tile.observed_local_edit_domain",
+          "all_conditions": [
+            {"field": "symbol_tile_system_measurement", "operator": "equals", "expected": true},
+            {"field": "local_pattern_change_support_count", "operator": "greater_than", "expected": 0}
+          ],
+          "static_facts": {
+            "reasoning_tree_typed_word_local_edit_domain_activations": [
+              {
+                "reasoning_tree_node_id": "frontier.effect.typed_word_transduction.edit_domain",
+                "reasoning_tree_parent_key": "frontier.effect.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "observation_or_reconciliation",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "projection.symbol_tile.complete_edit_cost",
+          "all_conditions": [
+            {"field": "symbol_tile_edit_cost_measurement", "operator": "equals", "expected": true},
+            {"field": "edit_cost_search_complete", "operator": "equals", "expected": true},
+            {"field": "edit_cost_bound_reached", "operator": "equals", "expected": false},
+            {"field": "supported_correct_units_preserved", "operator": "equals", "expected": true}
+          ],
+          "static_facts": {
+            "reasoning_tree_typed_word_cost_action_ready_activations": [
+              {
+                "reasoning_tree_node_id": "solving.typed_word_transduction.correction_cost",
+                "reasoning_tree_parent_key": "solving.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_ready",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ],
+            "reasoning_tree_typed_word_cost_action_boundary_activations": [
+              {
+                "reasoning_tree_node_id": "mechanics.typed_word_transduction.visit_cost",
+                "reasoning_tree_parent_key": "mechanics.typed_word_transduction",
+                "reasoning_tree_provisional_gate": "action_boundary",
+                "reasoning_tree_creator_alert": "pending_conditioning_and_implementation_work",
+                "reasoning_tree_creator_alert_preserved": true
+              }
+            ]
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {"field": "applicable", "operator": "equals", "expected": true},
+        {"field": "current_action_available", "operator": "equals", "expected": true}
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.symbol_tile.complete_minimum_edit_cost_route",
+          "all_conditions": [
+            {"field": "edit_cost_search_complete", "operator": "equals", "expected": true},
+            {"field": "edit_cost_bound_reached", "operator": "equals", "expected": false},
+            {"field": "action_starts_minimum_edit_cost_route", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.complete_bounded_edit_cost_route_precedes_incomplete_or_longer_alternatives"
+        },
+        {
+          "id": "tier.symbol_tile.complete_projection",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": false},
+            {"field": "edge_reaches_projection_pattern", "operator": "equals", "expected": true},
+            {"field": "output_projection_complete_after_current_action", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.final_exact_relation_projection_closure_precedes_all_other_actions"
+        },
+        {
+          "id": "tier.symbol_tile.close_current_cell",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": false},
+            {"field": "edge_reaches_projection_pattern", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.known_exact_cell_closure_precedes_experiment"
+        },
+        {
+          "id": "tier.symbol_tile.test_unseen_opposite_local_direction",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": false},
+            {"field": "action_axis_orthogonal_to_band", "operator": "equals", "expected": true},
+            {"field": "action_unobserved", "operator": "equals", "expected": true},
+            {"field": "another_action_has_known_nonprojection_edge_from_current", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.unseen_inverse_is_informative_when_the_known_edge_misses_the_projection"
+        },
+        {
+          "id": "tier.symbol_tile.continue_current_cell_direction",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": false},
+            {"field": "action_axis_orthogonal_to_band", "operator": "equals", "expected": true},
+            {"field": "same_as_recent_local_cell_action", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.reconciled_local_transition_direction_continues_until_match_or_falsification"
+        },
+        {
+          "id": "tier.symbol_tile.start_positive_local_probe",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": false},
+            {"field": "action_axis_orthogonal_to_band", "operator": "equals", "expected": true},
+            {"field": "positive_axis_direction", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.positive_orthogonal_direction_is_the_declared_first_local_probe"
+        },
+        {
+          "id": "tier.symbol_tile.navigate_to_next_difference",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": true},
+            {"field": "cursor_action_moves_to_next_difference", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.corrected_cell_is_preserved_by_known_cursor_only_motion"
+        },
+        {
+          "id": "tier.symbol_tile.start_positive_cursor_probe",
+          "all_conditions": [
+            {"field": "current_cell_projection_equal", "operator": "equals", "expected": true},
+            {"field": "action_axis_parallel_to_band", "operator": "equals", "expected": true},
+            {"field": "positive_axis_direction", "operator": "equals", "expected": true},
+            {"field": "action_unobserved", "operator": "equals", "expected": true}
+          ],
+          "reason_ref": "reason.positive_parallel_direction_is_the_declared_first_cursor_probe"
+        }
+      ],
+      "selection_tie_breakers": [
+        {"field": "action_ref", "preferred_order": "minimize"},
+        {"field": "candidate_ref", "preferred_order": "minimize"}
+      ]
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+# Preserve incompatible shared predictions and stop before any world action.
+MODULE arc3.record_local_constraint_conflict
+
+WORKFLOW record_local_constraint_conflict(
+    scene: VisualSceneDescription,
+    transferred_mapping_pairs: List<Any>,
+    basis_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        analysis: LocalConstraintCompositionAnalysis
+        projected: DeclaredAlternativeFacts
+        conflict: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared_updates: PreparedMeaningUpdates
+        revision: Any?
+    STEP analyze_conflict
+        CALL capability.local_constraint_composition_analysis(
+            scene=scene,
+            transferred_mapping_pairs=transferred_mapping_pairs
+        ) -> analysis
+        REQUIRE analysis.has_composition_candidates
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_local_constraint_conflict",
+            alternative_refs=analysis.conflicting_alternative_refs,
+            descriptive_facts=analysis.composition_alternative_facts
+        ) -> projected
+        SELECT conflict
+            FOR "goal.preserve_incompatible_local_constraint_predictions"
+            FROM projected.alternative_refs
+            UNDER policy.declared_local_constraint_conflict
+            REQUIRE ["requirement.conflict_blocks_repair_action"]
+            PRESERVE analysis.composition_alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_local_constraint_conflict",
+            selected_ref=conflict.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=basis_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.local_constraint_overlap_conflict
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared_updates
+        TRANSACTION commit_constraint_conflict
+            UPDATE revision
+                TARGET prepared_updates.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE analysis.composition_alternative_refs
+        STOP conflict

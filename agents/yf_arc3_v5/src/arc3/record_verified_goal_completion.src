@@ -1,0 +1,825 @@
+# Preserve official outcome evidence before any optional interpretation of its goal.
+MODULE arc3.record_verified_goal_completion
+
+WORKFLOW record_verified_goal_completion(
+    before_score: Integer,
+    after_score: Integer,
+    context_epoch: Integer?,
+    retrospective_before_scene: Any?,
+    retrospective_before_frame: Any?,
+    retrospective_after_frame: Any?,
+    retrospective_before_raw_input_ref: Ref?,
+    retrospective_after_raw_input_ref: Ref?,
+    retrospective_action_facts: Any?,
+    goal_ref: Ref?,
+    terminal_access_candidate_ref: Ref?,
+    terminal_objective_contract_ref: Ref?,
+    terminal_objective_measure_ref: Ref?,
+    terminal_objective_comparator: String?,
+    terminal_objective_target_value: Integer?,
+    terminal_objective_predicted_value_after_plan: Integer?,
+    retrospective_coverage_target_cell_count_before_winning_action: Integer?,
+    retrospective_uncovered_target_cell_count_before_winning_action: Integer?,
+    retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action: Integer?,
+    retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence: Integer?,
+    retrospective_exact_stationary_peer_morphology_match: Boolean,
+    retrospective_hot_workflow_ref: Ref?,
+    retrospective_hot_workflow_activity_refs: List<Ref>,
+    retrospective_hot_workflow_observation_count: Integer,
+    moving_entity_ref: Ref?,
+    fixed_entity_ref: Ref?,
+    alignment_axis: String?,
+    expected_remaining_step_count: Integer?,
+    action_ref: Ref,
+    candidate_ref: Ref,
+    transition_ref: Ref,
+    distance_is_quantized: Boolean,
+    exact_terminal_relation_step_expected: Boolean,
+    lifecycle_revision_group_ref: Ref?,
+    causally_effective_action_deltas: List<Integer>,
+    depth_claim_ref: Ref?,
+    declared_minimum_effective_action_count: Integer,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        navigation_measurements: Any
+        navigation_projected: DeclaredAlternativeFacts
+        navigation_selected: Assessment
+        navigation_meaning: DeclaredMeaningInstantiation
+        navigation_method_meaning: DeclaredMeaningInstantiation
+        navigation_method_derived: Any
+        navigation_derived: Any
+        navigation_prepared: PreparedMeaningUpdates
+        navigation_revision: Any
+        navigation_before_revision: Integer
+        analysis: GoalCompletionAnalysis
+        projected: DeclaredAlternativeFacts
+        completion: Assessment?
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        revision: Any?
+        depth_projected: DeclaredAlternativeFacts?
+        depth_disposition: Assessment?
+        depth_meaning: DeclaredMeaningInstantiation?
+        depth_derived: Any?
+        depth_prepared: PreparedMeaningUpdates?
+        depth_before_revision: Integer?
+        depth_revision: Any?
+        boundary_handoff: Any?
+        activation: DynamicGoalFrontierActivation
+        frontier_prepared: PreparedMeaningUpdates
+        activation_before_revision: Integer
+        activity_support: Any?
+        activity_projection: DeclaredAlternativeFacts?
+        activity_assessment: Assessment?
+        activity_meaning: DeclaredMeaningInstantiation?
+        activity_derived: Any?
+        activity_prepared: PreparedMeaningUpdates?
+        activity_revision: Any?
+        coverage: Any
+        coverage_projected: DeclaredAlternativeFacts
+        coverage_assessment: Assessment
+        coverage_meaning: DeclaredMeaningInstantiation
+        coverage_derived: Any
+        coverage_prepared: PreparedMeaningUpdates
+        coverage_revision: Any
+        entry_before_revision: Integer
+        outcome_evidence: Any
+        reference_write: Any
+        write_projection: DeclaredAlternativeFacts
+        write_assessment: Assessment
+        write_meaning: DeclaredMeaningInstantiation
+        write_derived: Any
+        write_prepared: PreparedMeaningUpdates
+        write_revision: Any
+        outcome_projection: DeclaredAlternativeFacts
+        outcome_assessment: Assessment
+        outcome_meaning: DeclaredMeaningInstantiation
+        outcome_derived: Any
+        outcome_prepared: PreparedMeaningUpdates
+        outcome_revision: Any
+    STEP measure_boundary
+        CALL capability.goal_completion_analysis(
+            before_score=before_score,
+            after_score=after_score,
+            context_epoch=context_epoch,
+            goal_ref=goal_ref,
+            terminal_access_candidate_ref=terminal_access_candidate_ref,
+            terminal_objective_contract_ref=terminal_objective_contract_ref,
+            terminal_objective_measure_ref=terminal_objective_measure_ref,
+            terminal_objective_comparator=terminal_objective_comparator,
+            terminal_objective_target_value=terminal_objective_target_value,
+            terminal_objective_predicted_value_after_plan=terminal_objective_predicted_value_after_plan,
+            retrospective_coverage_target_cell_count_before_winning_action=retrospective_coverage_target_cell_count_before_winning_action,
+            retrospective_uncovered_target_cell_count_before_winning_action=retrospective_uncovered_target_cell_count_before_winning_action,
+            retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action=retrospective_stationary_peer_palette_nonboundary_cell_count_before_winning_action,
+            retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence=retrospective_predicted_stationary_peer_palette_remaining_cell_count_after_exact_coincidence,
+            retrospective_exact_stationary_peer_morphology_match=retrospective_exact_stationary_peer_morphology_match,
+            retrospective_hot_workflow_ref=retrospective_hot_workflow_ref,
+            retrospective_hot_workflow_activity_refs=retrospective_hot_workflow_activity_refs,
+            retrospective_hot_workflow_observation_count=retrospective_hot_workflow_observation_count,
+            moving_entity_ref=moving_entity_ref,
+            fixed_entity_ref=fixed_entity_ref,
+            alignment_axis=alignment_axis,
+            expected_remaining_step_count=expected_remaining_step_count,
+            action_ref=action_ref,
+            candidate_ref=candidate_ref,
+            transition_ref=transition_ref,
+            distance_is_quantized=distance_is_quantized,
+            exact_terminal_relation_step_expected=exact_terminal_relation_step_expected,
+            lifecycle_revision_group_ref=lifecycle_revision_group_ref,
+            causally_effective_action_deltas=causally_effective_action_deltas,
+            depth_claim_ref=depth_claim_ref,
+            declared_minimum_effective_action_count=declared_minimum_effective_action_count
+        ) -> analysis
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_verified_goal_completion",
+            alternative_refs=[],
+            descriptive_facts=analysis.descriptive_facts
+        ) -> projected
+        SELECT completion
+            FOR "goal.observe_official_level_boundary"
+            FROM projected.alternative_refs
+            UNDER policy.declared_verified_goal_completion
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH completion.alternatives.selected
+            "goal_completion.verified" -> NEXT commit_completion
+            "goal_completion.observed_boundary" -> NEXT commit_observed_boundary
+            "goal_completion.local_relation_satisfied" -> NEXT commit_local_relation_completion
+            "goal_completion.axis_done_missing_subgoal" -> NEXT commit_missing_subgoal
+            "goal_completion.unresolved" -> STOP completion
+    STEP commit_completion
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_verified_goal_completion",
+            selected_ref=completion.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.verified_alignment_completion_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_goal_completion
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [goal_ref]
+        NEXT preserve_terminal_outcome
+    STEP commit_observed_boundary
+        # An official score increase is sufficient to close the local scene,
+        # even when the terminal action was not classified as an exact final
+        # alignment step. DRM authors the boundary meaning and handoff.
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_verified_goal_completion",
+            selected_ref=completion.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.observed_score_boundary_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_observed_level_boundary
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT preserve_terminal_outcome
+    STEP preserve_terminal_outcome
+        # Both official winning paths enter here, irrespective of goal kind,
+        # scene materialization, plan/method coverage or subsequent analysis.
+        CALL control.measure_terminal_outcome_evidence(
+            before_raw_input_ref=retrospective_before_raw_input_ref,
+            after_raw_input_ref=retrospective_after_raw_input_ref,
+            before_frame=retrospective_before_frame,
+            after_frame=retrospective_after_frame,
+            completion_facts=analysis.descriptive_facts,
+            transition_ref=transition_ref,
+            measurement_policy_ref="policy.preserve_official_terminal_outcome"
+        ) -> outcome_evidence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.preserve_official_terminal_outcome",
+            alternative_refs=[], descriptive_facts=outcome_evidence.descriptive_facts
+        ) -> outcome_projection
+        SELECT outcome_assessment
+            FOR "goal.preserve_official_terminal_evidence"
+            FROM outcome_projection.alternative_refs
+            UNDER policy.preserve_official_terminal_outcome
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE outcome_projection.alternative_refs
+            FACTS outcome_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.preserve_official_terminal_outcome",
+            selected_ref=outcome_assessment.alternatives.selected,
+            alternative_facts=outcome_projection.alternative_facts,
+            evidence_refs=outcome_evidence.evidence_refs
+        ) -> outcome_meaning
+        DERIVE outcome_derived
+            FROM outcome_meaning.evidence_refs
+            USING rule.preserved_official_terminal_outcome
+            CONTEXT outcome_meaning
+        CALL control.prepare_meaning_updates(
+            terms=outcome_meaning.terms, claims=outcome_derived.claims
+        ) -> outcome_prepared
+        TRANSACTION preserve_official_terminal_outcome
+            UPDATE outcome_revision
+                TARGET outcome_prepared.update_items
+                FROM outcome_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE outcome_evidence.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE outcome_evidence.evidence_refs
+        NEXT measure_completed_reference_write
+    STEP measure_completed_reference_write
+        CALL control.measure_reference_write_evidence(
+            scene=retrospective_before_scene,
+            outcome=outcome_evidence.descriptive_facts,
+            evidence_refs=outcome_evidence.evidence_refs,
+            measurement_policy_ref="policy.remember_completed_reference_write"
+        ) -> reference_write
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_completed_reference_write",
+            alternative_refs=[], descriptive_facts=reference_write.descriptive_facts
+        ) -> write_projection
+        SELECT write_assessment
+            FOR "goal.remember_completed_reference_write"
+            FROM write_projection.alternative_refs
+            UNDER policy.remember_completed_reference_write
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE write_projection.alternative_refs
+            FACTS write_projection.alternative_facts
+        MATCH write_assessment.alternatives.selected
+            "reference_write.absent" -> NEXT retain_completed_peer_method
+            "reference_write.remember" -> NEXT commit_completed_reference_write
+    STEP commit_completed_reference_write
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_completed_reference_write",
+            selected_ref=write_assessment.alternatives.selected,
+            alternative_facts=write_projection.alternative_facts,
+            evidence_refs=reference_write.evidence_refs
+        ) -> write_meaning
+        REQUIRE write_meaning.template_iteration_complete
+        DERIVE write_derived
+            FROM write_meaning.evidence_refs
+            USING rule.completed_reference_write_memory
+            CONTEXT write_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=write_meaning.terms, claims=write_derived.claims
+        ) -> write_prepared
+        CALL control.current_state_revision() -> write_revision
+        TRANSACTION remember_completed_reference_write
+            UPDATE revision
+                TARGET write_prepared.update_items
+                FROM write_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE write_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT retain_completed_peer_method
+    STEP retain_completed_peer_method
+        # The optional prior action context is absent in some completion modes.
+        MATCH retrospective_action_facts
+            null -> NEXT measure_winning_navigation
+            retrospective_action_facts -> NEXT project_completed_peer_method
+    STEP project_completed_peer_method
+        CALL control.project_declared_delta(
+            selection_policy_ref="policy.remember_completed_peer_method",
+            alternative_refs=[], context_facts=retrospective_action_facts,
+            descriptive_delta=analysis.descriptive_facts
+        ) -> activity_projection
+        SELECT activity_assessment
+            FOR "goal.remember_completed_peer_method"
+            FROM activity_projection.alternative_refs
+            UNDER policy.remember_completed_peer_method
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE activity_projection.alternative_refs
+            FACTS activity_projection.alternative_facts
+        MATCH activity_assessment.alternatives.selected
+            "peer_method.absent" -> NEXT inspect_terminal_entry_geometry
+            "peer_method.remember" -> NEXT commit_completed_peer_method
+    STEP commit_completed_peer_method
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_completed_peer_method",
+            selected_ref=activity_assessment.alternatives.selected,
+            alternative_facts=activity_projection.alternative_facts,
+            evidence_refs=outcome_meaning.evidence_refs
+        ) -> activity_meaning
+        REQUIRE activity_meaning.template_iteration_complete
+        DERIVE activity_derived
+            FROM activity_meaning.evidence_refs
+            USING rule.completed_peer_method_memory
+            CONTEXT activity_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=activity_meaning.terms, claims=activity_derived.claims
+        ) -> activity_prepared
+        CALL control.current_state_revision() -> activity_revision
+        TRANSACTION remember_completed_peer_method
+            UPDATE revision
+                TARGET activity_prepared.update_items
+                FROM activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE activity_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT inspect_terminal_entry_geometry
+    STEP inspect_terminal_entry_geometry
+        MATCH outcome_evidence.descriptive_facts.entry_geometry_present
+            false -> NEXT measure_winning_navigation
+            true -> NEXT remember_terminal_entry_geometry
+    STEP remember_terminal_entry_geometry
+        CALL control.current_state_revision() -> entry_before_revision
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_terminal_region_entry",
+            alternative_refs=[], descriptive_facts=outcome_evidence.descriptive_facts
+        ) -> coverage_projected
+        SELECT coverage_assessment
+            FOR "goal.observe_official_level_boundary"
+            FROM coverage_projected.alternative_refs
+            UNDER policy.remember_terminal_region_entry
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE coverage_projected.alternative_refs
+            FACTS coverage_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_terminal_region_entry",
+            selected_ref=coverage_assessment.alternatives.selected,
+            alternative_facts=coverage_projected.alternative_facts,
+            evidence_refs=outcome_evidence.entry_evidence_refs
+        ) -> coverage_meaning
+        DERIVE coverage_derived
+            FROM coverage_meaning.evidence_refs
+            USING rule.official_completion_supports_revisable_region_entry
+            CONTEXT coverage_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=coverage_meaning.terms, claims=coverage_derived.claims
+        ) -> coverage_prepared
+        TRANSACTION remember_terminal_entry_relation
+            UPDATE coverage_revision
+                TARGET coverage_prepared.update_items
+                FROM outcome_evidence.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE entry_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE outcome_evidence.evidence_refs
+        NEXT measure_winning_navigation
+    STEP measure_winning_navigation
+        CALL control.measure_winning_navigation(
+            transition_ref=transition_ref,
+            measurement_policy_ref="policy.remember_winning_cursor_navigation",
+            key_policy_ref="policy.perceptual_memory_key_contract"
+        ) -> navigation_measurements
+        MATCH navigation_measurements.has_measurements
+            false -> NEXT measure_terminal_coverage
+            true -> NEXT remember_navigation_roles
+    STEP remember_navigation_roles
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_winning_cursor_navigation",
+            alternative_refs=[], descriptive_facts=navigation_measurements
+        ) -> navigation_projected
+        SELECT navigation_selected
+            FOR "goal.remember_winning_cursor_navigation"
+            FROM navigation_projected.alternative_refs
+            UNDER policy.remember_winning_cursor_navigation
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE navigation_projected.alternative_refs
+            FACTS navigation_projected.alternative_facts
+        MATCH navigation_selected.alternatives.selected
+            null -> NEXT measure_terminal_coverage
+            "navigation_memory.official_contact" -> NEXT commit_navigation_roles
+    STEP commit_navigation_roles
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_winning_cursor_navigation",
+            selected_ref=navigation_selected.alternatives.selected,
+            alternative_facts=navigation_projected.alternative_facts,
+            evidence_refs=navigation_measurements.evidence_refs
+        ) -> navigation_method_meaning
+        REQUIRE navigation_method_meaning.template_iteration_complete
+        DERIVE navigation_method_derived
+            FROM navigation_method_meaning.evidence_refs
+            USING rule.winning_cursor_navigation_memory
+            CONTEXT navigation_method_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=navigation_method_meaning.terms, claims=navigation_method_derived.claims
+        ) -> navigation_prepared
+        CALL control.current_state_revision() -> navigation_before_revision
+        TRANSACTION remember_navigation_roles
+            UPDATE navigation_revision
+                TARGET navigation_prepared.update_items
+                FROM navigation_method_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE navigation_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE navigation_method_meaning.evidence_refs
+        NEXT remember_navigation_appearances
+    STEP remember_navigation_appearances
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            alternative_refs=[], descriptive_facts=navigation_measurements
+        ) -> navigation_projected
+        SELECT navigation_selected
+            FOR "goal.remember_winning_cursor_navigation"
+            FROM navigation_projected.alternative_refs
+            UNDER policy.record_captured_canonical_role_appearances
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE navigation_projected.alternative_refs
+            FACTS navigation_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_captured_canonical_role_appearances",
+            selected_ref=navigation_selected.alternatives.selected,
+            alternative_facts=navigation_projected.alternative_facts,
+            evidence_refs=navigation_measurements.evidence_refs
+        ) -> navigation_meaning
+        REQUIRE navigation_meaning.template_iteration_complete
+        DERIVE navigation_derived
+            FROM navigation_meaning.evidence_refs
+            USING rule.captured_canonical_role_appearances
+            CONTEXT navigation_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=navigation_meaning.terms, claims=navigation_derived.claims
+        ) -> navigation_prepared
+        CALL control.current_state_revision() -> navigation_before_revision
+        TRANSACTION remember_navigation_appearances
+            UPDATE navigation_revision
+                TARGET navigation_prepared.update_items
+                FROM navigation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE navigation_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE navigation_meaning.evidence_refs
+        NEXT measure_navigation_activity
+    STEP measure_navigation_activity
+        # Optional shared-method learning cannot revoke the official victory.
+        CALL control.measure_canonical_activity_support(
+            activity_facts=navigation_method_meaning.facts,
+            canonical_claim_candidates=navigation_method_derived.claims,
+            transition_ref=transition_ref,
+            admission_policy_ref="policy.capture_winning_navigation_method"
+        ) -> activity_support
+        MATCH activity_support.canonical_support_present
+            true -> NEXT record_navigation_activity
+            false -> NEXT remember_navigation_destination
+    STEP record_navigation_activity
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            alternative_refs=[],
+            descriptive_facts=activity_support
+        ) -> activity_projection
+        SELECT activity_assessment
+            FOR "goal.remember_reconciled_method_activity"
+            FROM activity_projection.alternative_refs
+            UNDER policy.record_reconciled_method_activity
+            REQUIRE ["requirement.method_activity_has_canonical_completion_proof"]
+            PRESERVE activity_projection.alternative_refs
+            FACTS activity_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            selected_ref=activity_assessment.alternatives.selected,
+            alternative_facts=activity_projection.alternative_facts,
+            evidence_refs=activity_support.evidence_refs
+        ) -> activity_meaning
+        DERIVE activity_derived
+            FROM activity_meaning.evidence_refs
+            USING rule.reconciled_method_activity
+            CONTEXT activity_meaning
+        CALL control.prepare_meaning_updates(
+            terms=activity_meaning.terms,
+            claims=activity_derived.claims
+        ) -> activity_prepared
+        TRANSACTION remember_navigation_activity
+            UPDATE activity_revision
+                TARGET activity_prepared.update_items
+                FROM activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE activity_support.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT remember_navigation_destination
+    STEP remember_navigation_destination
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_retrospective_support_cover",
+            alternative_refs=[], descriptive_facts=navigation_measurements
+        ) -> navigation_projected
+        SELECT navigation_selected
+            FOR "goal.remember_winning_cursor_navigation"
+            FROM navigation_projected.alternative_refs
+            UNDER policy.remember_retrospective_support_cover
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE navigation_projected.alternative_refs
+            FACTS navigation_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_retrospective_support_cover",
+            selected_ref=navigation_selected.alternatives.selected,
+            alternative_facts=navigation_projected.alternative_facts,
+            evidence_refs=navigation_measurements.evidence_refs
+        ) -> navigation_meaning
+        REQUIRE navigation_meaning.template_iteration_complete
+        DERIVE navigation_derived
+            FROM navigation_meaning.evidence_refs
+            USING rule.retrospective_support_cover_memory
+            CONTEXT navigation_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=navigation_meaning.terms, claims=navigation_derived.claims
+        ) -> navigation_prepared
+        CALL control.current_state_revision() -> navigation_before_revision
+        TRANSACTION remember_navigation_destination
+            UPDATE navigation_revision
+                TARGET navigation_prepared.update_items
+                FROM navigation_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE navigation_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE navigation_meaning.evidence_refs
+        NEXT measure_terminal_coverage
+    STEP measure_terminal_coverage
+        # The terminal objective is recalled independently of method coverage.
+        # A winning probe may have no plan facts; consult the canonical layers.
+        CALL control.measure_terminal_coverage_evidence(
+            scene=retrospective_before_scene, frame_rows=retrospective_before_frame, action_ref=action_ref,
+            context_epoch=context_epoch, transition_ref=transition_ref,
+            measurement_policy_ref="policy.remember_retrospective_support_cover"
+        ) -> coverage
+        MATCH coverage.has_coverage_measurements
+            false -> NEXT measure_alignment_activity
+            true -> NEXT remember_terminal_coverage
+    STEP remember_terminal_coverage
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.remember_retrospective_support_cover",
+            alternative_refs=[], descriptive_facts=coverage
+        ) -> coverage_projected
+        SELECT coverage_assessment
+            FOR "goal.observe_official_level_boundary"
+            FROM coverage_projected.alternative_refs
+            UNDER policy.remember_retrospective_support_cover
+            REQUIRE ["requirement.executed_action_has_returned_world_feedback"]
+            PRESERVE coverage_projected.alternative_refs
+            FACTS coverage_projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.remember_retrospective_support_cover",
+            selected_ref=coverage_assessment.alternatives.selected,
+            alternative_facts=coverage_projected.alternative_facts,
+            evidence_refs=coverage.evidence_refs
+        ) -> coverage_meaning
+        REQUIRE coverage_meaning.template_iteration_complete
+        DERIVE coverage_derived
+            FROM coverage_meaning.evidence_refs
+            USING rule.retrospective_support_cover_memory
+            CONTEXT coverage_meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=coverage_meaning.terms, claims=coverage_derived.claims
+        ) -> coverage_prepared
+        TRANSACTION remember_effective_terminal_relation
+            UPDATE coverage_revision
+                TARGET coverage_prepared.update_items
+                FROM coverage_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE coverage.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE coverage_projected.alternative_refs
+        NEXT measure_alignment_activity
+    STEP measure_alignment_activity
+        # Optional shared-method learning cannot revoke the official victory.
+        CALL control.measure_canonical_activity_support(
+            activity_facts=meaning.facts,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=transition_ref,
+            admission_policy_ref="policy.capture_official_alignment_method"
+        ) -> activity_support
+        MATCH activity_support.canonical_support_present
+            true -> NEXT record_alignment_activity
+            false -> NEXT measure_prepared_activity
+    STEP record_alignment_activity
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            alternative_refs=[],
+            descriptive_facts=activity_support
+        ) -> activity_projection
+        SELECT activity_assessment
+            FOR "goal.remember_reconciled_method_activity"
+            FROM activity_projection.alternative_refs
+            UNDER policy.record_reconciled_method_activity
+            REQUIRE ["requirement.method_activity_has_canonical_completion_proof"]
+            PRESERVE activity_projection.alternative_refs
+            FACTS activity_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            selected_ref=activity_assessment.alternatives.selected,
+            alternative_facts=activity_projection.alternative_facts,
+            evidence_refs=activity_support.evidence_refs
+        ) -> activity_meaning
+        DERIVE activity_derived
+            FROM activity_meaning.evidence_refs
+            USING rule.reconciled_method_activity
+            CONTEXT activity_meaning
+        CALL control.prepare_meaning_updates(
+            terms=activity_meaning.terms,
+            claims=activity_derived.claims
+        ) -> activity_prepared
+        TRANSACTION remember_alignment_activity
+            UPDATE activity_revision
+                TARGET activity_prepared.update_items
+                FROM activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE activity_support.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT measure_prepared_activity
+    STEP measure_prepared_activity
+        CALL control.measure_canonical_activity_support(
+            activity_facts=meaning.facts,
+            contract_facts=retrospective_action_facts,
+            canonical_claim_candidates=derived.claims,
+            transition_ref=transition_ref,
+            admission_policy_ref="policy.capture_prepared_source_method"
+        ) -> activity_support
+        MATCH activity_support.canonical_support_present
+            true -> NEXT record_prepared_activity
+            false -> NEXT route_completed_handoff
+    STEP record_prepared_activity
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            alternative_refs=[],
+            descriptive_facts=activity_support
+        ) -> activity_projection
+        SELECT activity_assessment
+            FOR "goal.remember_reconciled_method_activity"
+            FROM activity_projection.alternative_refs
+            UNDER policy.record_reconciled_method_activity
+            REQUIRE ["requirement.method_activity_has_canonical_completion_proof"]
+            PRESERVE activity_projection.alternative_refs
+            FACTS activity_projection.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.record_reconciled_method_activity",
+            selected_ref=activity_assessment.alternatives.selected,
+            alternative_facts=activity_projection.alternative_facts,
+            evidence_refs=activity_support.evidence_refs,
+            existing_term_refs=activity_support.retained_term_refs
+        ) -> activity_meaning
+        DERIVE activity_derived
+            FROM activity_meaning.evidence_refs
+            USING rule.reconciled_method_activity
+            CONTEXT activity_meaning
+        CALL control.prepare_meaning_updates(
+            terms=activity_meaning.terms,
+            claims=activity_derived.claims
+        ) -> activity_prepared
+        TRANSACTION remember_prepared_activity
+            UPDATE activity_revision
+                TARGET activity_prepared.update_items
+                FROM activity_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE activity_support.state_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE []
+        NEXT route_completed_handoff
+    STEP route_completed_handoff
+        MATCH completion.alternatives.selected
+            "goal_completion.verified" -> NEXT bind_scene_handoff
+            "goal_completion.observed_boundary" -> NEXT bind_observed_scene_handoff
+    STEP bind_observed_scene_handoff
+        CALL control.bind_declared_scene_handoff(
+            transition_ref=transition_ref
+        ) -> boundary_handoff
+        STOP completion
+    STEP commit_local_relation_completion
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_verified_goal_completion",
+            selected_ref=completion.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.exact_multicell_peer_terminal_transition_meaning
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_local_relation_completion
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [goal_ref]
+        STOP completion
+    STEP bind_scene_handoff
+        # The unique DRM-authored handoff now governs the controller's
+        # mechanical scene reset, local-plan clearing, and goal reopening.
+        CALL control.bind_declared_scene_handoff(
+            transition_ref=transition_ref
+        ) -> boundary_handoff
+        NEXT classify_depth_revision
+    STEP classify_depth_revision
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_minimum_effective_depth_revision",
+            alternative_refs=[],
+            descriptive_facts=analysis.descriptive_facts
+        ) -> depth_projected
+        SELECT depth_disposition
+            FOR "goal.revise_minimum_effective_solution_depth"
+            FROM depth_projected.alternative_refs
+            UNDER policy.declared_minimum_effective_depth_revision
+            REQUIRE ["requirement.official_completion_and_effective_transition_ledger_are_attested"]
+            PRESERVE depth_projected.alternative_refs
+            FACTS depth_projected.alternative_facts
+        MATCH depth_disposition.alternatives.selected
+            "minimum_effective_depth.falsified" -> NEXT commit_depth_revision
+            "minimum_effective_depth.preserved" -> NEXT commit_depth_revision
+            "minimum_effective_depth.unresolved" -> STOP completion
+    STEP commit_depth_revision
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_minimum_effective_depth_revision",
+            selected_ref=depth_disposition.alternatives.selected,
+            alternative_facts=depth_projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> depth_meaning
+        DERIVE depth_derived
+            FROM depth_meaning.evidence_refs
+            USING rule.minimum_effective_depth_revision_meaning
+            CONTEXT depth_meaning
+        CALL control.prepare_meaning_updates(
+            terms=depth_meaning.terms,
+            claims=depth_derived.claims
+        ) -> depth_prepared
+        CALL control.current_state_revision() -> depth_before_revision
+        TRANSACTION commit_depth_revision
+            UPDATE depth_revision
+                TARGET depth_prepared.update_items
+                FROM depth_meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE depth_before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [goal_ref, depth_claim_ref]
+        STOP completion
+    STEP commit_missing_subgoal
+        # Axis last-step without level win: record status and open a
+        # revisable missing-subgoal hypothesis (other axes/matches stay open).
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_verified_goal_completion",
+            selected_ref=completion.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=analysis.evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.alignment_goal_lifecycle_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_goal_lifecycle
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE [goal_ref]
+        NEXT activate_goal_frontier
+    STEP activate_goal_frontier
+        # The selected DRM facts are the sole source of the scene frontier
+        # payload.  SRC only orders its typed activation workflow.
+        CALL control.instantiate_dynamic_goal_frontier_activation(
+            facts=meaning.facts
+        ) -> activation
+        CALL control.current_state_revision() -> activation_before_revision
+        CALL workflow.activate_dynamic_goal_frontier(
+            activation=activation,
+            before_revision=activation_before_revision
+        ) -> frontier_prepared
+        STOP completion

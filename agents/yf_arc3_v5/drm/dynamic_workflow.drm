@@ -1,0 +1,1085 @@
+{
+  "module_id": "dynamic_workflow",
+  "declarations": [
+    {
+      "id": "schema.dynamic_workflow_contract",
+      "kind": "schema",
+      "premises": [
+        "a_current_goal_frontier_and_immutable_canonical_revision_exist"
+      ],
+      "applicability": [
+        "bounded_contextual_workflow_synthesis_and_execution"
+      ],
+      "invariants": [
+        "every_node_names_one_source_attested_cold_component",
+        "every_dependency_edge_names_its_required_and_provided_predicate",
+        "every_dependency_edge_names_current_absence_preservation_and_falsifier_evidence",
+        "every_dependency_edge_names_a_declared_composition_principle",
+        "all_local_and_global_resource_bounds_are_explicit",
+        "the_ir_source_revision_frame_registry_and_drm_hashes_are_exact",
+        "one_committed_hot_tree_has_at_most_one_action_bearing_runnable_leaf"
+      ],
+      "falsifiers": [
+        "a_required_contract_field_or_source_attestation_is_absent",
+        "an_unbounded_loop_path_family_or_candidate_family_is_requested",
+        "python_is_asked_to_choose_a_goal_producer_strategy_or_workflow_witness"
+      ],
+      "positive_test_refs": [
+        "tests/unit/yf_arc3_v5/test_dynamic_workflow_contracts.py"
+      ],
+      "negative_test_refs": [
+        "tests/unit/yf_arc3_v5/test_dynamic_workflow_contracts.py"
+      ],
+      "mutation_test_refs": [
+        "tests/unit/yf_arc3_v5/test_dynamic_workflow_contracts.py"
+      ],
+      "composition_test_refs": [
+        "tests/unit/yf_arc3_v5/test_dynamic_workflow_synthesis.py"
+      ],
+      "reason_refs": [
+        "reason.dynamic_workflow_is_a_typed_attested_process_not_generated_source"
+      ]
+    },
+    {
+      "id": "principle.exact_contract_satisfaction_licenses_workflow_dependency",
+      "kind": "principle",
+      "premises": [
+        "a_consumer_requires_an_exact_predicate_absent_from_the_source_snapshot",
+        "an_eligible_declared_producer_provides_that_exact_predicate"
+      ],
+      "applicability": [
+        "dynamic_workflow_dependency_construction"
+      ],
+      "invariants": [
+        "the_provider_preserves_every_applicable_parent_and_consumer_invariant",
+        "the_provider_cost_respects_the_remaining_declared_bound",
+        "src_records_the_edge_checkpoint_composition_principle_and_falsifier",
+        "an_already_satisfied_predicate_omits_the_unnecessary_dependency"
+      ],
+      "falsifiers": [
+        "the_predicate_types_do_not_unify_exactly",
+        "required_preservation_evidence_is_absent",
+        "the_declared_bound_would_be_exceeded"
+      ],
+      "reason_refs": [
+        "reason.workflow_edges_exist_only_for_current_explicit_obligations"
+      ]
+    },
+    {
+      "id": "principle.bounded_declared_orders_yield_canonical_workflow_witnesses",
+      "kind": "principle",
+      "premises": [
+        "drm_declares_one_to_three_composition_orders",
+        "cold_components_and_current_contract_evidence_are_source_attested"
+      ],
+      "applicability": [
+        "dynamic_workflow_synthesis"
+      ],
+      "invariants": [
+        "at_most_three_executable_candidates_exist_globally",
+        "only_the_first_canonical_valid_witness_per_declared_order_is_materialized",
+        "rejected_candidates_keep_compact_reasons_without_executable_graph_payloads",
+        "the_same_inputs_declarations_and_bounds_produce_byte_identical_ir"
+      ],
+      "falsifiers": [
+        "a_candidate_order_or_structural_depth_is_unbounded",
+        "worker_arrival_time_or_physical_input_order_changes_the_result"
+      ],
+      "reason_refs": [
+        "reason.declared_bounded_workflow_search_preserves_determinism_and_explanation"
+      ]
+    },
+    {
+      "id": "principle.action_observation_reconciliation_is_a_cold_workflow_invariant",
+      "kind": "principle",
+      "premises": [
+        "a_committed_hot_leaf_is_eligible_to_release_an_environment_primitive"
+      ],
+      "applicability": [
+        "root_cold_workflow_supervision"
+      ],
+      "invariants": [
+        "exactly_one_primitive_may_be_released_from_one_frame",
+        "every_released_primitive_is_followed_by_await_frame_observe_and_reconcile",
+        "no_other_hot_leaf_owns_action_authority_before_reconciliation"
+      ],
+      "falsifiers": [
+        "two_runnable_leaves_hold_action_authority",
+        "a_second_action_is_requested_before_observation_and_reconciliation"
+      ],
+      "reason_refs": [
+        "reason.root_cold_preserves_the_single_causal_action_boundary"
+      ]
+    },
+    {
+      "id": "principle.hot_child_returns_compact_outcome_to_one_execution_parent",
+      "kind": "principle",
+      "premises": [
+        "a_sub_hot_workflow_reaches_a_declared_lifecycle_boundary"
+      ],
+      "applicability": [
+        "parent_child_workflow_reconciliation"
+      ],
+      "invariants": [
+        "the_child_has_one_execution_parent_and_may_name_multiple_goal_beneficiaries",
+        "the_outcome_contains_only_status_goal_claim_invariant_resource_checkpoint_and_evidence_deltas",
+        "the_parent_disposition_is_declared_by_src_and_drm",
+        "no_child_history_or_raw_frame_payload_is returned"
+      ],
+      "falsifiers": [
+        "two_parents_can_continue_the_same_child",
+        "the_outcome_retransmits_mutable_workflow_history"
+      ],
+      "reason_refs": [
+        "reason.compact_child_outcomes_prevent_double_continuation_and_history_growth"
+      ]
+    },
+    {
+      "id": "principle.revision_bound_join_precedes_background_result_admission",
+      "kind": "principle",
+      "premises": [
+        "one_or_more_analysis_results_reference_an_immutable_source_revision"
+      ],
+      "applicability": [
+        "deterministic_parallel_or_retrospective_workflow_join"
+      ],
+      "invariants": [
+        "results_join_only_at_a_named_src_barrier_in_canonical_instance_order",
+        "same_revision_results_require_an_explicit_drm_src_disposition",
+        "stale_results_with_all_premises_valid_require_explicit_reprojection",
+        "stale_results_with_invalid_premises_remain_historical_evidence_only"
+      ],
+      "falsifiers": [
+        "worker_arrival_order_changes_admission_or_selection",
+        "a_stale_result_enters_canonical_state_without_reprojection"
+      ],
+      "reason_refs": [
+        "reason.revision_bound_barriers_make_parallel_understanding_deterministic"
+      ]
+    },
+    {
+      "id": "principle.reconciled_action_requires_retrospective_disposition_before_next_action",
+      "kind": "principle",
+      "premises": [
+        "one_source_declared_action_was_released_and_its_fresh_observation_was_reconciled"
+      ],
+      "applicability": [
+        "progressive_hot_reasoning_episode"
+      ],
+      "invariants": [
+        "the_post_action_selector_is_a_child_of_the_reconciled_action_instance",
+        "the_child_inventories_every_persistent_and_transient_frame_phenomenon_before_selecting_continuation",
+        "each_inventoried_phenomenon_is_explained_linked_or_preserved_as_explicit_unknown",
+        "official_level_success_does_not_bypass_or_erase_the_phenomenon_coverage_audit",
+        "the_child_compares_expected_effect_objective_progress_preserved_conditions_and_named_falsifiers",
+        "the_child_outcome_is_reconciled_before_another_action_child_can_open",
+        "every_parent_child_link_is_source_declared_bounded_and_persisted"
+      ],
+      "falsifiers": [
+        "a_next_action_opens_before_retrospective_disposition",
+        "a_transition_change_is_absent_from_the_retrospective_inventory",
+        "an_unexplained_transition_change_is_discarded_at_level_boundary",
+        "the_retrospective_child_uses_stale_or_unreconciled_observation_evidence",
+        "the_parent_already_has_an_open_child"
+      ],
+      "reason_refs": [
+        "reason.post_action_retrospection_controls_composition_instead_of_explaining_afterward"
+      ]
+    },
+    {
+      "id": "principle.level_boundary_handoff_transmits_only_revalidatable_knowledge",
+      "kind": "principle",
+      "premises": [
+        "an_official_level_boundary_was_observed_and_reconciled"
+      ],
+      "applicability": [
+        "inter_level_hot_workflow_handoff"
+      ],
+      "invariants": [
+        "effect_patterns_invariants_mechanism_schemas_terminal_objective_contracts_workflow_activity_schemas_with_revisable_role_query_criteria_provenance_and_falsifiers_may_cross_the_boundary",
+        "the_winning_boundary_attests_a_revalidatable_measure_comparator_and_threshold_victory_condition_never_a_shape_position_or_action_identity",
+        "the_level_end_retrospection_saves_the_bounded_drm_authored_activity_order_before_new_scene_assimilation",
+        "the_next_level_loads_transmitted_activity_schemas_before_action_and_revalidates_each_open_activity_against_current_measurements",
+        "repeated_boundary_observations_accumulate_without_replacing_still_valid_earlier_activity_order_or_falsifiers",
+        "learned_attribute_equivalence_values_may_cross_only_between_levels_of_the_same_game_as_provisional_evidence_and_are_revalidated_in_the_new_scene",
+        "objects_coordinates_routes_exact_plans_cursors_and_local_control_identities_do_not_cross_the_boundary_and_exact_attribute_values_do_not_cross_to_another_game",
+        "transmitted_knowledge_remains_provisional_until_current_scene_rebinding",
+        "a_revalidated_open_terminal_objective_contract_precedes_unrelated_exploration",
+        "scene_assimilation_is_a_declared_child_of_the_boundary_handoff"
+      ],
+      "falsifiers": [
+        "a_scene_local_binding_enters_the_new_level",
+        "transmitted_knowledge_authorizes_action_before_revalidation",
+        "a_revalidated_open_terminal_objective_is_abandoned_for_unrelated_exploration",
+        "the_boundary_handoff_or_rebinding_child_is_absent"
+      ],
+      "reason_refs": [
+        "reason.inter_level_learning_requires_reusable_memory_without_level_answers"
+      ]
+    },
+    {
+      "id": "principle.recurrent_hot_workflow_activity_schemas_accumulate_across_level_boundaries",
+      "kind": "principle",
+      "premises": [
+        "drm_authored_activity_refs_were_selected_and_reconciled_during_a_completed_level",
+        "an_official_level_boundary_was_observed"
+      ],
+      "applicability": [
+        "every_multi_level_game_resolution"
+      ],
+      "invariants": [
+        "one_level_compresses_only_consecutive_identical_workflow_activity_refs",
+        "the_boundary_claim_preserves_activity_order_recurrence_count_provenance_and_falsifiers",
+        "the_same_game_episode_memory_may_retain_a_learned_palette_or_other_attribute_equivalence_value_until_falsified_but_no_value_is_hardcoded",
+        "the_future_analogy_schema_exports_recurrent_palette_role_equivalence_only_as_an_unbound_criterion_and_contains_no_exact_palette_shape_position_object_ordinal_fixed_cardinality_route_action_or_selector_identity",
+        "the_schema_is_loaded_before_the_next_level_action_but_cannot_authorize_action_before_current_scene_revalidation",
+        "a_revalidated_open_activity_guides_selection_before_unrelated_exploration",
+        "the_cumulative_schema_remains_available_through_game_end_as_a_future_analogy_basis"
+      ],
+      "falsifiers": [
+        "a_completed_level_with_reconciled_hot_workflow_activities_emits_no_boundary_schema_claim",
+        "a_new_level_action_is_released_before_the_transmitted_schema_is_available_for_revalidation",
+        "a_scene_local_binding_is_saved_in_the_schema",
+        "the_runtime_ignores_a_revalidated_open_transmitted_activity_for_unrelated_exploration"
+      ],
+      "reason_refs": [
+        "reason.recurrent_level_solving_activities_are_the_game_hot_workflow_memory"
+      ]
+    },
+    {
+      "id": "principle.observed_attribute_behavior_relations_transfer_within_one_game_episode",
+      "kind": "principle",
+      "premises": [
+        "an_entity_attribute_and_local_input_output_behavior_were_jointly_observed_under_reversible_action_conditioned_tests",
+        "the_behavior_relation_has_an_explicit_observation_domain_and_falsifier"
+      ],
+      "applicability": [
+        "same_game_cross_level_relation_learning_and_revalidation"
+      ],
+      "invariants": [
+        "appearance_alone_never_establishes_behavior_before_action_conditioned_evidence",
+        "the_same_game_episode_may_retain_the_observed_attribute_value_bound_to_the_observed_behavior_relation_and_its_evidence_domain",
+        "a_later_level_morphological_match_retrieves_the_relation_only_as_a_revisable_prediction",
+        "current_scene_revalidation_precedes_using_the_retrieved_relation_to_release_an_action",
+        "a_contradiction_removes_only_the_incompatible_attribute_behavior_link_and_preserves_other_observed_links",
+        "no_attribute_value_behavior_relation_crosses_to_another_game_episode",
+        "no_game_name_coordinate_object_ordinal_route_or_solution_assignment_is_retained"
+      ],
+      "falsifiers": [
+        "behavior_is_assigned_from_attribute_value_before_a_causal_observation",
+        "a_retrieved_relation_authorizes_action_without_current_scene_revalidation",
+        "one_contradiction_erases_unrelated_observed_relations",
+        "an_exact_attribute_value_is_hardcoded_or_exported_between_games"
+      ],
+      "reason_refs": [
+        "reason.action_conditioned_attribute_behavior_memory_supports_revisable_inter_level_recognition"
+      ]
+    },
+    {
+      "id": "principle.action_conditioned_connector_activation_builds_revisable_same_game_graph_memory",
+      "kind": "principle",
+      "premises": [
+        "one_continuous_thin_path_touches_two_distinct_observed_components",
+        "the_same_path_preserves_its_pixels_while_its_attribute_value_changes_after_an_action",
+        "the_human_confirmed_observation_identifies_that_change_as_the_path_becoming_active"
+      ],
+      "applicability": [
+        "same_game_connector_graph_learning_and_cross_level_revalidation"
+      ],
+      "invariants": [
+        "path_continuity_and_endpoint_incidence_establish_only_a_revisable_connector_relation",
+        "appearance_or_brightness_alone_never_establishes_an_active_signal",
+        "an_action_conditioned_value_change_on_the_preserved_path_records_the_observed_active_state",
+        "each_connector_edge_preserves_its_two_current_scene_endpoint_bindings",
+        "same_game_later_levels_may_retrieve_connector_shape_and_attribute_transitions_only_as_revisable_predictions",
+        "current_scene_topology_and_one_action_conditioned_state_transition_must_revalidate_retrieved_connector_behavior",
+        "contradiction_removes_only_the_incompatible_edge_or_state_transition",
+        "no_endpoint_identity_coordinate_route_or_exact_palette_binding_crosses_to_another_game_episode"
+      ],
+      "falsifiers": [
+        "the_measured_path_is_discontinuous_or_has_no_two_distinct_endpoint_components",
+        "the_path_pixels_do_not_preserve_identity_across_the_value transition",
+        "a_path_is_called_active_without_action_conditioned_change",
+        "a_later_scene_reuses_endpoint_bindings_without_current_topology_support"
+      ],
+      "reason_refs": [
+        "reason.observed_connector_incidence_and_activation_support_revisable_signal_graph_memory"
+      ]
+    },
+    {
+      "id": "principle.retrospective_positive_negative_attribute_discrimination_builds_role_queries",
+      "kind": "principle",
+      "premises": [
+        "one_or_more_entities_were_causally_verified_in_the_same_recurrent_role",
+        "drm_declares_the_eligible_attribute_relations_and_candidate_universe"
+      ],
+      "applicability": [
+        "hot_workflow_role_query_criterion_accumulation"
+      ],
+      "invariants": [
+        "a_strict_criterion_relation_holds_for_every_positive_exemplar_and_no_negative_contrast_entity",
+        "a_partial_criterion_relation_holds_for_every_positive_exemplar_and_excludes_at_least_one_negative",
+        "exact_query_result_equality_with_the_verified_positive_set_is_stronger_than_partial_exclusion",
+        "criterion_strength_is_compared_lexicographically_and_never_summed_as_numeric_weights",
+        "all_nondominated_matches_and_all_tied_minimal_separating_criterion_collections_are_preserved",
+        "missing_attribute_values_preserve_unknown_candidates_and_contradiction_removes_only_the_falsified_criterion_link",
+        "index_pairing_and_heterogeneous_attribute_l1_distance_never_establish_role_correspondence"
+      ],
+      "falsifiers": [
+        "a_saved_criterion_does_not_hold_for_every_role_positive",
+        "a_declared_strict_criterion_still_matches_a_negative",
+        "an_ordinal_or_blended_distance_replaces_attribute_discrimination",
+        "a_tied_nondominated_role_candidate_is_discarded"
+      ],
+      "reason_refs": [
+        "reason.role_selection_is_a_revisable_attribute_query_not_an_object_identity_sequence"
+      ]
+    },
+    {
+      "id": "principle.named_causal_gap_licenses_bounded_exploration_child",
+      "kind": "principle",
+      "premises": [
+        "the_retrospective_disposition_names_a_causal_gap_contradiction_exhausted_composition_or_absent_objective_progress"
+      ],
+      "applicability": [
+        "dynamic_exploration_after_reconciliation"
+      ],
+      "invariants": [
+        "drm_and_src_choose_the_exploration_goal_and_child_workflow",
+        "at_most_three_bounded_exploration_compositions_are_materialized",
+        "the_selected_exploration_is_the_only_action_bearing_child",
+        "an_exact_failed_composition_hash_is_not_retried_in_the_same_context"
+      ],
+      "falsifiers": [
+        "python_opens_exploration_as_an_implicit_fallback",
+        "exploration_lacks_a_named_gap_or_expected_information_gain",
+        "an_exact_failed_composition_is_replayed"
+      ],
+      "reason_refs": [
+        "reason.exploration_is_a_declared_information_workflow_not_an_error_fallback"
+      ]
+    },
+    {
+      "id": "principle.retrospective_disposition_opens_exactly_one_next_reasoning_child",
+      "kind": "principle",
+      "premises": [
+        "the_parent_action_observation_is_reconciled",
+        "the_post_action_disposition_is_source_selected",
+        "the_run_is_not_terminal"
+      ],
+      "applicability": [
+        "post_action_reasoning_child_composition"
+      ],
+      "invariants": [
+        "at_most_one_next_reasoning_child_is_open",
+        "the_child_kind_matches_the_selected_disposition",
+        "the_parent_child_edge_is_persisted_before_execution"
+      ],
+      "falsifiers": [
+        "a_second_reasoning_child_is_opened_from_the_same_disposition",
+        "the_next_action_bypasses_the_retrospective_disposition"
+      ],
+      "reason_refs": [
+        "reason.next_reasoning_child_is_owned_by_the_reconciled_retrospective_disposition"
+      ]
+    },
+    {
+      "id": "principle.revalidated_reflection_coverage_activities_form_one_cumulative_hot_workflow",
+      "kind": "principle",
+      "premises": [
+        "a_prior_level_transmitted_the_revalidatable_zero_uncovered_target_cell_contract",
+        "the_current_scene_revalidates_movable_reflection_axes_and_direct_bodies",
+        "action_conditioned_observation_distinguishes_focus_transfer_from_directional_motion"
+      ],
+      "applicability": [
+        "current_scene_reflection_coverage_resolution"
+      ],
+      "invariants": [
+        "each_open_reflection_axis_is_orientation_measured_and_zero_aligned_before_any_direct_body_translation",
+        "focus_transfers_over_incompatible_selectable_entities_are_bounded_by_the_current_measured_selectable_entity_cycle_not_a_fixed_action_count",
+        "the_cycle_bound_includes_the_current_controlled_entity_even_when_its_completed_morphology_is_excluded_from_the_open_contributor_query",
+        "a_revalidated_body_role_binding_never_proves_current_control_identity_so_closing_the_last_axis_with_target_cells_open_requires_either_an_independently_bound_body_route_or_body_focus_transfer_even_when_body_attribute_values_are_already_known",
+        "the_focus_transfer_streak_is_counted_across_the_full_measured_cycle_independently_of_compact_diagnostic_history",
+        "a_near_complete_or_strictly_contained_action_conditioned_focus_change_binds_its_candidate_but_a_change_containing_the_candidate_does_not",
+        "focus_transfer_stops_immediately_when_the_next_open_axis_or_direct_body_is_bound",
+        "every_focus_transfer_projection_declares_a_dependency_chain_containing_its_current_terminal_goal_active_goal_and_subgoal",
+        "each_direct_body_destination_is_boundedly_simulated_before_motion",
+        "an_exact_partition_or_complete_cover_precedes_a_unique_maximum_coverage_fallback",
+        "after_every_primitive_action_src_reconciles_observation_and_recomputes_axis_focus_body_and_target_residuals",
+        "a_completed_axis_or_body_remains_preserved_while_an_open_peer_is pursued",
+        "the_workflow_continues_while_the_revalidated_target_layer_uncovered_cell_count_is_greater_than_zero",
+        "the_only_normal_terminal_predicate_is_target_layer_uncovered_cell_count_equals_zero_or_an_official_level_boundary",
+        "axes_targets_direct_bodies_and_derived_reflections_are_requeried_as_complete_candidate_sets_from_revisable_role_criterion_collections_never_fixed_object_ordinals",
+        "a_recurrent_role_palette_equivalence_class_and_its_current_game_value_are_preserved_as_a_provisional_query_supposition_until_falsified",
+        "shape_position_route_selector_identity_and_cross_game_palette_value_never_cross_a_level_boundary"
+      ],
+      "falsifiers": [
+        "a_body_motion_is_released_while_a_revalidated_axis_residual_is_open",
+        "an_incompatible_or_exhausted_focus_receives_directional_motion_instead_of_bounded_focus_transfer",
+        "an_unmeasured_body_destination_is_committed",
+        "the_controller_stops_or_repeats_an_exhausted_composition_while_the_target_residual_is_open",
+        "the_focus_transfer_bound_cannot_reach_zero_because_its_counter_is_truncated_by_a_smaller_diagnostic_window",
+        "a_selector_primitive_is_released_after_the_current_open_contributor_is_already_bound",
+        "a_focus_transfer_action_is_rejected_because_its_goal_chain_was_inherited_from_an_unrelated_projection",
+        "a_fixed_number_of_focus_transfer_actions_is encoded_as_instance knowledge"
+      ],
+      "reason_refs": [
+        "reason.recurrent_axis_focus_and_body_coverage_activities_are_reinstantiated_from_revalidated_cross_level_knowledge"
+      ]
+    },
+    {
+      "id": "policy.declared_dynamic_workflow_synthesis",
+      "kind": "selection_policy",
+      "static_knowledge_node_kind": "priority",
+      "evaluation": "declared_lexicographic_order",
+      "canonical_equivalence_tie_break_debt_ref": "debt.canonical_lexicographic_equivalence_tie_break",
+      "supported_operators": [
+        "SELECT"
+      ],
+      "input_contract": "yf_arc3_v5.authority_input.selection.v1",
+      "output_contract": "yf_arc3_v5.authority_output.selection.v1",
+      "configuration": {
+        "accumulated_activity_workflows": [
+          {
+            "workflow_ref": "workflow.hot.revalidated_symbol_recipe_requests",
+            "governing_principle_ref": "principle.displayed_symbol_groups_express_revisable_transformation_and_request_dependencies",
+            "activation_contract": {
+              "prior_knowledge_refs": ["contract.all_observed_symbol_requests_filled_then_official_boundary", "knowledge_family.workflow_activity_schema"],
+              "current_scene_revalidation_refs": ["measurement.current_displayed_symbol_groups", "measurement.current_available_symbols", "measurement.current_hollow_matching_requests"],
+              "instance_binding_forbidden": true
+            },
+            "role_query_contract": {
+              "candidate_result_kind": "all_nondominated_current_scene_matches",
+              "fixed_result_cardinality_forbidden": true,
+              "fixed_object_ordinal_forbidden": true,
+              "fixed_palette_identifier_forbidden": true,
+              "blended_numeric_role_score_forbidden": true,
+              "requery_after_every_reconciled_action": true,
+              "criterion_comparison_order": "causal_evidence_then_current_morphological_correspondence_with_ties_preserved"
+            },
+            "role_query_schemas": [
+              {"query_ref": "query.hot.displayed_symbol_relations", "role_supposition_ref": "supposition.role.displayed_transformation", "result_measurement_ref": "three_branch_diagram_rows", "candidate_universe_ref": "set.current_scene_components", "return_contract": "all_nondominated_matches", "criterion_refs_in_declared_precedence": ["criterion.observed_left_removal_right_appearance", "criterion.aligned_symbols_flank_branched_separator"], "falsifier_refs": ["falsifier.displayed_relation_contradicted_by_transformation"]},
+              {"query_ref": "query.hot.available_symbols", "role_supposition_ref": "supposition.role.symbol_source", "result_measurement_ref": "current_full_symbols_and_selection_contours", "candidate_universe_ref": "set.current_scene_components", "return_contract": "all_nondominated_matches", "criterion_refs_in_declared_precedence": ["criterion.action_conditioned_selection_and_deposit", "criterion.same_symbol_extent_and_aspects"], "falsifier_refs": ["falsifier.symbol_not_available_after_selection"]},
+              {"query_ref": "query.hot.open_symbol_requests", "role_supposition_ref": "supposition.role.symbol_request", "result_measurement_ref": "current_hollow_symbols_and_filled_matches", "candidate_universe_ref": "set.current_scene_components", "return_contract": "all_nondominated_matches", "criterion_refs_in_declared_precedence": ["criterion.matching_deposit_persists_until_official_boundary", "criterion.hollow_symbol_matches_available_symbol"], "falsifier_refs": ["falsifier.matching_deposit_not_accepted"]}
+            ],
+            "ordered_activities": [
+              {"activity_ref": "activity.observe_symbol_rules_and_requests", "candidate_set_query_refs": ["query.hot.displayed_symbol_relations", "query.hot.open_symbol_requests", "query.hot.available_symbols"], "selection_projection_refs": ["projection.exploration.symbol_diagram_hot_activity"], "preserve_refs": ["condition.fulfilled_requests_remain_filled"]},
+              {"activity_ref": "activity.deliver_available_matching_symbol", "candidate_set_query_refs": ["query.hot.open_symbol_requests", "query.hot.available_symbols"], "selection_projection_refs": ["projection.exploration.symbol_diagram_deliver_symbol"], "prerequisite_refs": ["condition.matching_symbol_available", "condition.symbol_selected_before_deposit"], "precedes_when_eligible": ["activity.load_required_displayed_operands"], "active_instruction_constraints_remain_authoritative": true},
+              {"activity_ref": "activity.select_needed_available_symbol", "candidate_set_query_refs": ["query.hot.available_symbols"], "selection_projection_refs": ["projection.exploration.symbol_diagram_select_symbol"], "prerequisite_refs": ["condition.symbol_required_by_open_request_or_operand_dependency"]},
+              {"activity_ref": "activity.load_required_displayed_operands", "candidate_set_query_refs": ["query.hot.displayed_symbol_relations", "query.hot.available_symbols"], "selection_projection_refs": ["projection.exploration.symbol_diagram_load_operand"], "prerequisite_refs": ["condition.requested_symbol_missing", "condition.displayed_relation_produces_needed_symbol", "condition.required_resources_preserved"], "dependency_depth_bound": 8, "state_expansion_bound": 128, "route_witness_bound": 3},
+              {"activity_ref": "activity.activate_and_verify_displayed_transformation", "candidate_set_query_refs": ["query.hot.displayed_symbol_relations"], "selection_projection_refs": ["projection.exploration.symbol_diagram_apply_transformation", "projection.exploration.symbol_diagram_causal_support"], "prerequisite_refs": ["condition.operands_match_displayed_relation"], "actions_per_reconciliation": 1, "falsifier_refs": ["falsifier.expected_results_not_observed"]}
+            ],
+            "continuation_contract": {
+              "terminal_candidate_set_query_ref": "query.hot.open_symbol_requests",
+              "loop_guard_measure_ref": "measure.open_symbol_request_count",
+              "loop_guard_comparator": "greater_than",
+              "loop_guard_target_value": 0,
+              "normal_terminal_measure_ref": "measure.open_symbol_request_count",
+              "normal_terminal_comparator": "equals",
+              "normal_terminal_target_value": 0,
+              "official_boundary_is_terminal_evidence": true,
+              "repeat_exact_failed_composition_forbidden": true,
+              "missing_current_role_query_or_plan_requires_explicit_reasoning_child": true,
+              "instance_coordinates_and_action_trace_are_not_transmitted": true
+            }
+          },
+          {
+            "workflow_ref": "workflow.hot.revalidated_reflection_target_coverage",
+            "governing_principle_ref": "principle.revalidated_reflection_coverage_activities_form_one_cumulative_hot_workflow",
+            "activation_contract": {
+              "prior_knowledge_refs": [
+                "objective_contract.target_layer_uncovered_cell_count_equals_zero",
+                "knowledge_family.effect_pattern",
+                "knowledge_family.mechanism_schema",
+                "knowledge_family.workflow_activity_schema"
+              ],
+              "current_scene_revalidation_refs": [
+                "measurement.orthogonal_reflection_completion_candidate_count_equals_one",
+                "measurement.effect_carried_reflection_axis_orientation_and_residuals",
+                "measurement.current_selectable_entity_cycle_bound",
+                "measurement.current_target_layer_uncovered_cell_count"
+              ],
+              "instance_binding_forbidden": true
+            },
+            "role_query_contract": {
+              "candidate_result_kind": "all_nondominated_current_scene_matches",
+              "fixed_result_cardinality_forbidden": true,
+              "fixed_object_ordinal_forbidden": true,
+              "fixed_palette_identifier_forbidden": true,
+              "learned_current_game_attribute_value_binding_allowed_until_falsified": true,
+              "learned_current_game_palette_equivalence_binding_crosses_level_boundaries": true,
+              "learned_attribute_value_bindings_revalidated_in_each_scene": true,
+              "level_boundary_clears_instance_morphology_but_preserves_current_game_attribute_value_binding": true,
+              "transmitted_current_game_attribute_value_binding_is_query_criterion_not_current_level_operational_commitment": true,
+              "cross_game_analogy_exports_exact_attribute_values": false,
+              "blended_numeric_role_score_forbidden": true,
+              "criterion_comparison_order": "causal_evidence_then_recurrent_role_palette_then_morphology_topology_and_scale_with_ties_preserved",
+              "recurrent_role_palette_correspondence_persists_until_falsified": true,
+              "missing_preferred_criterion_is_not_a_contradiction": true,
+              "requery_after_every_reconciled_action": true,
+              "requery_after_overlap_or_occlusion": true
+            },
+            "retrospective_role_criterion_extraction_contract": {
+              "contract_ref": "contract.retrospective_positive_negative_role_attribute_discrimination",
+              "eligible_attribute_refs_are_drm_declared": true,
+              "positive_exemplar_set_ref": "set.successfully_role_verified_entities_in_current_game",
+              "negative_contrast_set_ref": "set.other_entities_in_same_declared_candidate_universe",
+              "metadata_identity_attributes_excluded": true,
+              "strict_criterion_definition": "one_eligible_attribute_relation_holds_for_every_positive_and_no_negative",
+              "partial_criterion_definition": "one_eligible_attribute_relation_holds_for_every_positive_and_excludes_at_least_one_negative",
+              "nondiscriminating_criterion_rejected": true,
+              "exact_query_result_equals_verified_positive_set_is_strongest_evidence": true,
+              "bounded_minimal_separating_criterion_collections_preserve_ties": true,
+              "criterion_strength_order": [
+                "action_conditioned_causal_role_confirmation",
+                "strict_positive_negative_discriminator",
+                "partial_positive_negative_discriminator",
+                "still_compatible_preferred_attribute"
+              ],
+              "numeric_strength_weights_forbidden": true,
+              "heterogeneous_attribute_l1_distance_forbidden": true,
+              "cross_scene_index_pairing_forbidden": true,
+              "missing_attribute_value_preserves_unknown_candidate": true,
+              "contradicted_attribute_removes_only_that_criterion_link": true,
+              "query_returns_all_nondominated_matches": true
+            },
+            "level_role_query_result_audit_contract": {
+              "audit_ref": "audit.hot_workflow_role_query_results_by_level",
+              "record_first_revalidated_result_and_boundary_result_per_level": true,
+              "grid_coordinate_system_preferred_when_cell_quantum_is_established": true,
+              "pixel_support_forbidden_when_grid_cell_support_is_available": true,
+              "logical_object_identity_is_independent_from_visible_cell_occupancy": true,
+              "one_cell_may_belong_to_multiple_logical_layers": true,
+              "overlap_membership_must_list_every_logical_object_ref": true,
+              "orthogonal_axis_lines_remain_distinct_objects_at_their_shared_crossing_cell": true,
+              "current_control_identity_is_an_action_conditioned_relation_not_an_object_merge": true,
+              "each_query_result_records_query_ref_object_refs_cell_supports_and_criterion_refs": true,
+              "fixed_result_cardinality_forbidden": true,
+              "bounded_compact_audit_only": true
+            },
+            "role_query_schemas": [
+              {
+                "query_ref": "query.hot.effect_carried_reflection_axes",
+                "role_supposition_ref": "supposition.role.effect_carried_reflection_axis",
+                "retrospective_criterion_source_ref": "contract.retrospective_positive_negative_role_attribute_discrimination",
+                "result_measurement_ref": "orthogonal_reflection_lattice_axis_object_measurements",
+                "candidate_universe_ref": "set.current_scene_components",
+                "return_contract": "all_nondominated_matches",
+                "criterion_refs_in_declared_precedence": [
+                  "criterion.action_conditioned_axis_translation_evidence",
+                  "criterion.recurrent_role_palette_equivalence_class",
+                  "criterion.elongated_line_topology_and_dominant_orientation",
+                  "criterion.row_or_column_symmetry_carrier_relation",
+                  "criterion.component_cell_count_bbox_and_scale_similarity"
+                ],
+                "falsifier_refs": [
+                  "falsifier.component_cannot_be_moved_by_the_inferred_axis_controls",
+                  "falsifier.component_topology_contradicts_every_axis_orientation"
+                ]
+              },
+              {
+                "query_ref": "query.hot.target_layer_components",
+                "role_supposition_ref": "supposition.role.coverage_target_layer",
+                "retrospective_criterion_source_ref": "contract.retrospective_positive_negative_role_attribute_discrimination",
+                "result_measurement_ref": "orthogonal_reflection_lattice_support_object_measurements",
+                "candidate_universe_ref": "set.current_scene_cells_and_components",
+                "return_contract": "all_nondominated_matches",
+                "criterion_refs_in_declared_precedence": [
+                  "criterion.current_cells_contribute_to_uncovered_target_measure",
+                  "criterion.recurrent_role_palette_equivalence_class",
+                  "criterion.completed_support_symmetry_relation",
+                  "criterion.stationary_under_axis_body_and_selector_controls",
+                  "criterion.component_cell_count_bbox_and_scale_similarity",
+                  "criterion.orthogonal_and_diagonal_connectivity_signature"
+                ],
+                "falsifier_refs": [
+                  "falsifier.cells_never_contribute_to_the_revalidated_target_residual"
+                ]
+              },
+              {
+                "query_ref": "query.hot.direct_movable_bodies",
+                "role_supposition_ref": "supposition.role.direct_movable_body",
+                "retrospective_criterion_source_ref": "contract.retrospective_positive_negative_role_attribute_discrimination",
+                "result_measurement_ref": "orthogonal_reflection_lattice_body_object_measurements",
+                "candidate_universe_ref": "set.current_scene_components",
+                "return_contract": "all_nondominated_matches",
+                "criterion_refs_in_declared_precedence": [
+                  "criterion.action_conditioned_rigid_translation_evidence",
+                  "criterion.recurrent_role_palette_equivalence_class",
+                  "criterion.revalidated_current_game_attribute_value_equivalence",
+                  "criterion.normalized_morphology_persists_across_motion_overlap_and_occlusion",
+                  "criterion.orthogonal_and_diagonal_connectivity_signature",
+                  "criterion.component_cell_count_bbox_and_scale_similarity",
+                  "criterion.finite_reflection_closure_advances_target_coverage"
+                ],
+                "falsifier_refs": [
+                  "falsifier.component_has_no_effect_backed_control_identity",
+                  "falsifier.normalized_morphology_is_not_preserved_by_candidate_motion"
+                ]
+              },
+              {
+                "query_ref": "query.hot.derived_reflection_bodies",
+                "role_supposition_ref": "supposition.role.derived_reflection_body",
+                "retrospective_criterion_source_ref": "contract.retrospective_positive_negative_role_attribute_discrimination",
+                "result_measurement_ref": "orthogonal_reflection_lattice_transformed_layer_measurements",
+                "candidate_universe_ref": "set.current_scene_components_and_logical_layers",
+                "return_contract": "all_nondominated_matches",
+                "criterion_refs_in_declared_precedence": [
+                  "criterion.action_conditioned_derived_appearance_or_disappearance",
+                  "criterion.recurrent_role_palette_equivalence_class",
+                  "criterion.mirrored_normalized_morphology_across_effect_carried_axes",
+                  "criterion.orthogonal_and_diagonal_connectivity_signature",
+                  "criterion.component_cell_count_bbox_and_scale_similarity"
+                ],
+                "falsifier_refs": [
+                  "falsifier.component_changes_independently_of_every_direct_body_and_axis",
+                  "falsifier.component_is_not_in_the_measured_reflection_closure"
+                ]
+              },
+              {
+                "query_ref": "query.hot.open_axis_or_direct_body_contributors",
+                "role_supposition_ref": "supposition.role.next_open_reflection_contributor",
+                "candidate_union_query_refs": [
+                  "query.hot.effect_carried_reflection_axes",
+                  "query.hot.direct_movable_bodies"
+                ],
+                "return_contract": "all_nondominated_open_matches",
+                "criterion_refs_in_declared_precedence": [
+                  "criterion.current_objective_residual_is_open",
+                  "criterion.current_control_identity_is_action_conditioned_and_morphologically_compatible"
+                ],
+                "falsifier_refs": [
+                  "falsifier.contributor_residual_is_already_closed"
+                ]
+              }
+            ],
+            "ordered_activities": [
+              {
+                "activity_ref": "activity.detect_orientation_and_align_each_open_reflection_axis",
+                "candidate_set_query_refs": [
+                  "query.hot.effect_carried_reflection_axes"
+                ],
+                "repeat_while_measure_ref": "measure.open_effect_carried_reflection_axis_count",
+                "repeat_while_comparator": "greater_than",
+                "repeat_while_target_value": 0,
+                "selection_projection_refs": [
+                  "projection.exploration.static_reflection_axis_alignment_probe",
+                  "projection.exploration.calibrated_static_reflection_axis_continuous_series",
+                  "projection.exploration.focus_rebound_collective_reflection_axis_series_uses_transferred_aperture_quantum",
+                  "projection.exploration.orthogonal_reflection_axis_partial_order"
+                ],
+                "selection_tier_refs": [
+                  "tier.revalidated_terminal_objective.axis_zero_bounded_partial_order",
+                  "tier.revalidated_terminal_objective.collective_axis_alignment_before_isolated_transport",
+                  "tier.orthogonal_reflection_axis_zero_bounded_partial_order",
+                  "tier.collective_reflection_axis_alignment_before_isolated_transport"
+                ],
+                "orientation_measurement_refs": [
+                  "measurement.current_axis_row_residual_signed",
+                  "measurement.current_axis_col_residual_signed"
+                ],
+                "preserve_refs": [
+                  "condition.already_zero_aligned_axis_residuals_remain_zero"
+                ]
+              },
+              {
+                "activity_ref": "activity.transfer_focus_to_next_open_axis_or_body",
+                "candidate_set_query_refs": [
+                  "query.hot.open_axis_or_direct_body_contributors"
+                ],
+                "repeat_while_measure_ref": "measure.current_focus_structurally_incompatible_with_next_open_contributor",
+                "repeat_while_comparator": "equals",
+                "repeat_while_target_value": 1,
+                "selection_projection_refs": [
+                  "projection.exploration.orthogonal_reflection_axis_focus_transfer",
+                  "projection.exploration.orthogonal_reflection_open_axis_focus_rebinding",
+                  "projection.exploration.disconnected_reflection_body_focus_transfer",
+                  "projection.exploration.orthogonal_reflection_body_focus_transfer",
+                  "projection.exploration.completed_direct_body_known_focus_transfer",
+                  "projection.exploration.known_selector_continues_declared_focus_transfer_series",
+                  "projection.exploration.orthogonal_reflection_incompatible_body_focus_transfer",
+                  "projection.exploration.terminal_incompatible_body_focus_transfer_cursor"
+                ],
+                "selection_tier_refs": [
+                  "tier.revalidated_terminal_objective.focus_transfer_before_new_motion",
+                  "tier.revalidated_terminal_objective.open_axis_focus_rebinding_before_motion",
+                  "tier.orthogonal_reflection_focus_transfer_before_new_motion",
+                  "tier.completed_control_context_nondirectional_discrete_selection",
+                  "tier.orthogonal_reflection_open_axis_focus_rebinding_before_motion"
+                ],
+                "resource_bound_ref": "measure.current_selectable_entity_cycle_bound",
+                "resource_bound_is_maximum_requery_count_not_action_burst_length": true,
+                "resource_bound_includes_current_controlled_entity_when_excluded_from_open_query_by_completed_morphology": true,
+                "known_body_role_does_not_replace_post_axis_control_transfer": true,
+                "selector_actions_released_per_query_iteration": 1,
+                "full_observation_after_each_selector_release": true,
+                "candidate_set_requeried_after_each_selector_release": true,
+                "iterate_over_query_result_set_not_object_ordinals": true,
+                "prior_control_identity_click_frontier_invalidated_after_selector_release": true,
+                "selector_streak_measure_ref": "measure.consecutive_current_focus_transfer_activity_count",
+                "selector_streak_covers_full_resource_bound": true,
+                "compact_diagnostic_history_cannot_bound_selector_streak": true,
+                "stop_when_current_open_contributor_binding_satisfied": true,
+                "action_conditioned_focus_support_relations": [
+                  "relation.near_complete_focus_change_bbox_matches_candidate_bbox",
+                  "relation.focus_change_bbox_is_contained_by_candidate_bbox"
+                ],
+                "reverse_containment_is_focus_evidence": false,
+                "fixed_primitive_count_forbidden": true
+              },
+              {
+                "activity_ref": "activity.simulate_and_place_one_open_direct_body",
+                "candidate_set_query_refs": [
+                  "query.hot.direct_movable_bodies",
+                  "query.hot.target_layer_components",
+                  "query.hot.derived_reflection_bodies"
+                ],
+                "repeat_while_measure_ref": "measure.target_layer_uncovered_cell_count",
+                "repeat_while_comparator": "greater_than",
+                "repeat_while_target_value": 0,
+                "selection_projection_refs_in_declared_precedence": [
+                  "projection.exploration.orthogonal_reflection_unique_partial_partition_coverage",
+                  "projection.exploration.disconnected_reflection_direct_body_coverage",
+                  "projection.exploration.orthogonal_reflection_direct_body_coverage",
+                  "projection.exploration.orthogonal_reflection_simulated_maximum_coverage_destination"
+                ],
+                "selection_tier_refs_in_declared_precedence": [
+                  "tier.revalidated_terminal_objective.unique_partial_partition_after_axes",
+                  "tier.revalidated_terminal_objective.unique_body_translation_after_axes",
+                  "tier.revalidated_terminal_objective.cardinal_maximum_coverage_route_after_axes",
+                  "tier.orthogonal_reflection_unique_partial_partition_after_axes",
+                  "tier.orthogonal_reflection_unique_body_translation_after_axes",
+                  "tier.orthogonal_reflection_cardinal_maximum_coverage_route_after_axes"
+                ],
+                "destination_search_bound_refs": [
+                  "bound.orthogonal_reflection_translation_enumeration",
+                  "bound.orthogonal_reflection_partial_partition_enumeration",
+                  "bound.orthogonal_reflection_cardinal_maximum_coverage_enumeration"
+                ],
+                "after_each_placement_refs": [
+                  "checkpoint.reconcile_primitive_world_delta",
+                  "operation.recompute_target_layer_uncovered_cell_count",
+                  "operation.preserve_completed_contributors",
+                  "operation.return_to_bounded_focus_transfer_if_another_body_is_open"
+                ]
+              }
+            ],
+            "continuation_contract": {
+              "terminal_candidate_set_query_ref": "query.hot.target_layer_components",
+              "loop_guard_measure_ref": "measure.target_layer_uncovered_cell_count",
+              "loop_guard_comparator": "greater_than",
+              "loop_guard_target_value": 0,
+              "normal_terminal_measure_ref": "measure.target_layer_uncovered_cell_count",
+              "normal_terminal_comparator": "equals",
+              "normal_terminal_target_value": 0,
+              "official_boundary_is_terminal_evidence": true,
+              "abandon_while_loop_guard_open_forbidden": true,
+              "repeat_exact_failed_composition_forbidden": true
+            }
+          }
+        ],
+        "runtime_composition_edges": [
+          {
+            "edge_ref": "workflow.edge.reconciled_action_to_contribution_classification",
+            "parent_workflow_refs": [
+              "arc3.choose_information_probe.choose_information_probe",
+              "arc3.choose_repeated_pair_program_action.choose_repeated_pair_program_action",
+              "arc3.choose_symbol_tile_action.choose_symbol_tile_action",
+              "arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+              "arc3.continue_declared_action.continue_declared_action",
+              "arc3.continue_composed_constraint_repair.continue_composed_constraint_repair",
+              "arc3.continue_homologous_repair.continue_homologous_repair",
+              "arc3.continue_transferred_quantized_plan.continue_transferred_quantized_plan",
+              "arc3.execute_staged_reconciled_strategy.execute_staged_reconciled_strategy",
+              "arc3.execute_verified_plan.execute_verified_plan",
+              "arc3.resolve_role_by_probe.resolve_role_by_probe",
+              "arc3.test_mechanism.test_mechanism",
+              "core.committed_action_cycle.committed_action_cycle",
+              "core.released_action_cycle.released_action_cycle"
+            ],
+            "child_workflow_refs": [
+              "arc3.classify_action_contribution.classify_action_contribution"
+            ],
+            "composition_principle_ref": "principle.reconciled_action_requires_retrospective_disposition_before_next_action",
+            "falsifier_ref": "workflow.falsifier.action_contribution_classification_missing_or_stale",
+            "maximum_occurrences_per_parent": 1
+          },
+          {
+            "edge_ref": "workflow.edge.reconciled_action_to_retrospective_disposition",
+            "parent_workflow_refs": [
+              "arc3.classify_action_contribution.classify_action_contribution",
+              "arc3.choose_information_probe.choose_information_probe",
+              "arc3.choose_repeated_pair_program_action.choose_repeated_pair_program_action",
+              "arc3.choose_symbol_tile_action.choose_symbol_tile_action",
+              "arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+              "arc3.continue_declared_action.continue_declared_action",
+              "arc3.continue_composed_constraint_repair.continue_composed_constraint_repair",
+              "arc3.continue_homologous_repair.continue_homologous_repair",
+              "arc3.continue_transferred_quantized_plan.continue_transferred_quantized_plan",
+              "arc3.execute_staged_reconciled_strategy.execute_staged_reconciled_strategy",
+              "arc3.execute_verified_plan.execute_verified_plan",
+              "arc3.resolve_role_by_probe.resolve_role_by_probe",
+              "arc3.test_mechanism.test_mechanism",
+              "core.committed_action_cycle.committed_action_cycle",
+              "core.released_action_cycle.released_action_cycle"
+            ],
+            "child_workflow_refs": [
+              "arc3.select_post_action_continuation.select_post_action_continuation"
+            ],
+            "composition_principle_ref": "principle.reconciled_action_requires_retrospective_disposition_before_next_action",
+            "falsifier_ref": "workflow.falsifier.retrospective_disposition_missing_or_stale",
+            "maximum_occurrences_per_parent": 1
+          },
+          {
+            "edge_ref": "workflow.edge.reconciled_action_to_inter_level_handoff",
+            "parent_workflow_refs": [
+              "arc3.choose_information_probe.choose_information_probe",
+              "arc3.choose_repeated_pair_program_action.choose_repeated_pair_program_action",
+              "arc3.choose_symbol_tile_action.choose_symbol_tile_action",
+              "arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+              "arc3.continue_declared_action.continue_declared_action",
+              "arc3.continue_composed_constraint_repair.continue_composed_constraint_repair",
+              "arc3.continue_homologous_repair.continue_homologous_repair",
+              "arc3.continue_transferred_quantized_plan.continue_transferred_quantized_plan",
+              "arc3.execute_staged_reconciled_strategy.execute_staged_reconciled_strategy",
+              "arc3.execute_verified_plan.execute_verified_plan",
+              "arc3.resolve_role_by_probe.resolve_role_by_probe",
+              "arc3.test_mechanism.test_mechanism",
+              "core.committed_action_cycle.committed_action_cycle",
+              "core.released_action_cycle.released_action_cycle"
+            ],
+            "child_workflow_refs": [
+              "arc3.record_verified_goal_completion.record_verified_goal_completion"
+            ],
+            "composition_principle_ref": "principle.level_boundary_handoff_transmits_only_revalidatable_knowledge",
+            "falsifier_ref": "workflow.falsifier.level_boundary_handoff_missing_or_local_payload_retained",
+            "maximum_occurrences_per_parent": 1
+          },
+          {
+            "edge_ref": "workflow.edge.inter_level_handoff_to_scene_rebinding",
+            "parent_workflow_refs": [
+              "arc3.record_verified_goal_completion.record_verified_goal_completion"
+            ],
+            "child_workflow_refs": [
+              "arc3.assimilate_frame.assimilate_frame"
+            ],
+            "composition_principle_ref": "principle.level_boundary_handoff_transmits_only_revalidatable_knowledge",
+            "falsifier_ref": "workflow.falsifier.transmitted_knowledge_not_rebound_to_current_scene",
+            "maximum_occurrences_per_parent": 1
+          },
+          {
+            "edge_ref": "workflow.edge.retrospective_disposition_to_next_reasoning_action",
+            "parent_workflow_refs": [
+              "arc3.select_post_action_continuation.select_post_action_continuation"
+            ],
+            "child_workflow_refs": [
+              "arc3.choose_information_probe.choose_information_probe",
+              "arc3.choose_repeated_pair_program_action.choose_repeated_pair_program_action",
+              "arc3.choose_symbol_tile_action.choose_symbol_tile_action",
+              "arc3.choose_verified_alignment_action.choose_verified_alignment_action",
+              "arc3.continue_composed_constraint_repair.continue_composed_constraint_repair",
+              "arc3.continue_homologous_repair.continue_homologous_repair",
+              "arc3.continue_transferred_quantized_plan.continue_transferred_quantized_plan",
+              "arc3.execute_staged_reconciled_strategy.execute_staged_reconciled_strategy",
+              "arc3.execute_verified_plan.execute_verified_plan",
+              "arc3.resolve_role_by_probe.resolve_role_by_probe",
+              "arc3.test_mechanism.test_mechanism",
+              "core.committed_action_cycle.committed_action_cycle",
+              "core.released_action_cycle.released_action_cycle"
+            ],
+            "composition_principle_ref": "principle.retrospective_disposition_opens_exactly_one_next_reasoning_child",
+            "falsifier_ref": "workflow.falsifier.next_reasoning_action_lacks_retrospective_disposition",
+            "maximum_occurrences_per_parent": 3
+          }
+        ],
+        "component_contract_overrides": {
+          "arc3.select_hot_symbolic_program.select_hot_symbolic_program": {
+            "provides_predicate_refs": [
+              "workflow.predicate.current_verified_residual_operator_committed"
+            ]
+          },
+          "arc3.choose_information_probe.choose_information_probe": {
+            "requires_predicate_refs": [
+              "workflow.predicate.current_verified_residual_operator_committed"
+            ],
+            "provides_predicate_refs": [
+              "workflow.predicate.action_observation_reconciled"
+            ]
+          },
+          "arc3.select_post_action_continuation.select_post_action_continuation": {
+            "requires_predicate_refs": [
+              "workflow.predicate.action_observation_reconciled"
+            ],
+            "provides_predicate_refs": [
+              "workflow.predicate.residual_continuation_disposed"
+            ]
+          }
+        },
+        "composition_families": [
+          {
+            "family_ref": "workflow.family.verified_causal_repetition",
+            "root_goal_ref": "workflow.goal.reduce_current_verified_causal_residual",
+            "completion_contract": {
+              "required_terminal_predicate_refs": [
+                "workflow.predicate.residual_continuation_disposed"
+              ],
+              "observable_completion_evidence_refs": [
+                "workflow.evidence.post_action_residual_disposition"
+              ],
+              "preserved_condition_refs": [
+                "workflow.invariant.exact_source_attestation",
+                "workflow.invariant.single_action_boundary"
+              ],
+              "forbidden_overshoot_refs": [
+                "workflow.forbidden.second_action_before_reconciliation"
+              ],
+              "resource_bound_refs": [
+                "workflow.resource.action_count",
+                "workflow.resource.symbolic_depth"
+              ]
+            },
+            "global_falsifier_refs": [
+              "workflow.falsifier.source_or_context_revision_changed",
+              "workflow.falsifier.verified_residual_contract_broken"
+            ],
+            "preserved_invariant_refs": [
+              "workflow.invariant.exact_source_attestation",
+              "workflow.invariant.single_action_boundary"
+            ],
+            "orders": [
+              {
+                "order_ref": "workflow.order.verified_causal_repetition.current_residual_first",
+                "root_component_ref": "cold.component.arc3.select_post_action_continuation.select_post_action_continuation",
+                "producer_orders": [
+                  {
+                    "required_predicate_ref": "workflow.predicate.action_observation_reconciled",
+                    "eligible_component_refs": [
+                      "cold.component.arc3.choose_information_probe.choose_information_probe"
+                    ],
+                    "composition_principle_ref": "principle.action_observation_reconciliation_is_a_cold_workflow_invariant",
+                    "falsifier_ref": "workflow.falsifier.action_observation_contract_broken"
+                  },
+                  {
+                    "required_predicate_ref": "workflow.predicate.current_verified_residual_operator_committed",
+                    "eligible_component_refs": [
+                      "cold.component.arc3.select_hot_symbolic_program.select_hot_symbolic_program"
+                    ],
+                    "composition_principle_ref": "principle.exact_contract_satisfaction_licenses_workflow_dependency",
+                    "falsifier_ref": "workflow.falsifier.verified_residual_operator_not_committed"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "premises": [
+        "bounded_canonical_workflow_witness_facts"
+      ],
+      "applicability": [
+        "one_or_more_declared_workflow_dispositions_are_projectable"
+      ],
+      "invariants": [
+        "drm_selects_the_workflow_disposition_and_src_commits_the_exact_witness",
+        "python_never_selects_between_viable_witnesses",
+        "absence_of_a_viable_witness_opens_an_explicit_language_gap"
+      ],
+      "falsifiers": [
+        "candidate_count_exceeds_three",
+        "a_witness_lacks_exact_contract_or_derivation_attestation"
+      ],
+      "declared_alternative_refs": [
+        "workflow.synthesis.commit_declared_witness",
+        "workflow.synthesis.report_language_gap"
+      ],
+      "fact_projections": [
+        {
+          "id": "projection.dynamic_workflow.commit_declared_witness",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "workflow.synthesis.commit_declared_witness"
+            },
+            {
+              "field": "viable_candidate_count",
+              "operator": "greater_than",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "disposition_ref": "workflow.disposition.commit_declared_witness"
+          }
+        },
+        {
+          "id": "projection.dynamic_workflow.report_language_gap",
+          "all_conditions": [
+            {
+              "field": "alternative_ref",
+              "operator": "equals",
+              "expected": "workflow.synthesis.report_language_gap"
+            },
+            {
+              "field": "viable_candidate_count",
+              "operator": "equals",
+              "expected": 0
+            }
+          ],
+          "static_facts": {
+            "applicable": true,
+            "disposition_ref": "workflow.disposition.report_language_gap"
+          }
+        }
+      ],
+      "selection_eligibility_conditions": [
+        {
+          "field": "applicable",
+          "operator": "equals",
+          "expected": true
+        }
+      ],
+      "selection_required_fact_fields": [
+        "alternative_ref",
+        "disposition_ref"
+      ],
+      "selection_tiers": [
+        {
+          "id": "tier.dynamic_workflow_commit_declared_witness",
+          "all_conditions": [
+            {
+              "field": "disposition_ref",
+              "operator": "equals",
+              "expected": "workflow.disposition.commit_declared_witness"
+            }
+          ],
+          "reason_ref": "reason.current_declared_workflow_witness_satisfies_open_obligations"
+        },
+        {
+          "id": "tier.dynamic_workflow_report_language_gap",
+          "all_conditions": [
+            {
+              "field": "disposition_ref",
+              "operator": "equals",
+              "expected": "workflow.disposition.report_language_gap"
+            }
+          ],
+          "reason_ref": "reason.no_declared_component_composition_can_supply_the_open_obligation"
+        }
+      ],
+      "selection_tie_breakers": [
+        {
+          "field": "alternative_ref",
+          "preferred_order": "minimize",
+          "criterion_ref": "criterion.canonical_structural_alternative_ref",
+          "reason_ref": "reason.canonical_structural_ref_makes_total_order_explicit"
+        }
+      ],
+      "reason_refs": [
+        "reason.current_declared_workflow_witness_satisfies_open_obligations",
+        "reason.no_declared_component_composition_can_supply_the_open_obligation"
+      ]
+    }
+  ],
+  "schema_version": "yf_arc3_v5.drm_document.v1"
+}

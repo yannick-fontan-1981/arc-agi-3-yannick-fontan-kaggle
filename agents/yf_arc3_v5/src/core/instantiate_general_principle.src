@@ -1,0 +1,20 @@
+# General-principle candidates remain proposals for review, never automatic DRM writes.
+MODULE core.instantiate_general_principle
+
+WORKFLOW instantiate_general_principle(
+    proposal_seeds: List<Any>,
+    basis_refs: List<Ref>,
+    proposal_scope: Map<Ref,Any>,
+    alternative_refs: List<Ref>,
+    missing_evidence: List<Ref>,
+    falsifier_refs: List<Ref>
+) -> Any
+    STEP propose_for_review
+        PROPOSE result
+            KIND proposal_seeds
+            BASIS basis_refs
+            SCOPE proposal_scope
+            ALTERNATIVES alternative_refs
+            MISSING missing_evidence
+            FALSIFIERS falsifier_refs
+        STOP result

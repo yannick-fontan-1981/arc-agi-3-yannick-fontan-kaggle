@@ -1,0 +1,54 @@
+# Commit one learned selection -> pose route -> regional application sequence.
+# Candidate facts are descriptive projections already established from world feedback.
+MODULE arc3.construct_reference_guided_regional_repair
+
+WORKFLOW construct_reference_guided_regional_repair(
+    repair_candidate_refs: List<Ref>,
+    repair_candidate_facts: Map<Ref,Any>,
+    basis_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts
+        selected: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared: PreparedMeaningUpdates
+        revision: Any?
+    STEP project_complete_witnesses
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_reference_guided_regional_repair",
+            alternative_refs=repair_candidate_refs,
+            descriptive_facts=repair_candidate_facts
+        ) -> projected
+        SELECT selected
+            FOR "goal.repair_one_reference_output_difference"
+            FROM projected.alternative_refs
+            UNDER policy.declared_reference_guided_regional_repair
+            REQUIRE ["requirement.learned_mask_isolates_one_current_difference", "requirement.world_feedback_precedes_next_difference"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_reference_guided_regional_repair",
+            selected_ref=selected.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=basis_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.reference_guided_regional_repair_plan
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_reference_guided_repair
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP selected

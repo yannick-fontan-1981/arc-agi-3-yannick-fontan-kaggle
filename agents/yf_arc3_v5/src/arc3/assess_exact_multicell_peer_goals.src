@@ -1,0 +1,73 @@
+# Every exact tracked multicell pair is committed as durable revisable evidence.
+# DRM activates a pairwise terminal goal only when the silhouette class has
+# cardinality two; larger classes remain explicit ambiguous hypotheses.
+MODULE arc3.assess_exact_multicell_peer_goals
+
+WORKFLOW assess_exact_multicell_peer_goals(
+    tracking: TemporalTrackingResult,
+    zones: ComponentExtractionResult,
+    observation_ref: Ref,
+    before_revision: Integer
+) -> ExactMulticellPeerRelationMeasurements
+    STATE
+        measured: ExactMulticellPeerRelationMeasurements
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        revision: Any?
+    STEP measure_all_exact_pairs
+        CALL capability.exact_multicell_peer_relation_measurement(
+            tracking=tracking,
+            zones=zones,
+            maximum_relations=64
+        ) -> measured
+        MATCH measured.enumeration_truncated
+            true -> FAIL "exact_multicell_peer_relation_enumeration_truncated"
+            false -> NEXT validate_priority_frontier
+    STEP validate_priority_frontier
+        REQUIRE measured.priority_frontier_complete
+        NEXT project_goal_memory_status
+    STEP project_goal_memory_status
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_exact_multicell_peer_goal_memory",
+            alternative_refs=[],
+            descriptive_facts=measured.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.preserve_every_exact_multicell_peer_relation"
+            FROM projected.alternative_refs
+            UNDER policy.declared_exact_multicell_peer_goal_memory
+            REQUIRE ["requirement.exact_multicell_peer_enumeration_is_complete"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH assessment.alternatives.selected
+            "exact_multicell_peer_memory.relations_observed" -> NEXT instantiate_goal_memory
+            "exact_multicell_peer_memory.no_relation" -> STOP measured
+    STEP instantiate_goal_memory
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_exact_multicell_peer_goal_memory",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=[observation_ref]
+        ) -> meaning
+        REQUIRE meaning.template_iteration_complete
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.exact_multicell_peer_goal_memory_meaning
+            CONTEXT meaning
+        CALL control.prepare_revisable_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_exact_multicell_peer_goal_memory
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP measured

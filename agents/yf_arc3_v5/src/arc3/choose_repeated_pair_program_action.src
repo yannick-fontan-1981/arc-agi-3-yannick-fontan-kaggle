@@ -1,0 +1,67 @@
+# Configure only effect-backed discrepancies, then revisit the observed source.
+MODULE arc3.choose_repeated_pair_program_action
+
+WORKFLOW choose_repeated_pair_program_action(
+    measured_agenda: InteractionProbeAgenda,
+    reference_scene: Any,
+    reference_tracking: Any,
+    reference_frame_ref: Ref,
+    reasoning_strategy_ref: Ref,
+    context: WorldContext,
+    current_context_no_effect_candidate_refs: List<Ref>,
+    before_revision: Integer
+) -> ObservationResult
+    STATE
+        projected_agenda: InteractionProbeAgenda
+        selected: Assessment
+        reconciled_context: WorldContext
+        prepared: Any
+        grounding: ActionGroundingContract
+        action_event: ActionEvent
+        after_frame: Frame
+    STEP project_repeated_pair_program_agenda
+        REQUIRE measured_agenda.has_candidates
+        CALL control.project_declared_agenda_delta(
+            selection_policy_ref="policy.declared_repeated_pair_program_action",
+            agenda=measured_agenda,
+            reasoning_strategy_ref=reasoning_strategy_ref,
+            active_priority_node_ref=context.active_priority_node_ref,
+            dynamic_goal_selection_present=false
+        ) -> projected_agenda
+        NEXT select_repeated_pair_program_action
+    STEP select_repeated_pair_program_action
+        SELECT selected
+            FOR "goal.configure_effect_backed_repeated_pair_process"
+            FROM projected_agenda.alternative_refs
+            UNDER policy.declared_repeated_pair_program_action
+            REQUIRE ["requirement.current_action_is_available"]
+            PRESERVE projected_agenda.alternative_refs
+            FACTS projected_agenda.alternative_facts
+            CONTEXT projected_agenda.selection_context_facts
+        CALL control.refresh_world_context_snapshot(
+            context=context
+        ) -> reconciled_context
+        CALL control.prepare_interaction_probe(
+            agenda=measured_agenda,
+            projected_agenda=projected_agenda,
+            selected_ref=selected.alternatives.selected,
+            context=reconciled_context,
+            selection_policy_ref="policy.declared_repeated_pair_program_action",
+            selection_source_ref="selection_source.projected_agenda"
+        ) -> prepared
+        CALL control.validate_action_grounding(
+            intent=prepared.intent
+        ) -> grounding
+        CALL workflow.operational_wisdom(
+            viability=prepared.viability
+        ) -> wisdom
+        CALL workflow.release_action(
+            intent=prepared.intent,
+            viability=prepared.viability,
+            wisdom=wisdom,
+            context=prepared.context,
+            declared_series=true
+        ) -> release
+        # The selected candidate is handed to the global action-series
+        # kernel.  No environment action is released in this selector.
+        STOP prepared

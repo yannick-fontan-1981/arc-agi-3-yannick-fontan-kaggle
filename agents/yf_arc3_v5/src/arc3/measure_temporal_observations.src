@@ -1,0 +1,236 @@
+# Neutral timeline measurement may precede any temporal mechanism commitment.
+MODULE arc3.measure_temporal_observations
+
+WORKFLOW measure_temporal_observations(
+    measurement_request: Any
+) -> TemporalConcurrencyMeasurements
+    STATE
+        measurements: TemporalConcurrencyMeasurements
+        projected: DeclaredAlternativeFacts
+        assessment: Assessment
+        meaning: DeclaredMeaningInstantiation
+        derived: Any?
+        prepared: PreparedMeaningUpdates
+        assessment_revision: Any?
+        current_revision: Integer
+    STEP measure_only
+        CALL capability.temporal_concurrency_measurement(
+            request=measurement_request
+        ) -> measurements
+        MATCH measurements.descriptive_facts.rendered_history_comparison_available
+            true -> NEXT interpret_reversal_observation
+            false -> NEXT inspect_observed_instances
+    STEP interpret_reversal_observation
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_temporal_reversal_observation",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_temporal_reversal_observation
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_temporal_reversal_observation",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.descriptive_facts.observation_evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_replay_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_reversal_observation
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE measurements.descriptive_facts.observation_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT inspect_observed_instances
+    STEP inspect_observed_instances
+        MATCH measurements.descriptive_facts.observed_instance_sequence_comparison_available
+            true -> NEXT interpret_observed_instances
+            false -> NEXT inspect_contact_inventory
+    STEP interpret_observed_instances
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts.observed_instance_sequence_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_observed_state_sequence_recurrence
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.descriptive_facts.observation_evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_replay_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> current_revision
+        TRANSACTION commit_observed_instance_sequence
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE current_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT inspect_second_observed_sequence
+    STEP inspect_second_observed_sequence
+        MATCH measurements.descriptive_facts.observed_instance_sequence_pack_count
+            2 -> NEXT interpret_second_observed_sequence
+            3 -> NEXT interpret_second_observed_sequence
+            1 -> NEXT inspect_contact_inventory
+    STEP interpret_second_observed_sequence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts.observed_instance_sequence_facts_1
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_observed_state_sequence_recurrence
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.descriptive_facts.observation_evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_replay_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> current_revision
+        TRANSACTION commit_second_observed_instance_sequence
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE current_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        MATCH measurements.descriptive_facts.observed_instance_sequence_pack_count
+            3 -> NEXT interpret_third_observed_sequence
+            2 -> NEXT inspect_contact_inventory
+    STEP interpret_third_observed_sequence
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts.observed_instance_sequence_facts_2
+        ) -> projected
+        SELECT assessment
+            FOR "goal.assess_phase_conditioned_sequence_recurrence"
+            FROM projected.alternative_refs
+            UNDER policy.declared_observed_state_sequence_recurrence
+            REQUIRE ["requirement.exact_ordered_effect_match_precedes_replay_commitment"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_observed_state_sequence_recurrence",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.descriptive_facts.observation_evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_replay_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> current_revision
+        TRANSACTION commit_third_observed_instance_sequence
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE current_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        NEXT inspect_contact_inventory
+    STEP inspect_contact_inventory
+        MATCH measurements.descriptive_facts.contact_inventory_measurement_available
+            true -> NEXT inspect_contact_inventory_bound
+            false -> STOP measurements
+    STEP inspect_contact_inventory_bound
+        MATCH measurements.descriptive_facts.contact_cell_measurement_bound_reached
+            false -> NEXT inspect_contact_inventory_count
+            true -> STOP measurements
+    STEP inspect_contact_inventory_count
+        MATCH measurements.descriptive_facts.contact_remote_cell_row_count
+            1 -> NEXT interpret_contact_inventory
+            2 -> NEXT interpret_contact_inventory
+            3 -> NEXT interpret_contact_inventory
+            0 -> STOP measurements
+    STEP interpret_contact_inventory
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_temporal_contact_inventory",
+            alternative_refs=[],
+            descriptive_facts=measurements.descriptive_facts
+        ) -> projected
+        SELECT assessment
+            FOR "goal.reveal_action_conditioned_structure"
+            FROM projected.alternative_refs
+            UNDER policy.declared_temporal_contact_inventory
+            REQUIRE ["requirement.contact_inventory_is_current_and_bounded"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_temporal_contact_inventory",
+            selected_ref=assessment.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=measurements.descriptive_facts.observation_evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.temporal_contact_inventory_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        CALL control.current_state_revision() -> current_revision
+        TRANSACTION commit_contact_inventory
+            UPDATE assessment_revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE current_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE projected.alternative_refs
+        STOP measurements

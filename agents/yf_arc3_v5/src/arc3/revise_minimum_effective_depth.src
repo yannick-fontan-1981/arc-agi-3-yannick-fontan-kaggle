@@ -1,0 +1,57 @@
+# Official completion may revise a minimum-depth expectation; it never blocks success.
+MODULE arc3.revise_minimum_effective_depth
+
+WORKFLOW revise_minimum_effective_depth(
+    depth_revision_facts: Any,
+    evidence_refs: List<Ref>,
+    before_revision: Integer
+) -> Assessment
+    STATE
+        projected: DeclaredAlternativeFacts?
+        disposition: Assessment?
+        meaning: DeclaredMeaningInstantiation?
+        derived: Any?
+        prepared: PreparedMeaningUpdates?
+        revision: Any?
+    STEP classify_revision
+        CALL control.project_declared_alternatives(
+            selection_policy_ref="policy.declared_minimum_effective_depth_revision",
+            alternative_refs=[],
+            descriptive_facts=depth_revision_facts
+        ) -> projected
+        SELECT disposition
+            FOR "goal.revise_minimum_effective_solution_depth"
+            FROM projected.alternative_refs
+            UNDER policy.declared_minimum_effective_depth_revision
+            REQUIRE ["requirement.official_completion_and_effective_transition_ledger_are_attested"]
+            PRESERVE projected.alternative_refs
+            FACTS projected.alternative_facts
+        MATCH disposition.alternatives.selected
+            "minimum_effective_depth.falsified" -> NEXT commit_revision
+            "minimum_effective_depth.preserved" -> NEXT commit_revision
+            "minimum_effective_depth.unresolved" -> STOP disposition
+    STEP commit_revision
+        CALL control.instantiate_declared_meaning(
+            selection_policy_ref="policy.declared_minimum_effective_depth_revision",
+            selected_ref=disposition.alternatives.selected,
+            alternative_facts=projected.alternative_facts,
+            evidence_refs=evidence_refs
+        ) -> meaning
+        DERIVE derived
+            FROM meaning.evidence_refs
+            USING rule.minimum_effective_depth_revision_meaning
+            CONTEXT meaning
+        CALL control.prepare_meaning_updates(
+            terms=meaning.terms,
+            claims=derived.claims
+        ) -> prepared
+        TRANSACTION commit_depth_revision
+            UPDATE revision
+                TARGET prepared.update_items
+                FROM meaning.evidence_refs
+                USING policy.targeted_claim_revision
+                BEFORE before_revision
+                INVALIDATE []
+                RECALCULATE []
+                PRESERVE evidence_refs
+        STOP disposition
