@@ -32,7 +32,7 @@ excluded. Paths and original source bytes are preserved. Only the generated
 `agents/__init__.py` is inert, avoiding development template discovery and dotenv.
 `adapter.py` is the maintained small source for generated `my_agent.py`.
 The generated bundle also carries this directory's `LICENSE` and
-`THIRD_PARTY_NOTICES.md` so your MIT terms and the retained ARC Prize attribution
+`THIRD_PARTY_NOTICES.md` so your MIT-0 terms and the retained ARC Prize attribution
 travel with the ZIP.
 
 Excluded: local API/engines, custom games, environment definitions, oracles, tests,

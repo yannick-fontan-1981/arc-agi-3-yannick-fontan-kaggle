@@ -48,7 +48,8 @@ contract and current validation limits.
 
 ## License and scope
 
-Yannick Fontan's original work in this release is under the MIT License. The
+Yannick Fontan's original work in this release is under MIT No Attribution
+(MIT-0), the license identified in the ARC Prize rules. The
 shared ARC-AGI-3 agent lifecycle/data-model portions retain ARC Prize's MIT
 copyright and permission notice in `THIRD_PARTY_NOTICES.md`. Runtime dependency
 licenses are listed there; package wheels are installed separately and are not

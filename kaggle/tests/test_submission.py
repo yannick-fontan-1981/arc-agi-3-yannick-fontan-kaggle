@@ -44,6 +44,7 @@ def test_manifest_and_authoritative_bytes(built):
     notices = (output / 'THIRD_PARTY_NOTICES.md').read_text(encoding='utf-8')
     assert 'Copyright (c) 2025 ARC Prize' in notices
     assert 'Pydantic' in notices and 'PyArrow' in notices
+    assert 'MIT No Attribution' in (output / 'LICENSE').read_text(encoding='utf-8')
     assert 'Copyright (c) 2026 Yannick Fontan' in (output / 'LICENSE').read_text(encoding='utf-8')
 
 

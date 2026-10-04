@@ -1,7 +1,7 @@
 # Third-party notices for the Kaggle runtime
 
 The original adapter, supervisor and V5 agent material in this Kaggle package
-is licensed under the MIT License in [`LICENSE`](LICENSE). Portions of the
+is licensed under MIT-0 in [`LICENSE`](LICENSE). Portions of the
 shared ARC agent lifecycle and data model are derived from the ARC-AGI-3 Agents
 project and remain subject to the following upstream notice:
 
